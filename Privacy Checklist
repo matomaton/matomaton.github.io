@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>90 Degree Rotation Animation</title>
+    <style>
+    
+    /*body {
+    	background-image: linear-gradient(to right, #abbaab, #ffffff);
+    	
+    }*/
+
+/* Centering an image in the browser*/   
+    .image {
+        position: absolute;
+  		top: 50%;
+ 		left: 50%;
+  		transform: translate(-50%, -50%);
+	}
+    	
+    </style>
+  </head>
+    <body>
+    	<div id="grad">
+  <p class="micro"> #ask-privacy</p>
+  <h1>Your Role In Enforcing Privacy</h1>
+    <p>To ensure that legally and ethically, we appropriately use, secure, store, and update personal data, please ask these questions</p>
+ <br> 
+  </div>
+
+<div class="flex-container">
+  <div class="flex-child">
+     
+     <!-- Number 1 -->
+    <div class="content">
+  <img src="https://matomaton.github.io/assets/boxes.png">
+  <div class="text">
+    <h3><strong>1. Have I stored personal data in an appropriate space?</strong></h3>
+    <p>Check the <a href="https://wiki.ithaka.org/display/HelpdeskKB/How+Can+I+Request+Approval+for+a+New+Application">Vetting Dashboard</a> for guidance, or ask to see Legal’s <strong>Data Flow</strong>—a map of all systems used in every process involving personal data.</p>
+  </div>
+</div>
+
+<!-- Number 2 -->
+<div class="content">
+  <img src="https://matomaton.github.io/assets/web.png">
+  <div class="text">
+    <h3><strong>2. Can I use personal data this way?</strong></h3>
+    <p>Check the <a href="https://www.ithaka.org/privacypolicy/">External Privacy Policy</a>, a <a href="https://www.ithaka.org/cookies/">Cookie Policy</a>, and <a href="https://inside.ithaka.org/policies/personally-identifiable-information-pii/">Internal Privacy Policy</a>.</p>
+  </div>
+</div>
+
+<!-- Number 3 -->
+<div class="content">
+  <img src="https://matomaton.github.io/assets/pencil.png">
+  <div class="text">
+    <h3><strong>3. Have I properly communicated a planned change?</strong></h3>
+    <p>For all changes to storage, use, security, and data retention of personal data, reach out to <a href="https://outlook.office.com/mail/deeplink/compose?mailtouri=mailto%3AGRP_ITHAKA_Legal%40ithaka.org">Legal</a> about a <strong>Privacy Impact Assessment</strong> and plan ahead.</p>
+  </div>
+</div>
+  </div>
+    <div class="flex-child">
+    
+    
+<!-- Number 4 -->
+<div class="content">
+  <img src="https://matomaton.github.io/assets/check.png">
+  <div class="text">
+    <h3><strong>4. What do I do when someone asks about their data?</strong></h3>
+    <p>All requests must be handled within 10 business days - forward to <strong>PAUS</strong> to kick off the process.</p>
+  </div>
+</div>
+
+<!-- Number 5 -->
+<div class="content">
+  <img src="https://matomaton.github.io/assets/hands.png">
+  <div class="text">
+    <h3><strong>5. How do I communicate with a new contact?</strong></h3>
+    <p>Draw legitimate business connections between your purpose, do not send marketing messages, and offer a decline to future communications.</p>
+  </div>
+</div>
+
+<!-- Number 6 -->
+<div class="content">
+  <img src="https://matomaton.github.io/assets/check-shield.png">
+  <div class="text">
+    <h3><strong>6. How do I help keep data secure?</strong></h3>
+    <p>Beware of phishing scams, keep ITHAKA devices secure, and additionally protect sensitive information. Report any actual or possible breach immediately to your manager and Legal.</p>
+  </div>
+</div>
+  
+    
+    </div>
+  </div>
+</div>
+    </body>
+</html>
