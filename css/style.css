@@ -93,3 +93,12 @@ body{
       color: #333; /* Current page text color */
   }
   
+  blockquote {
+    font-size: 1.2em; /* Adjust the font size to your preference */
+    font-style: italic; /* Make the text italic to indicate it's a quote */
+    border-left: 4px solid #333; /* Add a left border to visually set it apart */
+    padding: 10px 20px; /* Add padding for spacing within the blockquote */
+    margin: 10px 0; /* Adjust margin for spacing around the blockquote */
+    background-color: #f5f5f5; /* Optionally, you can give it a background color */
+  }
+  
