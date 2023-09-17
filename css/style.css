@@ -1,0 +1,95 @@
+body{
+    padding: 1rem 2rem; /* Add padding to the header */
+    max-width: 768px; /* Maximum width of 60 characters */
+    min-width: 300px; /* Minimum width, adjust as needed */
+    margin: 0 auto; /* Center-align the content */
+    padding: 20px; /* Add padding for spacing */
+  }
+  
+  
+  h1, h2, h3, h4, h5 {
+    font-family: sans-serif;
+  }
+  
+  /* SPACING */
+
+  h2, h3 {
+    margin-bottom: -0.5rem; /* Adjust this value as needed */
+  }
+
+  p {
+    margin-bottom: 3rem; /* Adjust this value as needed */
+  }
+  
+  .image-container {
+    position: relative;
+    max-width: 80%;
+    padding: 2rem;
+  }
+  
+  .photo {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  /* Style the header */
+  header {
+    background-color: #fff; /* Background color for the header */ 
+    color: #000; /* Text color */ 
+  /*     padding: 1rem 2rem; /* Add padding to the header */ 
+      display: flex; /* Display logo and navigation side by side */
+      justify-content: space-between; /* Space out the logo and navigation */
+      align-items: center; /* Vertically align items */
+  }
+  
+  /* Style the logo */
+  .logo img {
+      height: 40px; /* Adjust the logo height as needed */
+  }
+  
+  /* Style the navigation links */
+  nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+  }
+  
+  nav li {
+      margin-right: 2rem; /* Add spacing between menu items */
+  }
+  
+  nav a {
+      text-decoration: none;
+      color: #333; /* Link text color */
+      font-weight: bold; /* Link text bold */
+  }
+  
+  nav a:hover {
+      color: #ff6600; /* Change link color on hover */
+  }
+  
+  .space-to-breath {
+    margin-bottom: 3rem; /* Adjust this value as needed */
+  
+  }
+  
+  .breadcrumb {
+      font-size: .75rem;
+      margin: 1rem 0;
+  }
+  
+  .breadcrumb a {
+      text-decoration: none;
+      color: #0073e6; /* Link color */
+  }
+  
+  .breadcrumb a:hover {
+      text-decoration: underline;
+  }
+  
+  .breadcrumb span {
+      color: #333; /* Current page text color */
+  }
+  
