@@ -128,6 +128,11 @@ body{
     opacity: 1;
 }
 /* Image Enlargement Experiment  */
+.thumbnail {
+    width: 200px;
+    cursor: pointer;
+  }
+  
 .overlay {
     display: none;
     position: fixed;
