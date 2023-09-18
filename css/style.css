@@ -128,15 +128,16 @@ body{
     opacity: 1;
 }
 /* Image Enlargement Experiment  */
+.container {
+    text-align: left;
+    margin: 20px;
+  } 
+
 .thumbnail {
     width: 200px;
     cursor: pointer;
   }
 
-  .container {
-    text-align: left;
-    margin: 20px;
-  } 
 .overlay {
     display: none;
     position: fixed;
