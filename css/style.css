@@ -132,7 +132,11 @@ body{
     width: 200px;
     cursor: pointer;
   }
-  
+
+  .container {
+    text-align: left;
+    margin: 20px;
+  } 
 .overlay {
     display: none;
     position: fixed;
