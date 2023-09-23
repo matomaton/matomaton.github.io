@@ -1,0 +1,47 @@
+<h1>Merging cataloging and admin functions into a single tool<h1>
+    <h2>Background</h2>
+    <p>
+        JSTOR Forum is a digital collection cataloging and publishing tool designed for institutions such as universities and museums. This platform enables institutions to share their digital collections across various platforms, including JSTOR, DPLA, and custom OMEKA sites. Here are a few examples of collections published on JSTOR, a digital library, using JSTOR Forum.
+    </p>
+<a href="https://www.jstor.org/site/american-academy-rome/">Academy of Rome</a>
+<a href="https://www.jstor.org/site/trinity/">Trinity College</a>
+<a href="https://www.jstor.org/site/ucsb/">University of California, Santa Barbara</a>
+<h2>Problem to Solve</h2>
+<p>JSTOR Forum was split into two separate applications: one for catalogers and another for administrators. This division posed challenges as it led to separate codebases and user experiences, hindering consistent performance and usability improvements. This legacy setup confined users to static roles, causing important admin features to be scattered across various workflows, which, in turn, restricted publishing capabilities. Additionally, adapting to evolving tool uses and innovating for future enhancements became cumbersome."
+</p>
+<h2>Goals</h2>
+<p>These issues outlined above prompted us to rethink the Forum Cataloging and Publishing tool. To better serve our new contributor audience and boost publishing, we had to improve the user experience and unify the codebases. We aimed to streamline workflows and bring coherence to the user experience. I explored three different concepts varying in engineering effort</p>
+<h2>Concept 1</h2>
+<p>Explores the simplest way of bringing the current admin features into the cataloging tools while maintaining sound principles of user experience and design. This concept would be an easy transition for current users of the system, and easy for the engineers to migrate.  Although the two applications are combined into one tool, the administrative tasks are separated from cataloging tasks in arbitrary and idiosyncratic ways as they were before.</p>
+<h2>Concept 2</h2>
+<p>The admin functionality is broken down into a set of individual features, prioritized and streamlined, then selectively placed into the various workflows of the combined application in a deliberate and intuitive way. This concept would be learnable by both current and new contributors.  This is what we ultimately built and launched.</p>
+<h2>Concept 3</h2>
+<p>For this concept I flipped everything on its head and shifted away from a catalog-centric experience into a publishing and content-management product. There is not a separate tool, but totally integrated into the platform with a CMS backend. A “YouTube for Primary Source material” While this aligned with the future direction of the organization, this concept presented a profound impact on many teams and the JSTOR platform. Starting small with entry points from the platform to the publishing tool could be considered in the near term. Ultimately ideas from this concept made found life in a new product called <a href="collection-loader.html">Collection Loader</a>.</p>
+<h2>Final Design</h2>
+<p>The final design simplified workflows to create a cohesive user experience, following modern web app patterns.  As Stephanie from Cairn put it, 'My students will love this!' Now, all the tools are conveniently located in one place, making them easy to access. With a single codebase, we can efficiently roll out improvements over time.</p>
+<h3>Home-Dashboard</h3>
+<p>I designed a new homepage that displays users' projects and essential collection statistics, based on feedback from user testing. In the past, users would be directed to the last project they were editing upon logging in, which didn't provide a true sense of a 'home' page.</p>
+<h3>Navigation</h3>
+<p> I introduced an updated global navigation system, featuring global administrative tools and providing early previews of beta features. This menu is visible and accessible only to administrators. In addition, project settings have been restructured for convenience. They are now seamlessly integrated within each project, conveniently positioned at the top of the project item list. Access to these project settings is also restricted to administrators.</p>
+
+<blockquote cite="http://www.worldwildlife.org/who/index.html">
+    Emily from RISD, “I like the new joining of the Admin with the Cataloger environment. I would find myself having to login separately when I was trying to set up projects for students. It’s now just much, much easier.” 
+    </blockquote>
+
+
+    <!-- OLD HTML -->
+<div class="image-container">
+<img class="photo" src="https://matomaton.github.io/assets/merg/CURRENT-ADMIN-CATALOGER.png" alt="Screens illustrating the difference between the two applications" title="Screens illustrating the difference between the two applications">
+</div>
+<h2>Concept 1<h2>
+      <div class="image-container">
+  <img class="photo" src="https://matomaton.github.io/assets/merg/CONCEPT 1.png" alt="A diagrram showing the structure of how admin and cataloging tools could be combined into one application" title="Screens illustrating the difference between the two applications">
+  </div>
+          <div class="image-container">
+  <img class="photo" src="https://matomaton.github.io/assets/merg/CONCEPT-1-ITEMLIST.jpg" alt="A diagrram showing the structure of how admin and cataloging tools could be combined into one application" title="Screens illustrating the difference between the two applications">
+  </div>
+        <h2>Concept 2<h2>
+      <div class="image-container">
+  <img class="photo" src="https://matomaton.github.io/assets/merg/CONCEPT2.png" alt="A diagrram showing the structure of how admin and cataloging tools could be combined into one application" title="Screens illustrating the difference between the two applications">
+  </div>
+      
