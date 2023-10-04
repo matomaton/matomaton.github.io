@@ -308,7 +308,7 @@ nav{
     font-weight: 600;
     color: var(--text-color-second);
     margin-bottom: 10px;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 
     
 }
@@ -322,7 +322,7 @@ h1 {
 }
 .title {
     font-size: 3rem;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 h3{
     font-size: 1.5rem;
