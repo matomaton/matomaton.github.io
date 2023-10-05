@@ -18,8 +18,8 @@ function myMenuFunction(){
     if (document.body.scrollTop > 50 || document.documentElement.scrollTop >  50) {
 
       navHeader.style.boxShadow = "0 1px 6px rgba(0, 0, 0, 0.1)";
-      navHeader.style.height = "90px";
-      navHeader.style.lineHeight = "90px";
+      navHeader.style.height = "70px";
+      navHeader.style.lineHeight = "70px";
 
     } else {
 
@@ -32,39 +32,13 @@ function myMenuFunction(){
 
 
 /* ----- TYPING EFFECT ----- */
-/*
  let typingEffect = new Typed(".typedText",{
-    strings : ["Collaborate","Cooperate","Create"],
+    strings : ["Design","Create","Develop"],
     loop : true,
     typeSpeed : 100, 
     backSpeed : 80,
     backDelay : 2000
  })
- */
-/* ----- TYPING EFFECT PAUSABLE ----- */
-let typingEffect = new Typed(".typedText",{
-  strings : ["Collaborate","Cooperate","Create"],
-  loop : true,
-  typeSpeed : 100, 
-  backSpeed : 80,
-  backDelay : 2000,
-  showCursor: true, // Set this to false to hide the cursor initially
-  cursorChar: "|" // You can customize the cursor character if needed
-});
-
-// Get the pause button element
-const pauseButton = document.getElementById("pauseButton");
-
-// Add click event listener to the pause button
-pauseButton.addEventListener("click", () => {
-  // Toggle the loop option to stop the typing effect loop
-  typingEffect.toggle();
-  // Hide the cursor when the typing effect is paused
-  typingEffect.cursor.remove();
-  // Optionally, you can disable the button after pausing the typing effect
-  pauseButton.disabled = true;
-});
-
 
 
 /* ----- ## -- SCROLL REVEAL ANIMATION -- ## ----- */
