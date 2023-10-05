@@ -7,13 +7,13 @@
     --color-white: rgb(255, 255, 255);
 
     --text-color-second: rgb(68, 68, 68);
-    --text-color-third: rgb(199, 37, 133);
+    --text-color-third: rgb(30, 159, 171);
 
-    --first-color: rgb(52, 101, 154);
+    --first-color: rgb(110, 87, 224);
     --first-color-hover: rgb(40, 91, 212);
 
     --second-color: rgb(110, 87, 224);
-    --third-color: rgb(187, 1, 209);
+    --third-color: rgb(192, 166, 49);
     --first-shadow-color: rgba(0, 0, 0, 0.1);
 
 }
@@ -95,12 +95,11 @@ nav{
     padding-inline: 9vw;
     transition: .3s;
     z-index: 100;
- 
 }
 .nav-logo{
    position: relative;
-   width: 6rem;
-   padding: 1rem;
+  width:4rem;
+  margin-top: .2rem;
 }
 .nav-name{
     font-size: 30px;
@@ -113,7 +112,6 @@ nav{
     right: -20px;
     font-size: 5em;
     color: var(--text-color-second);
-    /* border: 1px solid red; */
 }
 .nav-menu, .nav_menu_list{
     display: flex;
@@ -157,13 +155,8 @@ nav{
 /* ----- WRAPPER DESIGN ----- */
 .wrapper{
     padding-inline: 10vw;
-    /* border: 1px solid red; */
+}
 
-}
-.space{
-    margin: 3rem;
-    /* border: 1px solid red; */
-}
 /* ----- FEATURED BOX ----- */
 .featured-box{
     position: relative;
@@ -245,13 +238,13 @@ nav{
 }
 .image{
     margin: auto 0;
-    width: 30rem;
-    height: 30rem;
+    width: 380px;
+    height: 380px;
     animation: imgFloat 7s ease-in-out infinite;
 }
 .image img{
-    width: 30rem;
-    height: 30rem;
+    width: 380px;
+    height: 380px;
     object-fit: contain;
 }
 @keyframes imgFloat {
@@ -298,45 +291,28 @@ nav{
 /* -- ## --- RESUABLE CSS -- ## -- */
 .top-header{
     text-align: center;
-    margin-top: 2rem;
     margin-bottom: 5em;
-    
-   
-    
 }
 .top-header h1{
     font-weight: 600;
     color: var(--text-color-second);
     margin-bottom: 10px;
-    /* border: 1px solid red; */
-
-    
 }
 .top-header span{
     color: #999;
 }
-h1 {
-    /* margin-bottom: 2rem; */
-    /* border: 1px solid green; */
-    /* font-size: 3rem; */
-}
-.title {
-    font-size: 3rem;
-    /* border: 1px solid red; */
-}
 h3{
-    font-size: 1.5rem;
-    font-weight: 300;
+    font-size: 20px;
+    font-weight: 600;
     color: var(--text-color-second);
-    /* margin-bottom: 15px; */
-     /* border: 1px solid red; */
+    margin-bottom: 15px;
 }
 
 /* ----- ABOUT INFO ----- */
 .about-info{
     position: relative;
     display: flex;
-    align-items: left;
+    align-items: center;
     flex-direction: column;
     padding-block: 30px 70px;
     padding-inline: 20px;
@@ -344,12 +320,11 @@ h3{
     background: var(--color-white);
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
     border-radius: 20px;
-    /* border: 1px solid red; */
 }
 .about-info p{
-    text-align: left;
+    text-align: center;
     font-size: 15px;
-    color: #646464;
+    color: #777;
 }
 .about-btn button{
     position: absolute;
@@ -369,7 +344,6 @@ h3{
 }
 .skills-header{
     margin-bottom: 30px;
-    /* border: 1px solid red; */
 }
 .skills-list{
     display: flex;
@@ -385,19 +359,13 @@ h3{
 }
 
 /* ----- PROJECTS BOX ----- */
-.pseudo{
-    height: 8rem;
-    padding-top: 1rem;
-    /* border: 1px solid red; */
-    margin-bottom: 2rem; 
-    
-}
 .project-container{
     display: flex;
     width: 100%;
     justify-content: space-between;
     gap: 20px;
     flex-wrap: wrap;
+
 }
 .project-box{
     position: relative;
@@ -406,25 +374,26 @@ h3{
     align-items: center;
     flex-direction: column;
     width: 30%;
-    height: 250px;
+    height: 300px;
     background: var(--color-white);
     border-radius: 20px;
     box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
     overflow: hidden;
-    /* border: 1px solid red; */
+/*   border: 1px solid red; */
+/*      padding-top: 2rem; */
+
+    
 }
-/* .project-box>i{
+.project-box>i{
     font-size: 50px;
     color: #00B5E7;
     margin-bottom: 25px;
-} */
+}
 .project-box label{
     font-size: 15px;
     color: #777;
-    /* border: 1px solid blue; */
 }
-/*  
-.project-box::after, .contact-info::after{
+/* .project-box::after, .contact-info::after{
     content: "";
     position: absolute;
     bottom: -100%;
@@ -433,7 +402,7 @@ h3{
     height: 100%;
     transition: .4s;
     z-index: 1;
-}
+} */
 .project-box:hover.project-box::after,
 .contact-info:hover.contact-info::after{
     bottom: 0;
@@ -441,10 +410,10 @@ h3{
 .project-box:hover.project-box i,
 .project-box:hover.project-box>h3,
 .project-box:hover.project-box>label{
-    color: var(--color-white);
+    color: var(--first-color-hover);
     z-index: 2;
 }
-*/
+
 /* ----- CONTACT BOX ----- */
 .contact-info{
     position: relative;
@@ -563,7 +532,6 @@ footer{
 .bottom-footer{
     font-size: 14px;
     margin-top: 10px;
-    margin-bottom: 2rem;
 }
 
 
@@ -675,7 +643,6 @@ footer{
 }
 
 
-
 /* FIGURE */
  /* Create a container for the figures */
  .figure-container {
@@ -747,33 +714,7 @@ footer{
     font-size: smaller;
 }
 
-blockquote{
-    background-color: #f7f7f7; /* Background color for the blockquote */
-    border-left: .5rem solid var(--text-color-second); /* Left border color and width */
-    padding: 10px 20px; /* Add padding for better readability */
-    margin: 3rem; /* Add spacing around the blockquote */
-    font-size: 1rem; /* Adjust the font size */
-    line-height: 1.5; /* Adjust the line height for readability */
-    font-style: italic; /* Use italic font style for quotes */
-    color: #333; /* Text color */
-}
-.link-container {
-    display: flex;
-    flex-direction: column; /* Stack vertically */
-    align-items: flex-start; /* Align links to the left */
-}
-
-.text {
-    text-decoration: none;
-    color: var(--first-color);
-    padding: .5rem .5rem .5rem 0.5rem; /* Add padding for spacing around the link text */
-    transition: text-decoration-color 0.5s;
-}
-
-.text:hover {
-    text-decoration: underline; 
-    text-decoration-color: var( --first-color-hover);
-}
+/* H2 and H3 */
 h2, h3 {
     color: var(--text-color-second);
     margin-top: 3rem;
@@ -784,37 +725,9 @@ h2 {
     font-size: 2rem;
     font-weight: 500;
 }
-.project-box  h3 {
-    margin-top: 0;
-    /* border: 1px solid green; */
-}
-.about-info  h3 {
-    margin-top: 0;
-    /* border: 1px solid green; */
-}
-.skills-header  h3 {
-    margin-top: 0;
-    /* border: 1px solid green; */
-}
 
-.p-space{
-    margin-bottom: 1rem;
-    padding-left: .5rem;
+/* To push things down for the nav */
+.space{
+    margin: 3rem;
     /* border: 1px solid red; */
 }
-.ul-space{
-    padding: 1rem 3rem;
-}
-.breadcrumbs {
-    /* background-color: #f0f0f0; */
-    padding-bottom: 1rem;
-    font-size: 14px;
-}
-.breadcrumbs a {
- /* padding: 0 1rem; */
-}
-.current-page {
-    color: var(--text-color-second);
-    /* padding-left: .5rem; */
-}
-.top-space
