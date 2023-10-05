@@ -19,7 +19,7 @@ function myMenuFunction(){
 
       navHeader.style.boxShadow = "0 1px 6px rgba(0, 0, 0, 0.1)";
       navHeader.style.height = "90px";
-      navHeader.style.lineHeight = "90spx";
+      navHeader.style.lineHeight = "90px";
 
     } else {
 
