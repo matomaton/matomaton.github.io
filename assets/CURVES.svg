@@ -3,8 +3,8 @@
 <rect width="150" height="150" fill="#D9D9D9"/>
 </mask>
 <g mask="url(#mask0_12_17)">
-<rect x="-0.216995" y="0.269196" width="150" height="150" fill="white"/>
-<path d="M146.812 3.93371C48 3.93373 81.9999 148.125 3.17872 148.125" stroke="black" stroke-width="6" stroke-linecap="round"/>
-<path d="M112.159 2.95651C45.327 6.13246 37.5 136.5 2.8658 147.88" stroke="#346699" stroke-width="6" stroke-linecap="round"/>
+<rect x="-0.21698" y="0.269196" width="150" height="150" fill="white"/>
+<path d="M146.812 24.6503C48 24.6503 81.9999 149.348 3.17872 149.348" stroke="black" stroke-width="6" stroke-linecap="round"/>
+<path d="M112.159 23.8052C45.327 26.5517 37.5 139.294 2.8658 149.136" stroke="#346699" stroke-width="6" stroke-linecap="round"/>
 </g>
 </svg>
