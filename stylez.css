@@ -52,13 +52,14 @@ html{
 
 /* ----- GLOBAL BUTTON DESIGN ----- */
 .btn{
-    font-weight: 500;
+    font-weight: 400;
     padding: 12px 20px;
     background: #efefef;
     border: none;
     border-radius: 10px;
     cursor: pointer;
     transition: .4s;
+    text-decoration: none;
 }
 .btn>i{
     margin-left: 10px;
@@ -205,6 +206,8 @@ position: relative;
 .featured-text-btn>.blue-btn{
     background: var(--first-color);
     color: var(--color-white);
+    /* font-size: 14px; */
+    border: 1px solid red;
 }
 .featured-text-btn>.blue-btn:hover{
     background: var(--first-color-hover);
