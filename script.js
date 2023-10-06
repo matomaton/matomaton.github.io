@@ -1,13 +1,35 @@
 /* ----- NAVIGATION BAR FUNCTION ----- */
-function myMenuFunction(){
-    let menuBtn = document.getElementById("myNavMenu");
+function myMenuFunction() {
+  let menuBtn = document.getElementById("myNavMenu");
 
-    if(menuBtn.className === "nav-menu"){
+  if (menuBtn.className === "nav-menu") {
       menuBtn.className += " responsive";
-    } else {
+  } else {
       menuBtn.className = "nav-menu";
-    }
   }
+
+  // Get all menu items
+  let menuItems = document.querySelectorAll(".nav-menu a");
+
+  // Add event listener to each menu item to close the menu when clicked
+  menuItems.forEach(item => {
+      item.addEventListener("click", function(event) {
+          // Prevent default behavior of anchor links
+          event.preventDefault();
+
+          // Get the target section id from the href attribute
+          let targetId = this.getAttribute("href").substring(1);
+
+          // Close the menu
+          menuBtn.className = "nav-menu";
+
+          // Scroll to the target section using smooth scrolling
+          document.getElementById(targetId).scrollIntoView({
+              behavior: "smooth"
+          });
+      });
+  });
+}
 
 /* ----- ADD SHADOW ON NAVIGATION BAR WHILE SCROLLING ----- */
   window.onscroll = function() {headerShadow()};
