@@ -11,25 +11,32 @@ function myMenuFunction() {
   // Get all menu items
   let menuItems = document.querySelectorAll(".nav-menu a");
 
-  // Add event listener to each menu item to close the menu when clicked
+  // Add event listener to each menu item to handle click events
   menuItems.forEach(item => {
       item.addEventListener("click", function(event) {
-          // Prevent default behavior of anchor links
-          event.preventDefault();
+          // Check if the target starts with a hash symbol (#)
+          if (this.getAttribute("href").startsWith("#")) {
+              // Prevent default behavior of anchor links
+              event.preventDefault();
 
-          // Get the target section id from the href attribute
-          let targetId = this.getAttribute("href").substring(1);
+              // Get the target section id from the href attribute
+              let targetId = this.getAttribute("href").substring(1);
 
-          // Close the menu
-          menuBtn.className = "nav-menu";
+              // Close the menu
+              menuBtn.className = "nav-menu";
 
-          // Scroll to the target section using smooth scrolling
-          document.getElementById(targetId).scrollIntoView({
-              behavior: "smooth"
-          });
+              // Scroll to the target section using smooth scrolling
+              document.getElementById(targetId).scrollIntoView({
+                  behavior: "smooth"
+              });
+          } else {
+              // Regular link to another page, handle navigation
+              // The default behavior will occur, allowing the user to navigate to the linked page
+          }
       });
   });
 }
+
 
 /* ----- ADD SHADOW ON NAVIGATION BAR WHILE SCROLLING ----- */
   window.onscroll = function() {headerShadow()};
