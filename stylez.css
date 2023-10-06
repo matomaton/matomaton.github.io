@@ -65,7 +65,7 @@ html{
     margin-left: 10px;
 }
 .btn:hover{
-    background: var(--second-color);
+    background: var(--first-color-hover);
     color: var(--color-white);
 }
 
@@ -207,7 +207,7 @@ position: relative;
     background: var(--first-color);
     color: var(--color-white);
     /* font-size: 14px; */
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 .featured-text-btn>.blue-btn:hover{
     background: var(--first-color-hover);
@@ -555,18 +555,19 @@ footer{
         display: none;
     }
     .nav-menu.responsive{
-        left: 0;
+        right: 0;
+        border: 1px solid red;
     }
     .nav-menu{
         position: fixed;
         top: 80px;
-        left: -100%;
+        right: -100%;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(20px);
-        width: 100%;
+        backdrop-filter: blur(10px);
+        width: 80%;
         min-height: 450px;
         height: 90vh;
         transition: .3s;
@@ -578,6 +579,7 @@ footer{
         display: flex;
         align-items: center;
         justify-content: center;
+        border: 1px solid red;
     }
     .featured-box{
         flex-direction: column;
