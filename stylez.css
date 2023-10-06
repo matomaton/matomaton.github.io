@@ -556,7 +556,7 @@ footer{
     }
     .nav-menu.responsive{
         right: 0;
-        border: 1px solid red;
+        /* border: 1px solid red; */
     }
     .nav-menu{
         position: fixed;
@@ -579,7 +579,7 @@ footer{
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 1px solid red;
+        /* border: 1px solid red; */
     }
     .featured-box{
         flex-direction: column;
