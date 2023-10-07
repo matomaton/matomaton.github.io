@@ -760,10 +760,10 @@ h2 {
 max-width: 100%; /* Set the maximum width for the video */
     margin-top: 20px; /* Add space above the video (adjust the value as needed) */
 }
-/* SPACING */
-/* .ul-space{
+/* SPACING  */
+.ul-space{
     padding: 1rem 1.5rem;
-} */
+}
 
 .p-space{
     margin-bottom: 1rem;
