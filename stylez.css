@@ -739,3 +739,21 @@ h2 {
     margin: 3rem;
     /* border: 1px solid red; */
 }
+
+/* VIDEO STYLES */
+.content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.text-container {
+    flex: 2; /* Adjust the flex value to make the text container take up more space */
+    margin-right: 20px; /* Adjust the margin between text and video */
+  min-width:16rem;
+}
+
+.video-container {
+    flex: 1; /* Adjust the flex value for the video container */
+max-width: 100%; /* Set the maximum width for the video */
+    margin-top: 20px; /* Add space above the video (adjust the value as needed) */
+}
