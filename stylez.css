@@ -650,7 +650,7 @@ footer{
     }
     .video-container {
         max-width: 80%; /* Set the maximum width for the video */
-       
+    }
 }
 
 
@@ -765,6 +765,6 @@ max-width: 100%; /* Set the maximum width for the video */
     padding: 1rem 1.5rem;
 } */
 
-/* .p-space{
+.p-space{
     margin-bottom: 1rem;
-} */
+}
