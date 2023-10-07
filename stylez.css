@@ -328,7 +328,7 @@ h3{
     border-radius: 20px;
 }
 .about-info p{
-    text-align: center;
+    text-align: left;
     font-size: 15px;
     color: #777;
 }
@@ -648,6 +648,9 @@ footer{
     .input-field{
         width: 100%;
     }
+    .video-container {
+        max-width: 80%; /* Set the maximum width for the video */
+       
 }
 
 
@@ -757,3 +760,11 @@ h2 {
 max-width: 100%; /* Set the maximum width for the video */
     margin-top: 20px; /* Add space above the video (adjust the value as needed) */
 }
+/* SPACING */
+/* .ul-space{
+    padding: 1rem 1.5rem;
+} */
+
+/* .p-space{
+    margin-bottom: 1rem;
+} */
