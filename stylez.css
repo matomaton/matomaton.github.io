@@ -773,10 +773,13 @@ max-width: 100%; /* Set the maximum width for the video */
     padding-bottom: 1rem;
 }
 .breadcrumbs a {
+    color: var(--first-color-hover);
     text-decoration: none;
     
+    
    }
-.breadcrumbs a:hover {
-    text-decoration:underline;
-    transition: text-decoration 1s ease-in-out;
+div.breadcrumbs a:hover {
+    color: var(--third-color);
+    /* text-decoration: underline; */
+    transition: color .2s ease-in-out;
    }   

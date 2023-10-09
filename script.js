@@ -59,15 +59,44 @@ function myMenuFunction() {
     }
   }
 
-
 /* ----- TYPING EFFECT ----- */
- let typingEffect = new Typed(".typedText",{
-    strings : ["Design","Create","Develop"],
-    loop : true,
-    typeSpeed : 100, 
-    backSpeed : 80,
-    backDelay : 2000
- })
+let typed;
+const words = ["Develop", "Create", "Design"];
+let wordIndex = 0;
+
+function startTypingEffect() {
+  typed = new Typed(".typedText", {
+    strings: [words[wordIndex]],
+    typeSpeed: 100,
+    backSpeed: 80,
+    backDelay: 2000,
+    showCursor: false, // Hide the cursor
+    onComplete: function() {
+      wordIndex++;
+      if (wordIndex === words.length) {
+        // All words have been typed, do not loop anymore
+        typed.options.loop = false;
+      } else {
+        // Type the next word
+        typed.strings = [words[wordIndex]];
+        typed.reset();
+      }
+    }
+   
+  });
+}
+
+// Trigger the typing effect on page load
+document.addEventListener("DOMContentLoaded", startTypingEffect);
+
+/* ----- ORINGINAL TYPING EFFECT ----- */
+//  let typingEffect = new Typed(".typedText",{
+//     strings : ["Design","Create","Develop"],
+//     loop : true,
+//     typeSpeed : 100, 
+//     backSpeed : 80,
+//     backDelay : 2000
+//  })
 
 
 /* ----- ## -- SCROLL REVEAL ANIMATION -- ## ----- */
