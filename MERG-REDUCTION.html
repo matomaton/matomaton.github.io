@@ -19,10 +19,10 @@
     <div class="container">
         <!-- --------------- HEADER --------------- -->
         <nav id="header">
-            <div class="nav-logo">
-                <img src="https://matomaton.github.io/assets/Atomasym-cut-outline.svg">
-
-            </div>
+            <a href="./index.html#home">
+                <div class="nav-logo">
+                    <img src="https://matomaton.github.io/assets/Atomasym-cut-outline.svg">
+                </div></a>
             <div class="nav-menu" id="myNavMenu">
                 <ul class="nav_menu_list">
                     <li class="nav_list">
@@ -63,14 +63,16 @@
         <span class="current-page">Merg</span>
     </div>  
     <h1>Merging web apps into a single tool<h1>
-        <h2>Background</h2>
+        <h2>Summary</h2>
         <p class="no-marg">
             JSTOR Forum is a digital collection cataloging and publishing tool designed for institutions such as universities and museums. This tool enables institutions to share their digital collections across various platforms, including <a href="https://www.jstor.org/">JSTOR</a>, <a href="https://dp.la/">The Digital Public Library of American</a>, and custom <a href="https://omeka.org/">OMEKA</a> sites. Here are a few examples of collections published on JSTOR, a digital library, using JSTOR Forum.</p>
             <ul class="ul-space"><li><a class="text" href="https://www.jstor.org/site/american-academy-rome/">Academy of Rome</a></li>
            <li><a class="text"href="https://www.jstor.org/site/trinity/">Trinity College</a></li>
            <li><a class="text" href="https://www.jstor.org/site/ucsb/">University of California, Santa Barbara</a></li>
             </ul>
-    <h2>Problem to Solve</h2>
+    <!-- <h2>Problem to Solve</h2> -->
+    <p>JSTOR Forum was split into two separate applications: one for catalogers and another for administrators. This division posed challenges as it led to separate codebases and user experiences, hindering consistent performance and usability improvements. This legacy setup confined users to static roles, causing important admin features to be scattered across various workflows, which, in turn, restricted publishing capabilities. Additionally, adapting to evolving tool uses and innovating for future enhancements became cumbersome.
+    </p>
     <!-- FIGURES -->
     <div class="figure-container">
         <figure class="figure">
@@ -83,10 +85,9 @@
         <figcaption>Seperate admin interface</figcaption>
     </figure>
     </div>
-    <p>JSTOR Forum was split into two separate applications: one for catalogers and another for administrators. This division posed challenges as it led to separate codebases and user experiences, hindering consistent performance and usability improvements. This legacy setup confined users to static roles, causing important admin features to be scattered across various workflows, which, in turn, restricted publishing capabilities. Additionally, adapting to evolving tool uses and innovating for future enhancements became cumbersome.
-    </p>
+
     <h2>Goals</h2>
-    <p>The division outlined above prompted us to rethink the Forum Cataloging and Publishing tool. To better serve our new contributor audience and boost publishing, we had to improve the user experience and unify the codebases. We aimed to streamline workflows and bring coherence to the user experience. I explored three different concepts varying in engineering effort</p>
+    <p>The division outlined above prompted us to rethink the Forum Cataloging and Publishing tool. To better serve our new contributor audience and boost publishing, we had to improve the user experience and unify the codebases. We aimed to streamline workflows and bring coherence to the user experience. I explored three different concepts varying in engineering effort.</p>
     <h2>Concept 1</h2>
     <!-- FIGURES -->
     <div class="figure-container">
@@ -97,11 +98,12 @@
         <figcaption>Concept 1 Structure</figcaption>
     </figure>
     <figure class="figure">
-        <img src="https://matomaton.github.io/assets/merg/CONCEPT-1-ITEMLIST.jpg" alt="A low fidelity mockup of the cataloging interface that includes administrative tools">
+        <a href="https://matomaton.github.io/assets/merg/CONCEPT-1-ITEMLIST.jpg" target="_blank"></a>
+        <img src="https://matomaton.github.io/assets/merg/CONCEPT-1-ITEMLIST.jpg" alt="A low fidelity mockup of the cataloging interface that includes administrative tools"></a>
         <figcaption>Concept 1 Sketch</figcaption>
     </figure>
     </div>
-    <p>Explores the simplest way of bringing the current admin features into the cataloging tools while maintaining sound principles of user experience and design. This concept would be an easy transition for current users of the system, and easy for the engineers to migrate.  Although the two applications are combined into one tool, the administrative tasks are separated from cataloging tasks in arbitrary and idiosyncratic ways as they were before.</p>
+    <p>Concept 1 explores the simplest way of bringing the current admin features into the cataloging tools while maintaining sound principles of user experience and design. This concept would be an easy transition for current users of the system and easy for the engineers to migrate.  Although the two applications are combined into one tool, the administrative tasks are separated from cataloging tasks in arbitrary and idiosyncratic ways as they were before.</p>
     <h2>Concept 2</h2>
     <!-- FIGURES -->
     <div class="figure-container">
@@ -112,7 +114,7 @@
         <figcaption>Concept 2 Structure</figcaption>
     </figure>
     <figure class="figure">
-        <a href="https://matomaton.github.io/product/img/CONCEPT2-SKETCH.png" target="_blank"></a><img src="https://matomaton.github.io/product/img/CONCEPT2-SKETCH.png" alt="A low fidelity mockup that shows a dashboard with analytics included">
+        <a href="https://matomaton.github.io/product/img/CONCEPT2-SKETCH.png" target="_blank"><img src="https://matomaton.github.io/product/img/CONCEPT2-SKETCH.png" alt="A low fidelity mockup that shows a dashboard with analytics included"></a>
         <figcaption>Important analytics are elevated</figcaption>
     </figure>
     </div>
@@ -133,7 +135,7 @@
     </figure>
     </div>
     
-    <p>For this concept I flipped everything on its head and shifted away from a catalog-centric experience into a publishing and content-management product. There is not a separate tool, but totally integrated into the platform with a CMS backend. A “YouTube for Primary Source material” While this aligned with the future direction of the organization, this concept presented a profound impact on many teams and the JSTOR platform. Starting small with entry points from the platform to the publishing tool could be considered in the near term. Ultimately ideas from this concept made found life in a new product called <a class="text" href="collection-loader.html">Collection Loader</a>.</p>
+    <p>For this concept, I flipped everything on it's head and shifted away from a catalog-centric experience into a publishing and content-management product. There is not a separate tool, but totally integrated into the platform with a CMS backend. While this aligned with the future direction of the organization, this concept presented a profound impact on many teams and the JSTOR platform. Starting small with entry points from the platform to the publishing tool could be considered in the near term. Ultimately, ideas from this concept where incorporated into a new product called <a class="text" href="collection-loader.html">Collection Loader</a>.</p>
     <h2>Final Design</h2>
     <p>The final design simplified workflows to create a cohesive user experience, following modern web app patterns.  As Stephanie from Cairn put it, 'My students will love this!' Now, all the tools are conveniently located in one place, making them easy to access. With a single codebase, we can efficiently roll out improvements over time.</p>
     <h3>Home-Dashboard</h3>
