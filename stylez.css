@@ -311,26 +311,33 @@ h3{
     font-size: 20px;
     font-weight: 600;
     color: var(--text-color-second);
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
+    border: 1px solid blue;
 }
 
 /* ----- ABOUT INFO ----- */
 .about-info{
-    position: relative;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    padding-block: 30px 70px;
-    padding-inline: 20px;
-    width: 100%;
+    /* position: relative; */
+    /* display: flex; */
+    /* align-items: center; */
+    /* flex-direction: column; */
+    padding: 1rem;
+    /* padding-block: 30px 70px; */
+    /* padding-inline: 20px; */
+    /* width: 100%; */
     background: var(--color-white);
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
     border-radius: 20px;
+    border: 1px solid red;
 }
 .about-info p{
     text-align: left;
-    font-size: 15px;
-    color: #777;
+    font-size: 1rem;
+    color: #757575;
+    border: 1px solid green;
+}
+.about-info h3{
+    border: 1px solid purple;
 }
 .about-btn button{
     position: absolute;
@@ -342,6 +349,9 @@ h3{
 }
 .about-btn button:hover{
     background: var(--first-color-hover);
+}
+.process-links {
+    padding: 1rem;
 }
 
 /* ----- ABOUT / SKILLS BOX ----- */
@@ -516,7 +526,7 @@ footer{
     padding-block: 40px 60px;
 }
 .top-footer p{
-    font-size: 25px;
+    font-size: 1rem;
     font-weight: 600;
 }
 .middle-footer .footer-menu{
@@ -726,9 +736,9 @@ footer{
 }
 
 /* H2 and H3 */
-h2, h3 {
+h2 /*, h3*/ {
     color: var(--text-color-second);
-    margin-top: 3rem;
+    margin-top: 2rem;
     /* font-weight: 500; */
      /* border: 1px solid red; */
 }
