@@ -331,16 +331,16 @@ h3{
     background: var(--color-white);
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
     border-radius: 20px;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 .about-info p{
     text-align: left;
     font-size: 1rem;
     color: #757575;
-    border: 1px solid green;
+    /* border: 1px solid green; */
 }
 .about-info h3{
-    border: 1px solid purple;
+    /* border: 1px solid purple; */
 }
 .about-btn button{
     position: absolute;
