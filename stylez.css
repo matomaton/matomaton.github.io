@@ -130,6 +130,9 @@ position: relative;
     padding-inline: 15px;
     margin-inline: 20px;
 }
+.nav-link:hover{
+    color: var(--first-color-hover);
+}
 .nav-menu-btn{
     display: none;
 }
