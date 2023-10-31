@@ -314,7 +314,7 @@ h3{
     font-size: 20px;
     font-weight: 600;
     color: var(--text-color-second);
-    margin-bottom: 1rem;
+    margin-bottom: .5rem;
     /* border: 1px solid blue; */
 }
 
