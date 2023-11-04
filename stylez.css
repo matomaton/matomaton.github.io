@@ -308,6 +308,7 @@ position: relative;
     font-weight: 600;
     color: var(--text-color-second);
     margin-bottom: 10px;
+
 }
 .top-header span{
     color: #999;
@@ -326,7 +327,7 @@ h3{
     /* display: flex; */
     /* align-items: center; */
     /* flex-direction: column; */
-    padding: 1rem;
+    padding: 3rem;
     /* padding-block: 30px 70px; */
     /* padding-inline: 20px; */
     /* width: 100%; */
@@ -744,6 +745,7 @@ footer{
 h2 /*, h3*/ {
     color: var(--text-color-second);
     margin-top: 2rem;
+    margin-bottom: 0.5rem;
     /* font-weight: 500; */
      /* border: 1px solid red; */
 }
@@ -796,5 +798,13 @@ max-width: 100%; /* Set the maximum width for the video */
 div.breadcrumbs a:hover {
     color: var(--third-color);
     /* text-decoration: underline; */
-    transition: color .2s ease-in-out;
+    transition: color .15s ease-in-out;
    }   
+p {
+    letter-spacing: -0.5px;
+    line-height: 1.4rem;
+}
+.page-header{
+    font-weight: 600;
+    font-size: 2.5rem;
+}
