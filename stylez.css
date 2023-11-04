@@ -163,6 +163,13 @@ position: relative;
 /* ----- WRAPPER DESIGN ----- */
 .wrapper{
     padding-inline: 10vw;
+    /* max-width: 900px;
+    margin: 0 auto; */
+}
+.wrap{
+    padding-inline: 10vw;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 /* ----- FEATURED BOX ----- */
@@ -761,22 +768,19 @@ h2 {
 }
 
 /* VIDEO STYLES */
-.content {
-    display: flex;
-    flex-wrap: wrap;
+/* see video css*/
+.youTube-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+} 
+.youTube-container iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }
 
-.text-container {
-    flex: 2; /* Adjust the flex value to make the text container take up more space */
-    margin-right: 20px; /* Adjust the margin between text and video */
-  min-width:16rem;
-}
-
-.video-container {
-    flex: 1; /* Adjust the flex value for the video container */
-max-width: 100%; /* Set the maximum width for the video */
-    margin-top: 20px; /* Add space above the video (adjust the value as needed) */
-}
 /* SPACING  */
 .ul-space{
     padding: 1rem 1.5rem;
@@ -807,4 +811,8 @@ p {
 .page-header{
     font-weight: 600;
     font-size: 2.5rem;
+}
+
+li {
+    margin-bottom: 0.5rem;
 }
