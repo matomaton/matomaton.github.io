@@ -1,6 +1,7 @@
 /* ----- POPPINS FONT Link ----- */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 /* ----- VARIABLES ----- */
 :root{
     --body-color: rgb(250, 250, 250);
@@ -23,8 +24,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* font-family: 'Poppins', sans-serif; */
-    font-family: 'Inter', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 /* ----- SMOOTH SCROLL ----- */
@@ -162,6 +162,13 @@ position: relative;
 /* ----- WRAPPER DESIGN ----- */
 .wrapper{
     padding-inline: 10vw;
+    /* max-width: 900px;
+    margin: 0 auto; */
+}
+.wrap{
+    padding-inline: 10vw;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 /* ----- FEATURED BOX ----- */
@@ -307,6 +314,7 @@ position: relative;
     font-weight: 600;
     color: var(--text-color-second);
     margin-bottom: 10px;
+
 }
 .top-header span{
     color: #999;
@@ -329,7 +337,7 @@ h4{
     /* display: flex; */
     /* align-items: center; */
     /* flex-direction: column; */
-    padding: 2.5rem;
+    padding: 1rem;
     /* padding-block: 30px 70px; */
     /* padding-inline: 20px; */
     /* width: 100%; */
@@ -747,6 +755,7 @@ footer{
 h2 /*, h3*/ {
     color: var(--text-color-second);
     margin-top: 2rem;
+    margin-bottom: 0.5rem;
     /* font-weight: 500; */
      /* border: 1px solid red; */
 }
@@ -762,22 +771,19 @@ h2 {
 }
 
 /* VIDEO STYLES */
-.content {
-    display: flex;
-    flex-wrap: wrap;
+/* see video css*/
+.youTube-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+} 
+.youTube-container iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }
 
-.text-container {
-    flex: 2; /* Adjust the flex value to make the text container take up more space */
-    margin-right: 20px; /* Adjust the margin between text and video */
-  min-width:16rem;
-}
-
-.video-container {
-    flex: 1; /* Adjust the flex value for the video container */
-max-width: 100%; /* Set the maximum width for the video */
-    margin-top: 20px; /* Add space above the video (adjust the value as needed) */
-}
 /* SPACING  */
 .ul-space{
     padding: 1rem 1.5rem;
@@ -799,7 +805,7 @@ max-width: 100%; /* Set the maximum width for the video */
 div.breadcrumbs a:hover {
     color: var(--third-color);
     /* text-decoration: underline; */
-    transition: color .2s ease-in-out;
+    transition: color .15s ease-in-out;
    }   
 p {
     letter-spacing: -0.5px;
