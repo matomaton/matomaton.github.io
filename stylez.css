@@ -334,7 +334,7 @@ h3{
     /* display: flex; */
     /* align-items: center; */
     /* flex-direction: column; */
-    padding: 3rem;
+    padding: 2rem;
     /* padding-block: 30px 70px; */
     /* padding-inline: 20px; */
     /* width: 100%; */
@@ -370,7 +370,7 @@ h3{
     display: block;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     width: 40%;
     }
 
