@@ -366,6 +366,13 @@ h3{
 .process-links {
     padding: 1rem;
 }
+.about-info img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1rem;
+    width: 40%;
+    }
 
 /* ----- ABOUT / SKILLS BOX ----- */
 .skills-box{
