@@ -1,0 +1,16 @@
+.content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.text-container {
+    flex: 2; /* Adjust the flex value to make the text container take up more space */
+    margin-right: 1.5rem; /* Adjust the margin between text and video */
+  min-width:12rem;
+}
+
+.video-container {
+    flex: 1; /* Adjust the flex value for the video container */
+    max-width: 100%; 
+    /* margin-top: 20px; Add space above the video (adjust the value as needed) */
+}
