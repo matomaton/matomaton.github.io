@@ -403,6 +403,13 @@ h3{
     flex-wrap: wrap;
 
 }
+.project-container img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2rem;
+    width: 60%;
+    }
 .project-box{
     position: relative;
     display: flex;
