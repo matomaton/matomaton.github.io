@@ -198,6 +198,9 @@ position: relative;
     font-size: 12px;
     border-radius: 5px;
 }
+.featured-text-card{
+    margin-bottom: 1rem;
+}
 .featured-name{
     font-size: 50px;
     font-weight: 600;
