@@ -843,5 +843,16 @@ blockquote {
     border-left: 4px solid var(--first-color); /* Change border color as desired */
     padding-left: 1rem; /* Adjust padding for space between border and text */
     font-style: italic;
-    margin: .5rem;
+    margin: 1rem .5rem;
 }
+
+a {
+    color: var(--first-color-hover);
+    /* text-decoration: none; */
+}
+
+a:hover {
+    color: var(--third-color);
+    text-decoration: none;
+    transition: color .1s ease-in-out;
+   }   
