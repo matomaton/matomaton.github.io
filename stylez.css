@@ -838,3 +838,10 @@ p {
 li {
     margin-bottom: 0.5rem;
 }
+
+blockquote {
+    border-left: 4px solid var(--first-color); /* Change border color as desired */
+    padding-left: 1rem; /* Adjust padding for space between border and text */
+    font-style: italic;
+    margin: .5rem;
+}
