@@ -856,3 +856,6 @@ a:hover {
     text-decoration: none;
     transition: color .1s ease-in-out;
    }   
+.motion-container{
+    width: 20rem;
+  }
