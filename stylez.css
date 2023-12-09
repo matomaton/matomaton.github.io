@@ -460,7 +460,9 @@ h4{
 }
 .project-box:hover.project-box i,
 .project-box:hover.project-box>h3,
-.project-box:hover.project-box>label{
+.project-box:hover.project-box>label
+.project-box:hover.projec-box>img{
+
     color: var(--first-color-hover);
     z-index: 2;
 }
