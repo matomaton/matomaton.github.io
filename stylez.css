@@ -861,3 +861,11 @@ a:hover {
 .motion-container{
     width: 20rem;
   }
+  .pseudo path[fill="black"] {
+    fill: black;
+    transition: fill 0.1s ease-in-out; /* Optional: Add a smooth transition effect */
+  }
+
+  .pseudo path[fill="black"]:hover {
+    fill: rgb(40, 91, 212);
+  }
