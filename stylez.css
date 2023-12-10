@@ -869,3 +869,6 @@ a:hover {
 .motion-container{
     width: 20rem;
   }
+.svg-pad{
+    padding: 0 1rem;
+}
