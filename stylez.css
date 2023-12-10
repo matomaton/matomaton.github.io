@@ -418,6 +418,10 @@ h4{
     margin-bottom: 2rem;
     width: 60%;
     }
+.project-container .hover-image {
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.3s ease; /* Add a smooth transition effect */
+}    
 .project-box{
     position: relative;
     display: flex;
@@ -461,10 +465,14 @@ h4{
 .project-box:hover.project-box i,
 .project-box:hover.project-box>h3,
 .project-box:hover.project-box>label
-.project-box:hover.projec-box>img{
-
-    color: var(--first-color-hover);
-    z-index: 2;
+{
+  color: var(--first-color-hover);
+  z-index: 2;
+  transition: color .1s ease-in;
+}
+.project-box:hover.project-box svg {
+  fill: var(--first-color-hover);
+  transition: fill .1s ease-in;
 }
 
 /* ----- CONTACT BOX ----- */
@@ -860,12 +868,4 @@ a:hover {
    }   
 .motion-container{
     width: 20rem;
-  }
-  .pseudo path[fill="black"] {
-    fill: black;
-    transition: fill 0.1s ease-in-out; /* Optional: Add a smooth transition effect */
-  }
-
-  .pseudo path[fill="black"]:hover {
-    fill: rgb(40, 91, 212);
   }
