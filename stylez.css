@@ -764,7 +764,7 @@ footer{
     transition: box-shadow 0.1s ease-in-out;
     border-radius: 1rem;
     border: .2rem solid var(--border-color);
-    padding: 1rem;
+    padding: 1rem 0;
 }
 
 .full-width-figure img:hover {
@@ -773,6 +773,7 @@ footer{
       0px 12px 9px rgba(3, 7, 18, 0.05),
       0px 20px 15px rgba(3, 7, 18, 0.06),
       0px 32px 24px rgba(3, 7, 18, 0.08);
+      cursor: zoom-in;
 }
 
 .full-width-figure figcaption {
