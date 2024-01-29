@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lato:wght@300;400&display=swap');
+
+body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+  background: #F7FAFF;
+    }
+/* --------------NAVIGATION STYLES---------------- */
+header{
+  display:flex;
+  justify-content: space-between;
+  align-items:center;
+  padding: 2rem 2rem;
+}
+.logo{
+  width: 4rem;
+  transition: all .2s ease 0s;
+}
+.logo:hover {
+  transform: scale(1.2);
+}
+
+.arrow{
+  width: 2.5rem;
+  transition: all .2s ease 0s;
+  
+}
+.arrow:hover {
+  transform: scale(1.4);
+}
+
+.nav_links{
+  list-style:none;
+}
+
+.nav_links li{
+  display: inline-block;
+  padding: 0 1rem;
+}
+/* -----------------BODY STYLES---------------- */
+section {
+      max-width: 700px;
+      margin: 0 auto; /* Center the section horizontally */
+      padding: 2rem;
+    }
+
+img {
+      width: 100%;
+      height: auto;
+      display: block; /* Remove extra space below inline images */
+/*       margin-top: 20px; */
+}
+
+.dual-img {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Align items to the top */
+  max-width: 100%; /* Adjust as needed, leaving some space for margin/padding */
+/*   margin-bottom: 6rem; */
+}
+
+.image-container {
+  position: relative;
+  width: 48%; /* Adjust as needed, leaving some space for margin/padding */
+ 
+  
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.2s, filter 0.2s;
+}
+
+.image-container:hover img {
+  transform: scale(0.9);
+  filter: brightness(80%);
+}
+
+.hover-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 1.5rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.image-container:hover .hover-text {
+  opacity: 1;
+}
+/* -----------TEXT STYLES------------- */
+p, li {
+  
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  font-size: 1.3rem;
+}
+
+h1{
+  font-size: 5rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  letter-spacing: -.35rem;
+  margin: 2rem 4rem -1rem 0;
+  color:#4E6891;
+}
+
+h2{
+  font-size: 3rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: #4E6891;
+   letter-spacing: -.2rem;
+}
+
+.quote{
+  color: #4E6891;
+  font-weight: 400;
+  font-size: 1.3rem;
+  
+}
