@@ -209,7 +209,7 @@ h2{
     margin-top: .5rem; /* Add spacing between image and caption */
     font-size: smaller;
 }
-
+/* NOT BEING USED YET!!!!! */
 .bold-text {
   font-weight: 700;
 }
