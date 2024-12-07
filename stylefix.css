@@ -101,6 +101,9 @@ p, li {
   font-weight: 300;
   font-size: 1.6rem;
 }
+li {
+  line-height: 1.6;
+}
 
 h1{
   font-size: 5rem;
