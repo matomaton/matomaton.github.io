@@ -21,6 +21,18 @@
   border: 1px solid red;
 } */
 
+body {
+  font-family: 'Lato', sans-serif;
+  background-color: #F7FAFC; /* Light Gray-Blue */
+  color: #2C3E50; /* Muted Dark Navy */
+  line-height: 1.6;
+  padding: 1rem;
+}
+p {
+  font-size: 1.3rem;
+  color: #2C3E50; /* Text color for paragraphs */
+}
+
 header{
   display:flex;
   justify-content: space-between;
@@ -267,9 +279,10 @@ footer{
   margin-top: 10px;
 }
 @media screen and (max-width: 768px) {
-  /* h1 {
-    font-size: 2rem; /* Smaller font size */
-    white-space: nowrap; /* Prevents line break */
-    overflow: hidden; /* Hides overflow */
-    text-overflow: ellipsis; /* Adds ... if text is too long */
-  } */
+  h1 {
+    font-size: 3rem; /* Smaller font size */
+    /* white-space: nowrap; Prevents line break */
+    /*overflow: hidden;  Hides overflow */
+    /* text-overflow: ellipsis; Adds ... if text is too long */
+  }
+}
