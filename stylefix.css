@@ -184,6 +184,12 @@ h2 a {
     gap: 2rem;
     padding: 1rem;
   }
+  h1 {
+    font-size: 3rem; /* Smaller font size */
+    white-space: nowrap; /* Prevents line break */
+    overflow: hidden; /* Hides overflow */
+    text-overflow: ellipsis; /* Adds ... if text is too long */
+  }
 }
 
 * FIGURE */
