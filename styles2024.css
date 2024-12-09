@@ -145,6 +145,10 @@ h2 {
   letter-spacing: -.2rem;
 /*   border: 1px solid red; */
 }
+h2 a {
+  color: #4E6891;
+  text-decoration: none;
+}
 a {
   text-decoration: none;
 }
