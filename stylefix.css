@@ -97,6 +97,9 @@ img {
   font-size: 1.5rem;
   opacity: 0;
   transition: opacity 0.3s;
+  background-color: #1c28348f;
+  padding: 1rem;
+  border-radius: 0.5rem;
 }
 
 .image-container:hover .hover-text {
