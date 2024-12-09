@@ -235,7 +235,7 @@ footer{
   align-items: center;
   flex-direction: column;
   row-gap: 30px;
-  background: #F8F8F8;
+  /* background: #F8F8F8; */
   padding-block: 40px 60px;
 }
 .top-footer p{
