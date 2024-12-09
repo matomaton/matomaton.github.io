@@ -267,10 +267,9 @@ footer{
   margin-top: 10px;
 }
 @media screen and (max-width: 768px) {
-  h1 {
+  /* h1 {
     font-size: 2rem; /* Smaller font size */
     white-space: nowrap; /* Prevents line break */
     overflow: hidden; /* Hides overflow */
     text-overflow: ellipsis; /* Adds ... if text is too long */
-  }
-}
+  } */
