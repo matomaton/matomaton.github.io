@@ -131,6 +131,10 @@ h2{
   color: #4E6891;
    letter-spacing: -.2rem;
 }
+h2 a {
+  color: #4E6891;
+  text-decoration: none;
+}
 
 .quote{
   color: #4E6891;
