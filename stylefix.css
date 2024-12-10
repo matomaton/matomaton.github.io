@@ -96,6 +96,18 @@ img {
   filter: brightness(80%);
 }
 
+
+.dual-image-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.2s, filter 0.2s;
+}
+
+.dual-image-container:hover img  {
+  transform: scale(0.9);
+  filter: brightness(80%);
+}
 .hover-text {
   position: absolute;
   top: 50%;
@@ -111,6 +123,10 @@ img {
 }
 
 .image-container:hover .hover-text {
+  opacity: 1;
+}
+
+.dual-image-container:hover .hover-text {
   opacity: 1;
 }
 /* -----------TEXT STYLES------------- */
