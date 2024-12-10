@@ -67,6 +67,7 @@ img {
   align-items: flex-start; /* Align items to the top */
   max-width: 100%; /* Adjust as needed, leaving some space for margin/padding */
 /*   margin-bottom: 6rem; */
+  /* padding-right: 2rem; */
 }
 
 .image-container {
@@ -75,6 +76,13 @@ img {
  
   
 }
+.dual-image-container {
+  position: relative;
+   width: 48%;  /*Adjust as needed, leaving some space for margin/padding */
+ 
+  
+}
+
 
 .image-container img {
   width: 100%;
@@ -83,7 +91,7 @@ img {
   transition: transform 0.2s, filter 0.2s;
 }
 
-.image-container:hover img {
+.image-container:hover img  {
   transform: scale(0.9);
   filter: brightness(80%);
 }
