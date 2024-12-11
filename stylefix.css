@@ -284,7 +284,7 @@ h2 a {
 /* NOT BEING USED YET!!!!! */
 .bold-text {
   font-weight: 700;
-  line-height: 0.5rem;
+  /* line-height: 0.5rem; */
 }
 .centered-heading {
   text-align: center;
