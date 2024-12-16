@@ -159,7 +159,7 @@ img {
   font-size: 16px;
   border: none;
   cursor: pointer;
-  margin: 0 auto;a
+  margin: 0 auto;
 }
 .download-btn:hover {
   background-color: #2563eb;
@@ -321,44 +321,4 @@ h2 a {
        1px -1px 0 black,
        -1px 1px 0 black,
        1px 1px 0 black
-}
-<<<<<<< HEAD
-
-=======
->>>>>>> 9f5f7935dff9f18cf9ba2a1e7ba7481e7bf00835
-/* ----- FOOTER BOX ----- */
-footer{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  row-gap: 30px;
-  /* background: #F8F8F8; */
-  padding-block: 40px 60px;
-}
-.top-footer p{
-  font-size: 1rem;
-  font-weight: 600;
-}
-.middle-footer .footer-menu{
-  display: flex;
-}
-.footer_menu_list{
-  list-style: none;
-}
-.footer_menu_list a{
-  text-decoration: none;
-  color: var(--text-color-second);
-  font-weight: 500;
-  margin-inline: 20px;
-}
-.footer-social-icons{
-  display: flex;
-  gap: 30px;   
-}
-.bottom-footer{
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  border: red solid 1px;
 }
