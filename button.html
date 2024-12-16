@@ -3,20 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=, initial-scale=1.0">
+<<<<<<< HEAD
+    <!-- <link rel="stylesheet" href="./stylefix.css"> -->
+=======
     <link rel="stylesheet" href="./stylefix.css">
     <link rel="stylesheet" href="./buttonStyle.css">
+>>>>>>> 9f5f7935dff9f18cf9ba2a1e7ba7481e7bf00835
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=download" />
+    <style>
+    footer {
+        display: flex; /* Make the footer a flex container */
+        justify-content: center; /* Center elements horizontally */
+        flex-direction: column;
+        align-items: center; /* Align elements vertically (optional) */
+
+}
+
+.nav_links {
+  list-style: none; /* Remove default list styling */
+  padding: 0; /* Remove default padding */
+  margin: 0; /* Remove default margin */
+  display: flex; /* Make the navigation links a flex container */
+}
+.nav_links li {
+  display: flex; /* Make each list item a flex container */
+  align-items: center; /* Vertically center elements within each list item */
+  margin: 0 1rem; 
+}
+
+.logo{
+  width: 4rem;
+  transition: all .2s ease 0s;
+}
+.logo:hover {
+  transform: scale(1.2);
+}
+
+.arrow{
+  width: 2.5rem;
+  transition: all .2s ease 0s;
+  
+}
+.arrow:hover {
+  transform: scale(1.4);
+}
+.download-btn {
+  margin-top: 1rem; /* Add some space between logo and button */
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: #3b82f6;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-family: Arial, sans-serif;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  gap: 8px;
+}
+    </style>
    
    
     <title>Document</title>
 </head>
 <body>
- <a href="assets/Matt Martin-Resume-SINGLEWIRE.pdf" class="download-btn" download>Resume<span class="material-symbols-outlined">
-        download
-        </span></a>
+
 
 <!-- --------------- FOOTER --------------- -->
 <footer>
+<<<<<<< HEAD
+    <ul class="nav_links">
+      <li><a href="https://matomaton.github.io/collectionLoader.html"><img class="arrow" src="https://assets-global.website-files.com/6083190ced6a3f3a0bb1cff2/608dbccef53dc4798415bfbe_arrow.svg"></a></li>
+      <li><a href="https://matomaton.github.io/index.html"><img class="logo" src="https://matomaton.github.io/assets/Atomasym-cut-outline.svg" alt="logo"></a></li>
+      <li><a href="https://matomaton.github.io/motionGuidelines.html"><img class="arrow" src="https://assets-global.website-files.com/6083190ced6a3f3a0bb1cff2/60c785c807f215fb7db20de6_arrow-next.svg"></a></li>
+    </ul>
+
+
+  <a href="/path/to/your/resume.pdf" class="download-btn" download>
+    <span class="material-symbols-outlined">
+        download
+        </span>
+    Resume
+  </a>
+
+  </footer>
+=======
     <!-- <div class="top-footer">
         <p>Matthew Martin . Product Designer</p>
     </div> -->
@@ -51,5 +124,6 @@
         <!-- </p>
     </div> -->
   </footer>    
+>>>>>>> 9f5f7935dff9f18cf9ba2a1e7ba7481e7bf00835
 </body>
 </html>
