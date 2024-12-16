@@ -1,0 +1,42 @@
+footer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 3rem;
+        
+      }
+.logo{
+        width: 6rem;
+        transition: all .2s ease 0s;
+      }
+.logo:hover {
+        transform: scale(1.2);
+      }
+      
+.arrow{
+        width: 2.5rem;
+        transition: all .2s ease 0s;
+        
+      }
+.arrow:hover {
+        transform: scale(1.4);
+      }
+.nav_links{
+        list-style:none;
+        display: flex;
+        justify-content: center;
+        align-items: center; /*this aligns the arrows to the center of the logo*/
+        padding: 0; /* Remove default padding */
+        margin: 0; /* Remove default margin */
+      }
+/* Aligns the arrows and logo horizontally */
+.nav_links li{
+        display: flex;
+        align-items: center;
+        padding: 0 1rem;
+      }
+      /* removing the underline of the link */
+      a.resume-link {
+        text-decoration: none;
+      }
