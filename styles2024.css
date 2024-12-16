@@ -288,4 +288,7 @@ p {
     /*overflow: hidden;  Hides overflow */
     /* text-overflow: ellipsis; Adds ... if text is too long */
   }
+  h2 {
+    font-size: 2rem;
+  }
 }
