@@ -23,52 +23,60 @@
 
 body {
   font-family: 'Lato', sans-serif;
-  background-color: #F7FAFC; /* Light Gray-Blue */
-  color: #2C3E50; /* Muted Dark Navy */
+  background-color: #F7FAFC;
+  /* Light Gray-Blue */
+  color: #2C3E50;
+  /* Muted Dark Navy */
   line-height: 1.6;
   padding: 1rem;
 }
+
 p {
   font-size: 1.3rem;
-  color: #2C3E50; /* Text color for paragraphs */
+  color: #2C3E50;
+  /* Text color for paragraphs */
 }
 
-header{
-  display:flex;
+header {
+  display: flex;
   justify-content: space-between;
-  align-items:center;
-/*   padding: 2rem 1rem; */
-  margin: 0 auto; 
-/*   border: 1px solid red; */
- max-width: 700px;
+  align-items: center;
+  /*   padding: 2rem 1rem; */
+  margin: 0 auto;
+  /*   border: 1px solid red; */
+  max-width: 700px;
 }
 
-.logo{
+.logo {
   width: 5rem;
   transition: all .2s ease 0s;
-/*   border: 1px solid blue; */
+  /*   border: 1px solid blue; */
 }
+
 .logo:hover {
   transform: scale(1.2);
 }
 
-.arrow{
+.arrow {
   width: 2.5rem;
   transition: all .2s ease 0s;
-  
+
 }
+
 .arrow:hover {
   transform: scale(1.4);
 }
 
-.nav_links{
-  list-style:none;
+.nav_links {
+  list-style: none;
 }
- .nav_links li{
+
+.nav_links li {
   display: inline-block;
   padding: 0 1rem;
-/*   border: 1px solid red; */
-} 
+  /*   border: 1px solid red; */
+}
+
 /* .nav_links li a {
   transition: all .3s ease 0s;
 } */
@@ -77,36 +85,39 @@ header{
 }
 
 .tagline {
-  font-family: Inter,sans-serif;
+  font-family: Inter, sans-serif;
   font-weight: 600;
   font-size: 4.5rem;
-  color:#464F5E;
-/*   border: 1px solid red; */
+  color: #464F5E;
+  /*   border: 1px solid red; */
   margin: 4rem 0 1rem 0;
   line-height: 4.5rem;
   letter-spacing: -0.2rem;
 }
 
 section {
-   max-width: 700px;
-   margin: 0 auto; 
-/*       padding: 2rem; */
-    }
+  max-width: 700px;
+  margin: 0 auto;
+  /*       padding: 2rem; */
+}
 
 .dual-img {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start; /* Align items to the top */
-  max-width: 100%; /* Adjust as needed, leaving some space for margin/padding */
+  align-items: flex-start;
+  /* Align items to the top */
+  max-width: 100%;
+  /* Adjust as needed, leaving some space for margin/padding */
   margin-bottom: 6rem;
 }
 
 .image-container {
   position: relative;
-  width: 48%; /* Adjust as needed, leaving some space for margin/padding */ 
+  width: 48%;
+  /* Adjust as needed, leaving some space for margin/padding */
 }
 
-.img-container{
+.img-container {
   position: relative;
 }
 
@@ -155,58 +166,69 @@ h2 {
   margin: 6rem 0 .5rem 0;
   color: #4E6891;
   letter-spacing: -.2rem;
-/*   border: 1px solid red; */
+  /*   border: 1px solid red; */
 }
+
 h2 a {
   color: #4E6891;
   text-decoration: none;
 }
+
 a {
   text-decoration: none;
 }
-a:hover{
+
+a:hover {
   text-decoration: underline;
 }
-.fifty-percent{
+
+.fifty-percent {
   width: 50%;
 }
 
-.subheading{
+.subheading {
   font-size: 1.6rem;
-/*   margin-bottom: 6rem; */
+  /*   margin-bottom: 6rem; */
 }
-p{
-  
+
+p {
+
   font-family: 'Lato', sans-serif;
   font-weight: 300;
   font-size: 1.3rem;
   margin-bottom: 2rem;
-/*     border: 2px solid blue; */
+  /*     border: 2px solid blue; */
 }
 
 * FIGURE */
- /* Create a container for the figures */
- .figure-container {
-    display: flex; /* Use flexbox for side-by-side layout */
-    margin-bottom: 1rem;
+
+/* Create a container for the figures */
+.figure-container {
+  display: flex;
+  /* Use flexbox for side-by-side layout */
+  margin-bottom: 1rem;
 }
 
 /* Style each figure */
 .figure {
-    flex: 0 0 calc(50% - 20px); /* Adjust width as needed */
-    margin: 10px; /* Add spacing between figures */
-    text-align: center; /* Center align the contents */
+  flex: 0 0 calc(50% - 20px);
+  /* Adjust width as needed */
+  margin: 10px;
+  /* Add spacing between figures */
+  text-align: center;
+  /* Center align the contents */
 }
 
 /* Add some basic styling to the images */
 .figure img {
-    max-width: 100%;
-    height: auto;
-    transition: box-shadow 0.1s ease-in-out;
-    border-radius: 1rem;
-    border: .2rem solid var(--border-color);
-    padding: 1rem;
+  max-width: 100%;
+  height: auto;
+  transition: box-shadow 0.1s ease-in-out;
+  border-radius: 1rem;
+  border: .2rem solid var(--border-color);
+  padding: 1rem;
 }
+
 /* .figure img:hover {
     box-shadow: 0px 1px 1px rgba(3, 7, 18, 0.02),
   0px 5px 4px rgba(3, 7, 18, 0.03),
@@ -215,49 +237,53 @@ p{
   0px 32px 24px rgba(3, 7, 18, 0.08);
 } */
 .figure img:hover {
-    box-shadow: 0px 3px 6px rgba(3, 7, 18, 0.05),
-                0px 6px 16px rgba(3, 7, 18, 0.05),
-                0px 6px 16px rgba(3, 7, 18, 0.05),
-                0px 10px 20px rgba(3, 7, 18, 0.05),
-                0px 32px 64px rgba(3, 7, 18, 0.05);
-    }
+  box-shadow: 0px 3px 6px rgba(3, 7, 18, 0.05),
+    0px 6px 16px rgba(3, 7, 18, 0.05),
+    0px 6px 16px rgba(3, 7, 18, 0.05),
+    0px 10px 20px rgba(3, 7, 18, 0.05),
+    0px 32px 64px rgba(3, 7, 18, 0.05);
+}
 
 /* Style the captions */
 .figure figcaption {
-    margin-top: .5rem; /* Add spacing between image and caption */
-    font-size: smaller;
+  margin-top: .5rem;
+  /* Add spacing between image and caption */
+  font-size: smaller;
 }
 
 /* VIDEO STYLES */
 /* see video css*/
 .youTube-container {
-    position: relative;
-    width: 100%;
-    height: 0;
-    padding-bottom: 56.25%; /*16:9 aspect ratio*/
-    padding-top: 2rem;
-    margin-bottom: 4rem;
-} 
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+  /*16:9 aspect ratio*/
+  padding-top: 2rem;
+  margin-bottom: 4rem;
+}
+
 .youTube-container iframe {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
 .text-stroke {
   color: white;
-  text-shadow: 
-      -1px -1px 0 black,  
-       1px -1px 0 black,
-       -1px 1px 0 black,
-       1px 1px 0 black;
+  text-shadow:
+    -1px -1px 0 black,
+    1px -1px 0 black,
+    -1px 1px 0 black,
+    1px 1px 0 black;
 }
 
 /* ----- FOOTER BOX ----- */
 
 @media screen and (max-width: 768px) {
   h1 {
-    font-size: 3rem; /* Smaller font size */
+    font-size: 3rem;
+    /* Smaller font size */
     /* white-space: nowrap; Prevents line break */
     /*overflow: hidden;  Hides overflow */
     /* text-overflow: ellipsis; Adds ... if text is too long */
