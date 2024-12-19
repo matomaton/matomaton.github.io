@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lato:wght@300;400&display=swap');
+
+
+@font-face {
+  font-family: 'VeryVeryPunk'; /* Give your font a name */
+  src: url('fonts/VeryVeryPunkFont-ZpZ0K.woff2') format('woff2'); /* Path to your font file */
+  font-weight: normal; /* Set font weight if needed */
+  font-style: normal; /* Set font style if needed */
+}
+
+:root {
+  --bg-color: #a5a5a5;
+  --text-color: #000000;
+  --font-family: 'Arial', sans-serif;
+  --h1-font-family: 'Lato', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease, font-family 0.3s ease;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-family);
+}
+
+h1 {
+  font-family: var(--h1-font-family);
+}
+
+.dark-mode {
+  --bg-color: #121212;
+    background-image: url("assets/merg/Texturelabs_Grunge_336S.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+  --text-color: #fb0000;
+  --font-family: 'Verdana', sans-serif;
+  --h1-font-family: 'VeryVeryPunk', sans-serif; /* Update with your custom font if using option 1 */
+ --h1-font-size:4rem
+}
+
+#theme-toggle {
+    padding: 12px 24px;
+    font-size: 18px;
+    background-color: #007bff; /* Blue background */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  #theme-toggle:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-2px); /* Slightly move up on hover */
+    box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.3);
+  }
+  
+  #theme-toggle:active {
+    transform: translateY(0); /* Reset position on click */
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  }
+  
+  .dark-mode #theme-toggle {
+    background-color: #444;
+    color: #ddd;
+    box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.1); /* Lighter shadow in dark mode */
+  }
+  
+  .dark-mode #theme-toggle:hover {
+    background-color: #666;
+    box-shadow: 3px 3px 7px rgba(255, 255, 255, 0.2);
+  }
