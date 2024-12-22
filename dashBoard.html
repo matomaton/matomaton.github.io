@@ -13,6 +13,11 @@
      <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./stylefix.css">
+    <link rel="stylesheet" href="./footer.css">
+    
+    <link rel="stylesheet" href="./buttonStyle.css">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=download" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <!-- JS for Scroll-->
     <script src="./aos.js"></script>
@@ -21,8 +26,31 @@
     <title>Dashboard Customization Matthew Martin • Product Designer</title>
 </head>
 <body>
- <h1>Dashboard Customization</h1>
- <p>The layout ensures that elements maintain their relative order, flowing systematically from left to right and top to bottom, while gracefully accommodating individual element size variations and arrangement</p>
+<header>
+    <a href="https://matomaton.github.io/index.html"> <img class="logo" src="https://matomaton.github.io/assets/Atomasym-cut-outline.svg" alt="logo"></a>
+  <nav>
+    <ul class="nav_links">
+      <li>
+        <a href="https://matomaton.github.io/motionGuidelines.html"><img class="arrow" src="https://assets-global.website-files.com/6083190ced6a3f3a0bb1cff2/608dbccef53dc4798415bfbe_arrow.svg"></a>
+      </li>
+      <li><a href="https://matomaton.github.io/process.html">
+          <img class="arrow" src="https://assets-global.website-files.com/6083190ced6a3f3a0bb1cff2/60c785c807f215fb7db20de6_arrow-next.svg">
+          </a>
+      </li>
+    </ul>
+    </nav>
+  <!--   <a class="cta" href="#"><button>Resume</button></a> -->
+  </header>
+  <h1 class="top-section">Dashboard Customization</h1>
+  <img src="https://matomaton.github.io/assets/arrangeDiagram.webp">
+
+  <div data-aos="fade-up" data-aos-once="true">
+    <section>
+      <h2 class="">Background</h2>
+      <p>The layout ensures that elements maintain their relative order, flowing systematically from left to right and top to bottom, while gracefully accommodating individual element size variations and arrangement</p>
+    </section>
+    </div>
+ 
  <!-- VIDEO Expanding Card -->
 <section>
     <video width="100%" preload="auto" controls loop class="motion-container">
@@ -30,8 +58,7 @@
       Your browser does not support the video tag.
     </video>
     <section>
-        <p>This artifact illustrates a dynamic layout that maintains the sequential positioning of dashboard elements as they resize. </p><p>The layout ensures that elements maintain their relative order, flowing systematically from left to right and top to bottom, while gracefully accommodating individual element size variations.</p>
-<p>The artifact served as a critical communication tool, helping me translate my design concept to the engineering team.</p>
+        <p>When users expand an element, nearby elements automatically adjust their positions. This keeps everything flowing naturally from left to right and top to bottom, without creating awkward spaces or breaking the layout's order.</p>
     </section>
 </section>
 <!-- VIDEO Meteric Card Arrangement-->
@@ -41,10 +68,36 @@
       Your browser does not support the video tag.
     </video>
     <section>
-        <p>This artifact illustrates a dynamic layout that maintains the sequential positioning of dashboard elements as they are arranged by the user. </p>
-<p>The artifact served as a critical communication tool, helping me translate my design concept to the engineering team.</p>
+        <p>When users drag an element to a new position - like moving one from the bottom right to the middle - other elements shift out of the way. Everything stays in order, flowing from left to right and top to bottom, making it easy for users to predict how the layout will change.</p>
     </section>
 </section>
+<!-- --------------- FOOTER --------------- -->
+<footer>
+  <nav>
+      <ul class="nav_links">
+        <li>
+          <a href="https://matomaton.github.io/motionGuidelines.html">
+            <img class="arrow" src="https://assets-global.website-files.com/6083190ced6a3f3a0bb1cff2/608dbccef53dc4798415bfbe_arrow.svg" alt="Previous">
+          </a>
+        </li>
+        <li>
+          <a href="https://matomaton.github.io/index.html">
+            <img class="logo" src="https://matomaton.github.io/assets/Atomasym-cut-outline.svg" alt="logo">
+          </a>
+        </li>
+        <li>
+          <a href="https://matomaton.github.io/process.html">
+            <img class="arrow" src="https://assets-global.website-files.com/6083190ced6a3f3a0bb1cff2/60c785c807f215fb7db20de6_arrow-next.svg" alt="Next">
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <a href="assets/Matt Martin-Resume.pdf" class="resume-link">
+      <button class="btn-primary"><span class="material-symbols-outlined">download</span>Resume</button></a>
+</footer>
+  <script>
+    AOS.init();
+  </script>
 </body>
 </html>
 

@@ -47,7 +47,7 @@ section {
       /* border: 1px, red, solid; */
     }
     .top-section {
-      max-width: 700px;
+      /* max-width: 700px; */
       margin: 0 auto; /* Center the section horizontally */
       padding: 1rem;
       text-align: center;
