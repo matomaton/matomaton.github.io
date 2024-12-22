@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Mode with Smooth Background Transition</title>
+    <style>
+        :root {
+            --background-color: white;
+            --text-color: black;
+            --background-image-opacity: 0;
+        }
+
+        .dark-mode {
+            --background-color: black;
+            --text-color: white;
+            --background-image-opacity: 1;
+        }
+
+        body {
+            position: relative;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Background image as a separate pseudo-element */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('/assets/merg/Texturelabs_Grunge_336S.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: var(--background-image-opacity);
+            pointer-events: none; /* Ensures it doesn't block interactions */
+            transition: opacity 0.3s;
+            z-index: -1; /* Places it behind the content */
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            z-index: 1; /* Ensures button is above the background */
+        }
+    </style>
+</head>
+<body>
+    <h1>Hello, World!</h1>
+    <p>Click the button to toggle dark mode.</p>
+    <button id="themeToggle">Toggle Dark Mode</button>
+
+    <script>
+        const toggleButton = document.getElementById('themeToggle');
+        toggleButton.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+        });
+    </script>
+</body>
+</html>
