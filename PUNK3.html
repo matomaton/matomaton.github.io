@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Mode with Smooth Background Transition</title>
+    <!-- Add Google Fonts Link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+    font-family: 'VeryVeryPunk';
+    src: url('fonts/VeryVeryPunkFont-ZpZ0K.woff2') format('woff2'),
+        
+}
+        :root {
+            --background-color: white;
+            --text-color: black;
+            --background-image-opacity: 0;
+            --font-family: 'Arial', sans-serif;
+        }
+        .dark-mode {
+            --background-color: black;
+            --text-color: white;
+            --background-image-opacity: 1;
+            --font-family: 'VeryVeryPunk', monospace;  /* Custom font for dark mode */
+        }
+        body {
+            position: relative;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: var(--font-family);  /* Using CSS variable for font */
+            transition: background-color 0.3s, color 0.3s, font-family 0.3s;
+        }
+        /* Background image as a separate pseudo-element */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('/assets/merg/Texturelabs_Grunge_336S.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: var(--background-image-opacity);
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: -1;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            z-index: 1;
+            font-family: inherit;  /* Button will inherit the current font */
+        }
+    </style>
+</head>
+<body>
+    <h1>Hello, World!</h1>
+    <p>Click the button to toggle dark mode.</p>
+    <button id="themeToggle">Toggle Dark Mode</button>
+    <script>
+        const toggleButton = document.getElementById('themeToggle');
+        toggleButton.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+        });
+    </script>
+</body>
+</html>
