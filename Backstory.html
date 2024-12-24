@@ -20,6 +20,28 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=download" />
   
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+    .animated-link {
+    text-decoration: none;
+    color: #0066cc;
+    position: relative;
+}
+
+.animated-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #0066cc;
+    transition: width 150ms ease-in-out;
+}
+
+.animated-link:hover::after {
+    width: 100%;
+}
+      </style>
     <!-- JS for Scroll-->
     <script src="./aos.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -81,7 +103,7 @@
     <div data-aos="fade-up" data-aos-once="true">
     <section>
       <h2>Psychology</h2>
-    <p class="pwidth">Photography introduced me to artists like Hans Bellmer, Man Ray, Lee Miller, and Horst P. Horst, whose symbolic use of psychoanalysis and mythology inspired me to pursue a BS in psychology. </p><p class="pwidth">This education gave me a deep understanding of human behavior and perception, which provides a foundation that continues to shape my approach to experience and product design.
+    <p class="pwidth">Photography introduced me to artists like<p> <a class = "animated-link" href="https://en.wikipedia.org/wiki/Hans_Bellmer">Hans Bellmer</a>, <a href="https://en.wikipedia.org/wiki/Man_Ray Man Ray" class = "animated-link">Man Ray</a>, <a href="https://en.wikipedia.org/wiki/Lee_Miller"class = "animated-link">Lee Miller</a>, and <a href="https://en.wikipedia.org/wiki/Horst_P._Horst"class = "animated-link">Horst P. Horst</a>,</p><p> whose symbolic use of psychoanalysis and mythology inspired me to pursue a BS in psychology. </p><p class="pwidth">This education gave me a deep understanding of human behavior and perception, which provides a foundation that continues to shape my approach to experience and product design.
   </p>
   </section>
   
@@ -114,7 +136,7 @@
     <div data-aos="fade-up" data-aos-once="true"> 
     <section>
   <h2>Human Computer Interaction</h2>
-    <p class="pwidth">To unify my unconventional background in art, psychology, and music, I embarked on a mission to find an interdisciplinary graduate program. This quest led me to the fascinating world of Human-Computer Interaction (HCI), a field that perfectly aligned with my desire to create with new connected mediums. </p><p>Below is my very first wireframe.  I created it in 1997, not knowing this would be a tool I would use for decades.  I just wanted to sketch out my photography webpage ;)</p>
+    <p class="pwidth">To unify my unconventional background in art, psychology, and music, I embarked on a mission to find an interdisciplinary graduate program. This quest led me to the fascinating world of Human-Computer Interaction (HCI), a field that perfectly aligned with my desire to create with new connected mediums. </p><p>Below is my very first wireframe.  I created it in 1997, not knowing this would be a tool I would use for decades.</p>
   </section>
   <section class="img-container"><img src="https://matomaton.github.io/assets/FirstWireframe.webp"><span class="hover-text">Explore</span></section>
     </div>
