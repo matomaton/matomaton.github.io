@@ -211,6 +211,33 @@ h2 a {
   font-size: 1.3rem;
   
 }
+blockquote {
+  margin: 2rem 0;
+  padding: 1.5rem 2rem;
+  background-color: #ffffff;
+  border-left: 4px solid rgb(119, 145, 164); /* Using your button color */
+  font-style: italic;
+  line-height: 1.6;
+  position: relative;
+}
+
+/* Optional: Add quotation marks */
+blockquote::before {
+  content: '"';
+  font-size: 4rem;
+  color: rgb(119, 145, 164, 0.2);
+  position: absolute;
+  left: 0.5rem;
+  top: -0.5rem;
+}
+
+/* Style any paragraphs within the blockquote */
+blockquote p {
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
 .metrics-container {
   display: flex;
   justify-content: center;
