@@ -182,9 +182,9 @@ a:hover {
   /* text-decoration: underline; */
 }
 
-.header-links:hover{
+/* .header-links:hover{
   text-decoration: underline;
-}
+} */
 
 .fifty-percent {
   width: 50%;
@@ -295,4 +295,26 @@ p {
   h2 {
     font-size: 2rem;
   }
+}
+
+
+.header-links {
+text-decoration: none;
+color: #4E6891;
+position: relative;
+}
+
+.header-links::after {
+content: '';
+position: absolute;
+width: 0;
+height: 2px;
+bottom: 0;
+left: 0;
+background-color: #4E6891;
+transition: width 150ms ease-in-out;
+}
+
+.header-links:hover::after {
+width: 100%;
 }
