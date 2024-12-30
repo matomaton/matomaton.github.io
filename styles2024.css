@@ -179,6 +179,10 @@ a {
 }
 
 a:hover {
+  /* text-decoration: underline; */
+}
+
+.header-links:hover{
   text-decoration: underline;
 }
 
