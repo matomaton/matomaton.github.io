@@ -8,7 +8,26 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet">
-    <style>
+    <link rel="stylesheet" href="./stylefix.css">
+    <link rel="stylesheet" href="./footer.css">
+    <link rel="stylesheet" href="./punk.css">
+    
+    <link rel="stylesheet" href="./buttonStyle.css">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=download" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_name=description" />
+    
+   
+
+
+      
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <!-- JS for Scroll-->
+    <script src="./aos.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="./punk.js"></script>
+    <!-- <style>
         @font-face {
     font-family: 'VeryVeryPunk';
     src: url('fonts/VeryVeryPunkFont-ZpZ0K.woff2') format('woff2'),
@@ -49,24 +68,76 @@
             transition: opacity 0.3s;
             z-index: -1;
         }
-        button {
+        /* .punk-button {
             margin-top: 20px;
             padding: 10px 20px;
             cursor: pointer;
             z-index: 1;
             font-family: inherit;  /* Button will inherit the current font */
-        }
-    </style>
+        } */
+    </style>  -->
 </head>
 <body>
-    <h1>Hello, World!</h1>
-    <p>Click the button to toggle dark mode.</p>
-    <button id="themeToggle">Toggle Dark Mode</button>
-    <script>
-        const toggleButton = document.getElementById('themeToggle');
-        toggleButton.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-        });
+   
+    <button class="punk-button" id="themeToggle">Punk it UP!</button>
+    <!-- Digital Librarianship -->
+<div data-aos="fade-up" data-aos-once="true">
+    <section>
+  <h2>Digital Librarianship</h2>
+  <p>I landed the first-ever Digital Projects Librarian position at Wayne State, my alma mater. I became the digital guardian of incredible collections, from the Detroit News' photo archive – a treasure trove of photos dating back to the 1800s – to the Henry Ford Museum's collection of early 1900s fashion, and various artifacts from the Detroit Historical Museum. 
+  </p>
+  <p>My mission? To meticulously digitize, catalog, and make these unique and important scholarly artifacts accessible to everyone.</p>
+  <p class="bold-text">Published Research</p>
+  
+  <p><a href="https://www.emerald.com/insight/content/doi/10.1108/10650750610706989/full/html" class="small-link"  target='_blank'>Collaborative approaches to designing effective digital image databases for the study of three‐dimensional museum collections</a></p>
+  <p>
+  <a href="https://crln.acrl.org/index.php/crlnews/article/viewFile/7766/7766" class="small-link"  target='_blank'>Digital commons inspires chapbook project for urban high school poets</a></p>
+  </section>
+  <section class="img-container"><img src="/assets/WSUCOLLECTIONSCROP.webp">
+    <!-- <span class="hover-text">Explore</span> -->
+  </section>
+  </div>
+   
+    <!-- --------------- FOOTER --------------- -->
+<footer>
+    <nav>
+        <ul class="nav_links">
+          <li>
+            <a href="https://matomaton.github.io/metadataDiagnostics.html">
+              <img class="arrow" src="https://assets-global.website-files.com/6083190ced6a3f3a0bb1cff2/608dbccef53dc4798415bfbe_arrow.svg" alt="Previous">
+            </a>
+          </li>
+          <li>
+            <a href="https://matomaton.github.io/index.html">
+              <img class="logo" src="https://matomaton.github.io/assets/Atomasym-cut-outline.svg" alt="logo">
+            </a>
+          </li>
+          <li>
+            <a href="https://matomaton.github.io/collectionLoader.html">
+              <img class="arrow" src="https://assets-global.website-files.com/6083190ced6a3f3a0bb1cff2/60c785c807f215fb7db20de6_arrow-next.svg" alt="Next">
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class="footer-social-icons">
+        <a href="https://www.instagram.com/atomatron/" target="_blank"><div class="icon"><i class="uil uil-instagram"></i></div></a>
+        <a href="https://www.linkedin.com/in/atomaton/" target="_blank"><div class="icon"><i class="uil uil-linkedin"></i></div></a>
+        <!-- <div class="icon"><i class="uil uil-twitter"></i></div> -->
+        <a href="https://github.com/matomaton" target="_blank"><div class="icon"><i class="uil uil-github"></i></div></a>
+    </div>
+      <a href="assets/Matt Martin-Resume.pdf" class="resume-link">
+        <button class="btn-primary"><span class="material-symbols-outlined">download</span>Resume
+            
+        </button></a>
+  </footer>
+  <script>
+    const toggleButton = document.getElementById('themeToggle');
+    toggleButton.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+    });
+</script>
+  <script>
+      AOS.init();
     </script>
 </body>
 </html>
