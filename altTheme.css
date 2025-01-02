@@ -1,0 +1,18 @@
+@font-face {
+    font-family: 'VeryVeryPunk';
+    src: url('fonts/VeryVeryPunkFont-ZpZ0K.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.alt-theme {
+    font-family: 'VeryVeryPunk', sans-serif !important;
+    background-image: url("assets/merg/Texturelabs_Grunge_336S.jpg");
+    color: #fff; /* Adjust text color for better contrast */
+}
+.alt-theme h1,
+.alt-theme h2,
+.alt-theme p,
+.alt-theme li {
+    font-family: 'VeryVeryPunk', sans-serif !important;
+}
