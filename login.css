@@ -16,15 +16,15 @@
             text-align: center;
         }
 
-  /*      #content {
+         #content {
             display: none;
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            /* background: white; */
+            /* padding: 2rem; */
+            /* border-radius: 8px; */
+            /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+            /* text-align: center; */
         }
-*/
+
         input {
             padding: 8px;
             margin: 10px 0;
