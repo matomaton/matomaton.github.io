@@ -54,11 +54,11 @@
         }
             /* Add these styles to your existing CSS */
     .btn-logout {
-        background-color: #0066cc;
-        color: white;
+        /* background-color: none; */
+        /* color: white; */
         border: none;
         padding: 10px 20px;
-        border-radius: 4px;
+        border-radius: 4rem;
         cursor: pointer;
         margin-top: 10px;
         /* Match the resume button width if needed */
@@ -70,7 +70,7 @@
     }
 
     .btn-logout:hover {
-        background-color: #0052a3;
+        /* background-color: #0052a3; */
     }
 
     /* Add spacing between resume and logout buttons */
