@@ -74,6 +74,9 @@ section {
       margin: 0 auto; /* Center the section horizontally */
       padding: 1rem;
       text-align: center;
+      white-space: nowrap; /* Prevents line break */
+      overflow: hidden; /* Hides overflow */
+      text-overflow: ellipsis; /* Adds ... if text is too long */
       /* border: 1px, red, solid; */
     }
 
