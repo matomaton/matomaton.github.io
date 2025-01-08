@@ -1,39 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- STYLES -->
-    <link rel="stylesheet" href="./stylefix.css">
-    <link rel="stylesheet" href="./login.css">
-    <link rel="stylesheet" href="./modalstyle.css">
-   <!-- SCRIPTS -->
-    <script src="./modalscript.js"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BQSRM5PRTV"></script>
+    <script>
+     window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-    <title>Form Modal</title>
-   
+    gtag('config', 'G-BQSRM5PRTV');
+    </script>
+    <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- CSS SYTLES-->
+   <link rel="stylesheet" href="./stylefix.css">
+   <link rel="stylesheet" href="./footer.css">
+   <link rel="stylesheet" href="./buttonStyle.css">
+   <link rel="stylesheet" href="./login.css">
+   <link rel="stylesheet" href="./modalstyle.css">
+   <!-- ICONS -->
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=download" />
+   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+   <!-- Modal Script -->
+
+
+
+  
+   <!-- JS for PW-->
+   <script src="./pwscript.js"></script>
+
+   <!-- JS for Scroll-->
+   <script src="./aos.js"></script>
+   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  
+   <title>Event Investigation</title>
 </head>
 <body>
-    <button id="openModal" class="animated-link">Need a password?</button>
-   <button id="openModal" class="animated-link">Need a password?</button>
+ 
+<!-- LOGIN -->
+    <div id="loginForm">
+        <h2>Enter Password</h2>
+            <input type="password" id="passwordInput" placeholder="Enter password">
+            <br>
+            <button onclick="checkPassword()">Submit</button>
+            <p id="errorText" class="error">Incorrect password. Please try again.</p>
+            <!-- <p class="p-small"><a href="pwform.html" class="animated-link">Need a password?</a></p> -->
+            <section><button id="openModal" class="animated-link">Need a password?</button></section>
+    </div>
+   
 
     <div id="formModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <form action="https://formspree.io/f/xkggpepo" method="POST">
-                <label>
+                <p>Enter an email I can send a password to</p>
+                 <label>
                     Your email:
                     <input type="email" name="email">
                 </label>
-                <label>
+                <!-- <label>
                     Your message:
                     <textarea name="message"></textarea>
                 </label>
+                -->
                 <button type="submit">Send</button>
             </form>
         </div>
     </div>
-
     <script>
         const modal = document.getElementById("formModal");
         const btn = document.getElementById("openModal");
@@ -53,5 +85,48 @@
             }
         }
     </script>
+    <!-- CONTENT -->
+    <div id="content">
+        <div data-aos="fade-up" data-aos-once="true">
+           
+              <h1 class="top-section">Power Grid Event Investigation</h1>
+            
+            <img src="https://matomaton.github.io/assets/EventDashboard.webp">
+        </div>
+        <footer>
+            <nav>
+                <ul class="nav_links">
+                  <li>
+                    <a href="https://matomaton.github.io/collectionLoader.html">
+                      <img class="arrow" src="https://assets-global.website-files.com/6083190ced6a3f3a0bb1cff2/608dbccef53dc4798415bfbe_arrow.svg" alt="Previous">
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://matomaton.github.io/index.html">
+                      <img class="logo" src="https://matomaton.github.io/assets/Atomasym-cut-outline.svg" alt="logo">
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://matomaton.github.io/motionGuidelines.html">
+                      <img class="arrow" src="https://assets-global.website-files.com/6083190ced6a3f3a0bb1cff2/60c785c807f215fb7db20de6_arrow-next.svg" alt="Next">
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+              <div class="footer-social-icons">
+                <a href="https://www.instagram.com/atomatron/" target="_blank"><div class="icon"><i class="uil uil-instagram"></i></div></a>
+                <a href="https://www.linkedin.com/in/atomaton/"target="_blank"><div class="icon"><i class="uil uil-linkedin"></i></div></a>
+                <!-- <div class="icon"><i class="uil uil-twitter"></i></div> -->
+                <a href="https://github.com/matomaton" target="_blank"><div class="icon"><i class="uil uil-github"></i></div></a>
+            </div>
+              <a href="assets/Matt Martin-Resume.pdf" target="_blank" class="resume-link">
+                <button class="btn-primary"><span class="material-symbols-outlined">download</span>Resume</button></a>
+                    <button class="btn-logout" onclick="logout()">Logout</button>
+                
+          </footer>
+            <script>
+                AOS.init();
+              </script>
+
 </body>
 </html>
