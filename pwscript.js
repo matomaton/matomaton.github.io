@@ -1,4 +1,4 @@
- const correctPassword = "jagg84"; // Change this to your desired password
+ const correctPassword = "THX-1138"; // Change this to your desired password
 
         function checkPassword() {
             const passwordInput = document.getElementById('passwordInput');
