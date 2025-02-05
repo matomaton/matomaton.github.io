@@ -1,0 +1,87 @@
+:root {
+  /* Primary Colors */
+  --primary-color: #0066cc;
+  --primary-hover: #2563eb;
+
+  /* Background Colors */
+  --background-color: #F7FAFF;
+  --card-background: #ffffff;
+  --metrics-background: #dae9f1;
+
+  /* Text Colors */
+  --text-color: #2C3E50;
+  --secondary-text: #7f8c8d;
+  --heading-color: #4E6891;
+
+  /* Border Colors */
+  --border-color: rgb(119, 145, 164);
+  
+  /* Overlay Colors */
+  --hover-overlay: #1c28348f;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--background-color);
+}
+
+.animated-link {
+  text-decoration: none;
+  color: var(--primary-color);
+  position: relative;
+}
+
+.animated-link::after {
+  background-color: var(--primary-color);
+}
+
+.animated-link:hover::after {
+  width: 100%;
+}
+
+.hover-text {
+  color: white;
+  background-color: var(--hover-overlay);
+}
+
+.download-btn {
+  background-color: var(--primary-color);
+  color: white;
+}
+.download-btn:hover {
+  background-color: var(--primary-hover);
+}
+
+p, li {
+  color: var(--text-color);
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.8rem;
+}
+
+h1, h2, h2 a, .quote {
+  color: var(--heading-color);
+}
+
+blockquote {
+  background-color: var(--card-background);
+  border-left: 4px solid var(--border-color);
+}
+
+blockquote::before {
+  color: rgba(119, 145, 164, 0.2);
+}
+
+.metrics-container {
+  background-color: var(--metrics-background);
+}
+
+.metric-number {
+  color: var(--text-color);
+}
+
+.metric-title {
+  color: var(--secondary-text);
+}
