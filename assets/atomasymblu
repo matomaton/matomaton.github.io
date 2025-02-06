@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.1 (9b9bdc1480, 2023-11-25, custom)"
+   sodipodi:docname="atomasymblu"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.72248176"
+     inkscape:cx="396.5498"
+     inkscape:cy="561.25984"
+     inkscape:window-width="1452"
+     inkscape:window-height="749"
+     inkscape:window-x="333"
+     inkscape:window-y="201"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <circle
+       class="cls-1"
+       cx="105.05546"
+       cy="148.44711"
+       r="28.061707"
+       id="circle1"
+       style="stroke:#ffffff;stroke-width:1.05833005;stroke-miterlimit:10;fill:#4e6891;fill-opacity:1;stroke-dasharray:none" />
+    <polygon
+       class="cls-3"
+       points="85.83,102.34 41.54,110.32 42.96,118.2 94.7,108.87 89.13,63.92 96.05,62.58 102.09,106.97 110.01,105.89 102.84,53.12 88.15,55.97 87.39,49.85 98.04,48.71 97.18,40.75 78.45,42.76 "
+       id="polygon1"
+       style="fill:#ffffff;stroke-width:0px"
+       transform="matrix(0.26458333,0,0,0.26458333,74.920687,118.54127)" />
+    <polygon
+       class="cls-3"
+       points="115.13,45.16 144.41,40.55 143.17,32.65 105.89,38.52 115.11,92.94 149.49,86.71 148.06,78.84 121.65,83.63 118.61,65.67 144.49,62.22 143.44,54.29 117.27,57.78 "
+       id="polygon2"
+       style="fill:#ffffff;stroke-width:0px"
+       transform="matrix(0.26458333,0,0,0.26458333,74.920687,118.54127)" />
+    <polygon
+       class="cls-3"
+       points="172.05,28.97 152.54,31.94 162.54,90.6 117.06,99.31 118.57,107.17 171.74,96.99 164.62,55.21 170.25,54 176.73,96.78 184.64,95.58 176.89,44.39 163.28,47.31 161.8,38.62 173.25,36.88 "
+       id="polygon3"
+       style="fill:#ffffff;stroke-width:0px"
+       transform="matrix(0.26458333,0,0,0.26458333,74.920687,118.54127)" />
+    <ellipse
+       class="cls-2"
+       cx="67.99649"
+       cy="150.10101"
+       rx="4.6513748"
+       ry="6.3526459"
+       transform="rotate(-8.4700007)"
+       id="ellipse3"
+       style="fill:none;stroke:#ffffff;stroke-width:2.11667px;stroke-miterlimit:10" />
+    <polyline
+       class="cls-2"
+       points="112.63 125.72 94.79 128.35 96.46 143.29 101.61 189.22 67.52 194.09"
+       id="polyline3"
+       style="fill:none;stroke:#ffffff;stroke-width:8px;stroke-miterlimit:10"
+       transform="matrix(0.26458333,0,0,0.26458333,74.920687,118.54127)" />
+    <polyline
+       class="cls-2"
+       points="156.75 119.38 125.22 124.15 127.85 150.65 159.07 148.02"
+       id="polyline5"
+       style="fill:none;stroke:#ffffff;stroke-width:8px;stroke-miterlimit:10"
+       transform="matrix(0.26458333,0,0,0.26458333,74.920687,118.54127)" />
+    <path
+       class="cls-2"
+       d="m 108.90377,161.3826 1.12712,5.9055 c 0,0 2.81253,0.76465 2.88132,0.48684 0.0688,-0.27782 3.54012,-2.84957 3.54012,-2.84957 l 5.48481,1.04511"
+       id="path5"
+       style="fill:none;stroke:#ffffff;stroke-width:2.11667px;stroke-miterlimit:10" />
+    <polyline
+       class="cls-2"
+       points="184 115.23 170.88 116.8 174.02 153.8 151.55 163.2"
+       id="polyline6"
+       style="fill:none;stroke:#ffffff;stroke-width:8px;stroke-miterlimit:10"
+       transform="matrix(0.26458333,0,0,0.26458333,74.920687,118.54127)" />
+    <polyline
+       class="cls-2"
+       points="191.34 182.92 187.67 132.19 172.02 130.22"
+       id="polyline7"
+       style="fill:none;stroke:#ffffff;stroke-width:8px;stroke-miterlimit:10"
+       transform="matrix(0.26458333,0,0,0.26458333,74.920687,118.54127)" />
+    <path
+       class="cls-3"
+       d="m 88.438249,168.11889 -2.510895,-14.66056 10.043583,-1.23296 2.106083,14.65527 z m -0.05027,-12.82964 1.793875,10.47221 5.495396,-0.70644 -1.505479,-10.47485 z"
+       id="path7"
+       style="fill:#ffffff;stroke-width:0px" />
+  </g>
+</svg>
