@@ -27,6 +27,7 @@ ul {
 ul li:not(:last-child)::after {
     content: " / ";
     padding: 0 .5rem; /* Add padding to create even spacing */
+    white-space: nowrap; /*added for android chrome browser*/
   }
 
 h2 {
