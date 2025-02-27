@@ -24,6 +24,9 @@ ul {
     display: flex;
     flex-wrap: wrap;
   }
+  ul li {
+    display: inline; /*  Important: Treat list items as inline elements */
+}  
 ul li:not(:last-child)::after {
     content: " / ";
     padding: 0 .5rem; /* Add padding to create even spacing */
