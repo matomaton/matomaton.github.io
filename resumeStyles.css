@@ -27,12 +27,30 @@ ul {
   ul li {
     display: inline; /*  Important: Treat list items as inline elements */
 }  
+/*
 ul li:not(:last-child)::after {
     content: " / ";
-    padding: 0 .5rem; /* Add padding to create even spacing */
-    white-space: nowrap; /*added for android chrome browser*/
+    padding: 0 .5rem; Add padding to create even spacing 
+    white-space: nowrap; added for android chrome browser
   }
+  */
+  
+/* Semantic list with tag-style visual appearance */
+.skills-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
 
+.skills-list li {
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 0.9rem;
+}
 h2 {
 font-size: 40px;
 font-style: normal;
