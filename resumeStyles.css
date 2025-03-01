@@ -17,7 +17,7 @@ main {
 
     padding: 2rem; /* Add some padding around the content */
 }
-ul {
+/*ul {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -25,7 +25,7 @@ ul {
     flex-wrap: wrap;
   }
   ul li {
-    display: inline; /*  Important: Treat list items as inline elements */
+    display: inline;  Important: Treat list items as inline elements 
 }  
 /*
 ul li:not(:last-child)::after {
@@ -34,7 +34,7 @@ ul li:not(:last-child)::after {
     white-space: nowrap; added for android chrome browser
   }
   */
-  
+
 /* Semantic list with tag-style visual appearance */
 .skills-list {
     padding: 0;
@@ -50,6 +50,13 @@ ul li:not(:last-child)::after {
     padding: 5px 10px;
     border-radius: 3px;
     font-size: 0.9rem;
+}
+.whereWhen{
+    display: flex;
+justify-content: space-between;
+align-items: flex-start;
+align-self: stretch;
+margin-bottom: 1rem;
 }
 h2 {
 font-size: 40px;
@@ -69,7 +76,9 @@ h1 {
 p {
     margin:0;
 }
-
+.ptitle{
+    margin-bottom: 1rem;
+}
 section{
     margin-bottom: 4rem;
 } 
