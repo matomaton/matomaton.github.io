@@ -52,11 +52,17 @@ ul li:not(:last-child)::after {
     font-size: 0.9rem;
 }
 .whereWhen{
-    display: flex;
+display: flex;
 justify-content: space-between;
 align-items: flex-start;
 align-self: stretch;
 margin-bottom: 1rem;
+}
+@media (max-width: 576px) {
+    .whereWhen {
+        flex-direction: column;
+        gap: 0.5rem; /* Adds space between the stacked elements */
+    }
 }
 h2 {
 font-size: 40px;
@@ -75,6 +81,7 @@ h1 {
 }
 p {
     margin:0;
+    line-height: 1.6;
 }
 .ptitle{
     margin-bottom: 1rem;
@@ -82,3 +89,7 @@ p {
 section{
     margin-bottom: 4rem;
 } 
+li{
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+}
