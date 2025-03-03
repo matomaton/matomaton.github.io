@@ -79,6 +79,11 @@ h1 {
     letter-spacing: -1.12px;
     margin: 0 0 1rem 0;
 }
+h3{
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+}
 p {
     margin:0;
     line-height: 1.6;
@@ -87,7 +92,7 @@ p {
     margin-bottom: 1rem;
 }
 section{
-    margin-bottom: 4rem;
+    margin-bottom: 3rem;
 } 
 li{
     line-height: 1.4;
