@@ -47,9 +47,10 @@ ul li:not(:last-child)::after {
 
 .skills-list li {
     background-color: #f0f0f0;
-    padding: 5px 10px;
+    padding: 4px 8px;
     border-radius: 3px;
     font-size: 0.9rem;
+    margin:0;
 }
 .whereWhen{
 display: flex;
