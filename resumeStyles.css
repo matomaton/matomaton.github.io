@@ -73,6 +73,14 @@ h1 {
     letter-spacing: -1.12px;
     margin: 0 0 1rem 0;
 }
+h2 {
+font-size: 40px;
+font-style: normal;
+font-weight: 300;
+line-height: 48px; /* 120% */
+margin: 0 0 0.5rem 0;
+}
+
 h3{
     font-size: 24px;
     font-style: normal;

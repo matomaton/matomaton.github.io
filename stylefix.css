@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lato:wght@300;400&display=swap');
 
 body {
-      margin: 0;
-      font-family: Arial, sans-serif;
+  margin: 0;
+  font-family: Arial, sans-serif;
   background: #F7FAFF;
-    }
+  }
 /* --------------NAVIGATION STYLES---------------- */
 header{
   display:flex;
