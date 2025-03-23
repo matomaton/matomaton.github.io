@@ -26,7 +26,7 @@ body {
   background-color: #F7FAFC;
   /* Light Gray-Blue */
   color: #2C3E50;
-  /* Muted Dark Navy */
+  /* Muted Dark _y */
   line-height: 1.6;
   padding: 1rem;
 }
@@ -158,7 +158,7 @@ section {
   opacity: 1;
 }
 
-
+/* TEXT STYLES */
 h2 {
   font-size: 3rem;
   font-family: 'Inter', sans-serif;
