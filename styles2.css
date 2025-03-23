@@ -1,0 +1,361 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin:0;
+  padding:0;
+  font-family: var(--font-family-base);
+  
+}
+
+:root {
+/* Font Family */
+--font-family-base: 'Lato', sans-serif; /* Define a base font family */
+
+/* Font Weights */
+--font-weight-light: 300;
+--font-weight-regular: 400;
+--font-weight-medium: 500;
+--font-weight-semibold: 600;
+--font-weight-bold: 700;
+
+/* Font Sizes */
+--font-size-xs: 0.75rem; /* Extra Small */
+--font-size-sm: 1rem; /* Small */
+--font-size-md: 1.6rem; /* Medium */
+--font-size-lg: 3rem; /* Large */
+--font-size-xl: 4.5rem; /* Extra Large */
+--font-size-h1: clamp(.5rem, 5vw, 7rem);
+
+/* Line Heights */
+--line-height-x0: 1;
+--line-height-xs: 1.2;
+--line-height-sm: 1.4;
+--line-height-md: 1.6;
+--line-height-lg: 1.8;
+
+/* LETTER SPACING */
+--letter-spacing-tight: -0.2rem;
+
+/* COLORS */
+ /* Background Colors */
+ --background-light: #F7FAFC;
+    
+ /* Text Colors */
+ --text-primary: #2C3E50; /* Muted Dark Navy */
+ --text-tagline: #464F5E;; /* Muted Gray */
+
+ /* Accent Colors */
+ --accent-primary: #4E6891; /* Soft Blue */
+ --accent-secondary: #0066cc; /* Bright Blue */
+ 
+ /* Border Colors */
+ --border-light: #dae9f1;
+ --border-dark: #7f8c8d;
+
+
+
+/* Spacing scale (using rem) */
+--spacing-xxs: 0.25rem;
+--spacing-xs: 0.5rem;
+--spacing-sm: 1rem ;
+--spacing-md: 1.5rem;
+--spacing-lg: 2rem;
+--spacing-xl: 3rem;
+--spacing-xxl: 4rem;
+}
+body {
+  background-color: var(--background-light);
+  }
+/* HEADER STYLES  */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    margin: 0 auto;
+    /*   border: 1px solid red; */
+    max-width: 90%;
+  }
+.nav_links li {
+    display: inline-block;
+    padding:1rem 0   0 1rem;
+    /*   border: 1px solid red; */
+  }
+.logo {
+    width: 5rem;
+    transition: all .2s ease 0s;
+    /*   border: 1px solid blue; */
+  }
+.logo:hover {
+    transform: scale(1.2);
+  }  
+.arrow {
+    width: 2.5rem;
+    transition: all .2s ease 0s;
+  
+  }
+.arrow:hover {
+    transform: scale(1.4);
+  }
+/* TEXT STYLES  */
+main {
+    width: clamp(30ch, 80%, 700px);
+    margin: 0 auto; /* Center the content horizontally */
+    text-align: left; /* keep text aligned to left*/
+    padding: var(--spacing-lg);
+    color: var(--text-primary);
+    
+}
+
+h1 {
+    font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--text-tagline);
+    line-height: var(--line-height-x0);
+    margin-bottom: var(--spacing-xxs);
+    
+  }
+h2 {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-light);
+    letter-spacing: var();
+    color: var(--text-primary);
+    line-height: var(--line-height-sm);
+  }
+  h2 a {
+    color: #4E6891;
+    text-decoration: none;
+    position: relative;
+  }  
+    
+  h2 a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #4E6891;
+    transition: width 150ms ease-in-out;
+    }
+    
+    h2 a:hover::after {
+    width: 100%;
+    }  
+h3 {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+    color: var(--border-dark);
+    line-height: var(--line-height-sm);
+  }
+p {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-primary);
+    line-height: var(--line-height-sm);
+    margin-bottom: var(--spacing-md);
+  }  
+  .top-section {
+    /* max-width: 700px; */
+    margin: 0 auto; /* Center the section horizontally */
+    padding: 1rem;
+    text-align: center;
+    white-space: nowrap; /* Prevents line break */
+    overflow: hidden; /* Hides overflow */
+    text-overflow: ellipsis; /* Adds ... if text is too long */
+    /* border: 1px, red, solid; */
+  }
+  ul, ol {
+    padding-left: 2rem; /* Adjust the value as needed */
+    margin-bottom: 2rem;
+  }
+/* SPACING */
+.xxl
+  {
+    margin-top: var(--spacing-xxl);
+  }
+
+.xl {
+    margin-top: var(--spacing-xl);
+  }
+
+.lg {
+    margin-top: var(--spacing-lg);
+  }
+/* IMAGE STYLES */
+img{
+    max-width: 100%;
+  }
+.image-container {
+    position: relative; /* Needed for absolute positioning of the text */
+    width: 100%; /* Adjust as needed - could be a fixed width or percentage */
+    float: left; /* Or use flexbox - see below */
+    overflow: hidden; /* Prevents text from spilling out if it's too large */
+    padding: var(--spacing-lg);
+    
+    
+  }
+.image-container img {
+  width: 100%;
+  display: block; /* Prevents a small space below the image */
+  height: auto; /* Maintains aspect ratio */
+  border-radius: 1rem
+}
+.overlay-text h1 {
+  margin-bottom: 10px; /* Space between heading and paragraph */
+}
+.overlay-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%; /* Adjust as needed */
+  height: 100%;
+  color: white;
+/*   background-color: rgba(0, 0, 0, 0.5); */
+  padding-left: 4rem; /* Add padding */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Vertically center */
+}
+.img-link {
+  position: relative;
+  display: inline-block;
+}
+
+.img-link img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: .5rem;
+  transition: transform 0.15s ease-in, filter 0.15s ease-in;
+}
+
+.img-link:hover img {
+  transform: scale(0.98);
+  filter: blur(2px)brightness(80%);
+}
+.hover-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 1.5rem;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  font-size: 3rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+  background-color: rgba(44, 62, 80, 0.7);
+  border-radius: 1rem;
+  padding: var(--spacing-lg);
+}
+.img-link:hover .hover-text {
+  opacity: 1;
+}
+.dual-img {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Align items to the top */
+  max-width: 100%; /* Adjust as needed, leaving some space for margin/padding */
+/*   margin-bottom: 6rem; */
+  /* padding-right: 2rem; */
+}
+/* FOOTER */
+footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  
+}
+
+.foot_links{
+  list-style:none;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  padding: 0; /* Remove default padding */
+  margin: 0; /* Remove default margin */
+}
+/* Aligns the arrows and logo horizontally */
+.foot_links li{
+  display: flex;
+  /* align-items: center; */
+  padding: 0 1rem;
+}
+/* removing the underline of the link */
+a.resume-link {
+  text-decoration: none;
+}
+/* SOCIAL MEDIA ICONS */
+.footer-social-icons{
+  display: flex;
+  gap: 30px;   
+  font-size: 1.6rem;
+  margin-bottom: 1.2rem;
+}
+.icon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  color:#4E6891;
+  background-size: 200% 100%;
+  background-position-x: 150%;
+  transition: all 0.15s;
+}
+.icon:hover{
+  scale: 1.1;
+  text-decoration: none;
+}
+/* This style if for the resume button */
+.btn-primary{
+  background-color: #4E6891;
+  color: white;
+  padding: .5rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 16rem;
+  cursor: pointer;
+  background-image: linear-gradient(
+      -60deg,
+      #ffffff00 0%,
+      #ffffff00 40%,
+      #ffffff44 40%,
+      #ffffff44 60%,
+      #ffffff00 60%,
+      #ffffff00 100%
+  );
+  background-size: 200% 100%;
+  background-position-x: 150%;
+  transition: all 0.15s;
+
+  /* TO STYLE FOR ICON WORD CENTERING */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.btn-primary:hover{
+  animation: shimmer 1s forwards;
+  scale: 1.1;
+  text-decoration: none;
+}
+@keyframes shimmer {
+  0% {
+      background-position-x: 150%;
+  }
+  100% {
+      background-position-x: -50%;
+  }
+}
