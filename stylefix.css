@@ -201,7 +201,7 @@ p, li {
   
   font-family: 'Lato', sans-serif;
   font-weight: 400;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   color: #2C3E50; /* Text color for paragraphs */
 }
 li {
@@ -235,7 +235,13 @@ h2 a {
   color: #4E6891;
   text-decoration: none;
 }
-
+h3{
+  font-size: 2rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  margin-bottom: 1rem;
+  color: #2C3E50;
+}
 .quote{
   color: #4E6891;
   font-weight: 400;
