@@ -30,8 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const revenueElement = document.getElementById('revenueCounter');
 
     // Animate to different numbers
-    animateNumber(institutionsElement, 35);
-    animateNumber(artifactsElement, 10000);
-    animateNumber(revenueElement, 60000);
+    animateNumber(institutionsElement, 350);
+    animateNumber(artifactsElement, 100000);
+    animateNumber(revenueElement, 600000);
 
 });
