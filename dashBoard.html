@@ -94,8 +94,7 @@
   <section>
   <h2 class="">Library Disconnect</h2>
   <img src="assets/GRIDSTER.webp">
-
-  <section>
+<section>
       <p>The engineering team had implemented the drag-and-drop functionality using a library component that allowed widgets to be arranged but did not inherently preserve their order upon refresh or closing/reopening the dashboard. The engineering team initially felt this was an acceptable limitation for the first release, primarily due to the chosen library's constraints, and disagreed that order persistence was a must-have for V1.</p>
   </section>
 </section>
@@ -104,11 +103,21 @@
 <div data-aos="fade-up" data-aos-once="true">
   <section>
   <h2 class="">User Advocacy</h2>
-  <!-- <img src="assets/GRIDSTER.webp"> -->
+  <img src="assets/visual-hierarchy-f-and-z-pattern.jpg">
 <h3>User Expectations & Jakob's Law</h3>
 <p>I presented examples of common interfaces where users customize layouts, such as smartphone home screens or OS desktop widgets. I explained that users bring expectations from these widely used systems (Jakob's Law), and a fundamental expectation in drag-and-drop customization is that the arrangement, including order, is saved. Violating this would lead to frustration and confusion.</p>
+<h3>Usability Heuristics</h3>
+  <p>I specifically referenced established usability principles. I explained that the engineers' proposed implementation would violate:</p>
+  <ul>
+    <li>Match between system and the real world': Information wasn't appearing in the natural and logical persistent order the user created.</li>
+  <li>Consistency and standards: It deviated from the platform conventions established by countless other customizable interfaces the user interacts with daily.</li>
+</ul>
+<h3>Core Product Goal Alignment</h3>
+<p>I brought the conversation back to the primary goal of the dashboard: enabling users to prioritize information effectively to make better, faster decisions. I argued that if the system randomly reordered their widgets, it directly contradicted this goal, rendering the customization feature far less valuable, if not actively detrimental.</p>
+<h3>Resolution</h3>
+<p>By grounding the discussion in established usability principles, common user expectations backed by real-world examples, and reinforcing the connection to the dashboard's fundamental business goal, I was able to effectively communicate the critical nature of order persistence. The engineering team understood the potential negative impact on the user experience and the product's objectives. They agreed that this wasn't a minor detail but a core functionality issue. Consequently, they dedicated resources to investigate and successfully implement a solution that ensured the widget order was maintained as users expected. This resulted in a V1 dashboard that truly met the user need for prioritization and avoided launching with a potentially frustrating and confusing limitation.</p>
   </section>
-</section>
+
 </div>
 <!-- --------------- FOOTER --------------- -->
 <footer>
