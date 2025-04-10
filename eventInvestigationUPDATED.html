@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BQSRM5PRTV"></script>
+    <script>
+     window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-BQSRM5PRTV');
+    </script>
+    <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- CSS SYTLES-->
+   <link rel="stylesheet" href="./stylefix.css">
+   <link rel="stylesheet" href="./footer.css">
+   <link rel="stylesheet" href="./buttonStyle.css">
+   <link rel="stylesheet" href="./login.css">
+   <link rel="stylesheet" href="./modalstyle.css">
+   <!-- ICONS -->
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=download" />
+   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+   <!-- Modal Script -->
+
+
+
+  
+   <!-- JS for PW-->
+   <script src="./pwscript.js"></script>
+
+   <!-- JS for Scroll-->
+   <script src="./aos.js"></script>
+   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  
+   <title>Event Investigation</title>
+</head>
+<header>
+  <a href="https://matomaton.github.io/index.html"> <img class="logo" src="https://matomaton.github.io/assets/Atomasym-cut-outline.svg" alt="logo"></a>
+<nav>
+  <ul class="nav_links">
+    <li>
+      <a href="https://matomaton.github.io/collectionLoader.html"><img class="arrow" src="https://matomaton.github.io/assets/arrow-back.svg"></a>
+    </li>
+    <li><a href="https://matomaton.github.io/applicationMerge.html">
+        <img class="arrow" src="https://matomaton.github.io/assets/arrow-next.svg">
+        </a>
+    </li>
+  </ul>
+  </nav>
+<!--   <a class="cta" href="#"><button>Resume</button></a> -->
+</header>
+<body> 
+<!-- LOGIN -->
+    <div id="loginForm">
+        <h2>Enter Password</h2>
+            <input type="password" id="passwordInput" placeholder="Enter password">
+            <br>
+            <button onclick="checkPassword()">Submit</button>
+            <p id="errorText" class="error">Incorrect password. Please try again.</p>
+            <!-- <p class="p-small"><a href="pwform.html" class="animated-link">Need a password?</a></p> -->
+            <section><button id="openModal" class="animated-link">Need a password?</button></section>
+    </div>
+   
+    <div id="formModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form action="https://formspree.io/f/xkggpepo" method="POST">
+                <p>Enter an email I can send a password to</p>
+                 <label>
+                    Your email:
+                    <input type="email" name="email">
+                </label>
+                <!-- <label>
+                    Your message:
+                    <textarea name="message"></textarea>
+                </label>
+                -->
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        const modal = document.getElementById("formModal");
+        const btn = document.getElementById("openModal");
+        const span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+<!-- CONTENT -->
+<div id="content">
+        <div data-aos="fade-up" data-aos-once="true">
+        <h1 class="top-section">Power Grid Event Investigation</h1>
+        <img src="https://matomaton.github.io/assets/EvenDashWeb.webp">
+        </div>
+    
+<!-- SUMMARY -->
+<div data-aos="fade-up" data-aos-once="true">
+  <section>
+    <h2 class="">Summary</h2>
+    <p>Collaborating with field technicians, grid operators, and data scientists, I developed investigation tools for monitoring the electrical grid, city utitlites, and security cameras. These tools include a customizable dashboard, AI-powered metrics, and contextual data visualizations.</p>
+  </section>
+</div>
+<!-- BACKGROUND -->
+  <div data-aos="fade-up" data-aos-once="true">
+    <section>
+      <h2 class="">Background</h2>
+      <p>Power grids are complex systems with thousands of components that require constant monitoring. Grid operators need to efficiently manage these systems by focusing on anomalies and potential issues rather than monitoring normal operations. An approach known as "management by exception."</p>
+    </section>
+  </div>
+<!-- Operator Pain Points-->
+  <div data-aos="fade-up" data-aos-once="true">
+      <section>
+  <h2 class="">Operator Pain Points</h2>
+  <div class="">
+    <img src="https://matomaton.github.io/assets/Operatorcontrol-room.webp">
+        </div>
+     <ul>
+      <li>Cumbersome manual event notifications setup</li>
+      <li>Limited visibility into system-wide events</li>
+      <li>Difficulty investigating specific issues</li>
+     </ul>
+    </section>
+  </div>
+<!-- Legacy System Limitations-->
+    <div data-aos="fade-up" data-aos-once="true">
+      <section>
+  <h2 class="">Legacy System Limitations</h2>
+  <div class="">
+    <img src="https://matomaton.github.io/assets/Threshold.webp">
+        </div>
+     <ul>
+      <li>Operators had to manually set thresholds for each type of event (voltage, temperature, motion, etc.)</li>
+      <li>Notifications came as basic emails with minimal context</li>
+      <li>No unified view of grid health or ongoing issues</li>
+      <li>Investigation required checking multiple disconnected systems</li>
+      <li>Static dashboard provided limited actionable information</li>
+     </ul>
+    </section>
+
+<!-- COMPETITIVE ANALYSIS 
+<div data-aos="fade-up" data-aos-once="true">
+  <section>
+  <h2 class="">Competitive Analysis</h2>
+  
+    <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="100%" height="450" src="https://embed.figma.com/proto/THBgigMhWftADxF0dUDBxr/Event-Investigation-Competitive-Analysis?node-id=1-228&p=f&scaling=scale-down-width&content-scaling=fixed&page-id=0%3A1&embed-host=share" allowfullscreen></iframe>
+  
+  </section>
+  </div>
+  -->
+
+<!--Research and Discovery-->
+        <div data-aos="fade-up" data-aos-once="true">
+          <section>
+      <h2 class="">Research and Discovery</h2>
+      <div class="">
+        <img src="https://matomaton.github.io/assets/Interview.webp">
+            </div>
+            <p> I gathered insights through a combination of <a href="figmalink">competitive analysis</a> and interviews with field technicians and grid operators.</p>
+         <ul>
+          <li>Current tools force them to be reactive rather than proactive</li>
+          <li>Lack of context makes it difficult to prioritize issues</li>
+          <li>Sending crews to fix equipment is expensive</li>
+         </ul>
+        </section>
+        </div>
+<!--Content Inventory -->
+<div data-aos="fade-up" data-aos-once="true">
+  <section>
+<h2 class="">Content Inventory</h2>
+
+<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="100%" height="450" src="https://embed.figma.com/proto/F52yxr2TUSbLGbrBVr9FeH/UBI-JOURNEY?node-id=64-7983&scaling=scale-down-width&content-scaling=fixed&page-id=1%3A2&embed-host=share" allowfullscreen></iframe>
+
+ <ul>
+  <li>Lack of a strategic content structure led to a fragmented user experience as information accumulated over time</li>
+  <li>Deeply nested tabs obscured critical information, hindering efficient user navigation and task completion</li>
+  <li>Redundant content further complicated the interface, leading to user confusion and decreased productivity</li>
+ </ul>
+</section>
+</div>
+<!-- VISION -->
+<div data-aos="fade-up" data-aos-once="true">
+  <section>
+    <h2 class="">Structure Evolution</h2>
+    <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="100%" height="450" src="https://embed.figma.com/proto/eO4UHKqzOpbHePYqm3sbaH/Possible-Futures-Architecture-Evolution?node-id=17-176&scaling=scale-down-width&content-scaling=fixed&page-id=0%3A1&embed-host=share" allowfullscreen></iframe>
+    <p>Presented distinct architectural options with clear trade-offs, incorporating stakeholder input (incl. the CEO), to foster collaborative discussion and guide the organization toward an evidence-based decision.</p>
+    </section>
+
+</div>
+<!--DATA SCIENCE COLLABORATION-->
+        <div data-aos="fade-up" data-aos-once="true">
+          <section>
+      <h2 class="">Data Science Collaboration</h2>
+      <div class="">
+        <img src="https://matomaton.github.io/assets/WaveForm.webp">
+            </div>
+            <!-- <p> I partnered with the data science team</p> -->
+         <ul>
+          <li>Defined key metrics for different types of grid events</li>
+          <li>Identified machine learning abilites for predictive notifications</li>
+          <li>Discoved opportunites for automated anomaly detection</li>
+         </ul>
+        </section>
+        </div>
+<!-- CONCEPT TESTING -->
+<div data-aos="fade-up" data-aos-once="true">
+  <section>
+  <h2 class="">Concept Testing</h2>
+  
+  <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="100%" height="450" src="https://embed.figma.com/proto/nagpYJQa491phochdgljAU/EVENT-INVESTIGATION-CONCEPT-TEST?page-id=0%3A1&node-id=1-5039&p=f&viewport=40%2C416%2C0.09&scaling=scale-down-width&content-scaling=fixed&embed-host=share" allowfullscreen></iframe>
+  
+  </section>
+  </div>        
+<!-- SCOPING  -->
+<div data-aos="fade-up" data-aos-once="true">
+  <section>
+<h2 class="">Scoping</h2>
+<div class="">
+<a href="https://matomaton.github.io/assets/UbiVu_AlertDesignDebt_Journey Map_20240620 - UbiVu_Customer_AlertDesignDebt_Journey Map___ GRID_RealiablityManager20240621.jpg" target="_blank">  
+<img src="https://matomaton.github.io/assets/UbiVu_AlertDesignDebt_Journey Map_20240620 - UbiVu_Customer_AlertDesignDebt_Journey Map___ GRID_RealiablityManager20240621 (1).webp">
+<span class="hover-text">Open</span></a>
+</div>
+<h3>Challenge</h3>    
+<p>Original requirements too large project scope, poorly defined priorities, and an unrealistic timeline.</p>
+<p>Specific features requested by only one customer, raising concerns about their broader impact and feasibility.</p>
+<h3>Visualize the Challenge</h3>
+    <p>Mapped each requirement/feature from the list directly onto the relevant steps within the core user journey.</p>
+    <p>Used the visual flow+requirements map as a tangible tool to lead a structured discussion on feature prioritization based on user impact at each stage of the journey.</p>
+    <h3>Strategic Questioning</h3>
+    <ul>
+    <li>Feature (positive/negative) on the wider user base</li>
+    <li>Effect on the project timeline</li>
+    <li>Importance of customer</li>
+  </ul>
+</section>
+</div>
+<!--SOLUTION-->
+    <div data-aos="fade-up" data-aos-once="true">
+      <section>
+        <h2 class="">The Solution</h2>
+        <h3>Intelligent Customizable Dashboard</h3>
+        <div class="">
+          <img src="https://matomaton.github.io/assets/customDash.webp">
+          </div>
+         <ul>
+          <li>Drag-and-drop <a href="https://matomaton.github.io/dashBoard.html" target="_blank">prioritized arrangement</a> of metrics</li>
+          <li>Aggregated data showing grid-wide health</li>
+          <li>AI-powered metrics replacing manual thresholds</li>
+         </ul>
+        </section>
+        </div>
+<!--ACCESSIBLE-->
+ <div data-aos="fade-up" data-aos-once="true">
+  <section>
+
+    <h3>Patterns for Accessiblity</h3>
+    <div class="">
+      <img src="https://matomaton.github.io/assets/accessiblePattern4.png">
+      </div>
+  
+  
+    </section>
+    </div>       
+<!-- ENHANCED INVESTIGATION -->
+        <div data-aos="fade-up" data-aos-once="true">
+          <section>
+          <h3>Enhanced Event Investigation</h3>
+          <div class="image-container">
+            <a href="https://matomaton.github.io/assets/AlertInvestigation.webp" target="_blank">
+           <img src="https://matomaton.github.io/assets/AlertInvestigation.webp">
+           <span class="hover-text">Open</span></a>
+          </div>
+               
+              <ul>
+               <li>Ability to explore high-level categories</li>
+               <li>Filters designed to isolate specific events and reveal detailed insights</li>
+               <li>Contextal metrics (current, temperature) telling a more complete story</li>
+              </ul>
+             </section>
+        </div>
+<!-- WAVEFORM DETAIL ANALYSIS -->
+             <div data-aos="fade-up" data-aos-once="true">
+              <section>
+              <h3>Waveform Analysis<h3>
+              <div class="">
+               <img src="https://matomaton.github.io/assets/WaveForms.webp">
+                   </div>
+                  <ul>
+                   <li>Enabled operators to drill down into granular details with interactive visualizations, clarifying complex grid events</li>
+                   <li>Overlaying waveforms made it easier to spot trends and detect anomalies</li>
+                   <li>Offered data export capabilities to support in-depth analysis and integration with other tools</li>
+                  </ul>
+                 </section>
+             </div>
+<!-- OUTCOME -->
+  <div data-aos="fade-up" data-aos-once="true">
+              <section>
+                <h2 class="">Outcome</h2>
+                <h3>Enhanced Decision Support</h3>
+                 <p>Aggregated sensor data validated issues and improved notification accuracy, reducing noise by 37%</p>
+                 <h3>Improved Visualization</h3>
+                 <p> Trend and pattern visualizations allowed operators to identify potential issues nearly twice as fast</p>
+                 <h3>Proactive Issue Management</h3>
+                 <p>Faster response times and earlier insights enabled proactive maintenance</p>
+                 <h3>Cost-Effective Maintenance</h3>
+                 <p>The improvements fostered confident decisions, lowering maintenance expenses and increasing equipment lifespan</p>
+                
+                </section>
+  </div>
+<!-- FUTURE -->
+<div data-aos="fade-up" data-aos-once="true">
+  <section>
+    <h2 class="">Future Considerations</h2>
+    <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="100%" height="450" src="https://embed.figma.com/proto/JztUa5mFbLZaCJnjeaHWeP/UbiVu-Insights-PRESENTATION-20240927--Copy-?node-id=1-4205&scaling=scale-down-width&content-scaling=fixed&page-id=0%3A1&embed-host=share" allowfullscreen></iframe>
+    
+    <h3>Metrics Library</h3>
+    <p>Users can add and remove metrics to the dashboard that make sense to them</p>
+    <h3>Additional Metrics</h3>
+    <p>Metric library allows for additional metrics to be added every quarter</p>
+    <h3>Reports</h3>
+    <p>Reporting engine will include predictive analysis allowing for system planning</p>
+      </section>
+</div>
+<!-- FOOTER -->
+<footer>
+            <nav>
+                <ul class="nav_links">
+                  <li>
+                    <a href="https://matomaton.github.io/collectionLoader.html">
+                      <img class="arrow" src="https://matomaton.github.io/assets/arrow-back.svg" alt="Previous">
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://matomaton.github.io/index.html">
+                      <img class="logo" src="https://matomaton.github.io/assets/Atomasym-cut-outline.svg" alt="logo">
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://matomaton.github.io/applicationMerge.html">
+                      <img class="arrow" src="https://matomaton.github.io/assets/arrow-next.svg" alt="Next">
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+              <div class="footer-social-icons">
+                <a href="https://www.instagram.com/atomatron/" target="_blank"><div class="icon"><i class="uil uil-instagram"></i></div></a>
+                <a href="https://www.linkedin.com/in/atomaton/"target="_blank"><div class="icon"><i class="uil uil-linkedin"></i></div></a>
+                <!-- <div class="icon"><i class="uil uil-twitter"></i></div> -->
+                <a href="https://github.com/matomaton" target="_blank"><div class="icon"><i class="uil uil-github"></i></div></a>
+            </div>
+              <a href="assets/Matt Martin-Resume.pdf" target="_blank" class="resume-link">
+                <button class="btn-primary"><span class="material-symbols-outlined">download</span>Resume</button></a>
+                    <button class="btn-logout" onclick="logout()">Logout</button>
+                
+</footer>
+<script>
+  AOS.init();
+</script>
+</body>
+</html>
