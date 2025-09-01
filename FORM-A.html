@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Form Page</title>
+    <style>
+        @font-face {
+            font-family: 'Gotham';
+            src: url('./fonts/GothamBook.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Gotham';
+            src: url('./fonts/GothamMedium.ttf') format('truetype');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Gotham';
+            src: url('./fonts/GothamBold.ttf') format('truetype');
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+        }
+
+       :root {
+           --primary-color: #202B46;
+           --secondary-color: #10b981;
+           
+           --background-color: #fff;
+           --border-color: #cbd5e1;
+           --container-color: #F1F1F1;
+       }
+
+       * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Gotham', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #202B46;
+            /* background-color: #f5f7fa; */
+            background-color: #fff;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #F1F1F1;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .title{
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            overflow: hidden;
+        }
+        /* Stepper Styles */
+        .stepper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 0 2rem;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            flex: 1;
+            max-width: 200px;
+        }
+
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 60%;
+            width: 80%;
+            height: 2px;
+            background: #cbd5e1;
+            z-index: 1;
+        }
+
+        .step.active:not(:last-child)::after {
+            background: var(--primary-color);
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #cbd5e1;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .step.active .step-number {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .step.completed .step-number {
+            background: #10b981;
+            border-color: #10b981;
+            color: white;
+        }
+
+        .step-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #202B46;
+            text-align: center;
+            line-height: 1.2;
+            max-width: 120px;
+        }
+
+        .step-subtitle {
+            font-size: 0.65rem;
+            color: var(--primary-color);
+            text-align: center;
+            margin-top: 0.25rem;
+            line-height: 1.1;
+        }
+
+        /* Responsive Stepper */
+        @media (max-width: 768px) {
+            .stepper {
+                padding: 0 1rem;
+            }
+            
+            .step-number {
+                width: 32px;
+                height: 32px;
+                font-size: 0.875rem;
+            }
+            
+            .step-title {
+                font-size: 0.65rem;
+            }
+            
+            .step-subtitle {
+                font-size: 0.55rem;
+            }
+            
+            .step:not(:last-child)::after {
+                left: 55%;
+                width: 90%;
+            }
+        }
+        .header {
+            background: #f1f1f1;
+            color: #1B5A7D;
+            padding: 2rem 2rem 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .form-content {
+            padding: 2rem;
+            margin: 2rem;
+            background: white;
+        }
+
+        /* Toggle Switch Styles */
+        .toggle-section {
+            /* margin-bottom: 2rem; */
+            padding: 1rem;
+            /* background: #f8fafc; */
+            border-radius: 8px;
+            /* border: 1px solid #e2e8f0; */
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .toggle-label {
+            font-weight: 500;
+            color: #1B5A7D;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 52px;
+            height: 28px;
+            background: #cbd5e1;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: #2563eb;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(24px);
+        }
+
+        /* Form Grid Layouts */
+        .form-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Mobile: 1 column */
+        @media (max-width: 743px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Tablet: 2 columns */
+        @media (min-width: 744px) and (max-width: 1023px) {
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Desktop: 3 columns */
+        @media (min-width: 1024px) {
+            .form-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Form Field Styles */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: #202B46;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+        }
+
+        .form-group label .required {
+            color: #dc2626;
+        }
+
+        .form-group label .optional {
+            color: #6b7280;
+            font-weight: 400;
+            font-size: 0.75rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 0.60rem;
+            border: 1px solid #909292;
+            border-radius: 0px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background-color: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-group input:hover,
+        .form-group select:hover {
+            border-color: #9ca3af;
+        }
+
+        /* Optional Fields Animation */
+        .optional-field {
+            display: none;
+            transition: all 0.4s ease;
+        }
+
+        .optional-field.show {
+            display: flex;
+            flex-direction: column;
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+         /* Compound Input Styles */
+        .compound-input {
+            display: flex;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            overflow: hidden;
+            transition: all 0.2s ease;
+            background: white;
+        }
+
+        .compound-input:hover {
+            border-color: #9ca3af;
+        }
+
+        .compound-input:focus-within {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .compound-input select {
+            border: none;
+            border-right: 1px solid #d1d5db;
+            border-radius: 0;
+            padding: 0.75rem 0.5rem;
+            background: #f8fafc;
+            font-size: 0.875rem;
+            min-width: 80px;
+            flex-shrink: 0;
+        }
+
+        .compound-input select:focus {
+            outline: none;
+            box-shadow: none;
+            background: #f1f5f9;
+        }
+
+        .compound-input input {
+            border: none;
+            border-radius: 0;
+            padding: 0.75rem;
+            flex: 1;
+            font-size: 1rem;
+        }
+
+        .compound-input input:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .compound-input input::placeholder {
+            color: #9ca3af;
+        }
+        /* Optional field styling 
+        .optional-field.show .form-group {
+            border-left: 3px solid #e5e7eb;
+            padding-left: 1rem;
+            background: #fafbfc;
+            border-radius: 0 6px 6px 0;
+            padding: 1rem;
+            margin-left: 0.5rem;
+        }*/
+
+        /* Submit Button */
+       
+        .submit-section {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .submit-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+            
+     
+        /* Sticky Bottom Menu */
+        .bottom-menu {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .bottom-menu-left {
+            flex: 1;
+        }
+
+        .exit-link {
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: color 0.2s ease;
+        }
+
+        .exit-link:hover {
+            color: #374151;
+        }
+
+        .bottom-menu-center {
+            flex: 1;
+            text-align: center;
+        }
+
+        .step-indicator {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .bottom-menu-right {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .bottom-btn {
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            min-width: 100px;
+        }
+
+        .bottom-btn-back {
+            background: white;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+
+        .bottom-btn-back:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+        }
+
+        .bottom-btn-back:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .bottom-btn-next {
+            background: #1f2937;
+            color: white;
+        }
+
+        .bottom-btn-next:hover {
+            background: #111827;
+        }
+
+        .bottom-btn-next:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: #6b7280;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 744px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 1.5rem 1.5rem 0 1.5rem;
+            }
+            
+            .header h2 {
+                font-size: 1.75rem;
+            }
+            
+            .form-content {
+                padding: 1.5rem;
+            }
+            
+            .toggle-container {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .optional-field.show .form-group {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="title"><h3>PACKAGE SALES</h3>
+        </section>
+     <!-- Stepper Component -->
+            <div class="stepper">
+                <div class="step active">
+                    <div class="step-number">1</div>
+                    <div class="step-title">CUSTOMER</div>
+                    <div class="step-subtitle">INFORMATION</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">PACKAGE</div>
+                    <div class="step-subtitle">SELECTION</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">PAYMENT</div>
+                    <div class="step-subtitle">INFORMATION</div>
+                </div>
+            </div>
+    <div class="container">
+        
+        <div class="header">
+            <h2>Contact Information</h2>
+             <!-- Toggle Section -->
+                <div class="toggle-section">
+                    <div class="toggle-container">
+                        <span class="toggle-label">Show Optional Fields</span>
+                        <div class="toggle-switch" id="toggleSwitch">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </div>
+                </div>
+            <!-- <p>Please fill out all required fields. Toggle for optional details.</p> -->
+        </div>
+
+        <div class="form-content">
+            <form id="mainForm">
+               
+
+                <!-- Form Fields with Interwoven Optional Fields -->
+                <div class="form-grid">
+                    <!-- Personal Information Section -->
+                    <!--Customer Origin-->
+                    <div class="form-group">
+                        <label for="CustomerOrigin">Customer Origin<span class="required">*</span></label>
+                         <select id="CustomerOrigin" name="CustomerOrigin">
+                                <option value="">Select Customer Origin</option>
+                                <option value="Origin A">Origin A</option>
+                                <option value="Origin B">Origin B</option>
+                                <option value="Origin C">Origin C</option>
+                                <option value="Origin D">Origin D</option>
+                            </select>
+                    </div>
+                    <!--Hilton Honors Number-->
+                    <div class="optional-field">
+                        <div class="form-group">
+                            <label for="hiltonHonorsNumber">Hilton Honors Number<span class="optional">(optional)</span></label>
+                            <input type="text" id="hiltonHonorsNumber" name="hiltonHonorsNumber" placeholder="Enter Hilton Honors Number">
+                        </div>
+                    </div>
+                    <!--Choice Number-->
+                    <div class="optional-field">
+                        <div class="form-group">
+                            <label for="choiceNumber">Choice Number<span class="optional">(optional)</span></label>
+                            <input type="text" id="choiceNumber" name="choiceNumber" placeholder="Enter Choice Number">
+                        </div>
+                    </div>
+                    <!--Title-->
+                    <div class="optional-field">
+                        <div class="form-group">
+                            <label for="title">Title<span class="optional">(optional)</span></label>
+                            <select id="title" name="title">
+                                <option value="">Select title</option>
+                                <option value="mr">Mr.</option>
+                                <option value="ms">Ms.</option>
+                                <option value="mrs">Mrs.</option>
+                                <option value="dr">Dr.</option>
+                                <option value="prefer-not-to-say">Prefer not to say</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!--First Name-->
+                    <div class="form-group">
+                        <label for="firstName">First Name <span class="required">*</span></label>
+                        <input type="text" id="firstName" name="firstName" placeholder="Enter first name" required>
+                    </div>
+                    <!--Middle Name-->
+                     <div class="optional-field">
+                        <div class="form-group">
+                            <label for="middleName">Middle Name <span class="optional">(optional)</span></label>
+                            <input type="text" id="middleName" name="middleName" placeholder="Enter middle name">
+                        </div>
+                    </div>
+                    <!--Last Name-->
+                    <div class="form-group">
+                        <label for="lastName">Last Name <span class="required">*</span></label>
+                        <input type="text" id="lastName" name="lastName" placeholder="Enter last name" required>
+                    </div>
+                    <!--Suffix-->
+                    <div class="optional-field">
+                        <div class="form-group">
+                            <label for="suffix">Suffix<span class="optional">(optional)</span></label>
+                            <select id="suffix" name="suffix">
+                                <option value="">Select suffix</option>
+                                <option value="jr">Jr.</option>
+                                <option value="sr">Sr.</option>
+                                <option value="ii">II</option>
+                                <option value="dr">Dr.</option>
+                                <option value="prefer-not-to-say">Prefer not to say</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!--Email Address-->
+                    <div class="form-group">
+                        <label for="email">Email Address <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" placeholder="Enter email address" required>
+                    </div>
+                    <!--Phone Number-->
+                     <div class="form-group">
+                        <label for="phone">Phone Number <span class="required">*</span></label>
+                        <div class="compound-input">
+                            <select id="phoneType" name="phoneType" required>
+                                <option value="mobile">Mobile</option>
+                                <option value="home">Home</option>
+                                <option value="office">Office</option>
+                                <option value="work">Work</option>
+                                <option value="fax">Fax</option>
+                            </select>
+                            <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required>
+                        </div>
+                    </div>
+                    <!--Alternate Phone-->
+                    <div class="optional-field">
+                        <div class="form-group">
+                            <label for="alternatePhone">Alternate Phone <span class="optional">(optional)</span></label>
+                            <div class="compound-input">
+                                <select id="alternatePhoneType" name="alternatePhoneType">
+                                    <option value="mobile">Mobile</option>
+                                    <option value="home">Home</option>
+                                <option value="office">Office</option>
+                                <option value="work">Work</option>
+                                <option value="fax">Fax</option>
+                            </select>
+                            <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required>
+                        </div>
+                        </div>
+                    </div>
+                    <!--Birth Date-->
+                    <div class="form-group">
+                        <label for="birthDate">Date of Birth <span class="required">*</span></label>
+                        <input type="date" id="birthDate" name="birthDate" required>
+                    </div>
+
+                    <!-- Address Section -->
+                    <!-- Address -->
+                    <div class="form-group">
+                        <label for="address">Address <span class="required">*</span></label>
+                        <input type="text" id="address" name="address" placeholder="Enter street address" required>
+                    </div>
+                     <!-- Address 2 -->
+                    <div class="optional-field">
+                        <div class="form-group">
+                            <label for="address2">Address Line 2 <span class="optional">(optional)</span></label>
+                            <input type="text" id="address2" name="address2" placeholder="Apartment, suite, etc.">
+                        </div>
+                    </div>
+                     <!-- City -->
+                    <div class="form-group">
+                        <label for="city">City <span class="required">*</span></label>
+                        <input type="text" id="city" name="city" placeholder="Enter city" required>
+                    </div>
+                     <!-- State -->
+                    <div class="form-group">
+                        <label for="state">State/Province <span class="required">*</span></label>
+                        <input type="text" id="state" name="state" placeholder="Enter state or province" required>
+                    </div>
+                      <!-- Zip Code -->
+                    <div class="form-group">
+                        <label for="zipCode">ZIP/Postal Code <span class="required">*</span></label>
+                        <input type="text" id="zipCode" name="zipCode" placeholder="Enter ZIP code" required>
+                    </div>
+                    
+                    <!-- Country -->
+                    <div class="optional-field">
+                        <div class="form-group">
+                            <label for="country">Country <span class="optional">(optional)</span></label>
+                            <select id="country" name="country">
+                                <option value="">Select country</option>
+                                <option value="us">United States</option>
+                                <option value="ca">Canada</option>
+                                <option value="uk">United Kingdom</option>
+                                <option value="au">Australia</option>
+                                <option value="de">Germany</option>
+                                <option value="fr">France</option>
+                                <option value="jp">Japan</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                  
+                    <!-- Professional Information Section -->
+                    <!-- Language -->
+                    <div class="optional-field">
+                        <div class="form-group">
+                        <label for="language">Language <span class="required">*</span></label>
+                        <input type="text" id="language" name="language" placeholder="Enter language" required>
+                        </div>
+                    </div>
+                    <!-- Marital Status -->
+                    <div class="optional-field">
+                        <div class="form-group">
+                            <label for="maritalStatus">Marital Status <span class="optional">(optional)</span></label>
+                            <select id="maritalStatus" name="maritalStatus">
+                                <option value="">Select marital status</option>
+                                <option value="single">Single</option>
+                                <option value="married">Married</option>
+                                <option value="divorced">Divorced</option>
+                                <option value="widowed">Widowed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- Home Owner -->
+                    <div class="optional-field">                
+                    <div class="form-group">
+                        <label for="homeOwner">Home Owner <span class="optional">(optional)</span></label>
+                       <select id="homeOwner" name="homeOwner">
+                                <option value="">Select home owner status</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                    </div>
+                    </div>
+                    <!-- Income Level -->
+                    <div class="optional-field">
+                        <div class="form-group">
+                            <label for="incomeLevel">Income Level <span class="optional">(optional)</span></label>
+                            <input type="number" id="incomeLevel" name="incomeLevel" placeholder="Enter income level" min="0">
+                        </div>
+                    </div>
+                </div>
+                <!-- Submit Section -->
+                 <!--  
+                <div class="submit-section">
+                    <button type="submit" class="submit-btn">Submit Form</button>
+                </div> -->
+            </form>
+        </div>
+    </div>
+<!-- Sticky Bottom Menu -->
+    <div class="bottom-menu">
+        <div class="bottom-menu-left">
+            <a href="#" class="exit-link">EXIT</a>
+        </div>
+        
+        <div class="bottom-menu-center">
+            <span class="step-indicator" id="stepIndicator">1/3</span>
+        </div>
+        
+        <div class="bottom-menu-right">
+            <button type="button" class="bottom-btn bottom-btn-back" id="backBtn" disabled>BACK</button>
+            <button type="button" class="bottom-btn bottom-btn-next" id="nextBtn">NEXT</button>
+        </div>
+    </div>
+    <script>
+        // Toggle functionality
+        const toggleSwitch = document.getElementById('toggleSwitch');
+        const optionalFields = document.querySelectorAll('.optional-field');
+        let isExpanded = false;
+
+        toggleSwitch.addEventListener('click', function() {
+            isExpanded = !isExpanded;
+            
+            if (isExpanded) {
+                toggleSwitch.classList.add('active');
+                optionalFields.forEach(field => {
+                    field.classList.add('show');
+                });
+            } else {
+                toggleSwitch.classList.remove('active');
+                optionalFields.forEach(field => {
+                    field.classList.remove('show');
+                });
+            }
+        });
+
+        // Form submission
+        document.getElementById('mainForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect all form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            
+            console.log('Form submitted with data:', data);
+            alert('Form submitted successfully! Check console for details.');
+        });
+
+        // Add some interactive enhancements
+        const inputs = document.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'translateY(-1px)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
