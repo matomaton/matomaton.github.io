@@ -92,12 +92,13 @@
             position: relative;
             flex: 1;
             max-width: 200px;
+            
         }
 
         .step:not(:last-child)::after {
             content: '';
             position: absolute;
-            top: 20px;
+            top: 14px;
             left: 60%;
             width: 80%;
             height: 2px;
@@ -110,8 +111,8 @@
         }
 
         .step-number {
-            width: 40px;
-            height: 40px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             border: 2px solid #cbd5e1;
             background: white;
@@ -142,7 +143,7 @@
         .step-title {
             font-size: 0.75rem;
             font-weight: 600;
-            color: #202B46;
+            color: var(--primary-color);
             text-align: center;
             line-height: 1.2;
             max-width: 120px;
@@ -184,7 +185,7 @@
         .header {
             background: #f1f1f1;
             color: #1B5A7D;
-            padding: 2rem 2rem 0 2rem;
+            padding: 1.5rem 1.5rem 0 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
