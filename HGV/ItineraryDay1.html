@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+      :root {
+        --primary-50: #f0f9ff;
+        --primary-100: #e0f2fe;
+        --primary-200: #bae6fd;
+        --primary-300: #7dd3fc;
+        --primary-400: #38bdf8;
+        --primary-500: #0ea5e9;
+        --primary-600: #0284c7;
+        --primary-700: #0369a1;
+        --primary-800: #075985;
+        --primary-900: #0c4a6e;
+      }
+    </style>
+</head>
+<body class="bg-slate-50 font-['Plus_Jakarta_Sans',_sans-serif]">
+<div class="flex min-h-screen flex-col">
+<header class="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200 bg-white/80 px-4 py-3 backdrop-blur-sm sm:px-6 lg:px-8">
+<div class="flex items-center gap-3">
+<svg class="h-6 w-6 text-primary-600" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 6H42L36 24L42 42H6L12 24L6 6Z" fill="currentColor"></path>
+</svg>
+<h1 class="text-lg font-bold text-slate-900">Vacation Planner</h1>
+</div>
+<nav class="hidden items-center gap-6 md:flex">
+<a class="text-sm font-medium text-slate-700 hover:text-primary-600" href="#">My Trips</a>
+<a class="text-sm font-medium text-slate-700 hover:text-primary-600" href="#">Explore</a>
+<a class="text-sm font-medium text-slate-700 hover:text-primary-600" href="#">Profile</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="md:hidden">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="h-10 w-10 rounded-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAJwXLhcqGKb97zxpQjV4DbDoaJLA1T7VhgMWGUN0RE-uU5YiczsHCQR6dSbmcZTx8d089SIs28qAfnoB7dAZzRG_rxrLVx2KG_9WitOfrhgO-GXaPe84EOTP7wq67OCK7R0ebTxebw_F4PAXodbIZOO8NG8WFan9uRfmw3HvemGQUGEher7HxvLJna1IXE_hiIcDAzLRcFPPZZuI8wBipyF88EURf0uTNzDjEG9CY3PjSjMNXdDIdQK40nwOkOhDxdFwHA-y6qxEY");'></div>
+</div>
+</header>
+<main class="flex-1 bg-slate-50 px-4 py-8 sm:px-6 lg:px-8">
+<div class="mx-auto max-w-4xl">
+<div class="mb-8">
+<nav class="flex items-center gap-2 text-sm font-medium">
+<a class="text-slate-500 hover:text-slate-700" href="#">The Wow Factor Itinerary</a>
+<span class="text-slate-400">/</span>
+<span class="text-slate-800">Day 1</span>
+</nav>
+<h1 class="mt-2 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">Day 1: Elevated Arrival &amp; Exclusive Dining</h1>
+</div>
+<div class="space-y-8">
+<div class="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+<div class="flex items-center gap-4 bg-slate-50 px-6 py-4">
+<span class="material-symbols-outlined text-primary-600">directions_car</span>
+<h2 class="text-xl font-bold text-slate-800">Private Airport Transfer</h2>
+</div>
+<div class="grid grid-cols-1 gap-px bg-slate-200 md:grid-cols-2">
+<div class="bg-white p-6">
+<p class="text-sm font-medium text-slate-500">Confirmation Number</p>
+<p class="mt-1 text-base font-semibold text-slate-900">#123456789</p>
+</div>
+<div class="bg-white p-6">
+<p class="text-sm font-medium text-slate-500">Pick-up Time</p>
+<p class="mt-1 text-base font-semibold text-slate-900">3:00 PM</p>
+</div>
+<div class="bg-white p-6">
+<p class="text-sm font-medium text-slate-500">Driver Name</p>
+<p class="mt-1 text-base font-semibold text-slate-900">Michael Johnson</p>
+</div>
+<div class="bg-white p-6">
+<p class="text-sm font-medium text-slate-500">Driver Contact</p>
+<p class="mt-1 text-base font-semibold text-slate-900">+1-555-123-4567</p>
+</div>
+</div>
+</div>
+<div class="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+<div class="flex items-center justify-between bg-slate-50 px-6 py-4">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-600">restaurant_menu</span>
+<h2 class="text-xl font-bold text-slate-800">Dinner at the Chef's Table</h2>
+</div>
+<div class="flex items-center gap-2 rounded-full bg-primary-100 px-3 py-1 text-xs font-semibold text-primary-800">
+<span class="material-symbols-outlined text-sm">star</span>
+<span>Platinum-Tier Benefit</span>
+</div>
+</div>
+<div class="p-6">
+<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+<div>
+<p class="text-sm font-medium text-slate-500">Restaurant</p>
+<p class="mt-1 text-base font-semibold text-slate-900">The Culinary Canvas</p>
+</div>
+<div>
+<p class="text-sm font-medium text-slate-500">Address</p>
+<p class="mt-1 text-base font-semibold text-slate-900">123 Main Street, Anytown, USA</p>
+</div>
+<div>
+<p class="text-sm font-medium text-slate-500">Reservation Time</p>
+<p class="mt-1 text-base font-semibold text-slate-900">8:00 PM</p>
+</div>
+<div>
+<p class="text-sm font-medium text-slate-500">Attire</p>
+<p class="mt-1 text-base font-semibold text-slate-900">Smart Casual</p>
+</div>
+</div>
+<div class="mt-6 border-t border-slate-200 pt-6">
+<p class="text-sm font-medium text-slate-500">About the Chef</p>
+<div class="mt-2 flex items-start gap-4">
+<img alt="Chef Isabella Rossi" class="h-16 w-16 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXwtDMNnrgMpoaMCdJSFzYZWYvfZRjPRgFabosVCIlCuFrmLzhylrLRX66C4GMBZyuwHGGmNyyr2x8YWQdXZ_MDQQHTE5kyXcyEcSEInLC3THH98JNw5VdxsabHofjRFyjHXDxsvp3MX8AmX7wI2rxfATsVMHAqbFo99w4YMgyiaYKSAHK5CY7-g5q6eF0hbN7idqSX2I1iuP09bKLOc5t_bHkVV3z_h2NXOM8nHDndrq7ZaTOJ7sWGVcXuvI829SiCkJrPWXXGck"/>
+<div>
+<h3 class="font-bold text-slate-800">Chef Isabella Rossi</h3>
+<p class="mt-1 text-sm leading-relaxed text-slate-600">
+                        Chef Isabella Rossi, a culinary virtuoso with over 20 years of experience, has honed her skills in some of the world's most prestigious kitchens. Her innovative approach blends traditional techniques with modern flair, creating unforgettable dining experiences.
+                      </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>
