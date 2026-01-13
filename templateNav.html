@@ -1,0 +1,111 @@
+<!-- ====== GLOBAL NAV ====== -->
+<header class="nav">
+  <div class="nav__bar">
+    <!-- LOGO (left) -->
+    <a href="/" aria-label="Home" class="nav__logo">
+      <!-- inline SVG placeholder – swap for your own vector -->
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 0L32 16L16 32L0 16L16 0Z" fill="#0052cc"/>
+      </svg>
+    </a>
+
+    <!-- LINKS (right) -->
+    <nav class="nav__links" id="navLinks">
+      <a href="/projects">Projects</a>
+      <a href="/process">Process</a>
+      <a href="/backstory">Backstory</a>
+      <a href="/resume.pdf" target="_blank">Resume</a>
+    </nav>
+
+    <!-- HAMBURGER (hidden on large screens) -->
+    <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<style>
+/* ---------- Nav bar ---------- */
+.nav{
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #fff;
+  border-bottom: 1px solid #eaeaea;
+}
+.nav__bar{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: .75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav__logo svg{display: block}
+
+/* ---------- Links ---------- */
+.nav__links{
+  display: flex;
+  gap: 2rem;
+}
+.nav__links a{
+  font-weight: 500;
+  color: #222;
+  text-decoration: none;
+}
+.nav__links a:hover{color: #0052cc}
+
+/* ---------- Hamburger ---------- */
+.nav__toggle{
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.nav__toggle span{
+  width: 24px;
+  height: 2px;
+  background: #222;
+  transition: .3s;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px){
+  .nav__toggle{display: flex}
+  .nav__links{
+    position: absolute;
+    inset: 100% 0 auto 0;   /* directly below header */
+    flex-direction: column;
+    gap: 0;
+    background: #fff;
+    border-top: 1px solid #eaeaea;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .3s ease;
+  }
+  .nav__links a{
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #f2f2f2;
+  }
+  .nav__links.open{max-height: 400px}
+  /* animate hamburger → X */
+  .nav__toggle.open span:nth-child(1){transform: translateY(7px) rotate(45deg)}
+  .nav__toggle.open span:nth-child(2){opacity: 0}
+  .nav__toggle.open span:nth-child(3){transform: translateY(-7px) rotate(-45deg)}
+}
+</style>
+
+<script>
+/* ---------- Toggle behaviour ---------- */
+const btn  = document.getElementById('navToggle');
+const menu = document.getElementById('navLinks');
+
+btn.addEventListener('click', () => {
+  const open = menu.classList.toggle('open');
+  btn.classList.toggle('open');
+  btn.setAttribute('aria-expanded', open);
+});
+</script>
+<!-- ====== /END NAV ====== -->
