@@ -1,0 +1,359 @@
+<html
+    lang="en"
+    >       
+<head>
+    <meta charset="UTF-8" />    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Stream</title>
+</head>
+<style>
+    :root {
+      --bg: #f1f1f1; /*#050816;*/
+      --user: blue;/* #2563eb; */
+      --bot: green; /* #0f172a; */
+      --accent: red; /*#38bdf8;*/
+      --text: #5E5E5E; /*#e5e7eb;*/
+      --muted: #9ca3af;
+      --radius-lg: 16px;
+      --radius-sm: 10px;
+      --bg-userchat: #FFF;
+      --brd-userchat: #333333;
+      --chat-text:#5E5E5E;
+      --bubble-bg:#DEDFDF;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, #1f2937 0, #020617 55%, #000 100%);
+      color: var(--text);
+    }
+
+    .chat-wrapper {
+      width: min(560px, 100vw - 32px);
+      background: white; /*rgba(15, 23, 42, 0.92);*/
+      border-radius: 20px;
+      padding: 20px 20px 16px;
+      box-shadow:
+        0 22px 45px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(148, 163, 184, 0.12);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      backdrop-filter: blur(12px);
+    }
+
+    .chat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .chat-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.16);
+    }
+
+    .chat-header-right {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .chat-body {
+      background: white;
+        
+        /*radial-gradient(circle at top left, rgba(37, 99, 235, 0.18), transparent 52%),
+                  radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.15), transparent 55%); */
+      
+      border-radius: 14px;
+      padding: 14px 12px;
+      max-height: 360px;
+      overflow-y: auto;
+      /*border: 1px solid rgba(51, 65, 85, 0.85);*/
+    }
+
+    .message-row {
+      display: flex;
+      margin-bottom: 10px;
+    }
+
+    .message-row.user {
+      justify-content: flex-end;
+    }
+
+    .message-row.bot {
+      justify-content: flex-start;
+    }
+
+    .avatar {
+      width: 28px;
+      height: 28px;
+/*       border-radius: 999px; */
+/*       background: radial-gradient(circle at 30% 20%, #e5e7eb 0, #9ca3af 30%, #020617 100%); */
+      margin-right: 8px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+/*       font-size: 13px; */
+/*       color: #020617; */
+/*       font-weight: 600; */
+    }
+
+    .message-row.user .avatar {
+      display: none;
+    }
+
+    .bubble {
+      max-width: 78%;
+      padding: 8px 10px;
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      line-height: 1.4;
+      position: relative;
+    }
+
+    .user .bubble {
+      border-bottom-right-radius: var(--radius-sm);
+      border: 1px solid var(--brd-userchat);
+      background: var(--bg-userchat);
+        /*linear-gradient(135deg, var(--user), #1d4ed8);*/
+      color: var(--chat-text);/*#e5f0ff;*/
+    }
+
+    .bot .bubble {
+      border-bottom-left-radius: var(--radius-sm);
+      background: 
+        var(--bubble-bg);
+      /*rgba(15, 23, 42, 0.96);*/
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .meta {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    /* Typing indicator (0–400ms acknowledgement) */
+    /* Loading dots indicator code starts here */
+    .typing-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    /* Loading dot styles */
+    .typing-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+      opacity: 0.25;
+      animation: pulse 1.1s infinite ease-in-out;
+    }
+
+    .typing-dot:nth-child(2) { animation-delay: 0.14s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.28s; }
+
+    /* Loading dots pulse animation */
+    @keyframes pulse {
+      0%   { transform: translateY(0); opacity: 0.2; }
+      30%  { transform: translateY(-3px); opacity: 0.9; }
+      60%  { transform: translateY(0); opacity: 0.4; }
+      100% { transform: translateY(0); opacity: 0.2; }
+    }
+
+    /* Typewriter effect (steady cadence) */
+    /* Blinking cursor code starts here */
+    .typewriter {
+      display: inline-block;
+      white-space: pre-wrap;
+      /*border-right: 1px solid rgba(148, 163, 184, 0.85);
+      animation: caret-blink 0.75s steps(1, end) infinite;*/
+    }
+
+    /* Blinking cursor animation */
+    @keyframes caret-blink {
+      from, to { border-color: transparent; }
+      50%      { border-color: rgba(148, 163, 184, 0.85); }
+    }
+
+    /* Footer prompt hint */
+    .chat-footer {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .chip {
+      border-radius: 999px;
+      padding: 4px 8px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+/* Fade-in per word */
+.word {
+  opacity: 0;
+  transition: opacity 0.4s ease-out; /* 100ms; try 0.05s for 50ms */
+}
+
+.word.visible {
+  opacity: 1;
+}
+
+
+</style>  
+<body>
+  
+  <div class="chat-wrapper">
+    <div class="chat-header">
+      <div class="chat-header-left">
+<!--         <span class="dot"></span> -->
+<!--         <span>Prototype · Latency & Cadence</span> -->
+      </div>
+<!--       <div class="chat-header-right">Simulated</div> -->
+    </div>
+
+    <div class="chat-body" id="chat">
+      <!-- User message -->
+      <div class="message-row user">
+        <div class="bubble">
+          How can we make the chatbot feel more responsive without actually being faster?
+        </div>
+      </div>
+
+      <!-- Bot: typing state appears immediately -->
+      <div class="message-row bot" id="bot-typing-row">
+       <div class="avatar"><img src="https://matomaton.github.io/assets/sparkles-solid-full.svg"></div>
+        <div class="bubble">
+          <!-- Loading dots HTML 
+          <div class="typing-indicator">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>-->
+          <div class="meta">Thinking…</div>
+        </div>
+      </div>
+
+      <!-- Bot: final answer (hidden until we "stream") -->
+      <div class="message-row bot" id="bot-answer-row" style="display:none;">
+        <div class="avatar"><img src="https://matomaton.github.io/assets/sparkles-solid-full.svg"></div>
+        <div class="bubble">
+          <span id="bot-text" class="typewriter"></span>
+<!--           <div class="meta">Streaming ~40 chars/sec · Batching every 40ms</div> -->
+        </div>
+      </div>
+    </div>
+
+<!--     <div class="chat-footer">
+      <span>0–400ms: acknowledge · 300–700ms: first token</span>
+      <span class="chip">Type-on instead of token dump</span>
+    </div> -->
+  </div>
+
+ 
+<script>
+    /**
+ * Simple typewriter to illustrate:
+ * - immediate typing indicator (within 200ms)
+ * - first visible token in ~400–700ms
+ * - steady cadence via word-level chunks
+ * - quick opacity fade per word
+ */
+const fullText = [
+  "Great question. We make the interface feel faster by:",
+  "\n\n1) Showing a “thinking” state immediately after Send, so users see that their input was registered.",
+  "\n2) Streaming the answer with a typewriter effect,",
+  " instead of dumping a full paragraph at once,",
+  " so people can read as it appears and stay in the conversation.",
+  "\n3) Keeping updates small and regular — roughly every 30–60ms —",
+  " which feels smooth and human without overloading the browser layout engine."
+].join("");
+
+const typingRow   = document.getElementById("bot-typing-row");
+const answerRow   = document.getElementById("bot-answer-row");
+const botTextElem = document.getElementById("bot-text");
+
+// show typing indicator almost instantly (perception window)
+setTimeout(() => {
+  typingRow.style.opacity = 1;
+}, 100); // 100ms
+
+// swap to streaming state: first token ~400–600ms after send
+const timeToFirstToken = 500; // tweak for your story
+setTimeout(() => {
+  typingRow.style.display = "none";
+  answerRow.style.display = "flex";
+  streamText(fullText, botTextElem);
+}, timeToFirstToken);
+
+// WORD‑BY‑WORD STREAMING WITH FADE-IN
+function streamText(text, targetEl) {
+  const words = text.split(' ');
+  let wordIndex = 0;
+
+  function typeNextWord() {
+    if (wordIndex >= words.length) return;
+
+    const word = words[wordIndex];
+
+    // Create a span for this word at opacity: 0
+    const span = document.createElement('span');
+    span.className = 'word';
+    span.textContent = (wordIndex > 0 ? ' ' : '') + word;
+
+    targetEl.appendChild(span);
+
+    // Force a layout so the browser "sees" opacity: 0
+    // (this is often needed to ensure transitions fire reliably)[web:46]
+    // eslint-disable-next-line no-unused-expressions
+    span.offsetWidth;
+
+    // Next frame: add .visible -> opacity transitions 0 -> 1
+    requestAnimationFrame(() => {
+      span.classList.add('visible');
+    });
+
+    wordIndex++;
+
+    // Steady cadence: vary delay slightly and scale by word length
+    const baseDelay = 60 + Math.random() * 40; // 60–100ms jitter
+    const wordDelay = baseDelay + (word.length * 15); // longer words take longer
+
+    setTimeout(typeNextWord, wordDelay);
+  }
+
+  typeNextWord();
+}
+</script>
+</body>
+</html>
