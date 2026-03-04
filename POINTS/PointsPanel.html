@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Points Intelligence Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+
+        /* Smooth expand/collapse using CSS Grid */
+        .panel-content-wrapper {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            opacity: 0;
+        }
+        .panel-content-wrapper.is-open {
+            grid-template-rows: 1fr;
+            opacity: 1;
+        }
+        .panel-content-inner {
+            overflow: hidden;
+        }
+
+        /* Custom Range Slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 28px;
+            width: 28px;
+            border-radius: 50%;
+            background: #2563eb;
+            cursor: pointer;
+            margin-top: -10px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            border: 3px solid white;
+            transition: transform 0.1s;
+        }
+        input[type=range]::-webkit-slider-thumb:active {
+            transform: scale(1.1);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #e2e8f0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="p-6 md:p-12 text-slate-800">
+
+    <div class="max-w-3xl mx-auto">
+        
+        <!-- Interactive Simulator Context (Outside the panel for testing) -->
+        <div class="mb-8 p-6 bg-white rounded-2xl border border-slate-200 shadow-sm">
+            <h2 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
+                <i data-lucide="sliders-horizontal" class="w-4 h-4"></i> Trip Cost Simulator
+            </h2>
+            <input type="range" id="tripSlider" min="2000" max="9000" step="100" value="6500" class="w-full mb-2">
+            <div class="flex justify-between text-xs font-semibold text-slate-400">
+                <span>2,000 pts</span>
+                <span id="sliderValueDisplay" class="text-blue-600 font-bold text-sm">6,500 pts</span>
+                <span>9,000 pts</span>
+            </div>
+        </div>
+
+        <!-- POINTS INTELLIGENCE PANEL -->
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden transition-all">
+            
+            <!-- Header (Always Visible) -->
+            <button id="panelToggle" class="w-full px-6 py-5 flex items-center justify-between hover:bg-slate-50 transition-colors focus:outline-none text-left">
+                <div class="flex items-center gap-3">
+                    <div class="bg-indigo-50 p-2 rounded-lg text-indigo-600">
+                        <i data-lucide="bar-chart-2" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-800">Points Intelligence</h2>
+                        <p class="text-sm text-slate-500 font-medium">See how this trip impacts your portfolio</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-6">
+                    <div class="hidden md:flex gap-6 text-sm text-right mr-4">
+                        <div>
+                            <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Total</p>
+                            <p class="font-bold text-slate-800">10,000</p>
+                        </div>
+                        <div>
+                            <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Trip</p>
+                            <p id="hdr-used" class="font-bold text-blue-600">-6,500</p>
+                        </div>
+                        <div>
+                            <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Remaining</p>
+                            <p id="hdr-rem" class="font-bold text-slate-800">3,500</p>
+                        </div>
+                    </div>
+                    <i id="chevronIcon" data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transform transition-transform duration-300 rotate-180"></i>
+                </div>
+            </button>
+
+            <!-- Collapsible Body -->
+            <div id="panelContent" class="panel-content-wrapper is-open border-t border-slate-100">
+                <div class="panel-content-inner">
+                    <div class="p-6 md:p-8 space-y-10">
+                        
+                        <!-- Section A: Snapshot Summary -->
+                        <div>
+                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">A. Snapshot Summary</h3>
+                            <div class="grid grid-cols-3 gap-4 bg-slate-50 p-6 rounded-2xl border border-slate-100 items-center text-center">
+                                <div>
+                                    <p class="text-sm font-semibold text-slate-500 mb-1">Before Trip</p>
+                                    <p class="text-2xl font-black text-slate-800">10,000</p>
+                                    <p class="text-xs text-slate-400 mt-1">Available Points</p>
+                                </div>
+                                <div class="relative">
+                                    <div class="absolute inset-0 flex items-center justify-center -z-0">
+                                        <div class="w-full border-t-2 border-dashed border-slate-200"></div>
+                                    </div>
+                                    <div class="relative z-10 bg-white inline-block px-4 py-2 rounded-xl border border-slate-200 shadow-sm">
+                                        <p class="text-xs font-bold text-slate-500 mb-1">Trip Allocation</p>
+                                        <p id="snap-used" class="text-xl font-black text-blue-600">-6,500</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold text-slate-500 mb-1">After Trip</p>
+                                    <p id="snap-rem" class="text-2xl font-black text-slate-800">3,500</p>
+                                    <p class="text-xs text-slate-400 mt-1">Remaining Balance</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                            <!-- Section B: Bucket Breakdown -->
+                            <div>
+                                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">B. Depletion Order</h3>
+                                <div class="space-y-5" id="bucketsContainer">
+                                    <!-- Rows generated by JS -->
+                                </div>
+                            </div>
+
+                            <!-- Section C: Insights & Alerts -->
+                            <div>
+                                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">C. Insights & Alerts</h3>
+                                <div id="insights-container" class="space-y-3">
+                                    <!-- Alerts generated by JS -->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Data Model
+        const TOTAL_POINTS = 10000;
+        const BUCKETS = [
+            { id: 'saved', label: 'Saved Points (Expiring)', total: 2000, color: 'blue' },
+            { id: 'current', label: 'Current Year Allocation', total: 5000, color: 'blue' },
+            { id: 'bonus', label: 'Bonus Points', total: 1500, color: 'blue' },
+            { id: 'borrowed', label: 'Borrowed (Next Year)', total: 1500, color: 'purple' }
+        ];
+
+        // DOM Elements
+        const slider = document.getElementById('tripSlider');
+        const sliderDisplay = document.getElementById('sliderValueDisplay');
+        const bucketsContainer = document.getElementById('bucketsContainer');
+        const insightsContainer = document.getElementById('insights-container');
+        const panelToggle = document.getElementById('panelToggle');
+        const panelContent = document.getElementById('panelContent');
+        const chevronIcon = document.getElementById('chevronIcon');
+
+        // Render Bucket Rows HTML once
+        bucketsContainer.innerHTML = BUCKETS.map((b, i) => `
+            <div class="group">
+                <div class="flex justify-between items-end mb-2">
+                    <div class="flex items-center gap-2">
+                        <span class="flex items-center justify-center w-5 h-5 rounded-full bg-slate-200 text-slate-600 text-[10px] font-black">${i + 1}</span>
+                        <span class="text-sm font-bold text-slate-700">${b.label}</span>
+                    </div>
+                    <div class="text-xs font-semibold text-slate-400">Total: ${b.total.toLocaleString()}</div>
+                </div>
+                <div class="h-3 w-full bg-slate-100 rounded-full flex overflow-hidden">
+                    <div id="bar-u-${i}" class="bg-${b.color}-600 transition-all duration-300 ease-out h-full" style="width: 0%"></div>
+                    <div id="bar-r-${i}" class="bg-${b.color}-200 transition-all duration-300 ease-out h-full" style="width: 100%"></div>
+                </div>
+                <div class="flex justify-between mt-1 px-1">
+                    <span class="text-[10px] font-bold text-${b.color}-700">Used: <span id="text-u-${i}">0</span></span>
+                    <span class="text-[10px] font-bold text-slate-500">Rem: <span id="text-r-${i}">0</span></span>
+                </div>
+            </div>
+        `).join('');
+
+        // Main Logic Engine
+        function updateUI() {
+            let cost = parseInt(slider.value);
+            sliderDisplay.innerText = cost.toLocaleString() + ' pts';
+
+            // 1. Calculate Depletion
+            let remCost = cost;
+            let bucketData = BUCKETS.map(b => {
+                let used = Math.min(b.total, remCost);
+                remCost -= used;
+                return { ...b, used: used, rem: b.total - used };
+            });
+
+            // 2. Update Header & Snapshot
+            document.getElementById('hdr-used').innerText = "-" + cost.toLocaleString();
+            document.getElementById('hdr-rem').innerText = (TOTAL_POINTS - cost).toLocaleString();
+            document.getElementById('snap-used').innerText = "-" + cost.toLocaleString();
+            document.getElementById('snap-rem').innerText = (TOTAL_POINTS - cost).toLocaleString();
+
+            // 3. Update Bars
+            bucketData.forEach((b, i) => {
+                document.getElementById(`bar-u-${i}`).style.width = `${(b.used / b.total) * 100}%`;
+                document.getElementById(`bar-r-${i}`).style.width = `${(b.rem / b.total) * 100}%`;
+                document.getElementById(`text-u-${i}`).innerText = b.used.toLocaleString();
+                document.getElementById(`text-r-${i}`).innerText = b.rem.toLocaleString();
+            });
+
+            // 4. Generate Insights
+            let insightsHTML = '';
+            
+            // Insight A: Expiration Rule (Bucket 0 is 'Saved/Expiring')
+            let expiringRem = bucketData[0].rem;
+            if (expiringRem > 0) {
+                insightsHTML += `
+                    <div class="bg-amber-50 border border-amber-200 text-amber-800 p-3.5 rounded-xl flex gap-3 text-sm items-start shadow-sm">
+                        <i data-lucide="alert-circle" class="w-5 h-5 shrink-0 text-amber-500 mt-0.5"></i>
+                        <div>
+                            <p class="font-bold text-amber-900 mb-0.5">Expiration Warning</p>
+                            <p class="text-amber-700">You will have <strong>${expiringRem.toLocaleString()}</strong> points expiring in 4 months.</p>
+                        </div>
+                    </div>
+                    <div class="bg-blue-50 border border-blue-100 text-blue-800 p-3.5 rounded-xl flex gap-3 text-sm items-start shadow-sm">
+                        <i data-lucide="lightbulb" class="w-5 h-5 shrink-0 text-blue-500 mt-0.5"></i>
+                        <div>
+                            <p class="font-bold text-blue-900 mb-0.5">Optimization Tip</p>
+                            <p class="text-blue-700 leading-relaxed">Consider extending your stay or upgrading your room to maximize these expiring points before they are lost.</p>
+                        </div>
+                    </div>`;
+            } else {
+                insightsHTML += `
+                    <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 p-3.5 rounded-xl flex gap-3 text-sm items-center shadow-sm">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 shrink-0 text-emerald-500"></i>
+                        <p class="font-medium">All expiring points are utilized in this trip.</p>
+                    </div>`;
+            }
+
+            // Insight B: Majority of Points Rule
+            if (cost >= (TOTAL_POINTS * 0.7)) {
+                insightsHTML += `
+                    <div class="bg-slate-50 border border-slate-200 text-slate-700 p-3.5 rounded-xl flex gap-3 text-sm items-center shadow-sm">
+                        <i data-lucide="pie-chart" class="w-5 h-5 shrink-0 text-slate-400"></i>
+                        <p class="font-medium">This trip uses a majority (70%+) of your annual points.</p>
+                    </div>`;
+            }
+
+            // Insight C: Borrowing Rule (Bucket 3 is 'Borrowed')
+            let borrowedUsed = bucketData[3].used;
+            if (borrowedUsed > 0) {
+                insightsHTML += `
+                    <div class="bg-purple-50 border border-purple-200 text-purple-800 p-3.5 rounded-xl flex gap-3 text-sm items-start shadow-sm">
+                        <i data-lucide="arrow-right-left" class="w-5 h-5 shrink-0 text-purple-500 mt-0.5"></i>
+                        <div>
+                            <p class="font-bold text-purple-900 mb-0.5">Borrowing Active</p>
+                            <p class="text-purple-700">You are borrowing <strong>${borrowedUsed.toLocaleString()}</strong> points from next year's allocation to cover this trip.</p>
+                        </div>
+                    </div>`;
+            }
+
+            insightsContainer.innerHTML = insightsHTML;
+            lucide.createIcons(); // Re-initialize icons for newly injected HTML
+        }
+
+        // Event Listeners
+        slider.addEventListener('input', updateUI);
+        
+        panelToggle.addEventListener('click', () => {
+            const isOpen = panelContent.classList.contains('is-open');
+            if (isOpen) {
+                panelContent.classList.remove('is-open');
+                chevronIcon.classList.remove('rotate-180');
+            } else {
+                panelContent.classList.add('is-open');
+                chevronIcon.classList.add('rotate-180');
+            }
+        });
+
+        // Initial Render
+        updateUI();
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HGV Collaborative Points Explorer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom Range Slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 28px;
+            width: 28px;
+            border-radius: 50%;
+            background: #2563eb;
+            cursor: pointer;
+            margin-top: -10px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            border: 3px solid white;
+            transition: transform 0.1s;
+        }
+        input[type=range]::-webkit-slider-thumb:active { transform: scale(1.1); }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        /* Scrollbar styles for the sidebar */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 20px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Dynamic Icon Component
+        const Icon = ({ name, className = "w-5 h-5" }) => {
+            useEffect(() => { lucide.createIcons(); });
+            return <i data-lucide={name} className={className}></i>;
+        };
+
+        // Static Destination Data
+        const DESTINATIONS = [
+            { id: '1', title: 'Grand Islander, Waikiki', nights: 7, type: 'Resort', points: 11200, icon: 'palmtree', img: 'https://images.unsplash.com/photo-1542259009477-d625272157b7?auto=format&fit=crop&q=80&w=400&h=250' },
+            { id: '2', title: 'Elara, Las Vegas', nights: 4, type: 'Resort', points: 6400, icon: 'dice-5', img: 'https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&q=80&w=400&h=250' },
+            { id: '3', title: 'Caribbean Cruise (HSV)', nights: 5, type: 'Experience', points: 15000, icon: 'ship', img: 'https://images.unsplash.com/photo-1599640842225-85d111c60e6b?auto=format&fit=crop&q=80&w=400&h=250' },
+            { id: '4', title: 'NYC City Escape', nights: 3, type: 'Urban', points: 4800, icon: 'building', img: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&q=80&w=400&h=250' },
+            { id: '5', title: 'Orlando Theme Parks', nights: 7, type: 'Resort', points: 8500, icon: 'ticket', img: 'https://images.unsplash.com/photo-1575089776834-8be34696ffb9?auto=format&fit=crop&q=80&w=400&h=250' },
+            { id: '6', title: 'Ski Trip in Colorado', nights: 5, type: 'Resort', points: 9200, icon: 'snowflake', img: 'https://images.unsplash.com/photo-1551524164-687a54dd2674?auto=format&fit=crop&q=80&w=400&h=250' }
+        ];
+
+        function App() {
+            const [activeTab, setActiveTab] = useState('planner');
+            const [annualPoints, setAnnualPoints] = useState(15000);
+            const [cart, setCart] = useState([]);
+            const [isPanelOpen, setIsPanelOpen] = useState(true);
+
+            // Core Math
+            const tripCost = cart.reduce((sum, trip) => sum + trip.points, 0);
+
+            // Waterfall Bucket Logic
+            const totalSystemPoints = 2000 + annualPoints + 1500 + annualPoints; // Saved + Current + Bonus + Borrowed
+            const pointsRemaining = totalSystemPoints - tripCost;
+
+            const bucketsConfig = [
+                { id: 'saved', label: 'Saved Points (Expiring)', total: 2000, color: 'blue' },
+                { id: 'current', label: 'Current Year Allocation', total: annualPoints, color: 'blue' },
+                { id: 'bonus', label: 'Bonus Points', total: 1500, color: 'blue' },
+                { id: 'borrowed', label: 'Borrowed (Next Year)', total: annualPoints, color: 'purple' }
+            ];
+
+            let remCost = tripCost;
+            const bucketsData = bucketsConfig.map(b => {
+                let used = Math.min(b.total, remCost);
+                remCost -= used;
+                return { ...b, used, rem: b.total - used };
+            });
+
+            // Handlers
+            const toggleTrip = (trip) => {
+                if (cart.find(t => t.id === trip.id)) {
+                    setCart(cart.filter(t => t.id !== trip.id));
+                } else {
+                    if (pointsRemaining >= trip.points) setCart([...cart, trip]);
+                }
+            };
+
+            const getTier = (pts) => {
+                if (pts >= 24000) return 'Premier';
+                if (pts >= 14000) return 'Preferred';
+                return 'Member';
+            };
+
+            // Intelligence Insights
+            const expiringRem = bucketsData[0].rem;
+            const borrowedUsed = bucketsData[3].used;
+            const isMajorityUsed = tripCost >= (annualPoints * 0.7);
+
+            return (
+                <div className="flex flex-col h-screen overflow-hidden bg-slate-50 text-slate-800">
+                    
+                    {/* Header */}
+                    <header className="bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center shadow-sm z-20 relative">
+                        <div className="flex items-center gap-3">
+                            <div className="bg-blue-600 p-2 rounded-lg text-white shadow-md shadow-blue-500/20">
+                                <Icon name="compass" className="w-6 h-6" />
+                            </div>
+                            <div>
+                                <h1 className="text-xl font-black tracking-tight text-slate-800">HGV Lifestyle Planner</h1>
+                                <p className="text-sm text-slate-500 font-medium">Collaborative Points Sandbox</p>
+                            </div>
+                        </div>
+                        <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200">
+                            <button 
+                                onClick={() => setActiveTab('planner')}
+                                className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'planner' ? 'bg-white shadow text-blue-600' : 'text-slate-500 hover:text-slate-700'}`}
+                            >
+                                <div className="flex items-center gap-2"><Icon name="calculator" className="w-4 h-4" /> Trip Builder</div>
+                            </button>
+                            <button 
+                                onClick={() => setActiveTab('education')}
+                                className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'education' ? 'bg-white shadow text-blue-600' : 'text-slate-500 hover:text-slate-700'}`}
+                            >
+                                <div className="flex items-center gap-2"><Icon name="graduation-cap" className="w-4 h-4" /> How Rules Work</div>
+                            </button>
+                        </div>
+                    </header>
+
+                    {/* Main Workspace */}
+                    <main className="flex-1 overflow-hidden flex relative">
+                        
+                        {activeTab === 'planner' && (
+                            <div className="flex w-full h-full fade-in">
+                                
+                                {/* LEFT SIDEBAR: Controls, Intelligence Panel & Cart */}
+                                <div className="w-[45%] bg-white border-r border-slate-200 flex flex-col shadow-xl z-10">
+                                    <div className="p-6 overflow-y-auto custom-scrollbar h-full flex flex-col">
+                                        
+                                        {/* Slider Section */}
+                                        <div className="mb-6 bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                                            <h2 className="text-xs font-black text-slate-400 tracking-widest uppercase mb-4 flex items-center gap-2">
+                                                <Icon name="sliders-horizontal" className="w-4 h-4" /> Annual Point Baseline
+                                            </h2>
+                                            <div className="flex items-end justify-between mb-2">
+                                                <span className="text-3xl font-black text-blue-600 tracking-tighter">{annualPoints.toLocaleString()}</span>
+                                                <span className="text-sm text-slate-500 font-bold mb-1">Tier: <span className="text-blue-500">{getTier(annualPoints)}</span></span>
+                                            </div>
+                                            <input 
+                                                type="range" min="5000" max="30000" step="1000"
+                                                value={annualPoints}
+                                                onChange={(e) => setAnnualPoints(Number(e.target.value))}
+                                                className="w-full mb-2"
+                                            />
+                                            <div className="flex justify-between text-[10px] font-bold text-slate-400">
+                                                <span>5K Pts</span><span>30K Pts</span>
+                                            </div>
+                                        </div>
+
+                                        {/* POINTS INTELLIGENCE PANEL */}
+                                        <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden transition-all mb-6 flex-shrink-0">
+                                            {/* Panel Header */}
+                                            <button 
+                                                onClick={() => setIsPanelOpen(!isPanelOpen)} 
+                                                className="w-full px-5 py-4 flex items-center justify-between hover:bg-slate-50 transition-colors focus:outline-none text-left"
+                                            >
+                                                <div className="flex items-center gap-3">
+                                                    <div className="bg-indigo-50 p-2 rounded-lg text-indigo-600">
+                                                        <Icon name="bar-chart-2" className="w-4 h-4" />
+                                                    </div>
+                                                    <div>
+                                                        <h2 className="text-sm font-bold text-slate-800">Points Intelligence</h2>
+                                                        <p className="text-[10px] text-slate-500 font-medium">Impact on portfolio</p>
+                                                    </div>
+                                                </div>
+                                                <div className="flex items-center gap-4">
+                                                    <div className="flex gap-4 text-xs text-right mr-2">
+                                                        <div className="hidden sm:block">
+                                                            <p className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Total</p>
+                                                            <p className="font-bold text-slate-800">{totalSystemPoints.toLocaleString()}</p>
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Used</p>
+                                                            <p className="font-bold text-blue-600">-{tripCost.toLocaleString()}</p>
+                                                        </div>
+                                                    </div>
+                                                    <i data-lucide="chevron-down" className={`w-4 h-4 text-slate-400 transform transition-transform duration-300 ${isPanelOpen ? 'rotate-180' : ''}`}></i>
+                                                </div>
+                                            </button>
+
+                                            {/* Panel Body (Collapsible) */}
+                                            <div className={`grid transition-all duration-300 ease-in-out ${isPanelOpen ? 'grid-rows-[1fr] opacity-100 border-t border-slate-100' : 'grid-rows-[0fr] opacity-0'}`}>
+                                                <div className="overflow-hidden">
+                                                    <div className="p-5 space-y-6">
+                                                        
+                                                        {/* A. Snapshot */}
+                                                        <div>
+                                                            <div className="flex justify-between items-center bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
+                                                                <div>
+                                                                    <p className="text-[10px] font-bold text-slate-400 uppercase">Available</p>
+                                                                    <p className="text-lg font-black text-slate-800">{totalSystemPoints.toLocaleString()}</p>
+                                                                </div>
+                                                                <div className="px-3">
+                                                                    <p className="text-[10px] font-bold text-slate-400 uppercase">Trip Cost</p>
+                                                                    <p className="text-base font-black text-blue-600">-{tripCost.toLocaleString()}</p>
+                                                                </div>
+                                                                <div>
+                                                                    <p className="text-[10px] font-bold text-slate-400 uppercase">Remaining</p>
+                                                                    <p className="text-lg font-black text-slate-800">{pointsRemaining.toLocaleString()}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* B. Bucket Bars */}
+                                                        <div>
+                                                            <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Depletion Order</h3>
+                                                            <div className="space-y-4">
+                                                                {bucketsData.map((b, i) => (
+                                                                    <div key={b.id} className="group">
+                                                                        <div className="flex justify-between items-end mb-1.5">
+                                                                            <div className="flex items-center gap-1.5">
+                                                                                <span className="flex items-center justify-center w-4 h-4 rounded-full bg-slate-200 text-slate-600 text-[9px] font-black">{i + 1}</span>
+                                                                                <span className="text-xs font-bold text-slate-700">{b.label}</span>
+                                                                            </div>
+                                                                            <div className="text-[10px] font-semibold text-slate-400">Total: {b.total.toLocaleString()}</div>
+                                                                        </div>
+                                                                        <div className="h-2 w-full bg-slate-100 rounded-full flex overflow-hidden">
+                                                                            <div className={`bg-${b.color}-600 transition-all duration-500 ease-out h-full`} style={{width: `${(b.used / b.total) * 100 || 0}%`}}></div>
+                                                                            <div className={`bg-${b.color}-200 transition-all duration-500 ease-out h-full`} style={{width: `${(b.rem / b.total) * 100 || 0}%`}}></div>
+                                                                        </div>
+                                                                        <div className="flex justify-between mt-1 px-1">
+                                                                            <span className={`text-[9px] font-bold text-${b.color}-700`}>Used: {b.used.toLocaleString()}</span>
+                                                                            <span className="text-[9px] font-bold text-slate-500">Rem: {b.rem.toLocaleString()}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+
+                                                        {/* C. Insights Container */}
+                                                        <div className="space-y-2">
+                                                            {/* Expiration Rules */}
+                                                            {expiringRem > 0 ? (
+                                                                <>
+                                                                    <div className="bg-amber-50 border border-amber-200 p-3 rounded-xl flex gap-3 text-xs items-start shadow-sm">
+                                                                        <Icon name="alert-circle" className="w-4 h-4 shrink-0 text-amber-500 mt-0.5" />
+                                                                        <div>
+                                                                            <p className="font-bold text-amber-900 mb-0.5">Expiration Warning</p>
+                                                                            <p className="text-amber-700">You will have <strong>{expiringRem.toLocaleString()}</strong> points expiring in 4 months.</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="bg-blue-50 border border-blue-100 p-3 rounded-xl flex gap-3 text-xs items-start shadow-sm">
+                                                                        <Icon name="lightbulb" className="w-4 h-4 shrink-0 text-blue-500 mt-0.5" />
+                                                                        <div>
+                                                                            <p className="font-bold text-blue-900 mb-0.5">Optimization Tip</p>
+                                                                            <p className="text-blue-700 leading-relaxed">Consider extending a stay or adding a weekend getaway to capture these points.</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </>
+                                                            ) : (
+                                                                <div className="bg-emerald-50 border border-emerald-200 p-3 rounded-xl flex gap-3 text-xs items-center shadow-sm">
+                                                                    <Icon name="check-circle-2" className="w-4 h-4 shrink-0 text-emerald-500" />
+                                                                    <p className="text-emerald-800 font-medium">All expiring points successfully utilized.</p>
+                                                                </div>
+                                                            )}
+
+                                                            {/* Majority Used Rule */}
+                                                            {isMajorityUsed && (
+                                                                <div className="bg-slate-50 border border-slate-200 p-3 rounded-xl flex gap-3 text-xs items-center shadow-sm">
+                                                                    <Icon name="pie-chart" className="w-4 h-4 shrink-0 text-slate-500" />
+                                                                    <p className="text-slate-700 font-medium">This plan uses 70%+ of your standard annual points.</p>
+                                                                </div>
+                                                            )}
+
+                                                            {/* Borrowing Rule */}
+                                                            {borrowedUsed > 0 && (
+                                                                <div className="bg-purple-50 border border-purple-200 p-3 rounded-xl flex gap-3 text-xs items-start shadow-sm">
+                                                                    <Icon name="arrow-right-left" className="w-4 h-4 shrink-0 text-purple-500 mt-0.5" />
+                                                                    <div>
+                                                                        <p className="font-bold text-purple-900 mb-0.5">Borrowing Active</p>
+                                                                        <p className="text-purple-700">You are borrowing <strong>{borrowedUsed.toLocaleString()}</strong> points from next year.</p>
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Cart Section */}
+                                        <div className="flex-1 flex flex-col min-h-0">
+                                            <div className="flex justify-between items-end mb-3">
+                                                <h3 className="font-bold text-sm text-slate-800 uppercase tracking-widest">Sample Itinerary</h3>
+                                                {cart.length > 0 && (
+                                                    <button onClick={() => setCart([])} className="text-[10px] uppercase text-slate-400 hover:text-red-500 font-bold flex items-center gap-1 transition-colors">
+                                                        <Icon name="rotate-ccw" className="w-3 h-3" /> Clear
+                                                    </button>
+                                                )}
+                                            </div>
+                                            
+                                            <div className="flex-1 overflow-y-auto space-y-2 custom-scrollbar pr-1">
+                                                {cart.length === 0 ? (
+                                                    <div className="h-32 flex flex-col items-center justify-center text-slate-400 border-2 border-dashed border-slate-200 rounded-xl p-4 text-center bg-slate-50">
+                                                        <Icon name="mouse-pointer-click" className="w-6 h-6 mb-2 opacity-50" />
+                                                        <p className="text-xs font-medium">Click destinations on the right<br/>to simulate your year.</p>
+                                                    </div>
+                                                ) : (
+                                                    cart.map(trip => (
+                                                        <div key={trip.id} className="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex justify-between items-center group">
+                                                            <div className="flex items-center gap-3">
+                                                                <div className="bg-slate-100 p-2 rounded-lg text-slate-500">
+                                                                    <Icon name={trip.icon} className="w-4 h-4" />
+                                                                </div>
+                                                                <div>
+                                                                    <p className="text-sm font-bold text-slate-800 leading-tight">{trip.title}</p>
+                                                                    <p className="text-[10px] text-slate-500 font-medium mt-0.5">{trip.nights} Nights</p>
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex items-center gap-3">
+                                                                <span className="text-sm font-black text-blue-600">-{trip.points.toLocaleString()}</span>
+                                                                <button onClick={() => toggleTrip(trip)} className="text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                                    <Icon name="x-circle" className="w-4 h-4" />
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    ))
+                                                )}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                {/* RIGHT SIDEBAR: Destinations Grid */}
+                                <div className="w-[55%] p-8 overflow-y-auto custom-scrollbar bg-slate-100/50">
+                                    <h2 className="text-2xl font-black text-slate-800 tracking-tight mb-2">Explore Possibilities</h2>
+                                    <p className="text-slate-500 text-sm mb-6">Select destinations to see how they impact your points portfolio.</p>
+                                    
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        {DESTINATIONS.map(dest => {
+                                            const inCart = cart.find(t => t.id === dest.id);
+                                            const canAfford = pointsRemaining >= dest.points || inCart;
+                                            
+                                            return (
+                                                <div 
+                                                    key={dest.id}
+                                                    onClick={() => { if(canAfford) toggleTrip(dest); }}
+                                                    className={`relative rounded-2xl overflow-hidden border-2 transition-all duration-300 ${inCart ? 'border-blue-500 shadow-xl shadow-blue-500/20 scale-[1.02]' : canAfford ? 'border-transparent shadow-sm hover:shadow-xl cursor-pointer hover:-translate-y-1 bg-white' : 'border-transparent bg-slate-200 opacity-60 grayscale cursor-not-allowed'}`}
+                                                >
+                                                    {inCart && (
+                                                        <div className="absolute top-3 right-3 z-10 bg-blue-500 text-white rounded-full p-1 shadow-lg">
+                                                            <Icon name="check" className="w-4 h-4" />
+                                                        </div>
+                                                    )}
+                                                    
+                                                    <div className="h-36 w-full relative">
+                                                        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent z-0"></div>
+                                                        <img src={dest.img} alt={dest.title} className="w-full h-full object-cover" />
+                                                        <div className="absolute bottom-3 left-3 z-10">
+                                                            <div className="bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-[10px] font-bold text-slate-700 inline-flex items-center gap-1 mb-1 shadow-sm">
+                                                                <Icon name={dest.icon} className="w-3 h-3" /> {dest.type}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="p-4 bg-white">
+                                                        <h4 className="font-bold text-slate-800 text-base mb-1">{dest.title}</h4>
+                                                        <div className="flex justify-between items-center mt-2">
+                                                            <span className="text-xs font-semibold text-slate-500">{dest.nights} Nights</span>
+                                                            <span className="text-sm font-black text-blue-600">{dest.points.toLocaleString()} pts</span>
+                                                        </div>
+                                                        {!canAfford && !inCart && (
+                                                            <div className="mt-3 pt-3 border-t border-slate-100">
+                                                                <span className="text-[10px] font-bold text-red-500 uppercase tracking-wider flex items-center gap-1">
+                                                                    <Icon name="lock" className="w-3 h-3" /> Needs More Points
+                                                                </span>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* TAB 2: EDUCATION (Placeholder for full integration) */}
+                        {activeTab === 'education' && (
+                            <div className="flex-1 p-12 overflow-y-auto fade-in bg-white flex items-center justify-center">
+                                <div className="text-center max-w-lg">
+                                    <div className="w-20 h-20 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                                        <Icon name="graduation-cap" className="w-10 h-10" />
+                                    </div>
+                                    <h2 className="text-3xl font-black text-slate-800 mb-4">How HGV Works</h2>
+                                    <p className="text-slate-500 mb-8">This tab serves as the educational hub to explain rules like 13-month booking windows, club point conversion, and tier benefits.</p>
+                                    <button onClick={() => setActiveTab('planner')} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition-colors">
+                                        Back to Planner
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+
+                    </main>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
