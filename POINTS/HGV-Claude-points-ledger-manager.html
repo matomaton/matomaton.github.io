@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Points Manager — Vacation World Ownership</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=IBM+Plex+Mono:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #0B1E3D; }
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    input[type=number] { -moz-appearance: textfield; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #122547; }
+    ::-webkit-scrollbar-thumb { background: #2C4A72; border-radius: 3px; }
+    .ledger-fade { animation: fadeIn 0.3s ease; }
+    .toast-anim { animation: slideDown 0.3s ease; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useRef } = React;
+
+    // ─── Design tokens ───────────────────────────────────────────────────────
+    const T = {
+      navy:        "#0B1E3D",
+      navyMid:     "#122547",
+      navyLight:   "#1A3460",
+      slate:       "#2C4A72",
+      steel:       "#4A6FA5",
+      skyAccent:   "#4E9FE5",
+      mint:        "#00C9A7",
+      gold:        "#F4B942",
+      danger:      "#E05252",
+      warn:        "#F4924A",
+      text:        "#E8EEF7",
+      textMid:     "#A8BBD6",
+      textDim:     "#6B86A8",
+      border:      "rgba(78,159,229,0.18)",
+      borderBright:"rgba(78,159,229,0.38)",
+    };
+
+    const FONT_DISPLAY = "'DM Serif Display', Georgia, serif";
+    const FONT_BODY    = "'IBM Plex Mono', 'Courier New', monospace";
+    const FONT_UI      = "'DM Sans', system-ui, sans-serif";
+
+    // ─── Mock data ────────────────────────────────────────────────────────────
+    const INITIAL_STATE = {
+      memberId:   "VWO-2847-SILVA",
+      memberName: "Elena & Marco Silva",
+      memberTier: "Platinum",
+      currentYear: 2025,
+      currentYearPoints: {
+        annual:         155000,
+        saved:           42000,
+        borrowed:            0,
+        bonus:            8500,
+        used:                0,
+        expiring:        42000,
+        expirationDate:  "Dec 31, 2025",
+        daysUntilExpiry:    214,
+      },
+      nextYearPoints: {
+        annual:   155000,
+        bonus:         0,
+        available: 155000,
+      },
+      pendingTransactions: [
+        { date: "Jun 12, 2025", type: "Annual Allocation",        points: +155000, balance: 205500, status: "posted"   },
+        { date: "May 02, 2025", type: "Bonus — Referral Award",   points:  +8500,  balance:  50500, status: "posted"   },
+        { date: "Mar 15, 2025", type: "Rolled Forward (2024)",    points: +42000,  balance:  42000, status: "posted"   },
+        { date: "Dec 31, 2024", type: "Annual Allocation 2024",   points:+155000,  balance: 155000, status: "archived" },
+        { date: "Nov 18, 2024", type: "Booking — Cabo San Lucas", points: -28000,  balance: 127000, status: "archived" },
+        { date: "Sep 03, 2024", type: "Booking — Maui Resort",    points: -85000,  balance: 100000, status: "archived" },
+      ],
+    };
+
+    // ─── Sub-components ──────────────────────────────────────────────────────
+
+    function Badge({ label, color = T.skyAccent }) {
+      return (
+        <span style={{
+          display: "inline-flex", alignItems: "center",
+          padding: "2px 10px", borderRadius: 3,
+          fontSize: 10, fontFamily: FONT_BODY, letterSpacing: "0.08em",
+          fontWeight: 600, textTransform: "uppercase",
+          background: `${color}22`, color, border: `1px solid ${color}44`,
+          whiteSpace: "nowrap",
+        }}>{label}</span>
+      );
+    }
+
+    function StatCard({ label, value, sub, accent = T.skyAccent, alert }) {
+      return (
+        <div style={{
+          background: T.navyMid,
+          border: `1px solid ${alert ? T.danger + "55" : T.border}`,
+          borderRadius: 8, padding: "20px 24px",
+          position: "relative", overflow: "hidden",
+        }}>
+          {alert && (
+            <div style={{
+              position: "absolute", top: 0, left: 0, right: 0, height: 3,
+              background: `linear-gradient(90deg, ${T.danger}, ${T.warn})`,
+            }} />
+          )}
+          <div style={{ fontFamily: FONT_BODY, fontSize: 10, color: T.textDim, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 8 }}>
+            {label}
+          </div>
+          <div style={{ fontFamily: FONT_DISPLAY, fontSize: 28, color: alert ? T.warn : accent, lineHeight: 1 }}>
+            {typeof value === "number" ? value.toLocaleString() : value}
+          </div>
+          {sub && <div style={{ fontFamily: FONT_BODY, fontSize: 11, color: T.textDim, marginTop: 6 }}>{sub}</div>}
+        </div>
+      );
+    }
+
+    function ProgressBar({ used, total, color = T.skyAccent, showPercent }) {
+      const pct = Math.min(100, Math.round((used / total) * 100));
+      return (
+        <div>
+          <div style={{ height: 6, background: T.navyLight, borderRadius: 3, overflow: "hidden" }}>
+            <div style={{
+              height: "100%", width: `${pct}%`,
+              background: `linear-gradient(90deg, ${color}, ${color}99)`,
+              borderRadius: 3, transition: "width 0.6s ease",
+            }} />
+          </div>
+          {showPercent && (
+            <div style={{ fontFamily: FONT_BODY, fontSize: 10, color: T.textDim, marginTop: 4, textAlign: "right" }}>
+              {pct}% utilized
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    function LedgerRow({ row, index }) {
+      const [hovered, setHovered] = useState(false);
+      const isNeg = row.points < 0;
+      const baseBg = index % 2 === 0 ? "transparent" : "rgba(255,255,255,0.015)";
+      return (
+        <div
+          style={{
+            display: "grid", gridTemplateColumns: "120px 1fr 120px 120px 90px",
+            padding: "14px 20px", borderBottom: `1px solid ${T.border}`,
+            background: hovered ? "rgba(78,159,229,0.06)" : baseBg,
+            alignItems: "center",
+            opacity: row.status === "archived" ? 0.55 : 1,
+            transition: "background 0.15s",
+          }}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+        >
+          <span style={{ fontFamily: FONT_BODY, fontSize: 11, color: T.textDim }}>{row.date}</span>
+          <span style={{ fontFamily: FONT_UI,   fontSize: 13, color: T.text }}>{row.type}</span>
+          <span style={{ fontFamily: FONT_BODY, fontSize: 13, textAlign: "right", color: isNeg ? T.danger : T.mint, fontWeight: 600 }}>
+            {isNeg ? "−" : "+"}{Math.abs(row.points).toLocaleString()}
+          </span>
+          <span style={{ fontFamily: FONT_BODY, fontSize: 13, color: T.textMid, textAlign: "right" }}>
+            {row.balance.toLocaleString()}
+          </span>
+          <span style={{ textAlign: "right" }}>
+            <Badge label={row.status} color={row.status === "posted" ? T.mint : T.textDim} />
+          </span>
+        </div>
+      );
+    }
+
+    function ActionButton({ label, variant = "primary", onClick, disabled, small }) {
+      const [hovered, setHovered] = useState(false);
+      const colors = {
+        primary: { bg: T.skyAccent, text: T.navy,  border: T.skyAccent },
+        ghost:   { bg: "transparent", text: T.skyAccent, border: T.skyAccent },
+        danger:  { bg: T.danger,    text: "#fff",  border: T.danger },
+        warn:    { bg: T.gold,      text: T.navy,  border: T.gold },
+        success: { bg: T.mint,      text: T.navy,  border: T.mint },
+      };
+      const c = colors[variant] || colors.primary;
+      return (
+        <button
+          onClick={onClick}
+          disabled={disabled}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+          style={{
+            padding:     small ? "8px 16px" : "12px 24px",
+            background:  disabled ? T.navyLight : c.bg,
+            color:       disabled ? T.textDim  : c.text,
+            border:      `1px solid ${disabled ? T.border : c.border}`,
+            borderRadius: 5,
+            fontFamily:  FONT_BODY,
+            fontSize:    small ? 11 : 12,
+            fontWeight:  700,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            cursor:      disabled ? "not-allowed" : "pointer",
+            outline:     "none",
+            opacity:     hovered && !disabled ? 0.85 : 1,
+            transition:  "opacity 0.15s",
+          }}
+        >{label}</button>
+      );
+    }
+
+    function SectionHeader({ title, subtitle, expanded, onToggle, badge }) {
+      return (
+        <div
+          onClick={onToggle}
+          style={{
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+            padding: "18px 24px", cursor: "pointer",
+            borderBottom: expanded ? `1px solid ${T.border}` : "none",
+            userSelect: "none",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+            <span style={{ fontFamily: FONT_DISPLAY, fontSize: 17, color: T.text }}>{title}</span>
+            {badge    && <Badge label={badge}    color={T.gold}    />}
+            {subtitle && <span style={{ fontFamily: FONT_BODY, fontSize: 11, color: T.textDim }}>{subtitle}</span>}
+          </div>
+          <span style={{ fontFamily: FONT_BODY, fontSize: 11, color: T.skyAccent, letterSpacing: "0.06em", whiteSpace: "nowrap", marginLeft: 16 }}>
+            {expanded ? "COLLAPSE ▲" : "EXPAND ▼"}
+          </span>
+        </div>
+      );
+    }
+
+    // ─── Expiration Panel ────────────────────────────────────────────────────
+
+    function ExpirationPanel({ data, onAction }) {
+      const [mode,     setMode]     = useState(null);
+      const [inputPts, setInputPts] = useState("");
+      const [step,     setStep]     = useState("select");
+
+      const pts      = parseInt(inputPts.replace(/,/g, ""), 10) || 0;
+      const maxSave   = data.expiring;
+      const maxBorrow = Math.round(data.annual * 0.25);
+
+      const consequences = {
+        save: {
+          headline: "Points roll into 2026 — no value lost.",
+          detail:   `${pts.toLocaleString()} pts move to your 2026 balance. They expire Dec 31, 2026 unless used.`,
+          cost:     "Save fee: None — included in your Platinum membership.",
+          cta:      "Confirm Save Forward",
+          variant:  "success",
+        },
+        borrow: {
+          headline: "Points are debited from your 2026 annual allocation.",
+          detail:   `Your 2026 balance will open at ${(data.nextYearAnnual - pts).toLocaleString()} pts instead of ${data.nextYearAnnual.toLocaleString()}.`,
+          cost:     "Borrow fee: None — returned automatically at 2026 allocation.",
+          cta:      "Confirm Borrow",
+          variant:  "warn",
+        },
+      };
+
+      function handleConfirm() {
+        onAction({ type: mode, points: pts });
+        setStep("done");
+      }
+
+      if (step === "done") {
+        return (
+          <div style={{ padding: "32px 24px", textAlign: "center" }}>
+            <div style={{ fontSize: 40, marginBottom: 12 }}>✓</div>
+            <div style={{ fontFamily: FONT_DISPLAY, fontSize: 22, color: T.mint, marginBottom: 8 }}>
+              Transaction Complete
+            </div>
+            <div style={{ fontFamily: FONT_BODY, fontSize: 12, color: T.textMid, marginBottom: 24 }}>
+              {mode === "save"
+                ? `${pts.toLocaleString()} pts saved to 2026. Your ledger has been updated.`
+                : `${pts.toLocaleString()} pts borrowed from 2026. Your current balance has been updated.`}
+            </div>
+            <div style={{
+              background: T.navyLight, border: `1px solid ${T.mint}44`,
+              borderRadius: 6, padding: "14px 20px", marginBottom: 20,
+              fontFamily: FONT_BODY, fontSize: 11, color: T.textMid, textAlign: "left",
+            }}>
+              <div>TRANSACTION REFERENCE: TXN-{Date.now().toString().slice(-8)}</div>
+              <div style={{ marginTop: 4 }}>TIMESTAMP: {new Date().toLocaleString()}</div>
+              <div style={{ marginTop: 4 }}>POINTS AFFECTED: {pts.toLocaleString()}</div>
+              <div style={{ marginTop: 4 }}>STATUS: POSTED</div>
+            </div>
+            <ActionButton
+              label="← Back to Overview"
+              variant="ghost"
+              onClick={() => { setStep("select"); setMode(null); setInputPts(""); }}
+            />
+          </div>
+        );
+      }
+
+      return (
+        <div style={{ padding: "24px" }}>
+
+          {/* SELECT step */}
+          {step === "select" && (
+            <>
+              <div style={{
+                background: `${T.danger}15`, border: `1px solid ${T.danger}44`,
+                borderRadius: 6, padding: "14px 18px", marginBottom: 20,
+                display: "flex", alignItems: "flex-start", gap: 12,
+              }}>
+                <span style={{ fontSize: 18, marginTop: 1 }}>⚠</span>
+                <div>
+                  <div style={{ fontFamily: FONT_UI, fontWeight: 700, color: T.warn, fontSize: 13 }}>
+                    {data.expiring.toLocaleString()} points expire {data.expirationDate}
+                  </div>
+                  <div style={{ fontFamily: FONT_BODY, fontSize: 11, color: T.textMid, marginTop: 4 }}>
+                    That is {data.daysUntilExpiry} days away. Expired points cannot be recovered. Choose an action below.
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 20 }}>
+                {[
+                  {
+                    key: "save", icon: "→", label: "Save Forward",
+                    desc: "Roll expiring points into your 2026 balance. Keep full value.",
+                    sub: `Up to ${maxSave.toLocaleString()} pts eligible`, accent: T.mint,
+                  },
+                  {
+                    key: "borrow", icon: "↓", label: "Borrow Against 2026",
+                    desc: "Take points from next year's allocation to use today.",
+                    sub: `Up to ${maxBorrow.toLocaleString()} pts available`, accent: T.gold,
+                  },
+                ].map(opt => (
+                  <div
+                    key={opt.key}
+                    onClick={() => setMode(opt.key)}
+                    style={{
+                      border: `2px solid ${mode === opt.key ? opt.accent : T.border}`,
+                      borderRadius: 8, padding: "18px", cursor: "pointer",
+                      background: mode === opt.key ? `${opt.accent}12` : T.navyLight,
+                      transition: "all 0.15s",
+                    }}
+                  >
+                    <div style={{ fontFamily: FONT_BODY, fontSize: 22, color: opt.accent, marginBottom: 6 }}>{opt.icon}</div>
+                    <div style={{ fontFamily: FONT_DISPLAY, fontSize: 16, color: T.text, marginBottom: 6 }}>{opt.label}</div>
+                    <div style={{ fontFamily: FONT_UI, fontSize: 12, color: T.textMid, marginBottom: 8 }}>{opt.desc}</div>
+                    <Badge label={opt.sub} color={opt.accent} />
+                  </div>
+                ))}
+              </div>
+
+              {mode && (
+                <div style={{ marginBottom: 20 }}>
+                  <label style={{
+                    fontFamily: FONT_BODY, fontSize: 11, color: T.textDim,
+                    letterSpacing: "0.1em", textTransform: "uppercase",
+                    display: "block", marginBottom: 8,
+                  }}>
+                    How many points? (max {mode === "save" ? maxSave.toLocaleString() : maxBorrow.toLocaleString()})
+                  </label>
+                  <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+                    <input
+                      type="number"
+                      value={inputPts}
+                      onChange={e => setInputPts(e.target.value)}
+                      max={mode === "save" ? maxSave : maxBorrow}
+                      placeholder="0"
+                      style={{
+                        flex: 1, padding: "12px 16px", borderRadius: 5,
+                        background: T.navy, border: `1px solid ${T.borderBright}`,
+                        color: T.text, fontFamily: FONT_BODY, fontSize: 16, outline: "none",
+                      }}
+                    />
+                    <ActionButton
+                      label="Max"
+                      variant="ghost"
+                      small
+                      onClick={() => setInputPts(String(mode === "save" ? maxSave : maxBorrow))}
+                    />
+                  </div>
+                </div>
+              )}
+
+              <ActionButton
+                label="Review Action →"
+                variant="primary"
+                disabled={!mode || pts <= 0}
+                onClick={() => setStep("confirm")}
+              />
+            </>
+          )}
+
+          {/* CONFIRM step */}
+          {step === "confirm" && mode && (
+            <>
+              <div style={{
+                background: T.navyLight, borderRadius: 6, padding: "20px",
+                border: `1px solid ${T.borderBright}`, marginBottom: 20,
+              }}>
+                <div style={{ fontFamily: FONT_BODY, fontSize: 10, color: T.textDim, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 12 }}>
+                  Action Summary — Review Before Confirming
+                </div>
+                <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                  <tbody>
+                    {[
+                      ["Action",      mode === "save" ? "Save Forward to 2026" : "Borrow from 2026"],
+                      ["Points",      pts.toLocaleString()],
+                      ["Effect",      consequences[mode].headline],
+                      ["Impact",      consequences[mode].detail],
+                      ["Cost",        consequences[mode].cost],
+                      ["Effective",   "Immediately upon confirmation"],
+                      ["Reversible?", mode === "save" ? "No — cannot un-save after Dec 31" : "No — deducted from 2026 at allocation"],
+                    ].map(([k, v]) => (
+                      <tr key={k} style={{ borderBottom: `1px solid ${T.border}` }}>
+                        <td style={{ fontFamily: FONT_BODY, fontSize: 11, color: T.textDim, padding: "8px 0", width: "35%", verticalAlign: "top" }}>{k}</td>
+                        <td style={{ fontFamily: FONT_UI,   fontSize: 12, color: T.text,    padding: "8px 0 8px 16px", verticalAlign: "top" }}>{v}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <div style={{
+                background: `${T.warn}12`, border: `1px solid ${T.warn}44`,
+                borderRadius: 5, padding: "12px 16px", marginBottom: 20,
+                fontFamily: FONT_BODY, fontSize: 11, color: T.warn,
+              }}>
+                ⚠ This action cannot be undone. Confirm only if you have reviewed all details above.
+              </div>
+
+              <div style={{ display: "flex", gap: 12 }}>
+                <ActionButton label={consequences[mode].cta} variant={consequences[mode].variant} onClick={handleConfirm} />
+                <ActionButton label="← Go Back" variant="ghost" onClick={() => setStep("select")} />
+              </div>
+            </>
+          )}
+        </div>
+      );
+    }
+
+    // ─── Main App ────────────────────────────────────────────────────────────
+
+    function PointsLedger() {
+      const [data]         = useState(INITIAL_STATE);
+      const [agentMode,    setAgentMode]    = useState(false);
+      const [sections,     setSections]     = useState({ overview: true, ledger: false, expiration: false, nextyear: false });
+      const [actionResult, setActionResult] = useState(null);
+      const [showToast,    setShowToast]    = useState(false);
+      const toastTimer = useRef(null);
+
+      const cy = data.currentYearPoints;
+      const ny = data.nextYearPoints;
+      const totalAvailable = cy.annual + cy.saved + cy.bonus - cy.used;
+
+      function toggleSection(key) {
+        setSections(s => ({ ...s, [key]: !s[key] }));
+      }
+
+      function handleAction(action) {
+        setActionResult(action);
+        setShowToast(true);
+        if (toastTimer.current) clearTimeout(toastTimer.current);
+        toastTimer.current = setTimeout(() => setShowToast(false), 5000);
+      }
+
+      function scrollToExpiration() {
+        setSections(s => ({ ...s, expiration: true }));
+        setTimeout(() => {
+          const el = document.getElementById("expiration-section");
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+        }, 80);
+      }
+
+      return (
+        <div style={{
+          minHeight: "100vh",
+          background: T.navy,
+          backgroundImage: `
+            radial-gradient(ellipse at 20% 0%,   rgba(78,159,229,0.08) 0%, transparent 50%),
+            radial-gradient(ellipse at 80% 100%, rgba(0,201,167,0.05)  0%, transparent 50%)
+          `,
+          fontFamily: FONT_UI,
+          color: T.text,
+        }}>
+
+          {/* Toast */}
+          {showToast && (
+            <div className="toast-anim" style={{
+              position: "fixed", top: 20, right: 20, zIndex: 9999,
+              background: T.navyMid, border: `1px solid ${T.mint}55`,
+              borderLeft: `3px solid ${T.mint}`, borderRadius: 6,
+              padding: "14px 20px", maxWidth: 340,
+              boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
+            }}>
+              <div style={{ fontFamily: FONT_BODY, fontSize: 11, color: T.mint, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 4 }}>
+                ✓ Transaction Posted
+              </div>
+              <div style={{ fontFamily: FONT_UI, fontSize: 12, color: T.textMid }}>
+                {actionResult?.points?.toLocaleString()} pts{" "}
+                {actionResult?.type === "save" ? "saved to 2026" : "borrowed from 2026"}. Ledger updated.
+              </div>
+            </div>
+          )}
+
+          <div style={{ maxWidth: 1160, margin: "0 auto", padding: "0 24px 60px" }}>
+
+            {/* ── Header ─────────────────────────────────────────────── */}
+            <div style={{
+              display: "flex", justifyContent: "space-between", alignItems: "center",
+              padding: "24px 0 20px", borderBottom: `1px solid ${T.border}`, marginBottom: 28,
+              flexWrap: "wrap", gap: 16,
+            }}>
+              <div>
+                <div style={{ fontFamily: FONT_BODY, fontSize: 10, color: T.textDim, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 6 }}>
+                  VACATION WORLD OWNERSHIP · POINTS MANAGER
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
+                  <span style={{ fontFamily: FONT_DISPLAY, fontSize: 26, color: T.text }}>{data.memberName}</span>
+                  <Badge label={data.memberTier} color={T.gold} />
+                </div>
+                <div style={{ fontFamily: FONT_BODY, fontSize: 11, color: T.textDim, marginTop: 4 }}>
+                  Member ID: {data.memberId} · Plan Year: {data.currentYear}
+                </div>
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 10 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <span style={{ fontFamily: FONT_BODY, fontSize: 10, color: T.textDim, letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                    Agent Mode
+                  </span>
+                  <div
+                    onClick={() => setAgentMode(!agentMode)}
+                    style={{
+                      width: 44, height: 24, borderRadius: 12,
+                      background: agentMode ? T.gold : T.navyLight,
+                      border: `1px solid ${agentMode ? T.gold : T.border}`,
+                      cursor: "pointer", position: "relative", transition: "all 0.2s",
+                    }}
+                  >
+                    <div style={{
+                      width: 18, height: 18, borderRadius: 9,
+                      background: agentMode ? T.navy : T.textDim,
+                      position: "absolute", top: 2,
+                      left: agentMode ? 22 : 2, transition: "left 0.2s",
+                    }} />
+                  </div>
+                </div>
+                {agentMode && <Badge label="Agent View — Objection Mode Active" color={T.gold} />}
+              </div>
+            </div>
+
+            {/* ── Agent Banner ────────────────────────────────────────── */}
+            {agentMode && (
+              <div className="ledger-fade" style={{
+                background: `${T.gold}12`, border: `1px solid ${T.gold}44`,
+                borderRadius: 6, padding: "14px 20px", marginBottom: 20,
+                display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20,
+              }}>
+                {[
+                  { label: "Current Value",  note: `${totalAvailable.toLocaleString()} pts ≈ 8–14 nights at current redemption rate` },
+                  { label: "Expiration Risk",note: `${cy.expiring.toLocaleString()} pts expire in ${cy.daysUntilExpiry} days — recommend Save Forward` },
+                  { label: "Upgrade Path",   note: "Member is 14,500 pts below next tier threshold" },
+                ].map(item => (
+                  <div key={item.label}>
+                    <div style={{ fontFamily: FONT_BODY, fontSize: 10, color: T.gold, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 4 }}>{item.label}</div>
+                    <div style={{ fontFamily: FONT_UI,   fontSize: 12, color: T.textMid }}>{item.note}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* ── State 1: Account Overview ───────────────────────────── */}
+            <div style={{ background: T.navyMid, border: `1px solid ${T.border}`, borderRadius: 10, marginBottom: 16, overflow: "hidden" }}>
+
+              {/* Big balance row */}
+              <div style={{ padding: "20px 24px", borderBottom: `1px solid ${T.border}` }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 20 }}>
+                  <div>
+                    <div style={{ fontFamily: FONT_BODY, fontSize: 10, color: T.textDim, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 8 }}>
+                      TOTAL AVAILABLE · {data.currentYear}
+                    </div>
+                    <div style={{ fontFamily: FONT_DISPLAY, fontSize: 48, color: T.skyAccent, lineHeight: 1 }}>
+                      {totalAvailable.toLocaleString()}
+                    </div>
+                    <div style={{ fontFamily: FONT_BODY, fontSize: 12, color: T.textDim, marginTop: 6 }}>
+                      POINTS · Refreshes Jan 1, 2026
+                    </div>
+                  </div>
+                  <div style={{ textAlign: "right", minWidth: 200 }}>
+                    <div style={{ fontFamily: FONT_BODY, fontSize: 10, color: T.textDim, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 6 }}>
+                      Point Utilization
+                    </div>
+                    <ProgressBar used={cy.used} total={cy.annual + cy.saved + cy.bonus} color={T.skyAccent} showPercent />
+                    <div style={{ fontFamily: FONT_BODY, fontSize: 11, color: T.textDim, marginTop: 8 }}>
+                      {cy.used.toLocaleString()} used of {(cy.annual + cy.saved + cy.bonus).toLocaleString()} total
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Breakdown grid */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)" }}>
+                {[
+                  { label: "Annual Allocation", value: cy.annual,   sub: "Base plan year grant",   accent: T.text },
+                  { label: "Saved Forward",      value: cy.saved,    sub: "Rolled from 2024",        accent: T.skyAccent },
+                  { label: "Bonus Points",       value: cy.bonus,    sub: "Referral award",          accent: T.gold },
+                  { label: "Borrowed",           value: cy.borrowed, sub: "From 2026 allocation",    accent: T.warn },
+                ].map((item, i) => (
+                  <div key={item.label} style={{
+                    padding: "18px 24px",
+                    borderRight: i < 3 ? `1px solid ${T.border}` : "none",
+                    borderTop: `1px solid ${T.border}`,
+                  }}>
+                    <div style={{ fontFamily: FONT_BODY, fontSize: 10, color: T.textDim, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 8 }}>
+                      {item.label}
+                    </div>
+                    <div style={{ fontFamily: FONT_DISPLAY, fontSize: 24, color: item.accent }}>
+                      {item.value.toLocaleString()}
+                    </div>
+                    <div style={{ fontFamily: FONT_BODY, fontSize: 11, color: T.textDim, marginTop: 4 }}>{item.sub}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Expiration alert strip */}
+              <div style={{
+                background: `linear-gradient(90deg, ${T.danger}18, ${T.warn}12)`,
+                borderTop: `1px solid ${T.danger}44`,
+                padding: "12px 24px",
+                display: "flex", justifyContent: "space-between", alignItems: "center",
+                flexWrap: "wrap", gap: 12,
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <span style={{ color: T.warn, fontSize: 14 }}>⚠</span>
+                  <span style={{ fontFamily: FONT_UI, fontSize: 12, color: T.warn }}>
+                    <strong>{cy.expiring.toLocaleString()} points</strong> expire {cy.expirationDate} — {cy.daysUntilExpiry} days remaining
+                  </span>
+                </div>
+                <ActionButton label="Take Action Now →" variant="warn" small onClick={scrollToExpiration} />
+              </div>
+            </div>
+
+            {/* ── State 2: Ledger ──────────────────────────────────────── */}
+            <div style={{ background: T.navyMid, border: `1px solid ${T.border}`, borderRadius: 10, marginBottom: 16, overflow: "hidden" }}>
+              <SectionHeader
+                title="Points Ledger"
+                subtitle="Full transaction history"
+                expanded={sections.ledger}
+                onToggle={() => toggleSection("ledger")}
+              />
+              {sections.ledger && (
+                <div className="ledger-fade">
+                  <div style={{
+                    display: "grid", gridTemplateColumns: "120px 1fr 120px 120px 90px",
+                    padding: "10px 20px", background: T.navyLight, borderBottom: `1px solid ${T.border}`,
+                  }}>
+                    {["Date","Description","Points","Balance","Status"].map((h, i) => (
+                      <span key={h} style={{
+                        fontFamily: FONT_BODY, fontSize: 10, color: T.textDim,
+                        letterSpacing: "0.1em", textTransform: "uppercase",
+                        textAlign: i >= 2 ? "right" : "left",
+                      }}>{h}</span>
+                    ))}
+                  </div>
+                  {data.pendingTransactions.map((row, i) => (
+                    <LedgerRow key={i} row={row} index={i} />
+                  ))}
+                  <div style={{
+                    display: "flex", justifyContent: "space-between", alignItems: "center",
+                    padding: "14px 20px", borderTop: `1px solid ${T.border}`, background: T.navyLight,
+                    flexWrap: "wrap", gap: 10,
+                  }}>
+                    <span style={{ fontFamily: FONT_BODY, fontSize: 10, color: T.textDim }}>
+                      Showing 6 of 28 transactions · Gray rows are prior plan year (archived)
+                    </span>
+                    <ActionButton label="Load All Transactions" variant="ghost" small />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* ── State 3: Expiration Manager ──────────────────────────── */}
+            <div
+              id="expiration-section"
+              style={{
+                background: T.navyMid,
+                border: `2px solid ${sections.expiration ? T.danger + "66" : T.border}`,
+                borderRadius: 10, marginBottom: 16, overflow: "hidden",
+              }}
+            >
+              <SectionHeader
+                title="Expiration Manager"
+                subtitle={`${cy.expiring.toLocaleString()} pts expiring ${cy.expirationDate}`}
+                expanded={sections.expiration}
+                onToggle={() => toggleSection("expiration")}
+                badge="Action Required"
+              />
+              {sections.expiration && (
+                <div className="ledger-fade">
+                  <ExpirationPanel
+                    data={{ ...cy, nextYearAnnual: ny.annual }}
+                    onAction={handleAction}
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* ── Next Year View ───────────────────────────────────────── */}
+            <div style={{ background: T.navyMid, border: `1px solid ${T.border}`, borderRadius: 10, marginBottom: 16, overflow: "hidden" }}>
+              <SectionHeader
+                title="2026 Points — Forward View"
+                subtitle="Projected balance at Jan 1, 2026"
+                expanded={sections.nextyear}
+                onToggle={() => toggleSection("nextyear")}
+              />
+              {sections.nextyear && (
+                <div className="ledger-fade" style={{ padding: "24px" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 16, marginBottom: 20 }}>
+                    <StatCard label="Annual Allocation"        value={ny.annual}             sub="Confirmed for 2026"          accent={T.text} />
+                    <StatCard label="Saved Forward"            value={cy.saved}              sub="From 2025 (if saved)"         accent={T.skyAccent} />
+                    <StatCard label="Projected Opening Balance" value={ny.annual + cy.saved}  sub="If all 2025 savings applied"  accent={T.mint} />
+                  </div>
+                  <div style={{
+                    background: T.navyLight, borderRadius: 6, padding: "16px 20px",
+                    border: `1px solid ${T.border}`,
+                    fontFamily: FONT_BODY, fontSize: 11, color: T.textMid, lineHeight: 1.8,
+                  }}>
+                    <div style={{ color: T.textDim, marginBottom: 6, letterSpacing: "0.1em", textTransform: "uppercase", fontSize: 10 }}>What This Means</div>
+                    <div>→ Your 2026 annual allocation of {ny.annual.toLocaleString()} pts is confirmed.</div>
+                    <div>→ If you save your 2025 expiring points now, you open 2026 with {(ny.annual + cy.saved).toLocaleString()} pts.</div>
+                    <div>→ Borrowing reduces your 2026 opening balance by the borrowed amount.</div>
+                    <div>→ All 2026 points expire Dec 31, 2026 unless saved again.</div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* ── Footer ──────────────────────────────────────────────── */}
+            <div style={{
+              display: "flex", justifyContent: "space-between", alignItems: "center",
+              padding: "20px 0", borderTop: `1px solid ${T.border}`,
+              flexWrap: "wrap", gap: 12,
+            }}>
+              <div style={{ fontFamily: FONT_BODY, fontSize: 10, color: T.textDim, letterSpacing: "0.08em" }}>
+                LAST UPDATED: {new Date().toLocaleString()} · DATA IS REAL-TIME
+              </div>
+              <div style={{ display: "flex", gap: 12 }}>
+                <ActionButton label="Download Statement"    variant="ghost" small />
+                <ActionButton label="Contact Member Services" variant="ghost" small />
+              </div>
+            </div>
+
+            {/* ── Design Documentation ─────────────────────────────────── */}
+            <div style={{ background: T.navyMid, border: `1px solid ${T.border}`, borderRadius: 10, overflow: "hidden", marginTop: 32 }}>
+              <div style={{
+                padding: "20px 24px", borderBottom: `1px solid ${T.border}`,
+                display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 10,
+              }}>
+                <div>
+                  <span style={{ fontFamily: FONT_DISPLAY, fontSize: 17, color: T.textDim }}>Design Strategy Documentation</span>
+                  <span style={{ fontFamily: FONT_BODY, fontSize: 10, color: T.textDim, marginLeft: 12 }}>For product & UX teams</span>
+                </div>
+                <Badge label="Strategy Reference" color={T.textDim} />
+              </div>
+              <div style={{ padding: "28px 32px", columns: 2, gap: 40, lineHeight: 1.75 }}>
+                {[
+                  {
+                    title: "1. Information Architecture",
+                    body: "The page is organized as a single vertical stack of collapsible panels, ordered by decision urgency — not by feature category. Header (identity + total balance) → Overview (breakdown) → Expiration Alert → Ledger History → Next Year View. The hierarchy maps directly to the five core questions: What do I have? (header) / What does it mean? (breakdown grid) / What can I do? (expiration strip CTA) / What happens if I act? (action panel confirm table) / What happens next? (next-year section).",
+                  },
+                  {
+                    title: "2. Screen State Logic",
+                    body: "State 1 (Overview): All data visible, no action required. Expiration alert strip is always rendered — it is the only always-visible CTA. State 2 (Ledger Expanded): The timeline reveals transaction-level provenance. Archived rows are dimmed to 55% — they exist for audit but don't compete for attention. State 3 (Expiration Panel Active): Triggered by alert strip or manual expand. Two-column card choice before any numeric input reduces errors. State 4 (Confirmation): Full consequence table shown BEFORE submit. 'Reversible?' row explicitly answers the question members always ask too late.",
+                  },
+                  {
+                    title: "3. Interaction Logic: Select → Input → Confirm → Update",
+                    body: "Action mode selection (Save / Borrow) is a card pick, not a dropdown — it forces deliberate choice. Input is disabled until mode is selected. The Review Action button is disabled until a valid numeric input exists. The Confirm step shows a structured table with: Action type / Points / Effect / Impact / Cost / Effective / Reversibility. After confirm: ledger appends a new row (TXN reference), balance recalculates in header, toast notification appears for 5 seconds. Agent Mode adds a context banner with redemption value and upgrade proximity data.",
+                  },
+                  {
+                    title: "4. Microcopy — Specific Examples",
+                    body: "BAD: 'Points may expire soon.' GOOD: '42,000 points expire Dec 31, 2025 — 214 days remaining.' BAD: 'Save your points.' GOOD: 'Save Forward: Roll expiring points into 2026. Keep full value. No fee.' BAD: 'Are you sure?' GOOD: Confirmation table with Reversible? row: 'No — cannot un-save after Dec 31.' BAD: 'Success!' GOOD: 'Transaction Posted — TXN-[ref] — 42,000 pts saved to 2026. Ledger updated.' Ledger row labels use plain language event names. Points always presented as integers with commas, never abbreviated (42K ≠ 42,000 when it's your asset).",
+                  },
+                  {
+                    title: "5. Design Rationale",
+                    body: "The banking ledger mental model is load-bearing. Members already think this way — we're meeting cognition, not fighting it. IBM Plex Mono is a deliberate trust signal — it reads as precise, auditable, financial. The high-contrast navy palette with controlled accent colors creates visual hierarchy without decoration. Expiration uses danger color specifically because it signals a consequence, not just an event. The agent mode toggle surfaces contextual sales intelligence (redemption value, tier proximity) without polluting the member-facing view.",
+                  },
+                  {
+                    title: "6. Risks & Failure Points",
+                    body: "Risk 1: Members may not scroll to the expiration panel before deadline — mitigated by the always-visible alert strip with a direct CTA. Risk 2: The Confirm table may overwhelm low-confidence members — needs usability testing on the 'Reversible?' row. Risk 3: Next-Year forward view can create borrowing overconfidence — consider adding a 'borrowing reduces future flexibility' advisory inline. Risk 4: Agent Mode requires live data synchronization — stale data in a sales conversation is worse than no data. Risk 5: Accessibility — monospace fonts and dimmed rows (55% opacity) need WCAG AA audit.",
+                  },
+                  {
+                    title: "7. Measurable Outcomes",
+                    body: "Outcome 1: Reduce expiration rate for rolled-over points from baseline by ≥30% (tracked: points expired / total saved). Outcome 2: Reduce member support contacts about 'I didn't know my points expired' by ≥40% (tracked: contact reason tagging). Outcome 3: Increase Save Forward and Borrow self-service completion rate to >65% without agent assistance (tracked: form completion vs. agent escalation).",
+                  },
+                  {
+                    title: "8. Alternative Structural Approaches",
+                    body: "Alternative A — Timeline-First Layout: Lead with the ledger timeline as the primary viewport, balance summary anchored as a sticky top bar. Rationale: Members who already understand points may prefer provenance-first navigation. Risk: Overwhelms new members immediately with history. Alternative B — Decision Wizard Mode: Replace the expiration panel with a progressive disclosure wizard. Rationale: Reduces upfront cognitive load. Risk: Adds steps for members who know exactly what they want.",
+                  },
+                  {
+                    title: "9. Is a Ledger Model Alone Sufficient?",
+                    body: "No — and this is important. The ledger solves transparency and auditability. But members' deeper problem is points valuation anxiety: they don't know if 42,000 points is a lot or a little. A ledger tells you what you have and what happened. It does not tell you what it's worth in real-world terms. A complete solution layers a Value Translator (42,000 pts ≈ 4 resort nights at Cabo) on top of the ledger — not as inspiration, but as a grounding mechanism for financial decision-making. The ledger is the foundation. Without valuation context, it remains structurally sound but experientially incomplete.",
+                  },
+                ].map(section => (
+                  <div key={section.title} style={{ breakInside: "avoid", marginBottom: 28 }}>
+                    <div style={{ fontFamily: FONT_DISPLAY, fontSize: 14, color: T.skyAccent, marginBottom: 8 }}>
+                      {section.title}
+                    </div>
+                    <div style={{ fontFamily: FONT_UI, fontSize: 12, color: T.textMid, lineHeight: 1.8 }}>
+                      {section.body}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<PointsLedger />);
+  </script>
+</body>
+</html>

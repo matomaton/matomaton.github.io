@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HGV Collaborative Points Explorer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom Range Slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 32px;
+            width: 32px;
+            border-radius: 50%;
+            background: #2563eb;
+            cursor: pointer;
+            margin-top: -12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            border: 4px solid white;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const Icon = ({ name, className = "w-5 h-5" }) => {
+            useEffect(() => { lucide.createIcons(); }, [name]);
+            return <i data-lucide={name} className={className}></i>;
+        };
+
+        // Destination Data
+        const DESTINATIONS = [
+            { id: '1', title: 'Grand Islander, Waikiki', nights: 7, type: 'Resort', points: 11200, icon: 'palmtree', img: 'https://images.unsplash.com/photo-1542259009477-d625272157b7?auto=format&fit=crop&q=80&w=400&h=250' },
+            { id: '2', title: 'Elara, Las Vegas', nights: 4, type: 'Resort', points: 6400, icon: 'dice-5', img: 'https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&q=80&w=400&h=250' },
+            { id: '3', title: 'Caribbean Cruise (HSV)', nights: 5, type: 'Experience', points: 15000, icon: 'ship', img: 'https://images.unsplash.com/photo-1599640842225-85d111c60e6b?auto=format&fit=crop&q=80&w=400&h=250' },
+            { id: '4', title: 'NYC City Escape', nights: 3, type: 'Urban', points: 4800, icon: 'building', img: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&q=80&w=400&h=250' },
+            { id: '5', title: 'Orlando Theme Parks', nights: 7, type: 'Resort', points: 8500, icon: 'ticket', img: 'https://images.unsplash.com/photo-1575089776834-8be34696ffb9?auto=format&fit=crop&q=80&w=400&h=250' },
+            { id: '6', title: 'Ski Trip in Colorado', nights: 5, type: 'Resort', points: 9200, icon: 'snowflake', img: 'https://images.unsplash.com/photo-1551524164-687a54dd2674?auto=format&fit=crop&q=80&w=400&h=250' }
+        ];
+
+        // Educational Content
+        const EDUCATION_CARDS = [
+            { 
+                title: 'Types of Points', 
+                icon: 'wallet',
+                color: 'bg-emerald-500',
+                content: 'Think of Club Points as your standard currency, given annually. Bonus Points are promotional extras (often with a shorter shelf life). You can even convert points to Hilton Honors to use at standard hotels!'
+            },
+            { 
+                title: 'Booking Windows', 
+                icon: 'calendar-clock',
+                color: 'bg-blue-500',
+                content: 'Plan ahead for the best spots! You can book your Home Collection up to 13+ months in advance. The broader HGV network opens up around the 9-month mark.'
+            },
+            { 
+                title: 'Saving & Borrowing', 
+                icon: 'arrow-left-right',
+                color: 'bg-purple-500',
+                content: 'Want a massive trip next year? You can save (bank) unused points. Want it right now? You can borrow points from next year’s allotment to make it happen.'
+            }
+        ];
+
+        function App() {
+            const [activeTab, setActiveTab] = useState('planner'); // 'planner' or 'education'
+            const [annualPoints, setAnnualPoints] = useState(15000);
+            const [cart, setCart] = useState([]);
+
+            const pointsUsed = cart.reduce((sum, trip) => sum + trip.points, 0);
+            const pointsRemaining = annualPoints - pointsUsed;
+
+            const toggleTrip = (trip) => {
+                if (cart.find(t => t.id === trip.id)) {
+                    setCart(cart.filter(t => t.id !== trip.id));
+                } else {
+                    if (pointsRemaining >= trip.points) {
+                        setCart([...cart, trip]);
+                    }
+                }
+            };
+
+            const getTier = (pts) => {
+                if (pts >= 24000) return 'Premier';
+                if (pts >= 14000) return 'Preferred';
+                return 'Member';
+            };
+
+            return (
+                <div className="flex flex-col h-screen overflow-hidden bg-slate-50 text-slate-800">
+                    
+                    {/* Header - Shared View */}
+                    <header className="bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center shadow-sm z-10">
+                        <div className="flex items-center gap-3">
+                            <div className="bg-blue-600 p-2 rounded-lg text-white">
+                                <Icon name="compass" className="w-6 h-6" />
+                            </div>
+                            <div>
+                                <h1 className="text-xl font-black tracking-tight">HGV Lifestyle Planner</h1>
+                                <p className="text-sm text-slate-500 font-medium">Explore what ownership unlocks for your family</p>
+                            </div>
+                        </div>
+                        <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200">
+                            <button 
+                                onClick={() => setActiveTab('planner')}
+                                className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'planner' ? 'bg-white shadow text-blue-600' : 'text-slate-500 hover:text-slate-700'}`}
+                            >
+                                <div className="flex items-center gap-2"><Icon name="calculator" className="w-4 h-4" /> Trip Builder</div>
+                            </button>
+                            <button 
+                                onClick={() => setActiveTab('education')}
+                                className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'education' ? 'bg-white shadow text-blue-600' : 'text-slate-500 hover:text-slate-700'}`}
+                            >
+                                <div className="flex items-center gap-2"><Icon name="graduation-cap" className="w-4 h-4" /> How HGV Works</div>
+                            </button>
+                        </div>
+                    </header>
+
+                    {/* Main Content Area */}
+                    <main className="flex-1 overflow-hidden flex relative">
+                        
+                        {/* TAB 1: TRIP BUILDER */}
+                        {activeTab === 'planner' && (
+                            <div className="flex w-full h-full fade-in">
+                                
+                                {/* Left Side: The Interactive Slider & Math */}
+                                <div className="w-1/3 bg-white border-r border-slate-200 p-8 flex flex-col shadow-lg z-10">
+                                    <div className="mb-8">
+                                        <h2 className="text-sm font-black text-slate-400 tracking-widest uppercase mb-1">Your Annual Portfolio</h2>
+                                        <p className="text-slate-500 text-sm mb-6">Let's find the right point level for your travel habits.</p>
+                                        
+                                        <div className="text-center mb-6">
+                                            <span className="text-5xl font-black text-blue-600 tracking-tighter">{annualPoints.toLocaleString()}</span>
+                                            <span className="text-lg text-slate-500 font-bold ml-2">Pts / Year</span>
+                                        </div>
+
+                                        <input 
+                                            type="range" 
+                                            min="5000" 
+                                            max="30000" 
+                                            step="1000"
+                                            value={annualPoints}
+                                            onChange={(e) => {
+                                                setAnnualPoints(Number(e.target.value));
+                                                // Clear cart if new limit is lower than used
+                                                if (Number(e.target.value) < pointsUsed) setCart([]);
+                                            }}
+                                            className="w-full mb-2"
+                                        />
+                                        <div className="flex justify-between text-xs font-bold text-slate-400">
+                                            <span>5K</span>
+                                            <span>HGV Max Tier: <span className="text-blue-500">{getTier(annualPoints)}</span></span>
+                                            <span>30K</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="border-t border-slate-200 pt-8 flex-1 flex flex-col">
+                                        <div className="flex justify-between items-end mb-4">
+                                            <h3 className="font-bold text-lg">Sample Year Plan</h3>
+                                            <button onClick={() => setCart([])} className="text-xs text-slate-400 hover:text-red-500 font-bold flex items-center gap-1">
+                                                <Icon name="rotate-ccw" className="w-3 h-3" /> Reset
+                                            </button>
+                                        </div>
+                                        
+                                        {/* Cart Items */}
+                                        <div className="flex-1 overflow-y-auto space-y-3 mb-4">
+                                            {cart.length === 0 ? (
+                                                <div className="h-full flex flex-col items-center justify-center text-slate-400 border-2 border-dashed border-slate-200 rounded-2xl p-6 text-center">
+                                                    <Icon name="plane-takeoff" className="w-10 h-10 mb-2 opacity-50" />
+                                                    <p className="text-sm font-medium">Click destinations on the right to build your dream year.</p>
+                                                </div>
+                                            ) : (
+                                                cart.map(trip => (
+                                                    <div key={trip.id} className="bg-slate-50 p-3 rounded-xl border border-slate-200 flex justify-between items-center group">
+                                                        <div>
+                                                            <p className="text-sm font-bold text-slate-800">{trip.title}</p>
+                                                            <p className="text-xs text-slate-500">{trip.nights} Nights</p>
+                                                        </div>
+                                                        <div className="flex items-center gap-3">
+                                                            <span className="text-sm font-bold text-blue-600">-{trip.points.toLocaleString()}</span>
+                                                            <button onClick={() => toggleTrip(trip)} className="text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                                <Icon name="x-circle" className="w-5 h-5" />
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            )}
+                                        </div>
+
+                                        {/* Point Math Box */}
+                                        <div className="bg-slate-900 text-white p-5 rounded-2xl shadow-xl mt-auto">
+                                            <div className="flex justify-between text-sm mb-2 text-slate-400">
+                                                <span>Starting Points</span>
+                                                <span>{annualPoints.toLocaleString()}</span>
+                                            </div>
+                                            <div className="flex justify-between text-sm mb-4 text-slate-400 border-b border-slate-700 pb-4">
+                                                <span>Points Planned</span>
+                                                <span className="text-red-400">-{pointsUsed.toLocaleString()}</span>
+                                            </div>
+                                            <div className="flex justify-between items-center">
+                                                <span className="font-bold text-slate-300">Remaining</span>
+                                                <span className={`text-2xl font-black ${pointsRemaining < 2000 ? 'text-amber-400' : 'text-emerald-400'}`}>
+                                                    {pointsRemaining.toLocaleString()}
+                                                </span>
+                                            </div>
+                                            {pointsRemaining > 0 && pointsRemaining < 4000 && (
+                                                <div className="mt-3 text-xs text-amber-300 bg-amber-500/10 p-2 rounded-lg flex items-start gap-2">
+                                                    <Icon name="lightbulb" className="w-4 h-4 shrink-0" />
+                                                    <span>Leftover points? You can bank them for next year, or convert to Hilton Honors!</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Right Side: Destinations Grid */}
+                                <div className="w-2/3 p-8 overflow-y-auto custom-scrollbar">
+                                    <h2 className="text-2xl font-black text-slate-800 tracking-tight mb-6">What this unlocks for you</h2>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                        {DESTINATIONS.map(dest => {
+                                            const inCart = cart.find(t => t.id === dest.id);
+                                            const canAfford = pointsRemaining >= dest.points || inCart;
+                                            
+                                            return (
+                                                <div 
+                                                    key={dest.id}
+                                                    onClick={() => { if(canAfford) toggleTrip(dest); }}
+                                                    className={`relative rounded-2xl overflow-hidden border-2 transition-all duration-300 ${inCart ? 'border-blue-500 shadow-xl shadow-blue-500/20 scale-[1.02]' : canAfford ? 'border-transparent shadow-md hover:shadow-xl cursor-pointer hover:-translate-y-1 bg-white' : 'border-transparent bg-slate-100 opacity-60 grayscale cursor-not-allowed'}`}
+                                                >
+                                                    {inCart && (
+                                                        <div className="absolute top-3 right-3 z-10 bg-blue-500 text-white rounded-full p-1 shadow-lg">
+                                                            <Icon name="check" className="w-4 h-4" />
+                                                        </div>
+                                                    )}
+                                                    
+                                                    <div className="h-40 w-full relative">
+                                                        <div className="absolute inset-0 bg-slate-900/20 z-0"></div>
+                                                        <img src={dest.img} alt={dest.title} className="w-full h-full object-cover" />
+                                                        <div className="absolute top-3 left-3 z-10 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-bold text-slate-700 flex items-center gap-1">
+                                                            <Icon name={dest.icon} className="w-3 h-3" /> {dest.type}
+                                                        </div>
+                                                    </div>
+                                                    <div className="p-4 bg-white">
+                                                        <h4 className="font-bold text-slate-800 line-clamp-1">{dest.title}</h4>
+                                                        <p className="text-sm text-slate-500 mb-3">{dest.nights} Nights</p>
+                                                        <div className="flex justify-between items-center pt-3 border-t border-slate-100">
+                                                            <span className="text-sm font-black text-blue-600">{dest.points.toLocaleString()} pts</span>
+                                                            {!canAfford && !inCart && (
+                                                                <span className="text-[10px] font-bold text-red-400 uppercase tracking-wider">Needs More</span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* TAB 2: EDUCATION HUB */}
+                        {activeTab === 'education' && (
+                            <div className="flex-1 p-8 md:p-12 overflow-y-auto fade-in bg-white">
+                                <div className="max-w-4xl mx-auto">
+                                    <div className="text-center mb-12">
+                                        <h2 className="text-3xl font-black text-slate-800 tracking-tight">The Rules of the Game</h2>
+                                        <p className="text-slate-500 mt-3 text-lg">HGV is designed to be flexible. Here is how your ownership works beyond just booking resorts.</p>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                        {EDUCATION_CARDS.map((card, idx) => (
+                                            <div key={idx} className="bg-slate-50 rounded-3xl p-8 border border-slate-100 shadow-lg shadow-slate-200/50 flex flex-col items-center text-center hover:-translate-y-2 transition-transform duration-300">
+                                                <div className={`w-16 h-16 rounded-2xl ${card.color} text-white flex items-center justify-center mb-6 shadow-lg shadow-${card.color}/30`}>
+                                                    <Icon name={card.icon} className="w-8 h-8" />
+                                                </div>
+                                                <h3 className="text-xl font-black text-slate-800 mb-4">{card.title}</h3>
+                                                <p className="text-slate-600 leading-relaxed text-sm">
+                                                    {card.content}
+                                                </p>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* Interactive Visual: Conversion */}
+                                    <div className="mt-16 bg-slate-900 rounded-3xl p-8 md:p-12 text-white relative overflow-hidden shadow-2xl">
+                                        <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 transform translate-x-1/2 -translate-y-1/2"></div>
+                                        <div className="relative z-10 flex flex-col md:flex-row items-center gap-8 justify-between">
+                                            <div className="md:w-1/2">
+                                                <h3 className="text-2xl font-black mb-3">The Hilton Honors Connection</h3>
+                                                <p className="text-slate-300 leading-relaxed text-sm mb-6">
+                                                    Don't want to stay at a timeshare resort this year? No problem. As an owner, you can convert your Club Points into Hilton Honors points to stay at thousands of standard Hilton hotels worldwide.
+                                                </p>
+                                                <div className="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-lg text-sm font-bold">
+                                                    <Icon name="refresh-cw" className="w-4 h-4 text-blue-400" />
+                                                    Club Points <Icon name="arrow-right" className="w-3 h-3 mx-1 text-slate-500" /> Honors Points
+                                                </div>
+                                            </div>
+                                            <div className="md:w-1/3 w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-center backdrop-blur-sm">
+                                                <Icon name="building-2" className="w-12 h-12 text-blue-400 mx-auto mb-4" />
+                                                <p className="text-lg font-bold">7,000+ Properties</p>
+                                                <p className="text-xs text-slate-400 mt-1 uppercase tracking-widest">Global Network</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        )}
+
+                    </main>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
