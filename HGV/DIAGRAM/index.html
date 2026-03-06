@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vacation Lifecycle Diagrams</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel for in-browser JSX transpilation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        body { margin: 0; padding: 0; background-color: #fffff8; }
+    </style>
+</head>
+<body>
+    <!-- React will inject the application into this div -->
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // --- Tufte-inspired Design System ---
+        // Colors: Muted, paper-like backgrounds, high-contrast text, subtle semantic colors.
+        const colors = {
+          bg: '#fffff8',
+          text: '#111111',
+          textMuted: '#555555',
+          line: '#cccccc',
+          reservation: '#2c5282', // Muted Blue
+          financial: '#276749',   // Muted Green
+          eligibility: '#975a16', // Muted Ochre
+          highlight: '#e53e3e',   // Muted Red
+        };
+
+        // --- Helper Components for SVG Drawing ---
+        const Node = ({ x, y, label, subtext, color = colors.text, bg = 'transparent', w = 120, h = 45 }) => (
+          <g transform={`translate(${x}, ${y})`}>
+            <rect x={0} y={0} width={w} height={h} fill={bg} stroke={color} strokeWidth="1" rx="2" />
+            <text x={w / 2} y={h / 2 - (subtext ? 4 : -4)} textAnchor="middle" fill={color} fontSize="12" fontFamily="sans-serif" fontWeight="bold">
+              {label}
+            </text>
+            {subtext && (
+              <text x={w / 2} y={h / 2 + 12} textAnchor="middle" fill={colors.textMuted} fontSize="10" fontFamily="sans-serif">
+                {subtext}
+              </text>
+            )}
+          </g>
+        );
+
+        const Edge = ({ x1, y1, x2, y2, label, curved = false }) => {
+          const path = curved
+            ? `M ${x1} ${y1} C ${(x1 + x2) / 2} ${y1}, ${(x1 + x2) / 2} ${y2}, ${x2} ${y2}`
+            : `M ${x1} ${y1} L ${x2} ${y2}`;
+
+          return (
+            <g>
+              <path d={path} fill="none" stroke={colors.line} strokeWidth="1.5" markerEnd="url(#arrowhead)" />
+              {label && (
+                <rect x={(x1 + x2) / 2 - 30} y={(y1 + y2) / 2 - 10} width="60" height="20" fill={colors.bg} />
+              )}
+              {label && (
+                <text x={(x1 + x2) / 2} y={(y1 + y2) / 2 + 4} textAnchor="middle" fill={colors.textMuted} fontSize="10" fontFamily="sans-serif" fontStyle="italic">
+                  {label}
+                </text>
+              )}
+            </g>
+          );
+        };
+
+        // --- Diagrams ---
+
+        const ThreeLayerDiagram = () => (
+          <svg viewBox="0 0 850 350" className="w-full h-auto border border-gray-200 bg-white shadow-sm rounded-sm">
+            <defs>
+              <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
+                <polygon points="0 0, 6 3, 0 6" fill={colors.line} />
+              </marker>
+            </defs>
+
+            {/* Track Backgrounds & Labels */}
+            <text x="20" y="50" fill={colors.reservation} fontSize="14" fontWeight="bold" fontFamily="serif" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg) translate(-20px, -50px)' }}>1. RESERVATION</text>
+            <text x="20" y="160" fill={colors.financial} fontSize="14" fontWeight="bold" fontFamily="serif" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg) translate(-20px, -160px)' }}>2. FINANCIAL</text>
+            <text x="20" y="270" fill={colors.eligibility} fontSize="14" fontWeight="bold" fontFamily="serif" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg) translate(-20px, -270px)' }}>3. ELIGIBILITY</text>
+
+            {/* Layer 1: Reservation */}
+            <Node x="80" y="30" label="Available" subtext="Draft / Offered" color={colors.reservation} />
+            <Edge x1="200" y1="52" x2="260" y2="52" label="Book" />
+            <Node x="260" y="30" label="Booked" subtext="Confirmed" color={colors.reservation} />
+            
+            <Edge x1="380" y1="45" x2="440" y2="30" curved />
+            <Node x="440" y="10" label="Completed" subtext="Used / Traveled" color={colors.reservation} />
+            
+            <Edge x1="380" y1="60" x2="440" y2="75" label="Cancel" curved />
+            <Node x="440" y="65" label="Canceled" subtext="Booking Ended" color={colors.reservation} />
+            
+            <Edge x1="560" y1="87" x2="620" y2="87" />
+            <Node x="620" y="65" label="No-Show" subtext="Missed Travel" color={colors.reservation} />
+
+            {/* Layer 2: Financial */}
+            <line x1="60" y1="125" x2="800" y2="125" stroke={colors.line} strokeDasharray="4 4" />
+            
+            <Node x="80" y="140" label="Unpaid" color={colors.financial} />
+            <Edge x1="200" y1="162" x2="260" y2="162" label="Pay" />
+            <Node x="260" y="140" label="Paid" color={colors.financial} />
+            
+            <Edge x1="380" y1="155" x2="440" y2="140" curved />
+            <Node x="440" y="120" label="Refunded" color={colors.financial} />
+            
+            <Edge x1="380" y1="170" x2="440" y2="185" curved />
+            <Node x="440" y="175" label="Forfeited" subtext="Value Lost" color={colors.financial} />
+
+            {/* Layer 3: Eligibility */}
+            <line x1="60" y1="235" x2="800" y2="235" stroke={colors.line} strokeDasharray="4 4" />
+            
+            <Node x="80" y="250" label="Active" subtext="Within Window" color={colors.eligibility} />
+            <Edge x1="200" y1="272" x2="260" y2="272" label="Time ends" />
+            <Node x="260" y="250" label="Expired" subtext="No longer bookable" color={colors.eligibility} />
+            
+            <Edge x1="380" y1="272" x2="440" y2="272" />
+            <Node x="440" y="250" label="Forfeited" subtext="Liability removed" color={colors.eligibility} />
+            
+            <Edge x1="560" y1="272" x2="620" y2="272" label="Override" />
+            <Node x="620" y="250" label="Reinstated" color={colors.eligibility} />
+
+            {/* Annotations */}
+            <text x="650" y="142" fill={colors.textMuted} fontSize="11" fontFamily="serif" fontStyle="italic">
+              A single package can hold independent states
+            </text>
+            <text x="650" y="156" fill={colors.textMuted} fontSize="11" fontFamily="serif" fontStyle="italic">
+              across these three dimensions.
+            </text>
+          </svg>
+        );
+
+        const ComponentLifecycleDiagram = () => (
+          <svg viewBox="0 0 600 280" className="w-full h-auto border border-gray-200 bg-white shadow-sm rounded-sm">
+            <defs>
+              <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
+                <polygon points="0 0, 6 3, 0 6" fill={colors.line} />
+              </marker>
+            </defs>
+
+            <text x="300" y="20" textAnchor="middle" fill={colors.text} fontSize="16" fontFamily="serif" fontWeight="bold">The Golden Rule: Opt-out vs. Cancel</text>
+            
+            <Node x="240" y="40" label="Available" subtext="Component Offered" />
+            
+            {/* Opt-out Path */}
+            <Edge x1="240" y1="62" x2="160" y2="100" curved />
+            <text x="170" y="80" fill={colors.textMuted} fontSize="10" fontStyle="italic" fontFamily="sans-serif">Declined before booking</text>
+            <Node x="60" y="100" label="Opted Out" color={colors.highlight} />
+            
+            {/* Booking Path */}
+            <Edge x1="300" y1="85" x2="300" y2="110" />
+            <text x="310" y="100" fill={colors.textMuted} fontSize="10" fontStyle="italic" fontFamily="sans-serif">Customer selects</text>
+            <Node x="240" y="115" label="Booked" subtext="Reservation exists" />
+
+            {/* Travel Path */}
+            <Edge x1="360" y1="137" x2="440" y2="137" />
+            <Node x="440" y="115" label="Used" subtext="Travel occurs" />
+
+            {/* Cancel Path */}
+            <Edge x1="300" y1="160" x2="300" y2="190" />
+            <text x="310" y="180" fill={colors.textMuted} fontSize="10" fontStyle="italic" fontFamily="sans-serif">Customer ends booking</text>
+            <Node x="240" y="195" label="Canceled" color={colors.highlight} />
+
+            {/* Forfeit Path */}
+            <Edge x1="300" y1="240" x2="300" y2="260" />
+            <Node x="240" y="260" label="Forfeited" subtext="Value lost" color={colors.financial} h={35}/>
+
+            {/* Annotations */}
+            <rect x="20" y="180" width="180" height="70" fill="#f0f0f0" rx="4" opacity="0.5"/>
+            <text x="30" y="195" fill={colors.text} fontSize="12" fontFamily="serif" fontWeight="bold">Key Distinction</text>
+            <text x="30" y="215" fill={colors.textMuted} fontSize="11" fontFamily="sans-serif">Opt-out happens <tspan fontWeight="bold" fill={colors.text}>before</tspan> booking.</text>
+            <text x="30" y="235" fill={colors.textMuted} fontSize="11" fontFamily="sans-serif">Cancellation happens <tspan fontWeight="bold" fill={colors.text}>after</tspan>.</text>
+          </svg>
+        );
+
+
+        // --- Main Application Layout ---
+
+        function App() {
+          return (
+            <div className="min-h-screen text-[#111] font-serif p-8 md:p-12 lg:p-20 selection:bg-blue-100">
+              
+              {/* Header */}
+              <header className="max-w-6xl mx-auto mb-16 border-b border-gray-300 pb-8">
+                <h1 className="text-4xl md:text-5xl font-normal tracking-tight mb-4">Untangling the Travel Lifecycle</h1>
+                <p className="text-xl text-gray-600 max-w-3xl leading-relaxed">
+                  A visual deconstruction of states, actions, and financial outcomes in the Vacation Core Platform. Designed to separate operational noise from executive clarity.
+                </p>
+              </header>
+
+              {/* Grid Layout (Tufte style with marginalia) */}
+              <main className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
+                
+                {/* Section 1: The Nomenclature Problem */}
+                <div className="lg:col-span-8">
+                  <h2 className="text-2xl font-bold mb-6">The Vocabulary Paradox</h2>
+                  <p className="mb-6 text-lg leading-relaxed text-gray-800">
+                    Current system confusion arises because we use overlapping terms to describe fundamentally different dimensions of a trip. When an agent asks, <em className="bg-gray-100 px-1">"Is this canceled or forfeited?"</em>, they are attempting to collapse a three-dimensional scenario into a single status field.
+                  </p>
+                  
+                  <table className="w-full text-left border-collapse mb-8 font-sans text-sm shadow-sm bg-white border border-gray-200">
+                    <thead>
+                      <tr className="border-b-2 border-gray-800 bg-gray-50">
+                        <th className="py-3 px-4 font-bold text-gray-900">Term</th>
+                        <th className="py-3 px-4 font-bold text-gray-900">What it actually means</th>
+                        <th className="py-3 px-4 font-bold text-gray-900">Lifecycle Domain</th>
+                        <th className="py-3 px-4 font-bold text-gray-900">Triggered By</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b border-gray-200">
+                        <td className="py-3 px-4 font-bold text-red-700">Cancel</td>
+                        <td className="py-3 px-4">A confirmed reservation is ended before travel occurs.</td>
+                        <td className="py-3 px-4 font-medium text-[#2c5282]">Reservation</td>
+                        <td className="py-3 px-4 italic text-gray-500">User / Agent Action</td>
+                      </tr>
+                      <tr className="border-b border-gray-200">
+                        <td className="py-3 px-4 font-bold text-green-700">Forfeit</td>
+                        <td className="py-3 px-4">The monetary value of a booking or package is permanently lost.</td>
+                        <td className="py-3 px-4 font-medium text-[#276749]">Financial</td>
+                        <td className="py-3 px-4 italic text-gray-500">Business Rule / No-show</td>
+                      </tr>
+                      <tr className="border-b border-gray-200">
+                        <td className="py-3 px-4 font-bold text-yellow-700">Expire</td>
+                        <td className="py-3 px-4">A marketing package or offer passes its valid booking window.</td>
+                        <td className="py-3 px-4 font-medium text-[#975a16]">Eligibility</td>
+                        <td className="py-3 px-4 italic text-gray-500">Time</td>
+                      </tr>
+                      <tr>
+                        <td className="py-3 px-4 font-bold text-purple-700">Opt-out</td>
+                        <td className="py-3 px-4">A user declines an offered component <span className="underline">before</span> a booking is ever made.</td>
+                        <td className="py-3 px-4 font-medium">Component</td>
+                        <td className="py-3 px-4 italic text-gray-500">User Action</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Marginalia for Section 1 */}
+                <aside className="lg:col-span-4 text-sm text-gray-600 leading-relaxed border-l border-gray-200 pl-6 lg:mt-16">
+                  <p className="mb-4">
+                    <strong className="text-gray-900 block mb-1">Principle 1: Actions ≠ States.</strong>
+                    Words like <span className="font-mono text-xs">Rebook</span>, <span className="font-mono text-xs">Reschedule</span>, and <span className="font-mono text-xs">Reinstate</span> are actions that transition a package between states. They are not states themselves.
+                  </p>
+                  <p>
+                    By separating the <em>event</em> (the verb) from the <em>outcome</em> (the noun), engineering and UX can align on a shared mental model.
+                  </p>
+                </aside>
+
+                {/* Section 2: The 3-Layer Solution */}
+                <div className="lg:col-span-12 mt-12 mb-6">
+                  <h2 className="text-2xl font-bold mb-2">The 3-Layer Booking State Model</h2>
+                  <p className="mb-8 text-lg text-gray-800 max-w-4xl">
+                    Large enterprise systems (airlines, Airbnb) do not use a single "status" field. Instead, they track three parallel lifecycles. This completely eliminates impossible combinations (e.g., "Canceled but refunded but still valid for rebooking").
+                  </p>
+                  
+                  <div className="mb-4">
+                    <ThreeLayerDiagram />
+                  </div>
+                </div>
+
+                {/* Section 3: The Component Rule */}
+                <div className="lg:col-span-7 mt-12">
+                  <h2 className="text-2xl font-bold mb-4">Component Workflow: Opt-Out vs. Cancel</h2>
+                  <p className="mb-6 text-lg text-gray-800">
+                    A major source of complexity occurs at the individual component level (e.g., a specific flight or tour within a package). The critical distinction is timing: Did the decision happen before or after the vendor reservation was made?
+                  </p>
+                  <ComponentLifecycleDiagram />
+                </div>
+
+                {/* Marginalia / UI Example for Section 3 */}
+                <aside className="lg:col-span-5 mt-12 lg:mt-24 lg:pl-12">
+                  <div className="bg-gray-50 border border-gray-200 p-6 rounded-md shadow-sm">
+                    <h3 className="font-sans font-bold text-xs uppercase tracking-widest text-gray-500 mb-4">Agent UI Application</h3>
+                    <p className="text-sm font-sans mb-4 text-gray-700">
+                      Instead of agents deciphering a single confusing status, the AgentUI should display the specific outcome across the relevant dimensions:
+                    </p>
+                    
+                    <div className="space-y-3 font-sans text-sm bg-white p-4 border border-gray-200 rounded">
+                      <div className="flex justify-between items-center border-b border-gray-100 pb-2">
+                        <span className="text-gray-500">Reservation Status</span>
+                        <span className="font-bold text-red-600 bg-red-50 px-2 py-1 rounded">Canceled</span>
+                      </div>
+                      <div className="flex justify-between items-center border-b border-gray-100 pb-2">
+                        <span className="text-gray-500">Financial Outcome</span>
+                        <span className="font-bold text-gray-800 bg-gray-100 px-2 py-1 rounded">Refunded</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-500">Package Eligibility</span>
+                        <span className="font-bold text-green-700 bg-green-50 px-2 py-1 rounded">Active</span>
+                      </div>
+                    </div>
+                    
+                    <p className="text-xs text-gray-500 font-sans mt-4 italic">
+                      * This clear separation allows agents to immediately inform the customer: "Your booking was canceled and refunded, but your package is still active if you wish to rebook."
+                    </p>
+                  </div>
+                </aside>
+
+              </main>
+              
+              {/* Footer */}
+              <footer className="max-w-6xl mx-auto mt-24 border-t border-gray-300 pt-8 pb-12 text-center text-sm text-gray-500 font-sans">
+                Design pattern inspired by Edward Tufte's principles of information visualization. <br/>
+                Maximizing data-ink, utilizing parallel tracks, and integrating text with graphics for analytical clarity.
+              </footer>
+            </div>
+          );
+        }
+
+        // Mount the React application to the DOM
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
