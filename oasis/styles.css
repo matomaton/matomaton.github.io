@@ -1,0 +1,1488 @@
+/* ============================================
+   ION PORTFOLIO — STYLESHEET
+   ============================================
+   
+   TABLE OF CONTENTS
+   1. Design Tokens (CSS Variables)
+   2. Reset & Base
+   3. Typography
+   4. Layout Utilities
+   5. Navigation
+   6. Main / Page Shell
+   7. Article Template
+   8. Media (Figures, Embeds, Lightbox)
+   9. List View (Projects / Articles index)
+   10. Backstory Page
+   11. Process Page
+   12. Resume Page
+   13. Footer
+   14. Responsive
+   15. Accessibility
+   
+   ============================================ */
+
+
+/* ============================================
+   1. DESIGN TOKENS
+   ============================================ */
+:root {
+  /* Colors */
+  --color-bg:           #FCFCF9;
+  --color-nav-bg:       rgba(242, 242, 239, 0.4);  /* translucent for blur */
+  --color-charcoal:     #2D2D2D;
+  --color-gray:         #8C8C8C;
+  --color-gray-light:   #B8B8B8;
+  --color-border:       rgba(45, 45, 45, 0.1);
+
+  /* Typography */
+  --font-primary: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Font weights */
+  --weight-light:   300;
+  --weight-regular: 400;
+  --weight-bold:    700;
+  --weight-black:   900;
+
+  /* Type scale */
+  --size-h1:    clamp(3rem, 8vw, 6rem);
+  --size-h2:    clamp(1.75rem, 4vw, 2.75rem);
+  --size-label: clamp(0.65rem, 1.5vw, 0.75rem);
+  --size-body:  clamp(1rem, 1.2vw, 1.1rem);
+
+  /* Line heights */
+  --lh-heading: 1.2;
+  --lh-body:    1.7;
+
+  /* Letter spacing */
+  --ls-label: 0.15em;
+
+  /* Spacing scale */
+  --space-xs:  0.5rem;   /*  8px */
+  --space-sm:  1rem;     /* 16px */
+  --space-md:  2rem;     /* 32px */
+  --space-lg:  4rem;     /* 64px */
+  --space-xl:  6rem;     /* 96px */
+  --space-xxl: 10rem;    /* 160px */
+
+  /* Layout */
+  --content-width:   65ch;
+  --container-width: 1200px;
+  --nav-height:      80px;
+
+  /* Navigation blur */
+  --nav-border:  rgba(0, 0, 0, 0.08);
+  --nav-shadow:  0 2px 12px rgba(0, 0, 0, 0.06);
+  --blur-amount: 12px;
+
+  /* Transitions */
+  --t-fast:   150ms ease;
+  --t-medium: 300ms ease;
+}
+
+
+/* ============================================
+   2. RESET & BASE
+   ============================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-primary);
+  font-size: var(--size-body);
+  font-weight: var(--weight-regular);
+  line-height: var(--lh-body);
+  color: var(--color-charcoal);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+
+/* ============================================
+   3. TYPOGRAPHY
+   ============================================ */
+
+/* H1 — large, light, page title */
+h1, .h1 {
+  font-size: var(--size-h1);
+  font-weight: var(--weight-light);
+  line-height: var(--lh-heading);
+  letter-spacing: -0.02em;
+  color: var(--color-gray);
+}
+
+/* H2 — section headings */
+h2, .h2 {
+  font-size: var(--size-h2);
+  font-weight: var(--weight-light);
+  line-height: var(--lh-heading);
+  color: var(--color-charcoal);
+}
+
+/* H3, H4, labels — uppercase small caps */
+h3, h4,
+.h3, .h4,
+.label {
+  font-size: var(--size-label);
+  font-weight: var(--weight-black);
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  color: var(--color-charcoal);
+}
+
+/* Body / paragraph */
+p {
+  font-size: var(--size-body);
+  font-weight: var(--weight-regular);
+  line-height: var(--lh-body);
+  color: var(--color-charcoal);
+  max-width: var(--content-width);
+}
+
+/* Links */
+a {
+  color: var(--color-charcoal);
+  text-decoration: none;
+  transition: color var(--t-fast);
+}
+
+a:hover {
+  color: var(--color-gray);
+}
+
+/* Blockquote */
+blockquote {
+  padding: var(--space-lg) 0;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--color-gray);
+  max-width: var(--content-width);
+}
+
+blockquote cite {
+  display: block;
+  margin-top: var(--space-md);
+  font-size: var(--size-label);
+  font-weight: var(--weight-black);
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  color: var(--color-charcoal);
+}
+
+/* Inline code */
+code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.875em;
+  background: rgba(45, 45, 45, 0.06);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+
+/* Code block */
+pre {
+  background: rgba(45, 45, 45, 0.04);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: var(--space-md);
+  overflow-x: auto;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  font-size: var(--size-body);
+}
+
+/* Article figure */
+.article-figure {
+  margin: 0;
+}
+
+.article-figure img {
+  width: 100%;
+  border-radius: 4px;
+}
+
+.article-figure figcaption {
+  margin-top: var(--space-xs);
+  font-size: var(--size-label);
+  color: var(--color-gray);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+}
+
+
+/* ============================================
+   4. LAYOUT UTILITIES
+   ============================================ */
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin-inline: auto;
+  padding-inline: clamp(1.5rem, 5vw, 4rem);
+}
+
+/* Narrow reading column */
+.content-narrow {
+  max-width: var(--content-width);
+}
+
+/* Vertical rhythm helpers — apply to a parent to space its children */
+.stack-xs > * + * { margin-top: var(--space-xs); }
+.stack-sm > * + * { margin-top: var(--space-sm); }
+.stack-md > * + * { margin-top: var(--space-md); }
+.stack-lg > * + * { margin-top: var(--space-lg); }
+
+
+/* ============================================
+   5. NAVIGATION
+   ============================================ */
+
+/* --- Bar ------------------------------------------------- */
+.global-menu {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  background: var(--color-nav-bg);
+  backdrop-filter: blur(var(--blur-amount));
+  -webkit-backdrop-filter: blur(var(--blur-amount));
+  border-bottom: 1px solid var(--nav-border);
+  box-shadow: var(--nav-shadow);
+}
+
+.nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  color: var(--color-charcoal);
+  /* Ensure logo sits above drawer */
+  position: relative;
+  z-index: 1001;
+}
+
+/* --- Desktop links --------------------------------------- */
+.nav-links {
+  display: flex;
+  gap: clamp(1.5rem, 4vw, 3rem);
+}
+
+.nav-link {
+  font-size: var(--size-label);
+  font-weight: var(--weight-black);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  color: var(--color-charcoal);
+  position: relative;
+  white-space: nowrap;
+}
+
+/* Animated underline */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: var(--color-charcoal);
+  transition: width var(--t-medium);
+}
+
+.nav-link:hover::after,
+.nav-link--active::after {
+  width: 100%;
+}
+
+.nav-link:hover {
+  color: var(--color-charcoal);
+}
+
+/* --- Hamburger button ------------------------------------ */
+.nav-toggle {
+  display: none;              /* shown only on mobile */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 44px;                /* minimum touch target */
+  height: 44px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  z-index: 1001;              /* above drawer */
+}
+
+.nav-toggle__bar {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background-color: var(--color-charcoal);
+  border-radius: 2px;
+  transform-origin: center;
+  transition:
+    transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity   200ms ease,
+    width     300ms ease;
+}
+
+/* Animate bars into an × when open */
+[aria-expanded="true"] .nav-toggle__bar:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+[aria-expanded="true"] .nav-toggle__bar:nth-child(2) {
+  opacity: 0;
+  width: 0;
+}
+[aria-expanded="true"] .nav-toggle__bar:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* --- Mobile drawer --------------------------------------- */
+.nav-drawer {
+  position: fixed;
+  top: var(--nav-height);
+  left: 0;
+  right: 0;
+  z-index: 999;
+
+  /* Slide from above */
+  transform: translateY(-8px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--nav-border);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+  transition:
+    transform 280ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity   250ms ease,
+    visibility 0ms linear 280ms;   /* delay visibility until after fade-out */
+}
+
+/* Open state — toggled via body class */
+.nav-open .nav-drawer {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition:
+    transform 280ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity   250ms ease,
+    visibility 0ms linear 0ms;
+}
+
+.nav-drawer__links {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-md) 0;
+}
+
+.nav-drawer__link {
+  display: block;
+  padding: var(--space-sm) clamp(1.5rem, 5vw, 4rem);
+  font-size: 0.8rem;
+  font-weight: var(--weight-black);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  color: var(--color-charcoal);
+  border-left: 2px solid transparent;
+  transition:
+    border-color var(--t-fast),
+    color        var(--t-fast),
+    background   var(--t-fast);
+}
+
+.nav-drawer__link:hover {
+  color: var(--color-charcoal);
+  border-left-color: var(--color-charcoal);
+  background: rgba(45, 45, 45, 0.03);
+}
+
+.nav-drawer__link--active {
+  border-left-color: darkred;
+  color: darkred;
+}
+
+/* Stagger link entrance animations */
+.nav-open .nav-drawer__link {
+  animation: drawer-link-in 250ms ease both;
+}
+.nav-open .nav-drawer__links li:nth-child(1) .nav-drawer__link { animation-delay:  60ms; }
+.nav-open .nav-drawer__links li:nth-child(2) .nav-drawer__link { animation-delay:  90ms; }
+.nav-open .nav-drawer__links li:nth-child(3) .nav-drawer__link { animation-delay: 120ms; }
+.nav-open .nav-drawer__links li:nth-child(4) .nav-drawer__link { animation-delay: 150ms; }
+.nav-open .nav-drawer__links li:nth-child(5) .nav-drawer__link { animation-delay: 180ms; }
+
+@keyframes drawer-link-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* --- Backdrop -------------------------------------------- */
+.nav-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  background: rgba(45, 45, 45, 0.25);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity    280ms ease,
+    visibility 0ms linear 280ms;
+}
+
+.nav-open .nav-backdrop {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition:
+    opacity    280ms ease,
+    visibility 0ms linear 0ms;
+}
+
+/* Prevent body scroll when drawer is open */
+.nav-open body,
+body.nav-open {
+  overflow: hidden;
+}
+
+
+/* ============================================
+   6. MAIN / PAGE SHELL
+   ============================================ */
+.main {
+  padding-top: var(--space-lg);   /* breathing room below sticky nav */
+  min-height: 100vh;
+}
+
+/* Reading-progress bar */
+.progress {
+  position: fixed;
+  top: var(--nav-height);
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background: var(--color-gray);
+  transform-origin: left;
+  transform: scaleX(0);
+  animation: grow-progress linear;
+  animation-timeline: scroll(root);
+  z-index: 9999;
+  pointer-events: none;
+}
+
+@keyframes grow-progress {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* Back-link (above and below article) */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-block: var(--space-md);
+  font-size: var(--size-label);
+  font-weight: var(--weight-black);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+}
+
+.back-arrow {
+  display: inline-block;
+  transition: transform var(--t-medium);
+}
+
+.back-link:hover .back-arrow {
+  transform: translateX(-4px);
+}
+
+
+/* ============================================
+   7. ARTICLE TEMPLATE
+   ============================================ */
+
+/* --- Header --- */
+.article-header {
+  padding-block: var(--space-xl) var(--space-lg);
+  text-align: center;
+}
+
+.article-header__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.article-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--color-gray);
+}
+
+.article-meta__divider {
+  color: var(--color-gray-light);
+}
+
+.article-title {
+  /* inherits h1 styles — large, light, gray */
+}
+
+/* --- Body --- */
+.article-body {
+  padding-bottom: var(--space-xl);
+}
+
+/* Each logical section of the article */
+.article-section {
+  padding-block: var(--space-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+/* First section has no top border (sits right below the header) */
+.article-section:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+/* Headings inside sections */
+.article-section h2 {
+  margin-bottom: var(--space-md);
+}
+
+.article-section h3 {
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-xs);
+}
+
+/* Paragraph spacing within a section */
+.article-section p + p,
+.article-section p + pre,
+.article-section pre + p,
+.article-section p + figure,
+.article-section figure + p {
+  margin-top: var(--space-md);
+}
+
+/* Lead paragraph — slightly larger intro text */
+.article-lead {
+  font-size: clamp(1.1rem, 1.5vw, 1.2rem);
+  font-weight: var(--weight-light);
+  color: var(--color-gray);
+  max-width: var(--content-width);
+}
+
+/* Blockquote inside article needs top/bottom breathing room */
+.article-body blockquote {
+  margin-block: var(--space-lg);
+}
+
+/* --- Article data table (reusable) -------------------------
+   Use class "article-table" on <table>.
+   Uses same breakout width as embed-wrapper / figure--breakout
+   (min(900px, 100vw - 3rem)) for consistency with Figma embeds.
+   Structure: <thead> with <th> for each column header,
+   <tbody> with <tr>/<td> for each data row.
+   Add/remove columns by adding/removing <th> and <td>.
+   Add/remove rows by adding/removing <tr> with matching <td>s.
+   ============================================================ */
+.article-table {
+  width: min(900px, 100vw - 3rem);
+  margin-inline: calc(50% - min(450px, 50vw - 1.5rem));
+  border-collapse: collapse;
+  margin-block: var(--space-lg);
+  font-size: var(--size-body);
+  color: var(--color-charcoal);
+}
+
+.article-table th,
+.article-table td {
+  padding: var(--space-xs) var(--space-sm);
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.article-table th {
+  font-size: var(--size-label);
+  font-weight: var(--weight-black);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  color: var(--color-charcoal);
+  border-bottom: 2px solid var(--color-charcoal);
+  background: rgba(45, 45, 45, 0.03);
+}
+
+.article-table tbody tr:hover {
+  background: rgba(45, 45, 45, 0.02);
+}
+
+.article-table td {
+  vertical-align: top;
+}
+
+/* --- Footer (tags + share) --- */
+.article-footer {
+  margin-top: var(--space-xl);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.article-tags,
+.article-share {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.tag {
+  font-size: var(--size-label);
+  font-weight: var(--weight-black);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  color: var(--color-gray);
+  padding: 0.25em 0.6em;
+  border: 1px solid var(--color-gray-light);
+  transition: border-color var(--t-fast), color var(--t-fast);
+}
+
+.tag:hover {
+  color: var(--color-charcoal);
+  border-color: var(--color-charcoal);
+}
+
+.share-links {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.share-link {
+  font-size: var(--size-label);
+  font-weight: var(--weight-black);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* --- Related articles --- */
+.related-articles {
+  padding-block: var(--space-xl);
+  border-top: 1px solid var(--color-border);
+}
+
+.related-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-lg);
+  margin-top: var(--space-md);
+}
+
+.related-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding-block: var(--space-md);
+  border-top: 1px solid var(--color-border);
+  transition: opacity var(--t-medium);
+}
+
+.related-item:hover {
+  opacity: 0.6;
+}
+
+.related-item-title {
+  font-size: var(--size-h2);
+  font-weight: var(--weight-light);
+  line-height: var(--lh-heading);
+  color: var(--color-charcoal);
+}
+
+
+/* ============================================
+   8. MEDIA — figures, embeds, lightbox
+   ============================================
+
+   FIGURES
+   ─────────────────────────────────────────────
+   Base:              .article-figure
+   Breakout (~900px): .article-figure.figure--breakout
+   Full-bleed:        .article-figure.figure--full
+   Lightbox trigger:  .article-figure.figure--zoomable
+   2-col grid:        .media-grid.media-grid--2col
+   3-col grid:        .media-grid.media-grid--3col
+
+   EMBEDS
+   ─────────────────────────────────────────────
+   Figma:             .embed-wrapper.embed-wrapper--figma
+   Video 16:9:        .embed-wrapper.embed-wrapper--video
+   Video 4:3 tall:    .embed-wrapper.embed-wrapper--tall
+
+   LIGHTBOX
+   ─────────────────────────────────────────────
+   Triggered by JS on .figure--zoomable click.
+   ============================================ */
+
+
+/* --- Base figure ----------------------------------------- */
+/*
+   By default a figure lives in the 65ch reading column.
+   No extra styles needed — it inherits content-narrow width.
+*/
+.article-figure {
+  margin-block: var(--space-lg);
+}
+
+/* First figure in a section needs less top margin */
+.article-section > .article-figure:first-child {
+  margin-top: var(--space-md);
+}
+
+.article-figure img {
+  display: block;
+  width: 100%;
+  border-radius: 3px;
+  /* Subtle lift so screenshots don't bleed into background */
+  box-shadow: 0 2px 16px rgba(45, 45, 45, 0.08);
+}
+
+.article-figure figcaption {
+  margin-top: var(--space-xs);
+  font-size: var(--size-label);
+  font-weight: var(--weight-regular);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  color: var(--color-gray);
+  line-height: 1.5;
+}
+
+/* Subtitle in article header */
+.article-subtitle {
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  font-weight: var(--weight-light);
+  color: var(--color-gray);
+  max-width: 52ch;
+  text-align: center;
+  line-height: 1.6;
+}
+
+
+/* --- Breakout figure ------------------------------------- */
+/*
+   Escapes the 65ch column and stretches to ~900px.
+   Uses negative margins to "break out" of content-narrow.
+   Works because content-narrow is max-width, not fixed-width.
+*/
+.figure--breakout {
+  /* Push figure wider than its parent column */
+  width: min(900px, 100vw - 3rem);
+  /* Re-centre relative to the page, not the text column */
+  margin-inline: calc(50% - min(450px, 50vw - 1.5rem));
+}
+
+/* On narrow viewports just go full available width */
+@media (max-width: 960px) {
+  .figure--breakout,
+  .article-table {
+    width: 100%;
+    margin-inline: 0;
+  }
+}
+
+
+/* --- Full-bleed figure ----------------------------------- */
+/*
+   True edge-to-edge. The figcaption gets a .container class
+   in the HTML so it stays readable.
+*/
+.figure--full {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  border-radius: 0;
+}
+
+.figure--full img {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+
+/* --- Zoomable figure (lightbox trigger) ------------------ */
+.figure--zoomable {
+  cursor: zoom-in;
+  position: relative;
+}
+
+/* Zoom hint icon */
+.figure--zoomable::after {
+  content: '';
+  position: absolute;
+  bottom: calc(var(--space-xs) + 1.5rem + 2px); /* above caption */
+  right: var(--space-xs);
+  width: 28px;
+  height: 28px;
+  background:
+    rgba(255,255,255,0.9)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14' fill='none'%3E%3Ccircle cx='6' cy='6' r='4.5' stroke='%232D2D2D' stroke-width='1.2'/%3E%3Cpath d='M9.5 9.5L12 12' stroke='%232D2D2D' stroke-width='1.2' stroke-linecap='round'/%3E%3Cpath d='M4 6h4M6 4v4' stroke='%232D2D2D' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E")
+    center / 14px no-repeat;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity var(--t-fast);
+  pointer-events: none;
+}
+
+.figure--zoomable:hover::after,
+.figure--zoomable:focus-visible::after {
+  opacity: 1;
+}
+
+.figure--zoomable:focus-visible {
+  outline: 2px solid var(--color-charcoal);
+  outline-offset: 3px;
+}
+
+/* Full-bleed figures can't zoom further */
+.figure--full.figure--zoomable {
+  cursor: default;
+}
+.figure--full.figure--zoomable::after {
+  display: none;
+}
+
+
+/* --- Image grid ------------------------------------------ */
+/*
+   Breaks out the same amount as figure--breakout.
+   On narrow screens falls back to a single column.
+*/
+.media-grid {
+  display: grid;
+  gap: var(--space-md);
+  margin-block: var(--space-lg);
+  width: min(900px, 100vw - 3rem);
+  margin-inline: calc(50% - min(450px, 50vw - 1.5rem));
+}
+
+.media-grid--2col { grid-template-columns: repeat(2, 1fr); }
+.media-grid--3col { grid-template-columns: repeat(3, 1fr); }
+
+/* Figures inside a grid don't need extra vertical margin */
+.media-grid .article-figure {
+  margin-block: 0;
+}
+
+@media (max-width: 960px) {
+  .media-grid {
+    width: 100%;
+    margin-inline: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .media-grid--2col,
+  .media-grid--3col {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* --- Embed wrapper --------------------------------------- */
+/*
+   Responsive iframe/video container.
+   Maintains aspect ratio via padding-top trick.
+   Sits at breakout width by default.
+*/
+.embed-wrapper {
+  position: relative;
+  width: min(900px, 100vw - 3rem);
+  margin-inline: calc(50% - min(450px, 50vw - 1.5rem));
+  margin-block: var(--space-lg);
+  border-radius: 4px;
+  overflow: hidden;
+  background: rgba(45, 45, 45, 0.04);
+  border: 1px solid var(--color-border);
+}
+
+/* 16:9 ratio (default for video and Figma) */
+.embed-wrapper--video,
+.embed-wrapper--figma {
+  padding-top: 56.25%;
+}
+
+/* 4:3 ratio for taller Figma files */
+.embed-wrapper--tall {
+  padding-top: 75%;
+}
+
+.embed-wrapper iframe,
+.embed-wrapper video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* <video> should show controls even in the absolute position */
+.embed-wrapper video {
+  object-fit: contain;
+  background: #000;
+}
+
+.embed-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--space-xs) var(--space-sm);
+  background: rgba(252, 252, 249, 0.92);
+  backdrop-filter: blur(6px);
+  color: var(--color-gray);
+  font-size: var(--size-label);
+  border-top: 1px solid var(--color-border);
+  /* Push caption below the iframe, not over it */
+  position: static;
+  padding: var(--space-xs) var(--space-sm);
+  border-top: 1px solid var(--color-border);
+}
+
+/* Undo the padding-top ratio trick for caption row */
+.embed-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding-top: 0;          /* reset — ratio set on inner div below */
+}
+
+.embed-wrapper__ratio {
+  position: relative;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.embed-wrapper--video .embed-wrapper__ratio,
+.embed-wrapper--figma .embed-wrapper__ratio {
+  padding-top: 56.25%;
+}
+
+.embed-wrapper--tall .embed-wrapper__ratio {
+  padding-top: 75%;
+}
+
+/*
+   Simpler approach that avoids the extra div:
+   We set the ratio directly on the wrapper via aspect-ratio.
+   Fallback padding-top kept above for older browsers.
+*/
+.embed-wrapper--video,
+.embed-wrapper--figma {
+  padding-top: 0;
+  aspect-ratio: 16 / 9;
+}
+
+.embed-wrapper--tall {
+  padding-top: 0;
+  aspect-ratio: 4 / 3;
+}
+
+.embed-wrapper iframe,
+.embed-wrapper video {
+  position: static;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+}
+
+/* Caption sits below the iframe, outside the ratio box */
+.embed-wrapper {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  padding-top: 0;
+}
+
+@media (max-width: 960px) {
+  .embed-wrapper {
+    width: 100%;
+    margin-inline: 0;
+  }
+}
+
+
+/* --- Lightbox -------------------------------------------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 5vw, 3rem);
+
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity    300ms ease,
+    visibility 0ms linear 300ms;
+}
+
+.lightbox[aria-hidden="false"] {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity    300ms ease,
+    visibility 0ms linear 0ms;
+}
+
+.lightbox-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1999;
+  background: rgba(20, 20, 18, 0.92);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity    300ms ease,
+    visibility 0ms linear 300ms;
+}
+
+.lightbox-backdrop[aria-hidden="false"] {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity    300ms ease,
+    visibility 0ms linear 0ms;
+}
+
+/* Prevent scroll while lightbox is open */
+body.lightbox-open {
+  overflow: hidden;
+}
+
+.lightbox__close {
+  position: fixed;
+  top: clamp(1rem, 3vw, 2rem);
+  right: clamp(1rem, 3vw, 2rem);
+  z-index: 2001;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(252, 252, 249, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  transition: background var(--t-fast);
+}
+
+.lightbox__close:hover {
+  background: rgba(252, 252, 249, 0.2);
+}
+
+.lightbox__close:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.lightbox__figure {
+  max-width: min(1200px, 95vw);
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  /* Scale in on open */
+  transform: scale(0.95);
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lightbox[aria-hidden="false"] .lightbox__figure {
+  transform: scale(1);
+}
+
+.lightbox__img {
+  display: block;
+  max-width: 100%;
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+  border-radius: 3px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+  object-fit: contain;
+}
+
+.lightbox__caption {
+  font-size: var(--size-label);
+  font-weight: var(--weight-regular);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+}
+
+
+/* ============================================
+   9. LIST VIEW (Projects / Articles index)
+   ============================================ */
+.list-section {
+  padding-block: var(--space-lg) var(--space-xxl);
+}
+
+.list-item {
+  padding-block: var(--space-lg);
+  border-bottom: 1px solid var(--color-border);
+  transition: opacity var(--t-medium);
+}
+
+.list-item:first-child {
+  border-top: 1px solid var(--color-border);
+}
+
+.list-item:hover {
+  opacity: 0.7;
+}
+
+.list-item-link {
+  display: block;
+}
+
+.list-item-label {
+  margin-bottom: var(--space-xs);
+  color: var(--color-gray);
+}
+
+.list-item-title {
+  margin-bottom: var(--space-sm);
+}
+
+.list-item-meta {
+  font-size: var(--size-label);
+  font-weight: var(--weight-regular);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  color: var(--color-gray-light);
+}
+
+
+/* ============================================
+   9. BACKSTORY PAGE
+   ============================================ */
+.backstory-section {
+  padding-block: var(--space-xl) var(--space-xxl);
+}
+
+.backstory-intro {
+  margin-bottom: var(--space-xl);
+}
+
+.backstory-intro p {
+  font-size: clamp(1.1rem, 1.5vw, 1.25rem);
+  font-weight: var(--weight-light);
+  line-height: 1.6;
+}
+
+.numbered-section {
+  margin-bottom: var(--space-xl);
+  padding-left: clamp(2rem, 5vw, 4rem);
+  position: relative;
+}
+
+.section-number {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: var(--size-label);
+  font-weight: var(--weight-black);
+  color: var(--color-gray-light);
+  letter-spacing: var(--ls-label);
+}
+
+.section-title {
+  margin-bottom: var(--space-md);
+}
+
+.section-content p + p {
+  margin-top: var(--space-md);
+}
+
+
+/* ============================================
+   10. PROCESS PAGE
+   ============================================ */
+.process-section {
+  padding-block: var(--space-xl) var(--space-xxl);
+}
+
+.process-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  margin-top: var(--space-xl);
+}
+
+.process-step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  position: relative;
+  padding-bottom: var(--space-xl);
+}
+
+.process-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: clamp(0.75rem, 1.5vw, 1rem);
+  bottom: 0;
+  width: 1px;
+  height: var(--space-lg);
+  background-color: rgba(45, 45, 45, 0.15);
+}
+
+.step-number {
+  width: clamp(2rem, 4vw, 3rem);
+  height: clamp(2rem, 4vw, 3rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-charcoal);
+  border-radius: 50%;
+  font-size: var(--size-label);
+  font-weight: var(--weight-black);
+  flex-shrink: 0;
+}
+
+.step-content {
+  padding-top: calc(clamp(2rem, 4vw, 3rem) / 2 - 0.5em);
+}
+
+.step-title {
+  margin-bottom: var(--space-sm);
+}
+
+.step-description {
+  color: var(--color-gray);
+}
+
+
+/* ============================================
+   11. RESUME PAGE
+   ============================================ */
+.resume-section {
+  padding-block: var(--space-xl) var(--space-xxl);
+}
+
+.resume-block {
+  margin-bottom: var(--space-xl);
+}
+
+.resume-block-title {
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.resume-item {
+  margin-bottom: var(--space-lg);
+}
+
+.resume-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-xs);
+}
+
+.resume-item-title {
+  font-size: var(--size-body);
+  font-weight: var(--weight-bold);
+}
+
+.resume-item-date {
+  font-size: var(--size-label);
+  font-weight: var(--weight-regular);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  color: var(--color-gray);
+}
+
+.resume-item-company {
+  color: var(--color-gray);
+  margin-bottom: var(--space-sm);
+}
+
+.resume-item-description {
+  color: var(--color-gray);
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-sm);
+}
+
+.skill-item {
+  font-size: var(--size-label);
+  font-weight: var(--weight-black);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--color-border);
+}
+
+
+/* ============================================
+   12. FOOTER
+   ============================================ */
+.footer {
+  padding-block: var(--space-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.footer-text {
+  font-size: var(--size-label);
+  font-weight: var(--weight-regular);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  color: var(--color-gray-light);
+}
+
+.footer-links {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.footer-link {
+  font-size: var(--size-label);
+  font-weight: var(--weight-black);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+}
+
+
+/* ============================================
+   13. RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  :root {
+    --nav-height: 70px;
+  }
+
+  /* Hide desktop links, show hamburger button */
+  .nav-links  { display: none; }
+  .nav-toggle { display: flex; }
+
+  .process-step {
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+  }
+
+  .step-content {
+    padding-top: 0;
+  }
+
+  .process-step:not(:last-child)::after {
+    left: 1.25rem;
+  }
+
+  .article-footer {
+    flex-direction: column;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+
+/* ============================================
+   14. ACCESSIBILITY
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Visible focus indicator */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-charcoal);
+  outline-offset: 3px;
+}
+
+/* Screen-reader only utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
