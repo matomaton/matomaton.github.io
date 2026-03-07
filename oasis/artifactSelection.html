@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ============================================================
+    ARTICLE META — update for each new article
+  ============================================================ -->
+  <title>Redesigning the Dashboard — ION Portfolio</title>
+  <meta name="description" content="How we untangled five years of dashboard debt and shipped a system that scales.">
+  <!-- ============================================================ -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- ============================================================
+    NAVIGATION — identical across all pages, do not edit
+  ============================================================ -->
+  <nav class="global-menu" aria-label="Site navigation">
+    <div class="container nav-inner">
+
+      <a href="index.html" class="nav-logo" aria-label="ION Home">
+        <svg class="logo" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <path d="M35.9893 46.1494L35.1768 51.5361L38.5908 54.0254L44.2676 53.1289L44.6553 53.0674L44.9814 53.2871L48.8838 55.9072L47.7686 57.5674L44.1914 55.165L38.4932 56.0674L38.083 56.1328L37.7471 55.8877L33.5088 52.7949L33.0186 52.4375L33.1094 51.8389L34.0107 45.8506L35.9893 46.1494ZM30 36H24.333V38.3193H31V52.4814H29V40.3193H24.333V56H10V54H22.333V34H30V36ZM56 36H51.667V38.3174H57V55H55V40.3174H51.667V51.2627H40V49.2627H49.667V34H56V36ZM19 48H8V36H19V48ZM10 46H17V38H10V46ZM45 36H36V38.5H45V40.5H36V43H45V45H34V34H45V36ZM55 10H48V12.8877H56V28H54V14.8877H48V29H31V27H46V8H55V10ZM30 10H24V13.1445H31V24.2236H29V15.1445H24V28H9V26H22V8H30V10ZM42 10H36V12.6426H42V14.6426H36V21H42V23H34V8H42V10ZM13 9C16.3137 9 19 11.6863 19 15C19 18.3137 16.3137 21 13 21C9.68629 21 7 18.3137 7 15C7 11.6863 9.68629 9 13 9ZM13 11C10.7909 11 9 12.7909 9 15C9 17.2091 10.7909 19 13 19C15.2091 19 17 17.2091 17 15C17 12.7909 15.2091 11 13 11Z" fill="darkred"/>
+        </svg>
+      </a>
+
+      <!-- Desktop links -->
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="nav-link">Projects</a></li>
+        <li><a href="articles.html" class="nav-link nav-link--active" aria-current="page">Articles</a></li>
+        <li><a href="backstory.html" class="nav-link">Backstory</a></li>
+        <li><a href="process.html" class="nav-link">Process</a></li>
+        <li><a href="resume.html" class="nav-link">Resume</a></li>
+      </ul>
+
+      <!-- Hamburger button — hidden on desktop -->
+      <button
+        class="nav-toggle"
+        id="nav-toggle"
+        aria-controls="nav-drawer"
+        aria-expanded="false"
+        aria-label="Open navigation menu"
+      >
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- Mobile drawer -->
+  <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+    <ul class="nav-drawer__links">
+      <li><a href="index.html" class="nav-drawer__link">Projects</a></li>
+      <li><a href="articles.html" class="nav-drawer__link nav-drawer__link--active" aria-current="page">Articles</a></li>
+      <li><a href="backstory.html" class="nav-drawer__link">Backstory</a></li>
+      <li><a href="process.html" class="nav-drawer__link">Process</a></li>
+      <li><a href="resume.html" class="nav-drawer__link">Resume</a></li>
+    </ul>
+  </div>
+  <div class="nav-backdrop" id="nav-backdrop" aria-hidden="true"></div>
+
+  <script>
+    (function () {
+      const toggle   = document.getElementById('nav-toggle');
+      const drawer   = document.getElementById('nav-drawer');
+      const backdrop = document.getElementById('nav-backdrop');
+      function openMenu() {
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.setAttribute('aria-label', 'Close navigation menu');
+        drawer.setAttribute('aria-hidden', 'false');
+        backdrop.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('nav-open');
+        drawer.querySelector('.nav-drawer__link').focus();
+      }
+      function closeMenu() {
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open navigation menu');
+        drawer.setAttribute('aria-hidden', 'true');
+        backdrop.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('nav-open');
+        toggle.focus();
+      }
+      toggle.addEventListener('click', function () {
+        toggle.getAttribute('aria-expanded') === 'true' ? closeMenu() : openMenu();
+      });
+      backdrop.addEventListener('click', closeMenu);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') closeMenu();
+      });
+      drawer.addEventListener('keydown', function (e) {
+        if (e.key !== 'Tab') return;
+        const focusable = drawer.querySelectorAll('a');
+        const first = focusable[0];
+        const last  = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      });
+    })();
+  </script>
+  <!-- ============================================================ -->
+
+  <div class="progress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+
+  <main class="main" id="main-content">
+
+    <div class="container">
+      <a href="articles.html" class="back-link">
+        <span class="back-arrow" aria-hidden="true">←</span> Back to Articles
+      </a>
+    </div>
+
+    <!-- ============================================================
+      ARTICLE HEADER — update for each new article
+      Optional: add article-meta block (category · date · read time)
+    ============================================================ -->
+    <header class="article-header">
+      <div class="container article-header__inner">
+        <div class="article-meta">
+          <span class="label">Case Study</span>
+          <span class="article-meta__divider" aria-hidden="true">·</span>
+          <time class="label" datetime="2026-01">January 2026</time>
+          <span class="article-meta__divider" aria-hidden="true">·</span>
+          <span class="label">8 min read</span>
+        </div>
+        <h1 class="article-title">Artifact Selection Guide</h1>
+        <p class="article-subtitle">“When you have a hammer, everything starts to look like a nail. Now that high‑fidelity prototypes are so easy to create, there’s growing pressure to jump straight to them. But they aren’t always the best tool for the problem at hand.</p>
+         <p> That’s why I put together this list—to remind myself, and to help others see the range of tools available for answering design questions. Design is about making thinking visible. The artifacts we create should help us communicate clearly—whether we’re sharing ideas with participants in a study or with engineers who will eventually build the product. Using the right tool for the right job makes all the difference.</p>
+      </div>
+    </header>
+    <!-- ============================================================ -->
+
+
+    <!-- ============================================================
+      ARTICLE BODY
+
+      MEDIA PATTERNS — copy/paste the block you need:
+      ----------------------------------------------------------------
+
+      1. INLINE FIGURE (same 65ch column as text)
+         Use for: tight callouts, annotated details, simple diagrams
+         ┌─────────────────────┐
+         │  [text column]      │
+         │  [figure — 65ch]    │ ← same width as text
+         │  [text column]      │
+         └─────────────────────┘
+
+      2. BREAKOUT FIGURE (wider than text, ~900px max)
+         Use for: most screenshots, before/after, side-by-side
+         Add class "figure--breakout" to <figure>
+         ┌─────────────────────────────────┐
+         │  [text column]                  │
+         │  [    figure — breakout    ]    │ ← wider than text
+         │  [text column]                  │
+         └─────────────────────────────────┘
+
+      3. FULL-BLEED FIGURE (edge to edge)
+         Use for: hero moments, dramatic reveals — use sparingly
+         Add class "figure--full" to <figure>
+         ┌─────────────────────────────────┐
+         │[          figure — full         ]│ ← edge to edge
+         └─────────────────────────────────┘
+
+      4. IMAGE GRID (2 or 3 images side by side)
+         Use for: before/after, variant explorations
+         Wrap figures in <div class="media-grid media-grid--2col">
+         or media-grid--3col for three up.
+
+      Lightbox: add class "figure--zoomable" to any <figure> to
+      make the image click-to-expand. Works on inline and breakout.
+
+      EMBEDS
+      ----------------------------------------------------------------
+      5. FIGMA EMBED
+         <div class="embed-wrapper embed-wrapper--figma"> <iframe …> </div>
+
+      6. VIDEO EMBED (hosted file, e.g. mp4)
+         <div class="embed-wrapper embed-wrapper--video"> <video …> </div>
+
+      7. VIDEO EMBED (YouTube / Vimeo iframe)
+         <div class="embed-wrapper embed-wrapper--video"> <iframe …> </div>
+
+    ============================================================ -->
+    <article class="article-body" aria-labelledby="article-title">
+      <div class="container content-narrow">
+
+        <!-- ── SECTION ─────────────────────────────────────────── -->
+        <section class="article-section">
+          <h2>Artifact Types</h2>
+          <p class="article-lead">The dashboard had been added to incrementally for five years. Every team had left a fingerprint. The result was a page that tried to serve everyone and succeeded for no one.</p>
+          <p>This is the story of how we audited what existed, defined what it needed to do, and rebuilt it without breaking the workflows of 40,000 active users.</p>
+        </section>
+
+
+        <!-- ── DATA TABLE (3 columns × 10 rows) ───────────────────
+             Reusable: change column count by adding/removing <th> and
+             matching <td> per row; change row count by adding/removing <tr>.
+             COLUMN HEADERS are in the <thead> block below — edit the
+             <th> text to rename columns. DATA goes in each <td>.
+        ─────────────────────────────────────────────────────────── -->
+        <table class="article-table" role="table">
+          <thead>
+            <tr>
+              <!-- COLUMN 1 HEADER -->
+              <th scope="col">Goal</th>
+              <!-- COLUMN 2 HEADER -->
+              <th scope="col">Artifact</th>
+              <!-- COLUMN 3 HEADER -->
+              <th scope="col">Rationale</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- DATA ROWS: each <tr> is one row; each <td> is one cell under Column A, B, C -->
+            <tr><td>Understand user problems and context</td><td>Storyboards, user journeys, service blueprints, interviews</td><td>These capture people, context, and pain points without locking into a UI solution too early; mockups and prototypes can hide upstream problem issues behind shiny screens</td></tr>
+
+            <tr><td>Test a value proposition (“Do they care?”)</td><td>Concept narrative, “press release,” low‑fi mocks, or a simple fake door</td><td>Validates, not usability; simple representations are faster and avoid bias from visual polish.</td></tr>
+
+
+            <tr><td>Compare multiple solution concepts</td><td>Sketches, annotated wireframes, storyboards</td><td>Low‑fi lets you rapidly contrast mental models and flows without sunk-cost bias toward one polished option.</td></tr>
+            <tr><td>Validate end‑to‑end usability of a chosen flow</td><td>Mid/high‑fi clickable prototype (limited scope)</td><td>Realistic click-through is needed to see task success, errors, and navigation issues; static screens can’t show sequential friction.</td></tr>
+
+            <tr><td>Test information architecture / navigation</td><td>Card sorting, tree testing, wireframe flows, low‑fi click-through</td><td>IA questions are about labels and structure; they can be answered cheaply without full visual/interaction fidelity.</td></tr>
+
+            <tr><td>Refine interaction details (feedback, edge cases)</td><td>High‑fi clickable or coded prototype of specific flow(s)</td><td>Micro-interactions, validation, and states need realistic behavior to evaluate properly.</td></tr>
+            <tr><td>Assess desirability / emotional response</td><td>Static mocks, concept video, storyboard, narrative</td><td>Focus is on emotional and aesthetic response; interactivity adds little compared with visuals and story.</td></tr>
+
+            <tr><td>De-risk technical feasibility</td><td>Wizard‑of‑Oz setup, technical spike/POC, plus minimal UI</td><td>Core risk is system capability, not UI; UX prototypes alone can give false confidence if tech isn’t viable.</td></tr>
+
+            <tr><td>Align stakeholders on strategy and scope</td><td>Storyboards, user journeys, concise narrative + a simple prototype</td><td>A shared story across channels and roles is more effective than only showing screen sequence.</td></tr>
+
+            <tr><td>Word</td><td>Word</td><td>Word</td></tr>
+          </tbody>
+        </table>
+
+
+        <!-- ── BREAKOUT FIGURE ───────────────────────────────────
+             Wider than the text column. Good for most screenshots.
+             Remove "figure--zoomable" if you don't want lightbox.
+        ─────────────────────────────────────────────────────────── -->
+        <figure class="article-figure figure--breakout figure--zoomable" aria-label="Before and after dashboard comparison">
+          <img
+            src="IMG_1530.PNG"
+            alt="Side by side: the original cluttered dashboard on the left, the redesigned clean dashboard on the right"
+            loading="lazy"
+          >
+          <figcaption>Before → After. Five years of additions removed or consolidated into a single coherent layout.</figcaption>
+        </figure>
+
+
+        <!-- ── SECTION ─────────────────────────────────────────── -->
+        <section class="article-section">
+          <h2>Hand Drawn Sketches</h2>
+          <p>WFast, informal drawings of ideas, screens, or flows on paper/whiteboard.</p>
+          <h3>When To Use</h3>
+         <ul>
+            <li>Earliest discovery and ideation.</li>
+            <li>When uncertainty is high and you want volume and variation of ideas.</li>
+            <li>Collaborative workshops with stakeholders or engineers.</li>
+         </ul>
+         <h3>To Learn</h3>
+         <ul>
+         <li>Different solution directions and mental models.</li>
+        <li>High-level flow options and layout ideas.</li>
+        <li>Where stakeholders or users gravitate conceptually.</li>
+    </ul>
+    <h3>Caveats</h3>
+    <ul>
+        <li>Harder for some stakeholders to interpret.</li>
+        <li>Not suited to detailed usability or brand questions.</li>
+    </ul>
+        </section>
+
+
+        <!-- ── INLINE FIGURE ─────────────────────────────────────
+             Same width as text column. Good for annotated details.
+        ─────────────────────────────────────────────────────────── -->
+        <figure class="article-figure figure--zoomable" aria-label="Heatmap of user click patterns">
+          <img
+            src="your-image.png"
+            alt="Heatmap showing that 80% of clicks concentrated in the top-left quarter of the dashboard, with most other areas cold"
+            loading="lazy"
+          >
+          <figcaption>Click heatmap from FullStory. The top-left quadrant accounted for 78% of all interactions.</figcaption>
+        </figure>
+
+
+        <!-- ── SECTION ─────────────────────────────────────────── -->
+        <section class="article-section">
+          <h2>Wireframes</h2>
+          <p>Simplified layouts that focus on structure, hierarchy, and navigation, usually grayscale and minimal styling.</p>
+          <h3>When to Use </h3>
+          <ul>
+            <li>Early to mid discovery.</li>
+
+               <li> When the problem is understood and you’re shaping IA and layout.</li>
+                
+               <li>Comparing different structures before visual design.</li>
+          </ul>
+          <h3>To Learn</h3>
+          <ul>
+            <li>Information hierarchy and content priority.</li>
+            <li>Navigation clarity and rough flow.</li>
+            <li>Content requirements and feature grouping.</li>
+          </ul>
+          <h3>Caveats</h3>
+          <ul>
+            <li>ILimited insight into emotional response or brand fit.</li>
+            <li>Some stakeholders treat them as “ugly final designs” and misjudge them.</li>
+          </ul>
+        </section>
+
+
+        <!-- ── IMAGE GRID (2 columns) ────────────────────────────
+             Use for before/after or side-by-side variants.
+             Change to media-grid--3col for three images.
+        ─────────────────────────────────────────────────────────── -->
+        <div class="media-grid media-grid--2col">
+          <figure class="article-figure figure--zoomable" aria-label="User interview notes">
+            <img
+              src="your-image.png"
+              alt="Sticky notes on a whiteboard organised into themes from user interviews"
+              loading="lazy"
+            >
+            <figcaption>Affinity map from 12 user sessions.</figcaption>
+          </figure>
+          <figure class="article-figure figure--zoomable" aria-label="Component audit spreadsheet">
+            <img
+              src="your-image.png"
+              alt="Spreadsheet showing 47 distinct components audited, with columns for usage data, owner, and decision"
+              loading="lazy"
+            >
+            <figcaption>Component audit — 47 elements, 18 marked for removal.</figcaption>
+          </figure>
+        </div>
+
+
+        <blockquote>
+          <p>"The dashboard had become a mirror of the org chart, not a tool for the user."</p>
+        </blockquote>
+
+
+        <!-- ── SECTION ─────────────────────────────────────────── -->
+        <section class="article-section">
+          <h2>Storyboards</h2>
+          <p>Sequential frames (like a comic strip) showing a user, their context, and interaction with the product over time.</p>
+          <h3>When to use</h3>
+          <ul>
+            <li>Problem framing and concept storytelling.</li>
+            <li>Explaining how a feature fits into a day-in-the-life.</li>
+            <li>Aligning cross-functional teams on user scenarios.</li>
+          </ul>
+          <h3>To Learn</h3>
+          <ul>
+            <li>Context of use, triggers, and outcomes.</li>
+            <li>Emotional highs and lows along the journey.</li>
+            <li>Whether a concept is meaningfully improving the story.</li>
+          </ul>
+          <h3>Caveats</h3>
+          <ul>
+            <li>Not interactive; doesn’t expose detailed usability issues.</li>
+            <li>Can over-focus on “happy path” if you don’t depict edge cases.</li>
+          </ul>
+        </section>
+
+
+        <!-- ── FIGMA EMBED ───────────────────────────────────────
+             Replace the src with your Figma embed URL.
+             Get it from: Share → Get embed code in Figma.
+             The wrapper maintains a 16:9 ratio by default.
+             Use embed-wrapper--tall for a taller 4:3 ratio.
+        ─────────────────────────────────────────────────────────── -->
+        <div class="embed-wrapper embed-wrapper--figma" role="region" aria-label="Figma design file — Dashboard explorations">
+            <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://embed.figma.com/proto/lxDRjWwpzWpk7ePqOfKJhV/ITINERARY-BUILDER-STORIES?node-id=151-577&p=f&scaling=scale-down&content-scaling=fixed&page-id=67%3A1774&embed-host=share" allowfullscreen></iframe>
+          <p class="embed-caption label">Dashboard explorations — three directions. Use Figma controls to zoom and navigate.</p>
+        </div>
+
+
+        <!-- ── SECTION ─────────────────────────────────────────── -->
+        <section class="article-section">
+          <h2>Static Screen Mockups</h2>
+          <p>High- or mid-fidelity visual designs of screens without linked interactions</p>
+          <h3>Usage</h3>
+          <ul>
+            <li>When you want feedback on visual direction, brand, and content.</li>
+            <li>Reviewing copy and information density.</li>
+            <li>Precursor to building a clickable prototypes</li>
+          </ul>
+          <h3>To Learn</h3>
+          <ul>
+            <li>Visual hierarchy and scannability.</li>
+            <li>Emotional and brand response.</li>
+            <li>Copy clarity and tone.</li>
+          </ul>
+          <h3>Caveats</h3>
+          <ul>
+            <li>No sense of flow or timing.</li>
+            <li>an still cause premature convergence (“It looks done”).</li>
+          </ul>
+        </section>
+
+
+        <!-- ── FULL-BLEED FIGURE ─────────────────────────────────
+             Use sparingly — high-impact moments only.
+             Does not support the lightbox (too large to enlarge further).
+        ─────────────────────────────────────────────────────────── -->
+        <figure class="article-figure figure--full" aria-label="Final dashboard design">
+          <img
+            src="your-image.png"
+            alt="The final dashboard design at full width, showing the three header metric cards and the data table below"
+            loading="lazy"
+          >
+          <figcaption class="container">The final layout. Header cards are user-configurable; the table below is filterable and persistent across sessions.</figcaption>
+        </figure>
+
+
+        <!-- ── SECTION ─────────────────────────────────────────── -->
+        <section class="article-section">
+          <h2>User Journeys & Service Blueprints</h2>
+          <p>Maps of steps, touchpoints, channels, emotions, and backstage processes across an end-to-end experience</p>
+          <h3>When To Use</h3>
+          <ul>
+            <li>When experiences span multiple channels/teams (e.g., web + call center + in-person).</li>
+            <li>Early strategy and discovery, or when re-architecting services.</li>
+            <li>Identifying systemic pain points and handoff issues.</li>
+          </ul>
+          <h3>To Learn</h3>
+          <ul>
+            <li>Where the current experience breaks down.</li>
+            <li>Which stages matter most for satisfaction or drop-off.</li>
+            <li>Which teams/systems must change to improve the journey.</li>
+          </ul>
+          <h3>Caveats</h3>
+          <ul>
+            <li>Can be abstract and “high altitude” for stakeholders who prefer screens.</li>
+            <li>Risk of becoming documentation that isn’t tied to decisions.</li>
+          </ul>
+        </section>
+
+
+        <!-- ── HOSTED VIDEO ──────────────────────────────────────
+             For your own mp4/webm files. Controls are always visible.
+             Replace src with your actual file path.
+             Include both mp4 and webm for broad browser support.
+        ─────────────────────────────────────────────────────────── -->
+        <div class="embed-wrapper embed-wrapper--video" role="region" aria-label="Prototype walkthrough video">
+          <video
+            controls
+            preload="metadata"
+            poster="your-video-poster.png"
+            aria-label="Five-minute prototype walkthrough recorded for engineering kickoff"
+          >
+            <source src="your-video.mp4"  type="video/mp4">
+            <source src="your-video.webm" type="video/webm">
+            <p>Your browser doesn't support embedded video. <a href="your-video.mp4">Download the walkthrough (mp4)</a>.</p>
+          </video>
+          <p class="embed-caption label">Prototype walkthrough — 5 min. Recorded for engineering kickoff, January 2026.</p>
+        </div>
+
+
+        <!-- ── YOUTUBE / VIMEO EMBED ────────────────────────────
+             Use this pattern for YouTube or Vimeo.
+             Replace src with your embed URL (not the share URL).
+             YouTube:  https://www.youtube.com/embed/VIDEO_ID
+             Vimeo:    https://player.vimeo.com/video/VIDEO_ID
+             Remove this block if not needed.
+        ─────────────────────────────────────────────────────────── -->
+        <!--
+        <div class="embed-wrapper embed-wrapper--video" role="region" aria-label="Project overview video">
+          <iframe
+            src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
+            title="Dashboard redesign project overview"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+          <p class="embed-caption label">Project overview — presented at design review, December 2025.</p>
+        </div>
+        -->
+
+
+        <!-- ── SECTION ─────────────────────────────────────────── -->
+        <section class="article-section">
+          <h2>Clickable Prototypes</h2>
+          <p>Linked screens simulating navigation and basic interactions, often in tools like Figma; fidelity can range from wireframes to near-final UI.</p>
+          <h3>Usage</h3>
+          <ul>
+            <li>The core concept and main flow are chosen, and you’re validating how it works.</li>
+            <li>You need to test task success, error patterns, and learnability.</li>
+            <li>You need realistic walkthroughs for stakeholders.</li>
+          </ul>
+          <h3>To Learn</h3>
+          <ul>
+            <li>Usability of end-to-end flows.</li>
+            <li>Interaction issues, error states, and navigation breakdowns.</li>
+            <li>First-time user understanding and onboarding effectiveness.</li>
+          </ul>
+          <h3>Caveats</h3>
+          <ul>
+            <li>Higher time and cost; easy to overscope.</li>
+            <li>Aesthetic bias and “it looks done” effect.</li>
+            <li>Teams may resist structural changes because they’re encoded in the prototype.</li>
+          </ul>
+        </section>
+
+
+        <!-- 3-column image grid example -->
+        <div class="media-grid media-grid--3col">
+          <figure class="article-figure figure--zoomable" aria-label="Metric card component">
+            <img src="your-image.png" alt="The metric card component showing a KPI, trend sparkline, and delta percentage" loading="lazy">
+            <figcaption>Metric card.</figcaption>
+          </figure>
+          <figure class="article-figure figure--zoomable" aria-label="Filter panel component">
+            <img src="your-image.png" alt="The collapsible filter panel with date range, segment, and saved filter controls" loading="lazy">
+            <figcaption>Filter panel.</figcaption>
+          </figure>
+          <figure class="article-figure figure--zoomable" aria-label="Empty state component">
+            <img src="your-image.png" alt="The empty state shown when no data matches the active filters, with clear call to action" loading="lazy">
+            <figcaption>Empty state.</figcaption>
+          </figure>
+        </div>
+
+
+        <!-- ============================================================
+          ARTICLE FOOTER — update tags for each article
+        ============================================================ -->
+        <footer class="article-footer">
+          <div class="article-tags">
+            <span class="label">Tagged:</span>
+            <ul class="tags-list" aria-label="Article tags">
+              <li><a href="#" class="tag">Case Study</a></li>
+              <li><a href="#" class="tag">Product Design</a></li>
+              <li><a href="#" class="tag">Data Visualisation</a></li>
+            </ul>
+          </div>
+          <div class="article-share">
+            <span class="label">Share:</span>
+            <div class="share-links">
+              <a href="#" class="share-link">Twitter</a>
+              <a href="#" class="share-link">LinkedIn</a>
+              <a href="#" class="share-link">Copy Link</a>
+            </div>
+          </div>
+        </footer>
+
+      </div><!-- /.content-narrow -->
+    </article>
+
+
+    <!-- ============================================================
+      RELATED ARTICLES — update links for each article
+    ============================================================ -->
+    <section class="related-articles" aria-labelledby="related-heading">
+      <div class="container content-narrow">
+        <h2 id="related-heading" class="label">More Reading</h2>
+        <div class="related-list">
+          <a href="#" class="related-item">
+            <p class="label">Process</p>
+            <h3 class="related-item-title">Why I Start Every Project With a Question, Not a Solution</h3>
+          </a>
+          <a href="#" class="related-item">
+            <p class="label">Design Systems</p>
+            <h3 class="related-item-title">Button Placement: Hierarchy and Order</h3>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <a href="articles.html" class="back-link">
+        <span class="back-arrow" aria-hidden="true">←</span> Back to Articles
+      </a>
+    </div>
+
+  </main>
+
+
+  <!-- ============================================================
+    FOOTER — identical across all pages, do not edit
+  ============================================================ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p class="footer-text">© 2025 ION Portfolio</p>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="mailto:hello@ion.design" class="footer-link">Email</a>
+        <a href="#" class="footer-link">LinkedIn</a>
+        <a href="#" class="footer-link">Dribbble</a>
+      </nav>
+    </div>
+  </footer>
+  <!-- ============================================================ -->
+
+
+  <!-- ============================================================
+    LIGHTBOX — no dependencies, pure JS
+    Activated automatically on any figure.figure--zoomable
+    Close: click backdrop, press Escape, or click × button
+  ============================================================ -->
+  <div class="lightbox" id="lightbox" aria-modal="true" role="dialog" aria-label="Image viewer" aria-hidden="true">
+    <button class="lightbox__close" id="lightbox-close" aria-label="Close image viewer">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M2 2L18 18M18 2L2 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <figure class="lightbox__figure">
+      <img class="lightbox__img" id="lightbox-img" src="" alt="">
+      <figcaption class="lightbox__caption" id="lightbox-caption"></figcaption>
+    </figure>
+  </div>
+  <div class="lightbox-backdrop" id="lightbox-backdrop" aria-hidden="true"></div>
+
+  <script>
+    (function () {
+      const lightbox   = document.getElementById('lightbox');
+      const backdrop   = document.getElementById('lightbox-backdrop');
+      const closeBtn   = document.getElementById('lightbox-close');
+      const lbImg      = document.getElementById('lightbox-img');
+      const lbCaption  = document.getElementById('lightbox-caption');
+      let previousFocus = null;
+
+      function openLightbox(img, caption) {
+        previousFocus = document.activeElement;
+        lbImg.src     = img.src;
+        lbImg.alt     = img.alt;
+        lbCaption.textContent = caption;
+        lightbox.setAttribute('aria-hidden', 'false');
+        backdrop.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('lightbox-open');
+        closeBtn.focus();
+      }
+
+      function closeLightbox() {
+        lightbox.setAttribute('aria-hidden', 'true');
+        backdrop.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('lightbox-open');
+        // Brief delay so img doesn't flash blank on close transition
+        setTimeout(function () { lbImg.src = ''; }, 300);
+        if (previousFocus) previousFocus.focus();
+      }
+
+      // Attach click listeners to all zoomable figures
+      document.querySelectorAll('.figure--zoomable').forEach(function (figure) {
+        const img     = figure.querySelector('img');
+        const caption = figure.querySelector('figcaption');
+        if (!img) return;
+
+        // Make figure focusable and behave like a button for keyboard users
+        figure.setAttribute('tabindex', '0');
+        figure.setAttribute('role', 'button');
+        figure.setAttribute('aria-label', 'View image larger: ' + (img.alt || 'image'));
+
+        function trigger() {
+          openLightbox(img, caption ? caption.textContent : '');
+        }
+
+        figure.addEventListener('click', trigger);
+        figure.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); trigger(); }
+        });
+      });
+
+      closeBtn.addEventListener('click', closeLightbox);
+      backdrop.addEventListener('click', closeLightbox);
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && lightbox.getAttribute('aria-hidden') === 'false') {
+          closeLightbox();
+        }
+      });
+
+      // Trap focus inside lightbox
+      lightbox.addEventListener('keydown', function (e) {
+        if (e.key !== 'Tab') return;
+        // Only one focusable element (closeBtn), so always keep focus there
+        e.preventDefault();
+        closeBtn.focus();
+      });
+    })();
+  </script>
+
+</body>
+</html>
