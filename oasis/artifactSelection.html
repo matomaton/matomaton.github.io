@@ -132,8 +132,8 @@
           <span class="label">8 min read</span>
         </div>
         <h1 class="article-title">Artifact Selection Guide</h1>
-        <p class="article-subtitle">“When you have a hammer, everything starts to look like a nail. Now that high‑fidelity prototypes are so easy to create, there’s growing pressure to jump straight to them. But they aren’t always the best tool for the problem at hand.</p>
-         <p> That’s why I put together this list—to remind myself, and to help others see the range of tools available for answering design questions. Design is about making thinking visible. The artifacts we create should help us communicate clearly—whether we’re sharing ideas with participants in a study or with engineers who will eventually build the product. Using the right tool for the right job makes all the difference.</p>
+        <p class="article-subtitle">When you have a hammer, everything starts to look like a nail. Now that high‑fidelity prototypes are so easy to create, there’s growing pressure to jump straight to them. But they aren’t always the best tool for the problem at hand.</p>
+        
       </div>
     </header>
     <!-- ============================================================ -->
@@ -193,12 +193,15 @@
       <div class="container content-narrow">
 
         <!-- ── SECTION ─────────────────────────────────────────── -->
-        <section class="article-section">
-          <h2>Artifact Types</h2>
-          <p class="article-lead">The dashboard had been added to incrementally for five years. Every team had left a fingerprint. The result was a page that tried to serve everyone and succeeded for no one.</p>
+          <section class="article-section">
+          <h2>Background</h2>
+         <p>I compiled this list to remind myself, and to help other designers review the range of tools available for answering design questions. <p>Design is about making thinking visible. The artifacts we create should help us communicate clearly—whether we’re sharing ideas with participants in a study or with engineers who will eventually build the product.</p>
           <p>This is the story of how we audited what existed, defined what it needed to do, and rebuilt it without breaking the workflows of 40,000 active users.</p>
         </section>
-
+        <!-- <section class="article-section">
+          <h2>Artifact Types</h2>
+      
+        </section> -->
 
         <!-- ── DATA TABLE (3 columns × 10 rows) ───────────────────
              Reusable: change column count by adding/removing <th> and
@@ -219,46 +222,34 @@
           </thead>
           <tbody>
             <!-- DATA ROWS: each <tr> is one row; each <td> is one cell under Column A, B, C -->
-            <tr><td>Understand user problems and context</td><td>Storyboards, user journeys, service blueprints, interviews</td><td>These capture people, context, and pain points without locking into a UI solution too early; mockups and prototypes can hide upstream problem issues behind shiny screens</td></tr>
+            <tr><td>Understand Context</td><td>Storyboards, user journeys, service blueprints, interviews</td><td>These capture people, context, and pain points without locking into a UI solution too early; mockups and prototypes can hide upstream problem issues behind shiny screens</td></tr>
 
-            <tr><td>Test a value proposition (“Do they care?”)</td><td>Concept narrative, “press release,” low‑fi mocks, or a simple fake door</td><td>Validates, not usability; simple representations are faster and avoid bias from visual polish.</td></tr>
+            <tr><td>Test Value Proposition</td><td>Concept narrative, “press release,” low‑fi mocks, or a simple fake door</td><td>Validates, not usability; simple representations are faster and avoid bias from visual polish.</td></tr>
 
+            <tr><td>Compare concepts</td><td>Sketches, annotated wireframes, storyboards</td><td>Low‑fi lets you rapidly contrast mental models and flows without sunk-cost bias toward one polished option.</td></tr>
+            <tr><td>Evaluate Usability</td><td>Mid/high‑fi clickable prototype</td><td>Realistic click-through of a specific flow is needed to see task success, errors, and navigation issues; static screens can’t show sequential friction.</td></tr>
 
-            <tr><td>Compare multiple solution concepts</td><td>Sketches, annotated wireframes, storyboards</td><td>Low‑fi lets you rapidly contrast mental models and flows without sunk-cost bias toward one polished option.</td></tr>
-            <tr><td>Validate end‑to‑end usability of a chosen flow</td><td>Mid/high‑fi clickable prototype (limited scope)</td><td>Realistic click-through is needed to see task success, errors, and navigation issues; static screens can’t show sequential friction.</td></tr>
+            <tr><td>Construct IA/Navigtaion</td><td>Card sorting, tree testing, wireframe flows, low‑fi click-through</td><td>IA questions are about labels and structure; they can be answered cheaply without full visual/interaction fidelity.</td></tr>
 
-            <tr><td>Test information architecture / navigation</td><td>Card sorting, tree testing, wireframe flows, low‑fi click-through</td><td>IA questions are about labels and structure; they can be answered cheaply without full visual/interaction fidelity.</td></tr>
+            <tr><td>Explore Interaction</td><td>High‑fi clickable or coded prototype of specific flow(s)</td><td>Micro-interactions, validation, and states need realistic behavior to evaluate properly.</td></tr>
+            <tr><td>Investigate Desirability</td><td>Static mocks, concept video, storyboard, narrative</td><td>Focus is on emotional and aesthetic response; interactivity adds little compared with visuals and story.</td></tr>
 
-            <tr><td>Refine interaction details (feedback, edge cases)</td><td>High‑fi clickable or coded prototype of specific flow(s)</td><td>Micro-interactions, validation, and states need realistic behavior to evaluate properly.</td></tr>
-            <tr><td>Assess desirability / emotional response</td><td>Static mocks, concept video, storyboard, narrative</td><td>Focus is on emotional and aesthetic response; interactivity adds little compared with visuals and story.</td></tr>
+            <tr><td>Discuss Feasibility</td><td>Wizard‑of‑Oz setup, technical spike/POC, minimal UI</td><td>Core risk is system capability, not UI; UX prototypes alone can give false confidence if tech isn’t viable.</td></tr>
 
-            <tr><td>De-risk technical feasibility</td><td>Wizard‑of‑Oz setup, technical spike/POC, plus minimal UI</td><td>Core risk is system capability, not UI; UX prototypes alone can give false confidence if tech isn’t viable.</td></tr>
+            <tr><td>Establish Alignment, strategy, and scope</td><td>Storyboards, user journeys, concise narrative + a simple prototype</td><td>A shared story across channels and roles is more effective than only showing screen sequence.</td></tr>
 
-            <tr><td>Align stakeholders on strategy and scope</td><td>Storyboards, user journeys, concise narrative + a simple prototype</td><td>A shared story across channels and roles is more effective than only showing screen sequence.</td></tr>
-
-            <tr><td>Word</td><td>Word</td><td>Word</td></tr>
+            <!-- <tr><td>Word</td><td>Word</td><td>Word</td></tr> -->
           </tbody>
         </table>
 
 
-        <!-- ── BREAKOUT FIGURE ───────────────────────────────────
-             Wider than the text column. Good for most screenshots.
-             Remove "figure--zoomable" if you don't want lightbox.
-        ─────────────────────────────────────────────────────────── -->
-        <figure class="article-figure figure--breakout figure--zoomable" aria-label="Before and after dashboard comparison">
-          <img
-            src="IMG_1530.PNG"
-            alt="Side by side: the original cluttered dashboard on the left, the redesigned clean dashboard on the right"
-            loading="lazy"
-          >
-          <figcaption>Before → After. Five years of additions removed or consolidated into a single coherent layout.</figcaption>
-        </figure>
+ 
 
 
         <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
           <h2>Hand Drawn Sketches</h2>
-          <p>WFast, informal drawings of ideas, screens, or flows on paper/whiteboard.</p>
+          <p>Fast, informal drawings of ideas, screens, or flows on paper/whiteboard.</p>
           <h3>When To Use</h3>
          <ul>
             <li>Earliest discovery and ideation.</li>
@@ -277,19 +268,21 @@
         <li>Not suited to detailed usability or brand questions.</li>
     </ul>
         </section>
-
-
-        <!-- ── INLINE FIGURE ─────────────────────────────────────
-             Same width as text column. Good for annotated details.
+       <!-- ── BREAKOUT FIGURE ───────────────────────────────────
+             Wider than the text column. Good for most screenshots.
+             Remove "figure--zoomable" if you don't want lightbox.
         ─────────────────────────────────────────────────────────── -->
-        <figure class="article-figure figure--zoomable" aria-label="Heatmap of user click patterns">
+        <figure class="article-figure figure--breakout figure--zoomable" aria-label="Before and after dashboard comparison">
           <img
-            src="your-image.png"
-            alt="Heatmap showing that 80% of clicks concentrated in the top-left quarter of the dashboard, with most other areas cold"
+            src="wfsketch.png"
+            alt="Side by side: the original cluttered dashboard on the left, the redesigned clean dashboard on the right"
             loading="lazy"
           >
-          <figcaption>Click heatmap from FullStory. The top-left quadrant accounted for 78% of all interactions.</figcaption>
+          <figcaption>A sketch of my first webpage in 1997</figcaption>
         </figure>
+
+
+
 
 
         <!-- ── SECTION ─────────────────────────────────────────── -->
@@ -312,11 +305,22 @@
           </ul>
           <h3>Caveats</h3>
           <ul>
-            <li>ILimited insight into emotional response or brand fit.</li>
+            <li>Limited insight into emotional response or brand fit.</li>
             <li>Some stakeholders treat them as “ugly final designs” and misjudge them.</li>
           </ul>
         </section>
-
+    <!-- ── BREAKOUT FIGURE ───────────────────────────────────
+             Wider than the text column. Good for most screenshots.
+             Remove "figure--zoomable" if you don't want lightbox.
+        ─────────────────────────────────────────────────────────── -->
+      <figure class="article-figure figure--breakout figure--zoomable" aria-label="Before and after dashboard comparison">
+          <img
+            src="wireframe.png"
+            alt="Side by side: the original cluttered dashboard on the left, the redesigned clean dashboard on the right"
+            loading="lazy"
+          >
+          <figcaption>Basic layout of content</figcaption>
+        </figure>
 
         <!-- ── IMAGE GRID (2 columns) ────────────────────────────
              Use for before/after or side-by-side variants.
@@ -340,11 +344,11 @@
             <figcaption>Component audit — 47 elements, 18 marked for removal.</figcaption>
           </figure>
         </div>
-
+<!-- 
 
         <blockquote>
           <p>"The dashboard had become a mirror of the org chart, not a tool for the user."</p>
-        </blockquote>
+        </blockquote> -->
 
 
         <!-- ── SECTION ─────────────────────────────────────────── -->
@@ -413,7 +417,7 @@
         ─────────────────────────────────────────────────────────── -->
         <figure class="article-figure figure--full" aria-label="Final dashboard design">
           <img
-            src="your-image.png"
+            src="Dashboard Design 1.png"
             alt="The final dashboard design at full width, showing the three header metric cards and the data table below"
             loading="lazy"
           >
@@ -445,24 +449,18 @@
         </section>
 
 
-        <!-- ── HOSTED VIDEO ──────────────────────────────────────
-             For your own mp4/webm files. Controls are always visible.
-             Replace src with your actual file path.
-             Include both mp4 and webm for broad browser support.
+        <!-- ── FULL-BLEED FIGURE ─────────────────────────────────
+             Use sparingly — high-impact moments only.
+             Does not support the lightbox (too large to enlarge further).
         ─────────────────────────────────────────────────────────── -->
-        <div class="embed-wrapper embed-wrapper--video" role="region" aria-label="Prototype walkthrough video">
-          <video
-            controls
-            preload="metadata"
-            poster="your-video-poster.png"
-            aria-label="Five-minute prototype walkthrough recorded for engineering kickoff"
+        <figure class="article-figure figure--full" aria-label="Final dashboard design">
+          <img
+            src="FLOW.png"
+            alt="The final dashboard design at full width, showing the three header metric cards and the data table below"
+            loading="lazy"
           >
-            <source src="your-video.mp4"  type="video/mp4">
-            <source src="your-video.webm" type="video/webm">
-            <p>Your browser doesn't support embedded video. <a href="your-video.mp4">Download the walkthrough (mp4)</a>.</p>
-          </video>
-          <p class="embed-caption label">Prototype walkthrough — 5 min. Recorded for engineering kickoff, January 2026.</p>
-        </div>
+          <figcaption class="container">The final layout. Header cards are user-configurable; the table below is filterable and persistent across sessions.</figcaption>
+        </figure>
 
 
         <!-- ── YOUTUBE / VIMEO EMBED ────────────────────────────
@@ -510,7 +508,18 @@
           </ul>
         </section>
 
-
+        <!-- ── FULL-BLEED FIGURE ─────────────────────────────────
+             Use sparingly — high-impact moments only.
+             Does not support the lightbox (too large to enlarge further).
+        ─────────────────────────────────────────────────────────── -->
+        <figure class="article-figure figure--full" aria-label="Final dashboard design">
+          <img
+            src="clickablePrototype.png"
+            alt="The final dashboard design at full width, showing the three header metric cards and the data table below"
+            loading="lazy"
+          >
+          <figcaption class="container"><a href="https://matomaton.github.io/POINTS/HGV-Claude-points-ledger-manager.html">Points Calculator Prototype</a></figcaption>
+        </figure>
         <!-- 3-column image grid example -->
         <div class="media-grid media-grid--3col">
           <figure class="article-figure figure--zoomable" aria-label="Metric card component">

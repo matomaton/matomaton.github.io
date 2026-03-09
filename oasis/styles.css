@@ -30,7 +30,7 @@
   --color-bg:           #FCFCF9;
   --color-nav-bg:       rgba(242, 242, 239, 0.4);  /* translucent for blur */
   --color-charcoal:     #2D2D2D;
-  --color-gray:         #8C8C8C;
+  --color-gray:         #6D6D6D;
   --color-gray-light:   #B8B8B8;
   --color-border:       rgba(45, 45, 45, 0.1);
 
@@ -575,7 +575,7 @@ body.nav-open {
 /* Each logical section of the article */
 .article-section {
   padding-block: var(--space-lg);
-  border-top: 1px solid var(--color-border);
+  /* border-top: 1px solid var(--color-border); */
 }
 
 /* First section has no top border (sits right below the header) */
@@ -614,6 +614,27 @@ body.nav-open {
 /* Blockquote inside article needs top/bottom breathing room */
 .article-body blockquote {
   margin-block: var(--space-lg);
+}
+
+/* Lists inside article sections — restore styles */
+.article-section ul,
+.article-section ol {
+  margin-left: var(--space-md);
+  margin-bottom: var(--space-md);
+  list-style: circle;
+}
+
+.article-section ul ul,
+.article-section ol ol,
+.article-section ul ol,
+.article-section ol ul {
+  margin-top: var(--space-xs);
+  margin-bottom: var(--space-xs);
+}
+
+.article-section li {
+  margin-bottom: var(--space-xs);
+  line-height: var(--lh-body);
 }
 
 /* --- Article data table (reusable) -------------------------
