@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Points Dashboard — Trip Planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  /* ── Reset & Base ─────────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sky:       #E8F4FD;
+    --sky-mid:   #C8E4F8;
+    --sky-deep:  #4A9FD4;
+    --sky-text:  #1A6FA8;
+    --ocean:     #0D5A8A;
+    --sand:      #F7F4EF;
+    --sand-mid:  #EDE8E0;
+    --charcoal:  #1C2B3A;
+    --ink:       #2D3E50;
+    --slate:     #6B7E8F;
+    --mist:      #A8B8C5;
+    --white:     #FFFFFF;
+    --green:     #2EAA76;
+    --green-bg:  #EAF7F1;
+    --amber:     #E8973A;
+    --amber-bg:  #FEF3E7;
+    --red:       #D94F4F;
+    --red-bg:    #FDEAEA;
+
+    --radius-sm:  8px;
+    --radius-md:  14px;
+    --radius-lg:  20px;
+    --radius-xl:  28px;
+
+    --shadow-card: 0 2px 12px rgba(28,43,58,0.07), 0 1px 3px rgba(28,43,58,0.05);
+    --shadow-lift: 0 8px 32px rgba(28,43,58,0.12), 0 2px 8px rgba(28,43,58,0.06);
+    --shadow-panel: 0 -8px 48px rgba(28,43,58,0.14), 0 -2px 12px rgba(28,43,58,0.08);
+
+    --font-display: 'Instrument Serif', Georgia, serif;
+    --font-ui:      'Geist', system-ui, sans-serif;
+  }
+
+  html { font-size: 16px; }
+
+  body {
+    font-family: var(--font-ui);
+    background: #1A3A5C;
+    background-image:
+      radial-gradient(ellipse at 30% 20%, rgba(74,159,212,0.25) 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 80%, rgba(13,90,138,0.3) 0%, transparent 50%);
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* ── Trip planner backdrop (simulated) ───────────────────────────── */
+  .trip-planner-bg {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .trip-planner-bg .destination-label {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 5vw, 52px);
+    color: rgba(255,255,255,0.92);
+    letter-spacing: -0.5px;
+    text-align: center;
+    line-height: 1.1;
+  }
+
+  .trip-planner-bg .destination-sub {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .trip-planner-bg .open-btn {
+    margin-top: 24px;
+    padding: 14px 32px;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 100px;
+    color: white;
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.01em;
+  }
+
+  .trip-planner-bg .open-btn:hover {
+    background: rgba(255,255,255,0.2);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  }
+
+  /* ── Panel ────────────────────────────────────────────────────────── */
+  .panel-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,25,40,0);
+    pointer-events: none;
+    transition: background 0.4s ease;
+    z-index: 100;
+  }
+
+  .panel-overlay.open {
+    background: rgba(10,25,40,0.55);
+    pointer-events: auto;
+  }
+
+  .panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 92vh;
+    background: var(--sand);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    box-shadow: var(--shadow-panel);
+    transform: translateY(100%);
+    transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .panel.open {
+    transform: translateY(0);
+  }
+
+  /* ── Panel Header ─────────────────────────────────────────────────── */
+  .panel-header {
+    padding: 16px 24px 14px;
+    background: var(--white);
+    border-bottom: 1px solid var(--sand-mid);
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .panel-handle {
+    width: 40px;
+    height: 4px;
+    background: var(--sand-mid);
+    border-radius: 2px;
+    margin: 0 auto 16px;
+  }
+
+  .panel-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .panel-title-group {}
+
+  .panel-eyebrow {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--sky-text);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .panel-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    color: var(--charcoal);
+    line-height: 1.1;
+  }
+
+  .panel-trip-tag {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    background: var(--sky);
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--sky-text);
+    border: 1px solid var(--sky-mid);
+  }
+
+  .panel-trip-tag .dot {
+    width: 6px; height: 6px;
+    background: var(--sky-deep);
+    border-radius: 50%;
+  }
+
+  .panel-close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--sand-mid);
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--slate);
+    font-size: 16px;
+    transition: all 0.15s;
+    line-height: 1;
+  }
+
+  .panel-close:hover { background: var(--mist); color: var(--charcoal); }
+
+  /* ── Scroll Area ──────────────────────────────────────────────────── */
+  .panel-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 20px 40px;
+    scroll-behavior: smooth;
+  }
+
+  .panel-scroll::-webkit-scrollbar { width: 0; }
+
+  /* ── Card Base ────────────────────────────────────────────────────── */
+  .card {
+    background: var(--white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    padding: 20px;
+    margin-bottom: 12px;
+    animation: cardReveal 0.5s ease both;
+  }
+
+  @keyframes cardReveal {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card:nth-child(1) { animation-delay: 0.05s; }
+  .card:nth-child(2) { animation-delay: 0.10s; }
+  .card:nth-child(3) { animation-delay: 0.15s; }
+  .card:nth-child(4) { animation-delay: 0.20s; }
+  .card:nth-child(5) { animation-delay: 0.25s; }
+  .card:nth-child(6) { animation-delay: 0.30s; }
+
+  .card-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--mist);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    color: var(--charcoal);
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  /* ── Card 1: Trip Impact Hero ─────────────────────────────────────── */
+  .hero-card {
+    background: linear-gradient(145deg, #0D5A8A 0%, #1A6FA8 60%, #2A8FCC 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+  }
+
+  .hero-card::after {
+    content: '';
+    position: absolute;
+    bottom: -20px; left: -20px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+
+  .hero-card .card-label { color: rgba(255,255,255,0.55); }
+  .hero-card .card-title { color: white; margin-bottom: 20px; font-size: 20px; }
+
+  .hero-cost-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .hero-cost-num {
+    font-size: 40px;
+    font-weight: 300;
+    color: white;
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+
+  .hero-cost-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.65);
+  }
+
+  .hero-remaining {
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 18px;
+  }
+
+  .hero-remaining strong { color: rgba(255,255,255,0.9); font-weight: 600; }
+
+  /* Progress bar */
+  .prog-track {
+    height: 8px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+    position: relative;
+  }
+
+  .prog-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.9), rgba(255,255,255,0.65));
+    transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+  }
+
+  .prog-fill::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 20px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4));
+    border-radius: 4px;
+  }
+
+  .prog-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 500;
+  }
+
+  .hero-confidence {
+    margin-top: 16px;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.12);
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(255,255,255,0.15);
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.9);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .confidence-icon {
+    width: 18px; height: 18px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    flex-shrink: 0;
+  }
+
+  /* ── Card 2: Ledger ───────────────────────────────────────────────── */
+  .ledger-section-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--slate);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 10px 0 8px;
+    border-top: 1px solid var(--sand);
+    margin-top: 6px;
+  }
+
+  .ledger-section-label:first-of-type {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0;
+  }
+
+  .ledger-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--sand);
+  }
+
+  .ledger-row:last-of-type { border-bottom: none; }
+
+  .ledger-name {
+    font-size: 13px;
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  .ledger-amount {
+    font-size: 13px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ledger-amount.debit  { color: var(--red); }
+  .ledger-amount.credit { color: var(--green); }
+  .ledger-amount.neutral { color: var(--ink); }
+
+  .ledger-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    background: var(--sand);
+    border-radius: var(--radius-sm);
+    margin-top: 8px;
+  }
+
+  .ledger-total-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--charcoal);
+    letter-spacing: 0.02em;
+  }
+
+  .ledger-total-amount {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--charcoal);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Remaining section with colored tags */
+  .remaining-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--sand);
+  }
+
+  .remaining-item:last-child { border-bottom: none; }
+
+  .remaining-name-group { display: flex; align-items: center; gap: 8px; }
+
+  .remaining-tag {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── Card 3: Expiring ─────────────────────────────────────────────── */
+  .expiring-card {
+    border-left: 3px solid var(--amber);
+  }
+
+  .expiring-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    background: var(--amber-bg);
+    color: var(--amber);
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .expiring-main {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--charcoal);
+    margin-bottom: 6px;
+  }
+
+  .expiring-sub {
+    font-size: 13px;
+    color: var(--slate);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .expiring-sub .checkmark {
+    width: 16px; height: 16px;
+    background: var(--green-bg);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: var(--green);
+    flex-shrink: 0;
+  }
+
+  /* ── Card 4: Trip Value ───────────────────────────────────────────── */
+  .value-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .value-cell {
+    padding: 12px 14px;
+    background: var(--sand);
+    border-radius: var(--radius-sm);
+  }
+
+  .value-cell-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--mist);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .value-cell-num {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--charcoal);
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .value-cell.highlight {
+    background: var(--green-bg);
+  }
+
+  .value-cell.highlight .value-cell-label { color: #1A8A5A; }
+  .value-cell.highlight .value-cell-num   { color: var(--green); }
+
+  /* Value meter */
+  .meter-section { margin-top: 4px; }
+
+  .meter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .meter-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .meter-rating {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--green);
+    background: var(--green-bg);
+    padding: 3px 10px;
+    border-radius: 100px;
+  }
+
+  .meter-track {
+    height: 10px;
+    background: var(--sand-mid);
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .meter-fill {
+    height: 100%;
+    border-radius: 5px;
+    background: linear-gradient(90deg, var(--sky-deep), var(--green));
+    transition: width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .meter-ticks {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+  }
+
+  .meter-tick {
+    font-size: 9px;
+    color: var(--mist);
+    font-weight: 500;
+  }
+
+  /* ── Card 5: Forecast ─────────────────────────────────────────────── */
+  .forecast-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    height: 100px;
+    padding: 0 4px;
+    margin: 16px 0 8px;
+  }
+
+  .forecast-bar-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    height: 100%;
+    justify-content: flex-end;
+  }
+
+  .forecast-bar-wrap {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: relative;
+  }
+
+  .forecast-bar {
+    width: 100%;
+    max-width: 52px;
+    border-radius: 6px 6px 3px 3px;
+    transition: height 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: visible;
+  }
+
+  .forecast-bar.primary { background: linear-gradient(180deg, var(--sky-deep) 0%, var(--ocean) 100%); }
+  .forecast-bar.after   { background: linear-gradient(180deg, #94C5E8 0%, #6AAED4 100%); }
+  .forecast-bar.future  { background: linear-gradient(180deg, var(--green) 0%, #1A9060 100%); }
+
+  .forecast-bar-val {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ink);
+    white-space: nowrap;
+    margin-bottom: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .forecast-bar-lbl {
+    font-size: 10px;
+    color: var(--slate);
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    line-height: 1.3;
+  }
+
+  .forecast-note {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 12px;
+    background: var(--green-bg);
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    color: var(--green);
+    font-weight: 500;
+  }
+
+  /* ── Card 6: Smart Actions ────────────────────────────────────────── */
+  .actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 14px 14px;
+    background: var(--sand);
+    border: 1px solid var(--sand-mid);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+  }
+
+  .action-btn:hover {
+    background: var(--sky);
+    border-color: var(--sky-mid);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-card);
+  }
+
+  .action-btn:active { transform: translateY(0); }
+
+  .action-icon {
+    width: 32px; height: 32px;
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+
+  .action-icon.blue   { background: var(--sky);      }
+  .action-icon.green  { background: var(--green-bg);  }
+  .action-icon.amber  { background: var(--amber-bg);  }
+  .action-icon.purple { background: #F0EAFB;           }
+
+  .action-text {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--charcoal);
+    line-height: 1.3;
+  }
+
+  .action-arrow {
+    font-size: 11px;
+    color: var(--mist);
+    margin-top: auto;
+    align-self: flex-end;
+  }
+</style>
+</head>
+<body>
+
+<!-- Simulated trip planner background -->
+<div class="trip-planner-bg">
+  <div class="destination-sub">Trip Planner · Cabo San Lucas</div>
+  <div class="destination-label">Hacienda del Mar<br><em>Resort & Spa</em></div>
+  <button class="open-btn" onclick="openPanel()">View Points Dashboard ↑</button>
+</div>
+
+<!-- Overlay -->
+<div class="panel-overlay" id="overlay" onclick="closePanel()"></div>
+
+<!-- The sliding panel -->
+<div class="panel" id="panel">
+
+  <!-- Header -->
+  <div class="panel-header">
+    <div class="panel-handle"></div>
+    <div class="panel-header-row">
+      <div class="panel-title-group">
+        <div class="panel-eyebrow">Points Analysis</div>
+        <div class="panel-title">Points Dashboard</div>
+      </div>
+      <div class="panel-trip-tag">
+        <div class="dot"></div>
+        Cabo · 7 nights
+      </div>
+    </div>
+    <button class="panel-close" onclick="closePanel()">✕</button>
+  </div>
+
+  <!-- Scrollable content -->
+  <div class="panel-scroll" id="panelScroll">
+
+    <!-- ── Card 1: Trip Impact Hero ── -->
+    <div class="card hero-card">
+      <div class="card-label">Trip Impact</div>
+      <div class="card-title">Trip Cost Overview</div>
+
+      <div class="hero-cost-row">
+        <span class="hero-cost-num">45,000</span>
+        <span class="hero-cost-label">points used</span>
+      </div>
+      <div class="hero-remaining">
+        Remaining after trip: <strong>15,000</strong> of 60,000
+      </div>
+
+      <div class="prog-track">
+        <div class="prog-fill" id="heroProgress" style="width: 0%"></div>
+      </div>
+      <div class="prog-labels">
+        <span>45,000 used</span>
+        <span>15,000 remaining</span>
+      </div>
+
+      <div class="hero-confidence">
+        <div class="confidence-icon">✓</div>
+        This trip fits comfortably within your points
+      </div>
+    </div>
+
+    <!-- ── Card 2: Points Ledger ── -->
+    <div class="card">
+      <div class="card-label">Breakdown</div>
+      <div class="card-title">Points Used for This Trip</div>
+
+      <div class="ledger-section-label">Deducted</div>
+
+      <div class="ledger-row">
+        <span class="ledger-name">Annual Points</span>
+        <span class="ledger-amount debit">−30,000</span>
+      </div>
+      <div class="ledger-row">
+        <span class="ledger-name">Saved Points</span>
+        <span class="ledger-amount debit">−10,000</span>
+      </div>
+      <div class="ledger-row">
+        <span class="ledger-name">Bonus Points</span>
+        <span class="ledger-amount debit">−5,000</span>
+      </div>
+
+      <div class="ledger-total">
+        <span class="ledger-total-label">Total Used</span>
+        <span class="ledger-total-amount">−45,000</span>
+      </div>
+
+      <div class="ledger-section-label" style="margin-top: 16px;">Remaining After Trip</div>
+
+      <div class="remaining-item">
+        <div class="remaining-name-group">
+          <div class="remaining-tag" style="background: var(--sky-deep)"></div>
+          <span class="ledger-name">Annual Points</span>
+        </div>
+        <span class="ledger-amount neutral">10,000</span>
+      </div>
+      <div class="remaining-item">
+        <div class="remaining-name-group">
+          <div class="remaining-tag" style="background: var(--amber)"></div>
+          <span class="ledger-name">Bonus Points</span>
+        </div>
+        <span class="ledger-amount neutral">5,000</span>
+      </div>
+      <div class="remaining-item">
+        <div class="remaining-name-group">
+          <div class="remaining-tag" style="background: #0066CC"></div>
+          <span class="ledger-name">Hilton Honors</span>
+        </div>
+        <span class="ledger-amount credit">80,000</span>
+      </div>
+    </div>
+
+    <!-- ── Card 3: Expiring Points ── -->
+    <div class="card expiring-card">
+      <div class="expiring-badge">
+        <span>⏱</span> Expiring Soon
+      </div>
+      <div class="expiring-main">4,000 points expire in 72 days</div>
+      <div class="expiring-sub">
+        <span class="checkmark">✓</span>
+        This trip will automatically use those points first
+      </div>
+    </div>
+
+    <!-- ── Card 4: Trip Value ── -->
+    <div class="card">
+      <div class="card-label">Economics</div>
+      <div class="card-title">Trip Value</div>
+
+      <div class="value-grid">
+        <div class="value-cell">
+          <div class="value-cell-label">Cash Price</div>
+          <div class="value-cell-num">$1,480</div>
+        </div>
+        <div class="value-cell">
+          <div class="value-cell-label">Points Price</div>
+          <div class="value-cell-num">45,000 pts</div>
+        </div>
+        <div class="value-cell highlight">
+          <div class="value-cell-label">You Save</div>
+          <div class="value-cell-num">$950</div>
+        </div>
+        <div class="value-cell">
+          <div class="value-cell-label">Value / Point</div>
+          <div class="value-cell-num">$0.033</div>
+        </div>
+      </div>
+
+      <div class="meter-section">
+        <div class="meter-header">
+          <span class="meter-label">Value Rating</span>
+          <span class="meter-rating">Good Value</span>
+        </div>
+        <div class="meter-track">
+          <div class="meter-fill" id="valueMeter" style="width: 0%"></div>
+        </div>
+        <div class="meter-ticks">
+          <span class="meter-tick">Poor</span>
+          <span class="meter-tick">Fair</span>
+          <span class="meter-tick">Good</span>
+          <span class="meter-tick">Great</span>
+          <span class="meter-tick">Exceptional</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Card 5: Forecast ── -->
+    <div class="card">
+      <div class="card-label">Planning</div>
+      <div class="card-title">Points Timeline</div>
+
+      <div class="forecast-bars" id="forecastBars">
+        <div class="forecast-bar-group">
+          <div class="forecast-bar-val">60,000</div>
+          <div class="forecast-bar-wrap" style="height: 80px;">
+            <div class="forecast-bar primary" id="bar1" style="height: 0"></div>
+          </div>
+          <div class="forecast-bar-lbl">2026<br>Starting</div>
+        </div>
+        <div class="forecast-bar-group">
+          <div class="forecast-bar-val">15,000</div>
+          <div class="forecast-bar-wrap" style="height: 80px;">
+            <div class="forecast-bar after" id="bar2" style="height: 0"></div>
+          </div>
+          <div class="forecast-bar-lbl">After<br>Trip</div>
+        </div>
+        <div class="forecast-bar-group">
+          <div class="forecast-bar-val">+60,000</div>
+          <div class="forecast-bar-wrap" style="height: 80px;">
+            <div class="forecast-bar future" id="bar3" style="height: 0"></div>
+          </div>
+          <div class="forecast-bar-lbl">2027<br>Allocation</div>
+        </div>
+      </div>
+
+      <div class="forecast-note">
+        <span>📅</span>
+        New 60,000 points arriving Jan 1, 2027
+      </div>
+    </div>
+
+    <!-- ── Card 6: Smart Actions ── -->
+    <div class="card">
+      <div class="card-label">Smart Actions</div>
+      <div class="card-title">What would you like to do?</div>
+      <div class="actions-grid">
+        <button class="action-btn">
+          <div class="action-icon blue">✦</div>
+          <div class="action-text">Optimize My Points</div>
+          <div class="action-arrow">→</div>
+        </button>
+        <button class="action-btn">
+          <div class="action-icon green">📅</div>
+          <div class="action-text">Find Cheaper Dates</div>
+          <div class="action-arrow">→</div>
+        </button>
+        <button class="action-btn">
+          <div class="action-icon amber">⏱</div>
+          <div class="action-text">Use Expiring Points First</div>
+          <div class="action-arrow">→</div>
+        </button>
+        <button class="action-btn">
+          <div class="action-icon purple">🗺</div>
+          <div class="action-text">See Trips I Can Still Take</div>
+          <div class="action-arrow">→</div>
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /panel-scroll -->
+</div><!-- /panel -->
+
+<script>
+  const panel   = document.getElementById('panel');
+  const overlay = document.getElementById('overlay');
+  let animated  = false;
+
+  function openPanel() {
+    panel.classList.add('open');
+    overlay.classList.add('open');
+    if (!animated) {
+      animated = true;
+      setTimeout(runAnimations, 350);
+    }
+  }
+
+  function closePanel() {
+    panel.classList.remove('open');
+    overlay.classList.remove('open');
+  }
+
+  function runAnimations() {
+    // Hero progress bar: 45k / 60k = 75%
+    setTimeout(() => {
+      document.getElementById('heroProgress').style.width = '75%';
+    }, 100);
+
+    // Value meter: "Good" = ~62%
+    setTimeout(() => {
+      document.getElementById('valueMeter').style.width = '62%';
+    }, 200);
+
+    // Forecast bars (relative to max 60k)
+    const maxPts = 60000;
+    const maxBarH = 80; // px
+
+    const bars = [
+      { id: 'bar1', pts: 60000 },
+      { id: 'bar2', pts: 15000 },
+      { id: 'bar3', pts: 60000 },
+    ];
+
+    bars.forEach((b, i) => {
+      setTimeout(() => {
+        const h = Math.round((b.pts / maxPts) * maxBarH);
+        document.getElementById(b.id).style.height = h + 'px';
+      }, 300 + i * 100);
+    });
+  }
+
+  // Auto-open after a short delay for demo
+  setTimeout(openPanel, 600);
+</script>
+</body>
+</html>
