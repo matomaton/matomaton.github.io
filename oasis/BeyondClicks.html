@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Beyond Click Counts — ION Portfolio</title>
+  <meta name="description" content="Designing purposeful steps for productivity over machine efficiency.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ============================================
+       INTEGRATED ION PORTFOLIO STYLES
+       ============================================ */
+    :root {
+      --color-bg: #FCFCF9;
+      --color-nav-bg: rgba(242, 242, 239, 0.4);
+      --color-charcoal: #2D2D2D;
+      --color-gray: #6D6D6D;
+      --color-gray-light: #B8B8B8;
+      --color-border: rgba(45, 45, 45, 0.1);
+      --font-primary: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
+      --weight-light: 300;
+      --weight-regular: 400;
+      --weight-bold: 700;
+      --weight-black: 900;
+      --space-xs: 0.5rem;
+      --space-sm: 1rem;
+      --space-md: 2.5rem;
+      --space-lg: 5rem;
+      --space-xl: 8rem;
+      --nav-height: 90px;
+      --container-max: 1280px;
+      --container-narrow: 800px;
+      --size-h1: 3.5rem;
+      --size-h2: 2.25rem;
+      --size-body: 1.125rem;
+      --size-label: 0.75rem;
+      --ls-label: 0.1em;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-charcoal);
+      font-family: var(--font-primary);
+      font-weight: var(--weight-regular);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 var(--space-md);
+    }
+
+    /* Navigation */
+    .global-menu {
+      height: var(--nav-height);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: var(--color-nav-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+    .nav-logo { display: flex; align-items: center; text-decoration: none; color: inherit; font-weight: var(--weight-black); text-transform: uppercase; letter-spacing: 0.1em; }
+    .logo { width: 32px; height: 32px; margin-right: 12px; }
+
+    .nav-links { display: flex; gap: var(--space-md); list-style: none; }
+    .nav-links a { 
+      text-decoration: none; 
+      color: var(--color-gray); 
+      font-size: var(--size-label); 
+      font-weight: var(--weight-black); 
+      text-transform: uppercase; 
+      letter-spacing: var(--ls-label);
+      transition: color 0.2s ease;
+    }
+    .nav-links a:hover { color: var(--color-charcoal); }
+
+    /* Article Hero */
+    .article-hero {
+      padding-top: calc(var(--nav-height) + var(--space-xl));
+      padding-bottom: var(--space-lg);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .hero-label {
+      font-size: var(--size-label);
+      font-weight: var(--weight-black);
+      text-transform: uppercase;
+      letter-spacing: var(--ls-label);
+      color: var(--color-gray);
+      margin-bottom: var(--space-sm);
+      display: block;
+    }
+
+    h1 {
+      font-size: var(--size-h1);
+      line-height: 1.1;
+      font-weight: var(--weight-black);
+      max-width: 900px;
+    }
+
+    /* Article Body */
+    .article-content {
+      padding: var(--space-lg) 0;
+      max-width: var(--container-narrow);
+      margin: 0 auto;
+    }
+
+    p { font-size: var(--size-body); margin-bottom: 1.8rem; }
+    h2 { font-size: var(--size-h2); margin: 3rem 0 1.5rem; line-height: 1.2; font-weight: var(--weight-bold); }
+    h3 { font-size: 1.5rem; margin: 2rem 0 1rem; font-weight: var(--weight-bold); }
+
+    strong { font-weight: var(--weight-bold); }
+
+    /* Table Styles */
+    .table-wrapper {
+      margin: var(--space-md) 0;
+      overflow-x: auto;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      padding: 1.2rem;
+      text-align: left;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    th {
+      background: rgba(0,0,0,0.02);
+      font-weight: var(--weight-black);
+      text-transform: uppercase;
+      font-size: var(--size-label);
+      letter-spacing: var(--ls-label);
+    }
+
+    /* Footer */
+    footer {
+      padding: var(--space-lg) 0;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .copyright { font-size: 0.875rem; color: var(--color-gray); }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.5rem; }
+      :root { --space-xl: 4rem; --space-lg: 3rem; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="global-menu" aria-label="Site navigation">
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo">
+        <svg class="logo" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="64" height="64" fill="#2D2D2D"/>
+          <path d="M20 20H44V44H20V20Z" stroke="white" stroke-width="4"/>
+        </svg>
+        ION
+      </a>
+      <ul class="nav-links">
+        <li><a href="#">Work</a></li>
+        <li><a href="#">Backstory</a></li>
+        <li><a href="#">Process</a></li>
+        <li><a href="#">Resume</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="article-hero">
+    <div class="container">
+      <span class="hero-label">UX Research & Strategy</span>
+      <h1>Beyond Click Counts: Designing Purposeful Steps</h1>
+    </div>
+  </header>
+
+  <main class="container">
+    <article class="article-content">
+      <p>In the world of product development, there is a common misconception that the best user experience (UX) is the one with the fewest clicks. However, the real cost in any system is <strong>human time and errors</strong>, not machine cycles or the number of steps in a flow. We design for <strong>user productivity</strong>, not machine efficiency.</p>
+
+      <h2>How many clicks?</h2>
+      <p>I have often been pushed to minimize steps, assuming that less friction automatically equals a better experience. While this is a good starting point, it is not a universal law.</p>
+
+      <p>Research by the Nielsen Norman Group found no evidence linking click counts to user success or satisfaction. Instead, two factors matter much more:</p>
+      
+      <ul>
+        <li><strong>Information Scent:</strong> This refers to how clearly a label or button indicates where the user is going. If the path is clear, users don't mind the extra clicks.</li>
+        <li><strong>Clarity over Redundancy:</strong> Fewer clicks are beneficial only when they eliminate redundant tasks, such as auto-filling forms or skipping unnecessary confirmations.</li>
+      </ul>
+
+      <h2>When More Clicks Build Better Products</h2>
+      <p>In high-stakes environments—such as those dealing with sensitive data or financial transactions—adding "deliberate friction" can actually improve the experience.</p>
+
+      <h3>1. Building Trust Through Verification</h3>
+      <p>In a project involving archival metadata, an attempt to fully automate the process initially failed. While automation reduced the number of steps, archivists felt they had lost control. By re-introducing a <strong>verification step</strong>, the system became more rigorous. Dedicated review steps (showing amounts, fees, and accounts) boost user confidence and significantly reduce errors and disputes.</p>
+
+      <h2>Scenarios: Efficiency vs. Accuracy</h2>
+      <p>The following table illustrates why a "more clicks" approach often leads to better business outcomes.</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Scenario</th>
+              <th>"Fewer Clicks" Approach</th>
+              <th>"More Clicks" Rationale</th>
+              <th>Outcome</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Payment Confirmation</strong></td>
+              <td>Single "Pay Now" button with inline summary.</td>
+              <td>Separate review screen + explicit "Confirm Amount".</td>
+              <td>Reduces chargebacks; users feel safer spotting errors early.</td>
+            </tr>
+            <tr>
+              <td><strong>Data Entry Form</strong></td>
+              <td>All fields on one long, scrollable page.</td>
+              <td>Stepper: A flow that goes Collect → Review → Submit.</td>
+              <td>Lowers abandonment by 20-30%; reduces mental strain.</td>
+            </tr>
+            <tr>
+              <td><strong>Account Closure</strong></td>
+              <td>Instant "Delete Account" button.</td>
+              <td>Verify identity → Show impact → Final confirmation.</td>
+              <td>Prevents accidental losses and meets compliance needs.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Strategy for Product Leaders</h2>
+      <p>As you evaluate your next product roadmap or design review, prioritize <strong>structure and support</strong> over raw efficiency. Users value control and low error rates far more than they value a low tap count.</p>
+      
+      <p><strong>Measure what matters:</strong> Instead of counting clicks, measure completion rates, error reduction, and user confidence.</p>
+      
+      <p><strong>Test the tension:</strong> When designing a complex flow, prototype both a "minimal click" version and a "structured" version. Let the data on user errors and speed guide your final decision.</p>
+    </article>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div class="copyright">
+        &copy; 2024 ION Portfolio. All rights reserved.
+      </div>
+      <ul class="nav-links" style="display: flex;">
+        <li><a href="#">Twitter</a></li>
+        <li><a href="#">LinkedIn</a></li>
+      </ul>
+    </div>
+  </footer>
+
+</body>
+</html>
