@@ -253,13 +253,13 @@ html,body{height:100%;font-family:var(--font-ui);background:var(--surface);color
 <body>
 <div class="app">
 
-  <!-- Top bar -->
+  <!-- Top bar  -->
   <header class="topbar">
-    <div class="topbar-brand">
+    <!-- <div class="topbar-brand">
       <div class="brand-mark">V</div>
       <div class="brand-name"><em>Voyage</em> Planner</div>
-    </div>
-    <div class="topbar-steps" id="stepsBar">
+    </div> -->
+    <!-- <div class="topbar-steps" id="stepsBar">
       <div class="step-pill active" id="step1"><div class="step-num">1</div> Chat</div>
       <div class="step-div"></div>
       <div class="step-pill idle" id="step2"><div class="step-num">2</div> Builder</div>
@@ -267,21 +267,23 @@ html,body{height:100%;font-family:var(--font-ui);background:var(--surface);color
       <div class="step-pill idle" id="step3"><div class="step-num">3</div> Canvas</div>
       <div class="step-div"></div>
       <div class="step-pill idle" id="step4"><div class="step-num">4</div> Itinerary</div>
-    </div>
-    <div class="topbar-right">
+    </div> -->
+    <!-- <div class="topbar-right">
       <div class="points-badge">🌊 <span>Balance:</span> 7,200 pts</div>
-    </div>
+    </div> -->
   </header>
 
   <!-- Left: Chat -->
   <div class="chat-panel">
     <div class="chat-header">
       <div class="assistant-info">
-        <div class="avatar">🤖<div class="avatar-online"></div></div>
-        <div>
+        <div><img src="BUG.svg" alt="Assistant Avatar">
+          <!-- <div class="avatar-online"></div> -->
+        </div>
+        <!-- <div>
           <div class="assistant-name">Aria</div>
           <div class="assistant-role">AI Travel Advisor</div>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="chat-msgs" id="chatMsgs"></div>
@@ -470,10 +472,10 @@ html,body{height:100%;font-family:var(--font-ui);background:var(--surface);color
 
   </div>
 
-  <!-- Right -->
+  <!-- Right 
   <div class="right-panel" id="rightPanel">
 
-    <!-- Points summary - always visible -->
+    <!-- Points summary - always visible 
     <div class="pts-hero">
       <div class="pts-hero-label">Your Points Balance</div>
       <div class="pts-hero-num" id="ptsBigNum">7,200</div>
@@ -503,9 +505,9 @@ html,body{height:100%;font-family:var(--font-ui);background:var(--surface);color
       </div>
     </div>
 
-    <!-- Right panel content slots -->
+    <!-- Right panel content slots 
     <div id="rightContent">
-      <!-- Default: tips -->
+      <!-- Default: tips
       <div class="right-section" id="rightDefault">
         <div class="section-label">Tips</div>
         <div class="tip-row">
@@ -522,7 +524,7 @@ html,body{height:100%;font-family:var(--font-ui);background:var(--surface);color
         </div>
       </div>
 
-      <!-- Trip details (hidden until stage 4) -->
+      <!-- Trip details (hidden until stage 4) 
       <div class="right-section" id="rightTrip" style="display:none">
         <div class="section-label">Selected Resort</div>
         <div class="resort-card">
@@ -555,7 +557,7 @@ html,body{height:100%;font-family:var(--font-ui);background:var(--surface);color
   </div>
 
 </div>
-
+-->
 <script>
 // ── State ──
 let currentStage = 1;
