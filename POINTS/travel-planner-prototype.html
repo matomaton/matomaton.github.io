@@ -10,11 +10,11 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --ocean:#0B4F82;
+  --ocean:#ffffff;
   --ocean-mid:#1A6FAD;
   --ocean-light:#3D9FD8;
   --ocean-pale:#EAF4FC;
-  --ocean-ghost:#F0F7FD;
+  --ocean-ghost:#DEDFDF;
   --sand:#F8F4EE;
   --sand-mid:#EDE5D8;
   --sand-dark:#C8B89A;
@@ -78,7 +78,7 @@ html,body{height:100%;font-family:var(--font-ui);background:var(--surface);color
 .msg.user{align-items:flex-end;}
 .msg-bubble{max-width:88%;padding:10px 13px;border-radius:14px;font-size:13px;line-height:1.55;position:relative;}
 .msg.assistant .msg-bubble{background:var(--ocean-ghost);color:var(--ink);border-radius:14px 14px 14px 3px;}
-.msg.user .msg-bubble{background:var(--ocean);color:white;border-radius:14px 14px 3px 14px;}
+.msg.user .msg-bubble{background:var(--ocean);color:var(--ink);border-radius:14px 14px 3px 14px;border:1px solid var(--ink);}
 .msg-time{font-size:10px;color:var(--mist);padding:0 4px;}
 .typing-bubble{background:var(--ocean-ghost);border-radius:14px 14px 14px 3px;padding:12px 14px;display:inline-flex;gap:5px;align-items:center;}
 .typing-dot{width:6px;height:6px;border-radius:50%;background:var(--mist);animation:typeDot 1.2s infinite ease-in-out;}
@@ -118,7 +118,7 @@ html,body{height:100%;font-family:var(--font-ui);background:var(--surface);color
 .slot-cursor{display:inline-block;width:2px;height:16px;background:var(--ocean);border-radius:1px;animation:blink .8s infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
 .slot-icon{font-size:14px;}
-.build-cta{width:100%;padding:16px;background:linear-gradient(135deg,var(--ocean),var(--ocean-mid));color:white;border:none;border-radius:var(--r-md);font-family:var(--font-ui);font-size:15px;font-weight:600;cursor:pointer;box-shadow:var(--shadow-md);opacity:0;transform:translateY(8px);transition:all .4s ease;display:flex;align-items:center;justify-content:center;gap:8px;}
+.build-cta{width:100%;padding:16px;background:linear-gradient(135deg,var(--ocean-light),var(--ocean-mid));color:white;border:none;border-radius:var(--r-md);font-family:var(--font-ui);font-size:15px;font-weight:600;cursor:pointer;box-shadow:var(--shadow-md);opacity:0;transform:translateY(8px);transition:all .4s ease;display:flex;align-items:center;justify-content:center;gap:8px;}
 .build-cta.show{opacity:1;transform:translateY(0);}
 .build-cta:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg);}
 .build-cta:active{transform:translateY(0);}
@@ -564,7 +564,7 @@ let currentStage = 1;
 
 // ── Chat script ──
 const script = [
-  {role:'assistant', text:"Hi there! 👋 I'm Aria, your AI travel advisor. I'm here to help you plan the perfect vacation using your points."},
+  {role:'assistant', text:"Hi there! 👋 I'm your AI travel advisor. I'm here to help you plan the perfect vacation using your points."},
   {role:'assistant', text:"What kind of trip are you dreaming about?", delay:1200},
   {role:'user', text:"A beach vacation — somewhere tropical!", delay:2200, fakeType:true},
   {role:'assistant', text:"Perfect choice! Hawaii is stunning this time of year. I'm pulling up options based on your 7,200 points.", delay:1000},
@@ -622,7 +622,7 @@ function animateFakeType(text, cb) {
     if (i < text.length) { input.textContent += text[i++]; }
     else {
       clearInterval(iv);
-      setTimeout(() => { input.textContent = 'Message Aria…'; cb && cb(); }, 400);
+      setTimeout(() => { input.textContent = 'Message …'; cb && cb(); }, 400);
     }
   }, 35);
 }
