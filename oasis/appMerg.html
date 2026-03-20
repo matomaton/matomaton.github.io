@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ============================================================
+    ARTICLE META — update for each new article
+  ============================================================ -->
+  <title>Application Merge — Portfolio</title>
+  <meta name="description" content="Merging two fragmented applications into one cohesive platform for libraries, archives, and universities.">
+  <!-- ============================================================ -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="stylesgem.css">
+</head>
+
+<body>
+
+  <!-- ============================================================
+    NAVIGATION — identical across all pages, do not edit
+  ============================================================ -->
+  <nav class="global-menu" aria-label="Site navigation">
+    <div class="container nav-inner">
+
+      <a href="index.html" class="nav-logo" aria-label="Home">
+        <svg class="logo" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <path d="M35.9893 46.1494L35.1768 51.5361L38.5908 54.0254L44.2676 53.1289L44.6553 53.0674L44.9814 53.2871L48.8838 55.9072L47.7686 57.5674L44.1914 55.165L38.4932 56.0674L38.083 56.1328L37.7471 55.8877L33.5088 52.7949L33.0186 52.4375L33.1094 51.8389L34.0107 45.8506L35.9893 46.1494ZM30 36H24.333V38.3193H31V52.4814H29V40.3193H24.333V56H10V54H22.333V34H30V36ZM56 36H51.667V38.3174H57V55H55V40.3174H51.667V51.2627H40V49.2627H49.667V34H56V36ZM19 48H8V36H19V48ZM10 46H17V38H10V46ZM45 36H36V38.5H45V40.5H36V43H45V45H34V34H45V36ZM55 10H48V12.8877H56V28H54V14.8877H48V29H31V27H46V8H55V10ZM30 10H24V13.1445H31V24.2236H29V15.1445H24V28H9V26H22V8H30V10ZM42 10H36V12.6426H42V14.6426H36V21H42V23H34V8H42V10ZM13 9C16.3137 9 19 11.6863 19 15C19 18.3137 16.3137 21 13 21C9.68629 21 7 18.3137 7 15C7 11.6863 9.68629 9 13 9ZM13 11C10.7909 11 9 12.7909 9 15C9 17.2091 10.7909 19 13 19C15.2091 19 17 17.2091 17 15C17 12.7909 15.2091 11 13 11Z" fill="darkred"/>
+        </svg>
+      </a>
+
+      <!-- Desktop links -->
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="nav-link nav-link--active" aria-current="page">Projects</a></li>
+        <li><a href="articles.html" class="nav-link">Articles</a></li>
+        <li><a href="backstory.html" class="nav-link">Backstory</a></li>
+        <li><a href="process.html" class="nav-link">Process</a></li>
+        <li><a href="resume.html" class="nav-link">Resume</a></li>
+      </ul>
+
+      <!-- Hamburger button — hidden on desktop -->
+      <button
+        class="nav-toggle"
+        id="nav-toggle"
+        aria-controls="nav-drawer"
+        aria-expanded="false"
+        aria-label="Open navigation menu"
+      >
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- Mobile drawer -->
+  <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+    <ul class="nav-drawer__links">
+      <li><a href="index.html" class="nav-drawer__link nav-drawer__link--active" aria-current="page">Projects</a></li>
+      <li><a href="articles.html" class="nav-drawer__link">Articles</a></li>
+      <li><a href="backstory.html" class="nav-drawer__link">Backstory</a></li>
+      <li><a href="process.html" class="nav-drawer__link">Process</a></li>
+      <li><a href="resume.html" class="nav-drawer__link">Resume</a></li>
+    </ul>
+  </div>
+  <div class="nav-backdrop" id="nav-backdrop" aria-hidden="true"></div>
+
+  <script>
+    (function () {
+      const toggle   = document.getElementById('nav-toggle');
+      const drawer   = document.getElementById('nav-drawer');
+      const backdrop = document.getElementById('nav-backdrop');
+      function openMenu() {
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.setAttribute('aria-label', 'Close navigation menu');
+        drawer.setAttribute('aria-hidden', 'false');
+        backdrop.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('nav-open');
+        drawer.querySelector('.nav-drawer__link').focus();
+      }
+      function closeMenu() {
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open navigation menu');
+        drawer.setAttribute('aria-hidden', 'true');
+        backdrop.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('nav-open');
+        toggle.focus();
+      }
+      toggle.addEventListener('click', function () {
+        toggle.getAttribute('aria-expanded') === 'true' ? closeMenu() : openMenu();
+      });
+      backdrop.addEventListener('click', closeMenu);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') closeMenu();
+      });
+      drawer.addEventListener('keydown', function (e) {
+        if (e.key !== 'Tab') return;
+        const focusable = drawer.querySelectorAll('a');
+        const first = focusable[0];
+        const last  = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      });
+    })();
+  </script>
+  <!-- ============================================================ -->
+
+  <div class="progress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+
+  <main class="main" id="main-content">
+
+    <div class="container">
+      <a href="index.html" class="back-link">
+        <span class="back-arrow" aria-hidden="true">←</span> Back to Projects
+      </a>
+    </div>
+
+    <!-- ============================================================
+      ARTICLE HEADER
+    ============================================================ -->
+    <header class="article-header">
+      <div class="container article-header__inner">
+        <div class="article-meta">
+          <span class="label">Case Study</span>
+          <span class="article-meta__divider" aria-hidden="true">·</span>
+          <span class="label">Product Design</span>
+        </div>
+        <h1 class="article-title">Application Merge</h1>
+        <p class="article-subtitle">Merging two fragmented applications into one cohesive platform for libraries, archives, and universities.</p>
+      </div>
+    </header>
+
+    <!-- Hero image — outside article grid for full bleed -->
+    <figure class="article-figure figure--full" aria-label="Application Merge final interface mockup">
+      <img
+        src="https://matomaton.github.io/assets/Cataloger-Admin-Mockup-CROP-1920.webp"
+        alt="The merged Cataloger and Admin interface displayed across multiple screen sizes"
+        loading="eager"
+      >
+    </figure>
+
+    <article class="article-body" aria-label="Application Merge case study">
+      <div class="container content-narrow">
+
+
+        <!-- ── SECTION: BACKGROUND ───────────────────────────── -->
+        <section class="article-section">
+          <h2>Background</h2>
+          <p>JSTOR Forum is a digital collection cataloging and publishing tool designed for universities, archives, and museums. It enables institutions to share their digital collections across platforms including <a href="https://www.jstor.org/" target="_blank">JSTOR</a>, <a href="https://dp.la/" target="_blank">The Digital Public Library of America</a>, and custom <a href="https://omeka.org/" target="_blank">Omeka</a> sites. A few examples of collections published using JSTOR Forum:</p>
+          <ul>
+            <li><a href="https://library.harvard.edu/collections/explore-collections" target="_blank">Harvard University</a></li>
+            <li><a href="https://www.jstor.org/site/roanoke/" target="_blank">Roanoke College</a></li>
+            <li><a href="https://www.jstor.org/site/trinity/" target="_blank">Trinity College</a></li>
+            <li><a href="https://www.jstor.org/site/ucsb/" target="_blank">University of California, Santa Barbara</a></li>
+          </ul>
+        </section>
+
+
+        <!-- ── SECTION: PROBLEM ──────────────────────────────── -->
+        <section class="article-section">
+          <h2>Problem to Solve</h2>
+          <p>JSTOR Forum was originally fragmented into separate applications for catalogers and administrators, designed to meet the needs of a specific institution with distinct roles. As more institutions subscribed, this role-based separation became less relevant and created significant operational challenges.</p>
+          <p>The siloed approach resulted in disjointed codebases, restrictive user roles, and a fragmented experience that impeded performance improvements, publishing capabilities, and future innovation.</p>
+        </section>
+
+      </div><!-- /.content-narrow -->
+    </article>
+
+    <!-- Before state — two apps side by side -->
+    <div class="container">
+      <div class="media-grid media-grid--2col">
+        <figure class="article-figure figure--zoomable" aria-label="Original cataloger interface">
+          <img
+            src="https://matomaton.github.io/product/img/CURRENT-CAT.png"
+            alt="Screenshot of the original cataloger application"
+            loading="lazy"
+          >
+          <figcaption>Cataloger — original application</figcaption>
+        </figure>
+        <figure class="article-figure figure--zoomable" aria-label="Original admin interface">
+          <img
+            src="https://matomaton.github.io/product/img/CURRENT-ADMIN.png"
+            alt="Screenshot of the original admin application"
+            loading="lazy"
+          >
+          <figcaption>Admin — separate application</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <article class="article-body" aria-label="Application Merge case study continued">
+      <div class="container content-narrow">
+
+
+        <!-- ── SECTION: GOAL ─────────────────────────────────── -->
+        <section class="article-section">
+          <h2>Goal</h2>
+          <p>Merge the Cataloging and Publishing tools, unifying the codebase, enhancing user workflows, and creating a more flexible, coherent platform that can scale.</p>
+        </section>
+
+
+        <!-- ── SECTION: ROLES ────────────────────────────────── -->
+        <section class="article-section">
+          <h2>Roles</h2>
+          <ul>
+            <li>Information Architect</li>
+            <li>Content Strategist</li>
+            <li>UI Designer</li>
+          </ul>
+        </section>
+
+
+        <!-- ── SECTION: PROCESS ──────────────────────────────── -->
+        <section class="article-section">
+          <h2>Process</h2>
+          <ul>
+            <li>Content and feature inventory</li>
+            <li>Create three concepts of varying scope</li>
+            <li>Review concepts with stakeholders and test with users</li>
+            <li>Develop and launch final design based on evidence collected</li>
+          </ul>
+        </section>
+
+
+        <!-- ── SECTION: CONCEPT 1 ────────────────────────────── -->
+        <section class="article-section">
+          <h2>Concept 1</h2>
+          <h3>Advantages</h3>
+          <p>The simplest and fastest way of bringing the current admin features into the cataloging tools while maintaining some principles of user experience and design. This concept would be an easy transition for current users and quick for engineers to migrate.</p>
+          <h3>Disadvantages</h3>
+          <p>The administrative tasks are still separated from cataloging tasks in arbitrary and idiosyncratic ways, as they were before.</p>
+        </section>
+
+      </div><!-- /.content-narrow -->
+    </article>
+
+    <!-- Concept 1 images -->
+    <div class="container">
+      <div class="media-grid media-grid--2col">
+        <figure class="article-figure figure--zoomable" aria-label="Concept 1 structure">
+          <img
+            src="https://matomaton.github.io/product/img/CONCEPT1-STRUCTURE.png"
+            alt="Sitemap illustrating the structure for Concept 1"
+            loading="lazy"
+          >
+          <figcaption>Concept 1 — structure</figcaption>
+        </figure>
+        <figure class="article-figure figure--zoomable" aria-label="Concept 1 item list mockup">
+          <img
+            src="https://matomaton.github.io/assets/merg/CONCEPT-1-ITEMLIST.jpg"
+            alt="Low-fidelity mockup of the cataloging interface with administrative tools included"
+            loading="lazy"
+          >
+          <figcaption>Concept 1 — item list mockup</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <article class="article-body" aria-label="Application Merge case study continued">
+      <div class="container content-narrow">
+
+
+        <!-- ── SECTION: CONCEPT 2 ────────────────────────────── -->
+        <section class="article-section">
+          <h2>Concept 2</h2>
+          <h3>Advantages</h3>
+          <p>The admin functionality is broken down into individual features, prioritized and streamlined, then selectively placed into workflows in a deliberate and intuitive way. This concept would be learnable by both current and new contributors. This is what we ultimately built and launched.</p>
+          <h3>Disadvantages</h3>
+          <p>A more complex and time-consuming effort to build and launch. Institutions would need to update their workflows and training materials.</p>
+        </section>
+
+      </div><!-- /.content-narrow -->
+    </article>
+
+    <!-- Concept 2 images -->
+    <div class="container">
+      <div class="media-grid media-grid--2col">
+        <figure class="article-figure figure--zoomable" aria-label="Concept 2 structure">
+          <img
+            src="https://matomaton.github.io/product/img/CONCEPT2-STRUCTURE.png"
+            alt="High-level sitemap illustrating Concept 2"
+            loading="lazy"
+          >
+          <figcaption>Concept 2 — structure</figcaption>
+        </figure>
+        <figure class="article-figure figure--zoomable" aria-label="Concept 2 sketch">
+          <img
+            src="https://matomaton.github.io/product/img/CONCEPT2-SKETCH.png"
+            alt="Low-fidelity mockup showing a dashboard with analytics"
+            loading="lazy"
+          >
+          <figcaption>Concept 2 — sketch</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <article class="article-body" aria-label="Application Merge case study continued">
+      <div class="container content-narrow">
+
+
+        <!-- ── SECTION: CONCEPT 3 ────────────────────────────── -->
+        <section class="article-section">
+          <h2>Concept 3</h2>
+          <h3>Advantages</h3>
+          <p>Looking toward the future, this concept shifted away from a catalog-centric experience into a publishing and content-management product. Publishing features would be integrated directly into the digital library platform, similar to a CMS.</p>
+          <h3>Disadvantages</h3>
+          <p>While this aligned with the future direction of the organization, it presented a profound impact on many teams and the broader JSTOR platform.</p>
+          <h3>New Product Inspiration</h3>
+          <p>Starting small with entry points from the platform to the publishing tool could be considered in the near term. Ultimately, ideas from this concept inspired a new product called <a href="collectionLoader.html">Collection Loader</a>.</p>
+        </section>
+
+      </div><!-- /.content-narrow -->
+    </article>
+
+    <!-- Concept 3 images -->
+    <div class="container">
+      <div class="media-grid media-grid--2col">
+        <figure class="article-figure figure--zoomable" aria-label="Concept 3 structure">
+          <img
+            src="https://matomaton.github.io/product/img/CONCEPT3-STRUCTURE.png"
+            alt="High-level sitemap illustrating Concept 3"
+            loading="lazy"
+          >
+          <figcaption>Concept 3 — structure</figcaption>
+        </figure>
+        <figure class="article-figure figure--zoomable" aria-label="Concept 3 sketch">
+          <img
+            src="https://matomaton.github.io/product/img/CONCEPT3-SKETCH.png"
+            alt="Low-fidelity mockup for Concept 3"
+            loading="lazy"
+          >
+          <figcaption>Concept 3 — sketch</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <article class="article-body" aria-label="Application Merge case study continued">
+      <div class="container content-narrow">
+
+
+        <!-- ── SECTION: FINAL DESIGN ─────────────────────────── -->
+        <section class="article-section">
+          <h2>Final Design</h2>
+          <h3>Dashboard</h3>
+          <p>I designed a dashboard that gives users a clear overview of their projects and key collection statistics, informed by user testing feedback. Previously, users were taken directly to the last project they edited after logging in — which felt disorienting and lacked a true sense of home.</p>
+        </section>
+
+      </div><!-- /.content-narrow -->
+    </article>
+
+    <!-- Final dashboard — breakout width -->
+    <div class="container">
+      <figure class="article-figure figure--zoomable" aria-label="Final dashboard design">
+        <img
+          src="https://matomaton.github.io/product/img/FINAL-DASH.png"
+          alt="Screenshot of the final design showing a list of collections alongside collection statistics"
+          loading="lazy"
+        >
+        <figcaption>Final dashboard — projects and collection statistics at a glance.</figcaption>
+      </figure>
+    </div>
+
+    <article class="article-body" aria-label="Application Merge case study continued">
+      <div class="container content-narrow">
+
+        <section class="article-section">
+          <h3>Navigation Update</h3>
+          <p>I redesigned the global navigation system to better support scalability for new features, including role-based admin tools and early access to beta features. Project settings were integrated directly within each project, conveniently placed at the top of the item list to resolve the previously disjointed experience.</p>
+        </section>
+
+      </div><!-- /.content-narrow -->
+    </article>
+
+    <!-- Final list view -->
+    <div class="container">
+      <figure class="article-figure figure--zoomable" aria-label="Final item list and navigation">
+        <img
+          src="https://matomaton.github.io/product/img/FINAL-LIST.png"
+          alt="Screenshot of the final item list page with global navigation and an admin dropdown"
+          loading="lazy"
+        >
+        <figcaption>Updated navigation — admin tools and beta access integrated into a single global nav.</figcaption>
+      </figure>
+    </div>
+
+    <article class="article-body" aria-label="Application Merge case study continued">
+      <div class="container content-narrow">
+
+
+        <!-- ── SECTION: OUTCOME ──────────────────────────────── -->
+        <section class="article-section">
+          <h2>Outcome</h2>
+        </section>
+
+        <blockquote>
+          <p>"I like the new joining of the Admin with the Cataloger environment. I would find myself having to login separately when I was trying to set up projects for students. It's now just much, much easier."</p>
+          <cite>Emily, Rhode Island School of Design</cite>
+        </blockquote>
+
+
+        <!-- ── FOOTER ─────────────────────────────────────────── -->
+        <footer class="article-footer">
+          <div class="article-tags">
+            <span class="label">Tagged:</span>
+            <ul class="tags-list" aria-label="Article tags">
+              <li><a href="#" class="tag">Case Study</a></li>
+              <li><a href="#" class="tag">Information Architecture</a></li>
+              <li><a href="#" class="tag">Product Design</a></li>
+            </ul>
+          </div>
+        </footer>
+
+      </div><!-- /.content-narrow -->
+    </article>
+
+
+    <div class="container">
+      <a href="index.html" class="back-link">
+        <span class="back-arrow" aria-hidden="true">←</span> Back to Projects
+      </a>
+    </div>
+
+  </main>
+
+
+  <!-- ============================================================
+    FOOTER — identical across all pages, do not edit
+  ============================================================ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p class="footer-text">© 2026 Matthew</p>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="mailto:hello@example.com" class="footer-link">Email</a>
+        <a href="https://www.linkedin.com/in/atomaton/" class="footer-link">LinkedIn</a>
+        <a href="https://github.com/matomaton" class="footer-link">GitHub</a>
+      </nav>
+    </div>
+  </footer>
+  <!-- ============================================================ -->
+
+
+  <!-- ============================================================
+    LIGHTBOX — no dependencies, pure JS
+  ============================================================ -->
+  <div class="lightbox" id="lightbox" aria-modal="true" role="dialog" aria-label="Image viewer" aria-hidden="true">
+    <button class="lightbox__close" id="lightbox-close" aria-label="Close image viewer">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M2 2L18 18M18 2L2 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <figure class="lightbox__figure">
+      <img class="lightbox__img" id="lightbox-img" src="" alt="">
+      <figcaption class="lightbox__caption" id="lightbox-caption"></figcaption>
+    </figure>
+  </div>
+  <div class="lightbox-backdrop" id="lightbox-backdrop" aria-hidden="true"></div>
+
+  <script>
+    (function () {
+      const lightbox   = document.getElementById('lightbox');
+      const backdrop   = document.getElementById('lightbox-backdrop');
+      const closeBtn   = document.getElementById('lightbox-close');
+      const lbImg      = document.getElementById('lightbox-img');
+      const lbCaption  = document.getElementById('lightbox-caption');
+      let previousFocus = null;
+
+      function openLightbox(img, caption) {
+        previousFocus = document.activeElement;
+        lbImg.src     = img.src;
+        lbImg.alt     = img.alt;
+        lbCaption.textContent = caption;
+        lightbox.setAttribute('aria-hidden', 'false');
+        backdrop.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('lightbox-open');
+        closeBtn.focus();
+      }
+
+      function closeLightbox() {
+        lightbox.setAttribute('aria-hidden', 'true');
+        backdrop.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('lightbox-open');
+        setTimeout(function () { lbImg.src = ''; }, 300);
+        if (previousFocus) previousFocus.focus();
+      }
+
+      document.querySelectorAll('.figure--zoomable').forEach(function (figure) {
+        const img     = figure.querySelector('img');
+        const caption = figure.querySelector('figcaption');
+        if (!img) return;
+        figure.setAttribute('tabindex', '0');
+        figure.setAttribute('role', 'button');
+        figure.setAttribute('aria-label', 'View image larger: ' + (img.alt || 'image'));
+        function trigger() { openLightbox(img, caption ? caption.textContent : ''); }
+        figure.addEventListener('click', trigger);
+        figure.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); trigger(); }
+        });
+      });
+
+      closeBtn.addEventListener('click', closeLightbox);
+      backdrop.addEventListener('click', closeLightbox);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && lightbox.getAttribute('aria-hidden') === 'false') closeLightbox();
+      });
+      lightbox.addEventListener('keydown', function (e) {
+        if (e.key !== 'Tab') return;
+        e.preventDefault();
+        closeBtn.focus();
+      });
+    })();
+  </script>
+
+</body>
+</html>
