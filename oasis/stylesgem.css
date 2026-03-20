@@ -158,8 +158,18 @@ h2, .h2 {
 }
 
 /* H3, H4, labels — uppercase small caps */
-h3, h4,
-.h3, .h4,
+/* H3 — subsection heading within article body */
+h3, .h3 {
+  font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+  font-weight: var(--weight-black);
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  color: var(--color-charcoal);
+}
+
+/* H4, labels — uppercase small caps, utility size */
+h4, .h4,
 .label {
   font-size: var(--size-label);
   font-weight: var(--weight-black);
@@ -168,7 +178,6 @@ h3, h4,
   letter-spacing: var(--ls-label);
   color: var(--color-charcoal);
 }
-
 /* Body / paragraph */
 p {
   font-size: var(--size-body);
@@ -587,6 +596,14 @@ body.nav-open {
 .article-title {
   /* inherits h1 styles — large, light, gray */
 }
+/* Article subtitle — sits below the H1 in the page header */
+.article-subtitle {
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-weight: var(--weight-light);
+  line-height: 1.5;
+  color: var(--color-gray);
+  max-width: 52ch; /* slightly tighter than body — keeps it punchy */
+}
 
 /* --- Body --- */
 /* Update your .article-body to this: */
@@ -618,6 +635,11 @@ body.nav-open {
 .article-section:first-child {
   border-top: none;
   padding-top: 0;
+}
+/* Suppress top border when a section follows a table or other block element
+   that already provides visual separation */
+.article-section--no-border-top {
+  border-top: none;
 }
 
 /* Headings inside sections */
@@ -652,6 +674,26 @@ body.nav-open {
   margin-block: var(--space-lg);
 }
 
+/* Lists inside article sections — restore styles */
+.article-section ul,
+.article-section ol {
+  margin-left: var(--space-md);
+  margin-bottom: var(--space-md);
+  list-style: circle;
+}
+
+.article-section ul ul,
+.article-section ol ol,
+.article-section ul ol,
+.article-section ol ul {
+  margin-top: var(--space-xs);
+  margin-bottom: var(--space-xs);
+}
+
+.article-section li {
+  margin-bottom: var(--space-xs);
+  line-height: var(--lh-body);
+}
 /* --- Article data table (reusable) -------------------------
    Use class "article-table" on <table>.
    Uses same breakout width as embed-wrapper / figure--breakout
@@ -665,9 +707,8 @@ body.nav-open {
   width: min(900px, 100vw - 3rem);
   margin-inline: calc(50% - min(450px, 50vw - 1.5rem));
   border-collapse: collapse;
-  margin-block: var(--space-lg);
-  font-size: var(--size-body);
-  color: var(--color-charcoal);
+  margin-block-start: var(--space-sm);
+  margin-block-end: var(--space-lg);
 }
 
 .article-table th,
