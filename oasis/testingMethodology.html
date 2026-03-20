@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ============================================================
+    ARTICLE META — update for each new article
+  ============================================================ -->
+  <title>Testing Methodology — Portfolio</title>
+  <meta name="description" content="A reference guide to the full spectrum of UX testing methods — from expert evaluation to feedback-based research.">
+  <!-- ============================================================ -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="stylesgem.css">
+</head>
+
+<body>
+
+  <!-- ============================================================
+    NAVIGATION — identical across all pages, do not edit
+  ============================================================ -->
+  <nav class="global-menu" aria-label="Site navigation">
+    <div class="container nav-inner">
+
+      <a href="index.html" class="nav-logo" aria-label="Home">
+        <svg class="logo" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <path d="M35.9893 46.1494L35.1768 51.5361L38.5908 54.0254L44.2676 53.1289L44.6553 53.0674L44.9814 53.2871L48.8838 55.9072L47.7686 57.5674L44.1914 55.165L38.4932 56.0674L38.083 56.1328L37.7471 55.8877L33.5088 52.7949L33.0186 52.4375L33.1094 51.8389L34.0107 45.8506L35.9893 46.1494ZM30 36H24.333V38.3193H31V52.4814H29V40.3193H24.333V56H10V54H22.333V34H30V36ZM56 36H51.667V38.3174H57V55H55V40.3174H51.667V51.2627H40V49.2627H49.667V34H56V36ZM19 48H8V36H19V48ZM10 46H17V38H10V46ZM45 36H36V38.5H45V40.5H36V43H45V45H34V34H45V36ZM55 10H48V12.8877H56V28H54V14.8877H48V29H31V27H46V8H55V10ZM30 10H24V13.1445H31V24.2236H29V15.1445H24V28H9V26H22V8H30V10ZM42 10H36V12.6426H42V14.6426H36V21H42V23H34V8H42V10ZM13 9C16.3137 9 19 11.6863 19 15C19 18.3137 16.3137 21 13 21C9.68629 21 7 18.3137 7 15C7 11.6863 9.68629 9 13 9ZM13 11C10.7909 11 9 12.7909 9 15C9 17.2091 10.7909 19 13 19C15.2091 19 17 17.2091 17 15C17 12.7909 15.2091 11 13 11Z" fill="darkred"/>
+        </svg>
+      </a>
+
+      <!-- Desktop links -->
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="nav-link">Projects</a></li>
+        <li><a href="articles.html" class="nav-link nav-link--active" aria-current="page">Articles</a></li>
+        <li><a href="backstory.html" class="nav-link">Backstory</a></li>
+        <li><a href="process.html" class="nav-link">Process</a></li>
+        <li><a href="resume.html" class="nav-link">Resume</a></li>
+      </ul>
+
+      <!-- Hamburger button — hidden on desktop -->
+      <button
+        class="nav-toggle"
+        id="nav-toggle"
+        aria-controls="nav-drawer"
+        aria-expanded="false"
+        aria-label="Open navigation menu"
+      >
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- Mobile drawer -->
+  <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+    <ul class="nav-drawer__links">
+      <li><a href="index.html" class="nav-drawer__link">Projects</a></li>
+      <li><a href="articles.html" class="nav-drawer__link nav-drawer__link--active" aria-current="page">Articles</a></li>
+      <li><a href="backstory.html" class="nav-drawer__link">Backstory</a></li>
+      <li><a href="process.html" class="nav-drawer__link">Process</a></li>
+      <li><a href="resume.html" class="nav-drawer__link">Resume</a></li>
+    </ul>
+  </div>
+  <div class="nav-backdrop" id="nav-backdrop" aria-hidden="true"></div>
+
+  <script>
+    (function () {
+      const toggle   = document.getElementById('nav-toggle');
+      const drawer   = document.getElementById('nav-drawer');
+      const backdrop = document.getElementById('nav-backdrop');
+      function openMenu() {
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.setAttribute('aria-label', 'Close navigation menu');
+        drawer.setAttribute('aria-hidden', 'false');
+        backdrop.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('nav-open');
+        drawer.querySelector('.nav-drawer__link').focus();
+      }
+      function closeMenu() {
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open navigation menu');
+        drawer.setAttribute('aria-hidden', 'true');
+        backdrop.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('nav-open');
+        toggle.focus();
+      }
+      toggle.addEventListener('click', function () {
+        toggle.getAttribute('aria-expanded') === 'true' ? closeMenu() : openMenu();
+      });
+      backdrop.addEventListener('click', closeMenu);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') closeMenu();
+      });
+      drawer.addEventListener('keydown', function (e) {
+        if (e.key !== 'Tab') return;
+        const focusable = drawer.querySelectorAll('a');
+        const first = focusable[0];
+        const last  = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      });
+    })();
+  </script>
+  <!-- ============================================================ -->
+
+  <div class="progress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+
+  <main class="main" id="main-content">
+
+    <div class="container">
+      <a href="articles.html" class="back-link">
+        <span class="back-arrow" aria-hidden="true">←</span> Back to Articles
+      </a>
+    </div>
+
+    <!-- ============================================================
+      ARTICLE HEADER — update for each new article
+    ============================================================ -->
+    <header class="article-header">
+      <div class="container article-header__inner">
+        <div class="article-meta">
+          <span class="label">Reference</span>
+          <span class="article-meta__divider" aria-hidden="true">·</span>
+          <time class="label" datetime="2026-03">February 2026</time>
+          <span class="article-meta__divider" aria-hidden="true">·</span>
+          <span class="label">2 min read</span>
+        </div>
+        <h1 class="article-title">Testing Methodology</h1>
+        <p class="article-subtitle">A reference guide to the spectrum of UX testing methods</p>
+      </div>
+    </header>
+    <!-- ============================================================ -->
+
+
+    <article class="article-body" aria-labelledby="article-title">
+      <div class="container content-narrow">
+
+ <!-- ── SECTION: Overview ──────────────────────────────── -->
+        <section class="article-section">
+          <h2>Overview</h2>
+          <p class="article-lead">Every client and organization brings their own definition of user research — shaped by their experience and maturity. This guide maps out the full range of testing methods I draw from, so we have a shared vocabulary before deciding how to investigate</p>
+          <p class="article-lead">The right tool for the task at hand</p>
+        </section>
+        <!-- ── SECTION ─────────────────────────────────────────── -->
+        <section class="article-section">
+          <h2>Expert-Based Evaluation</h2>
+
+          <h3>Heuristic Evaluation</h3>
+          <p>A systematic inspection of the user interface design against recognized usability principles (heuristics). Experts evaluate the interface independently and compare findings. Measures compliance with established design principles and identifies potential usability problems.</p>
+
+          <h3>Cognitive Walkthrough</h3>
+          <p>Evaluators work through a series of tasks from a user's perspective, focusing on cognitive processes required to complete each task. Measures learnability and identifies areas where users might struggle with task completion.</p>
+          <p>The method involves the tester asking four simple questions about the way a specific user journey is conducted:</p>
+          <ol>
+            <li>Will the user try to achieve the right result?</li>
+            <li>Will the user notice that the correct action is available?</li>
+            <li>Will the user associate the correct action with the effect they're trying to achieve?</li>
+            <li>After the action is performed, will the user see that progress is being made toward that goal?</li>
+          </ol>
+        </section>
+
+
+        <!-- ── SECTION ─────────────────────────────────────────── -->
+        <section class="article-section">
+          <h2>User-Based Testing</h2>
+
+          <h3>Usability Testing</h3>
+          <p>Observation of real users completing specific tasks while thinking aloud. Measures ease of use, task completion rates, time on task, and user satisfaction. Can be conducted as:</p>
+          <ul>
+            <li>Moderated — Conducted with a facilitator present</li>
+            <li>Unmoderated — Users complete tasks independently</li>
+            <li>Remote — Conducted online</li>
+            <li>In-person — Conducted in a lab or specific location</li>
+          </ul>
+
+          <h3>Eye Tracking</h3>
+          <p>Tracks users' eye movements while they interact with the interface. Measures visual attention, scanning patterns, and areas of interest — helping understand what users actually look at and for how long.</p>
+
+          <h3>First Click Testing</h3>
+          <p>Users indicate where they would click first to complete a given task. Measures intuitive navigation and information architecture effectiveness.</p>
+
+          <h3>Preference Testing</h3>
+          <p>A quick research method used to determine which design option users prefer when presented with two or more variations. It primarily focuses on subjective appeal, aesthetics, and initial impressions.</p>
+        </section>
+
+
+        <!-- ── SECTION ─────────────────────────────────────────── -->
+        <section class="article-section">
+          <h2>Information Architecture Testing</h2>
+
+          <h3>Card Sorting</h3>
+          <p>Users organize content items into groups that make sense to them. Can be:</p>
+          <ul>
+            <li><strong>Open Sort</strong> — Users create and name their own categories</li>
+            <li><strong>Closed Sort</strong> — Users sort items into predefined categories</li>
+          </ul>
+          <p>Measures how users expect content to be organized and labeled.</p>
+
+          <h3>Tree Testing</h3>
+          <p>Users attempt to locate items in a stripped-down site structure. Measures the effectiveness of your site's navigation hierarchy without visual design influence.</p>
+        </section>
+
+
+        <!-- ── SECTION ─────────────────────────────────────────── -->
+        <section class="article-section">
+          <h2>Quantitative Testing</h2>
+
+          <h3>A/B Testing</h3>
+          <p>Compare two versions of a page element to see which performs better. Measures specific metrics like conversion rates, click-through rates, or time on page.</p>
+
+          <h3>Multivariate Testing</h3>
+          <p>Tests multiple variables simultaneously to determine optimal combinations. Measures how different elements interact with each other to influence user behavior.</p>
+
+          <h3>Web Analytics</h3>
+          <p>Collection and analysis of website usage data, including:</p>
+          <ul>
+            <li>Traffic patterns</li>
+            <li>User flows</li>
+            <li>Page performance</li>
+            <li>User behavior</li>
+            <li>Conversion funnels</li>
+          </ul>
+          <p>Measures various aspects of user behavior and website performance at scale.</p>
+
+          <h3>Heat Mapping</h3>
+          <p>Visual representation of where users click, move, and scroll on your pages. Measures user engagement and interaction patterns across your website.</p>
+        </section>
+
+
+        <!-- ── SECTION ─────────────────────────────────────────── -->
+        <section class="article-section">
+          <h2>Technical Testing</h2>
+
+          <h3>Performance Testing</h3>
+          <p>Evaluation of website speed, responsiveness, and stability under various conditions. Measures:</p>
+          <ul>
+            <li>Load times</li>
+            <li>Server response times</li>
+            <li>Resource usage</li>
+            <li>Scalability</li>
+            <li>Stability under stress</li>
+          </ul>
+
+          <h3>Cross-Browser / Device Testing</h3>
+          <p>Testing website functionality and appearance across different browsers, devices, and screen sizes. Measures consistency of user experience across platforms.</p>
+
+          <h3>Accessibility Testing</h3>
+          <p>Evaluation of website usability for people with disabilities. Measures compliance with accessibility standards (WCAG) and actual usability for users with various disabilities.</p>
+        </section>
+
+
+        <!-- ── SECTION ─────────────────────────────────────────── -->
+        <section class="article-section">
+          <h2>Feedback-Based Methods</h2>
+
+          <h3>Surveys and Questionnaires</h3>
+          <p>Structured collection of user feedback through various question types. Measures user satisfaction, preferences, and demographic information.</p>
+
+          <h3>User Interviews</h3>
+          <p>In-depth conversations with users about their experiences, needs, and pain points. Measures qualitative aspects of user experience and gathers detailed feedback.</p>
+
+          <h3>Contextual Inquiry / Ethnographic Studies</h3>
+          <p>Qualitative research where researchers observe users performing tasks within their natural environment — workplace, home — to gain a deep understanding of behaviors, context, challenges, workflow, and motivations as they naturally occur. It often involves observation combined with targeted questions asked "in context."</p>
+
+          <h3>Focus Groups</h3>
+          <p>Moderated discussions with groups of users about their experiences and expectations. Measures collective user opinions and generates ideas for improvement.</p>
+          <p>I've included this method due to its frequent request, but it carries several challenges worth understanding before you reach for it.</p>
+
+          <!-- Caveats & Biases — presented as a two-part list -->
+          <h3>Focus Group Caveats</h3>
+          <ul>
+            <li><strong>Groupthink</strong> — Participants may conform to dominant opinions or avoid dissent.</li>
+            <li><strong>Moderator influence</strong> — Poor facilitation can bias responses.</li>
+            <li><strong>Limited generalizability</strong> — Small, non-random samples don't represent broader populations.</li>
+            <li><strong>Social desirability bias</strong> — People may give answers they think are acceptable or expected.</li>
+            <li><strong>Dominant voices</strong> — Some participants may overshadow quieter ones.</li>
+          </ul>
+
+          <h3>Common Biases</h3>
+          <ul>
+            <li><strong>Conformity bias</strong> — Tendency to agree with the group or influential members.</li>
+            <li><strong>Moderator bias</strong> — Leading questions or reactions sway participants' responses.</li>
+            <li><strong>Sampling bias</strong> — The group may not represent the target population.</li>
+            <li><strong>Response bias</strong> — Participants may withhold honest feedback to avoid judgment.</li>
+          </ul>
+        </section>
+
+
+        <!-- ============================================================
+          ARTICLE FOOTER — update tags for each article
+        ============================================================ -->
+        <footer class="article-footer">
+          <div class="article-tags">
+            <span class="label">Tagged:</span>
+            <ul class="tags-list" aria-label="Article tags">
+              <li><a href="#" class="tag">Research</a></li>
+              <li><a href="#" class="tag">UX Testing</a></li>
+              <li><a href="#" class="tag">Process</a></li>
+            </ul>
+          </div>
+          <div class="article-share">
+            <span class="label">Share:</span>
+            <div class="share-links">
+              <a href="#" class="share-link">Twitter</a>
+              <a href="#" class="share-link">LinkedIn</a>
+              <a href="#" class="share-link">Copy Link</a>
+            </div>
+          </div>
+        </footer>
+
+      </div><!-- /.content-narrow -->
+    </article>
+
+
+    <!-- ============================================================
+      RELATED ARTICLES — update links for each article
+    ============================================================ -->
+    <section class="related-articles" aria-labelledby="related-heading">
+      <div class="container content-narrow">
+        <h2 id="related-heading" class="label">More Reading</h2>
+        <div class="related-list">
+          <a href="#" class="related-item">
+            <p class="label">Process</p>
+            <h3 class="related-item-title">Why I Start Every Project With a Question, Not a Solution</h3>
+          </a>
+          <a href="#" class="related-item">
+            <p class="label">Design Systems</p>
+            <h3 class="related-item-title">Button Placement: Hierarchy and Order</h3>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <a href="articles.html" class="back-link">
+        <span class="back-arrow" aria-hidden="true">←</span> Back to Articles
+      </a>
+    </div>
+
+  </main>
+
+
+  <!-- ============================================================
+    FOOTER — identical across all pages, do not edit
+  ============================================================ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p class="footer-text">© 2026 Matthew</p>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="mailto:hello@example.com" class="footer-link">Email</a>
+        <a href="#" class="footer-link">LinkedIn</a>
+        <a href="#" class="footer-link">Dribbble</a>
+      </nav>
+    </div>
+  </footer>
+  <!-- ============================================================ -->
+
+
+  <!-- ============================================================
+    LIGHTBOX — no dependencies, pure JS
+    Activated automatically on any figure.figure--zoomable
+    Close: click backdrop, press Escape, or click × button
+  ============================================================ -->
+  <div class="lightbox" id="lightbox" aria-modal="true" role="dialog" aria-label="Image viewer" aria-hidden="true">
+    <button class="lightbox__close" id="lightbox-close" aria-label="Close image viewer">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M2 2L18 18M18 2L2 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <figure class="lightbox__figure">
+      <img class="lightbox__img" id="lightbox-img" src="" alt="">
+      <figcaption class="lightbox__caption" id="lightbox-caption"></figcaption>
+    </figure>
+  </div>
+  <div class="lightbox-backdrop" id="lightbox-backdrop" aria-hidden="true"></div>
+
+  <script>
+    (function () {
+      const lightbox   = document.getElementById('lightbox');
+      const backdrop   = document.getElementById('lightbox-backdrop');
+      const closeBtn   = document.getElementById('lightbox-close');
+      const lbImg      = document.getElementById('lightbox-img');
+      const lbCaption  = document.getElementById('lightbox-caption');
+      let previousFocus = null;
+
+      function openLightbox(img, caption) {
+        previousFocus = document.activeElement;
+        lbImg.src     = img.src;
+        lbImg.alt     = img.alt;
+        lbCaption.textContent = caption;
+        lightbox.setAttribute('aria-hidden', 'false');
+        backdrop.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('lightbox-open');
+        closeBtn.focus();
+      }
+
+      function closeLightbox() {
+        lightbox.setAttribute('aria-hidden', 'true');
+        backdrop.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('lightbox-open');
+        setTimeout(function () { lbImg.src = ''; }, 300);
+        if (previousFocus) previousFocus.focus();
+      }
+
+      document.querySelectorAll('.figure--zoomable').forEach(function (figure) {
+        const img     = figure.querySelector('img');
+        const caption = figure.querySelector('figcaption');
+        if (!img) return;
+
+        figure.setAttribute('tabindex', '0');
+        figure.setAttribute('role', 'button');
+        figure.setAttribute('aria-label', 'View image larger: ' + (img.alt || 'image'));
+
+        function trigger() {
+          openLightbox(img, caption ? caption.textContent : '');
+        }
+
+        figure.addEventListener('click', trigger);
+        figure.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); trigger(); }
+        });
+      });
+
+      closeBtn.addEventListener('click', closeLightbox);
+      backdrop.addEventListener('click', closeLightbox);
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && lightbox.getAttribute('aria-hidden') === 'false') {
+          closeLightbox();
+        }
+      });
+
+      lightbox.addEventListener('keydown', function (e) {
+        if (e.key !== 'Tab') return;
+        e.preventDefault();
+        closeBtn.focus();
+      });
+    })();
+  </script>
+
+</body>
+</html>
