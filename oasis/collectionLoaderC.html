@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ============================================================
+    ARTICLE META — update for each new article
+  ============================================================ -->
+  <title>Collection Loader — Portfolio</title>
+  <meta name="description" content="Directed the end-to-end creation and launch of a new automated migration tool. 350+ institutions, 100,000+ items published.">
+  <!-- ============================================================ -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="stylesgem.css">
+
+  <!-- ============================================================
+    METRIC CARDS — scoped styles only for this page.
+    stylesgem.css has no counter/card component so we add
+    the minimum here rather than touching the shared stylesheet.
+  ============================================================ -->
+  <style>
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+      /* margin-top: var(--space-lg); */
+      width: 100%;          /* add this */
+      max-width: 100%;      /* add this */
+    }
+    .metric-card p {
+  max-width: none;
+}
+    
+
+    .metric-card {
+      padding: var(--space-md);
+      border: 1px solid var(--color-border);
+      text-align: center;
+    }
+
+    .metric-number {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: var(--weight-light);
+      line-height: 1;
+      color: var(--color-charcoal);
+      letter-spacing: -0.02em;
+    }
+
+    .metric-label {
+      margin-top: var(--space-xs);
+      font-size: var(--size-label);
+      font-weight: var(--weight-black);
+      text-transform: uppercase;
+      letter-spacing: var(--ls-label);
+      color: var(--color-gray);
+    }
+
+    @media (max-width: 600px) {
+      .metrics-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================================
+    NAVIGATION — identical across all pages, do not edit
+  ============================================================ -->
+  <nav class="global-menu" aria-label="Site navigation">
+    <div class="container nav-inner">
+
+      <a href="index.html" class="nav-logo" aria-label="Home">
+        <svg class="logo" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <path d="M35.9893 46.1494L35.1768 51.5361L38.5908 54.0254L44.2676 53.1289L44.6553 53.0674L44.9814 53.2871L48.8838 55.9072L47.7686 57.5674L44.1914 55.165L38.4932 56.0674L38.083 56.1328L37.7471 55.8877L33.5088 52.7949L33.0186 52.4375L33.1094 51.8389L34.0107 45.8506L35.9893 46.1494ZM30 36H24.333V38.3193H31V52.4814H29V40.3193H24.333V56H10V54H22.333V34H30V36ZM56 36H51.667V38.3174H57V55H55V40.3174H51.667V51.2627H40V49.2627H49.667V34H56V36ZM19 48H8V36H19V48ZM10 46H17V38H10V46ZM45 36H36V38.5H45V40.5H36V43H45V45H34V34H45V36ZM55 10H48V12.8877H56V28H54V14.8877H48V29H31V27H46V8H55V10ZM30 10H24V13.1445H31V24.2236H29V15.1445H24V28H9V26H22V8H30V10ZM42 10H36V12.6426H42V14.6426H36V21H42V23H34V8H42V10ZM13 9C16.3137 9 19 11.6863 19 15C19 18.3137 16.3137 21 13 21C9.68629 21 7 18.3137 7 15C7 11.6863 9.68629 9 13 9ZM13 11C10.7909 11 9 12.7909 9 15C9 17.2091 10.7909 19 13 19C15.2091 19 17 17.2091 17 15C17 12.7909 15.2091 11 13 11Z" fill="darkred"/>
+        </svg>
+      </a>
+
+      <!-- Desktop links -->
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="nav-link nav-link--active" aria-current="page">Projects</a></li>
+        <li><a href="articles.html" class="nav-link">Articles</a></li>
+        <li><a href="backstory.html" class="nav-link">Backstory</a></li>
+        <li><a href="process.html" class="nav-link">Process</a></li>
+        <li><a href="resume.html" class="nav-link">Resume</a></li>
+      </ul>
+
+      <!-- Hamburger button — hidden on desktop -->
+      <button
+        class="nav-toggle"
+        id="nav-toggle"
+        aria-controls="nav-drawer"
+        aria-expanded="false"
+        aria-label="Open navigation menu"
+      >
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- Mobile drawer -->
+  <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+    <ul class="nav-drawer__links">
+      <li><a href="index.html" class="nav-drawer__link nav-drawer__link--active" aria-current="page">Projects</a></li>
+      <li><a href="articles.html" class="nav-drawer__link">Articles</a></li>
+      <li><a href="backstory.html" class="nav-drawer__link">Backstory</a></li>
+      <li><a href="process.html" class="nav-drawer__link">Process</a></li>
+      <li><a href="resume.html" class="nav-drawer__link">Resume</a></li>
+    </ul>
+  </div>
+  <div class="nav-backdrop" id="nav-backdrop" aria-hidden="true"></div>
+
+  <script>
+    (function () {
+      const toggle   = document.getElementById('nav-toggle');
+      const drawer   = document.getElementById('nav-drawer');
+      const backdrop = document.getElementById('nav-backdrop');
+      function openMenu() {
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.setAttribute('aria-label', 'Close navigation menu');
+        drawer.setAttribute('aria-hidden', 'false');
+        backdrop.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('nav-open');
+        drawer.querySelector('.nav-drawer__link').focus();
+      }
+      function closeMenu() {
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open navigation menu');
+        drawer.setAttribute('aria-hidden', 'true');
+        backdrop.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('nav-open');
+        toggle.focus();
+      }
+      toggle.addEventListener('click', function () {
+        toggle.getAttribute('aria-expanded') === 'true' ? closeMenu() : openMenu();
+      });
+      backdrop.addEventListener('click', closeMenu);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') closeMenu();
+      });
+      drawer.addEventListener('keydown', function (e) {
+        if (e.key !== 'Tab') return;
+        const focusable = drawer.querySelectorAll('a');
+        const first = focusable[0];
+        const last  = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      });
+    })();
+  </script>
+  <!-- ============================================================ -->
+
+  <div class="progress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+
+  <main class="main" id="main-content">
+
+    <div class="container">
+      <a href="index.html" class="back-link">
+        <span class="back-arrow" aria-hidden="true">←</span> Back to Projects
+      </a>
+    </div>
+
+    <!-- ============================================================
+      ARTICLE HEADER — update for each new article
+    ============================================================ -->
+    <header class="article-header">
+      <div class="container article-header__inner">
+        <div class="article-meta">
+          <span class="label">Case Study</span>
+          <span class="article-meta__divider" aria-hidden="true">·</span>
+          <span class="label">Product Design</span>
+        </div>
+        <h1 class="article-title">Collection Loader</h1>
+        <p class="article-subtitle">An automated migration tool that helped libraries and cultural institutions publish their digital collections at scale.</p>
+      </div>
+    </header>
+    <!-- ============================================================ -->
+
+   <!-- ── HERO IMAGE ─────────────────────────────────────── -->
+        <figure class="article-figure figure--full" aria-label="Collection Loader interface on a laptop">
+          <img
+            src="CL-LAPTOP-SMALLGRAYBK.png"
+            alt="Collection Loader tool displayed on a laptop against a light gray background"
+            loading="eager"
+          >
+        </figure>
+
+    <article class="article-body" aria-label="Collection Loader case study">
+      <div class="container content-narrow">
+
+
+
+
+       <!-- ── SECTION: SUMMARY ──────────────────────────────── -->
+    <section class="article-section" style="padding-block-end: var(--space-sm);">
+      <h2>Summary</h2>
+      <p class="article-lead">Directed the end-to-end creation and launch of a new automated migration tool — from initial concept to product rollout. 350+ institutions have utilized this tool to publish 100,000+ items, exceeding adoption goals by over 10%.</p>
+    </section>
+
+  </div><!-- /.content-narrow -->
+</article>
+
+<!-- Metric cards 
+<div style="padding-block: var(--space-sm) var(--space-lg);">
+  <div class="container">
+    <div class="metrics-row" aria-label="Key results">
+      <div class="metric-card">
+        <div class="metric-number" id="counter-institutions">0</div>
+        <p class="metric-label">Institutions</p>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number" id="counter-artifacts">0</div>
+        <p class="metric-label">Artifacts</p>
+      </div>
+      <div class="metric-card">
+        <div class="metric-number" id="counter-revenue">0</div>
+        <p class="metric-label">Revenue</p>
+      </div>
+    </div>
+  </div>
+</div>
+-->
+ <article class="article-body" aria-label="Collection Loader case study continued">
+      <div class="container content-narrow">
+
+        <!-- ── SECTION: TL;DR VIDEO ──────────────────────────── -->
+        <section class="article-section">
+          <h2>TL;DR</h2>
+          <div class="embed-wrapper embed-wrapper--video" role="region" aria-label="Collection Loader overview video">
+            <iframe
+              src="https://www.youtube.com/embed/zNtaV1R01x0?si=NuySS66YWouwotjr"
+              title="Collection Loader overview video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+              loading="lazy"
+            ></iframe>
+          </div>
+        </section>
+
+
+        <!-- ── SECTION: GOAL ─────────────────────────────────── -->
+        <section class="article-section">
+          <h2>Goal</h2>
+          <p>Create a simple and intuitive tool for libraries and cultural institutions to publish their digital collections for wider reach.</p>
+        </section>
+
+
+        <!-- ── SECTION: PROCESS OVERVIEW ─────────────────────── -->
+        <section class="article-section">
+          <h2>Process</h2>
+
+          <h3>Design Sprint</h3>
+          <p>The core product team spent three full days together, focused on problem definition and solution ideation.</p>
+
+          <h3>Concept Test</h3>
+          <p>Tested low-fidelity concepts to encourage candid feedback and spontaneous suggestions.</p>
+
+          <h3>Usability Test</h3>
+          <p>Tested a working prototype to measure interest in adopting the tool and ease of use.</p>
+
+          <h3>Early Adopter Program</h3>
+          <p>25 institutions participated in overview sessions and trialed the Collection Loader tool.</p>
+        </section>
+
+
+        <!-- ── SECTION: DESIGN SPRINT ────────────────────────── -->
+        <section class="article-section">
+          <h2>Design Sprint</h2>
+          <p>I created an initial concept for user validation by synthesizing sprint outputs — identifying key risks, focus areas, and design principles. This was done in close collaboration with the core product team (Product Manager, UX Researcher, four Engineers, and myself) and with input from experts including a Metadata Librarian and Data Governance Director.</p>
+        </section>
+
+        <div class="media-grid media-grid--2col">
+          <figure class="article-figure figure--zoomable" aria-label="Sprint focus areas">
+            <img
+              src="https://matomaton.github.io/product/img/FOCUS-AREAS.png"
+              alt="Whiteboard showing the sprint's identified focus areas"
+              loading="lazy"
+            >
+            <figcaption>Focus Areas</figcaption>
+          </figure>
+          <figure class="article-figure figure--zoomable" aria-label="Early sketches">
+            <img
+              src="https://matomaton.github.io/product/img/SKETCHING-CL.png"
+              alt="Hand-drawn sketches from the design sprint ideation session"
+              loading="lazy"
+            >
+            <figcaption>Sketches</figcaption>
+          </figure>
+        </div>
+
+
+        <!-- ── SECTION: LOW FIDELITY CONCEPT TEST ────────────── -->
+        <section class="article-section">
+          <h2>Low Fidelity Concept Test</h2>
+
+          <h3>Marketing Email</h3>
+          <p>The marketing email was crucial for testing. We needed to provide a realistic preview of the new product to gauge interest before committing to build.</p>
+        </section>
+
+        <div class="media-grid media-grid--2col">
+          <figure class="article-figure figure--zoomable" aria-label="Email concept sketch">
+            <img
+              src="https://matomaton.github.io/product/img/EMAIL-CONCEPT.png"
+              alt="Low-fidelity sketch of the marketing email concept"
+              loading="lazy"
+            >
+            <figcaption>Email Concept</figcaption>
+          </figure>
+          <figure class="article-figure figure--zoomable" aria-label="Final marketing email">
+            <img
+              src="https://matomaton.github.io/assets/MARKETING-EMAIL.png"
+              alt="The final marketing email design sent to prospective institutions"
+              loading="lazy"
+            >
+            <figcaption>Marketing Email</figcaption>
+          </figure>
+        </div>
+
+        <section class="article-section">
+          <h3>Starting Point</h3>
+          <p>To understand how potential users wanted to begin using the Collection Loader, we showed side-by-side options of two approaches. Would they prefer starting from the overall structure and themes, or focus instead on the media objects and metadata?</p>
+          <p>This comparative format sparked a valuable dialogue about the merits of each and gave us tangible insights into real user preferences.</p>
+        </section>
+
+        <div class="media-grid media-grid--2col">
+          <figure class="article-figure figure--zoomable" aria-label="Get started option A">
+            <img
+              src="https://matomaton.github.io/product/img/GET-STARTED-A.png"
+              alt="Option A: Start from overall collection structure and themes"
+              loading="lazy"
+            >
+            <figcaption>Option A — Structure first</figcaption>
+          </figure>
+          <figure class="article-figure figure--zoomable" aria-label="Get started option B">
+            <img
+              src="https://matomaton.github.io/product/img/GET-STARTED-B.png"
+              alt="Option B: Start from media objects and metadata"
+              loading="lazy"
+            >
+            <figcaption>Option B — Objects first</figcaption>
+          </figure>
+        </div>
+
+        <section class="article-section">
+          <h3>User Control</h3>
+          <p>Mapping metadata is arguably one of the most important steps in the publishing process. The system shows how it interprets metadata from the user and allows them to make corrections before publishing.</p>
+        </section>
+
+        <figure class="article-figure figure--breakout figure--zoomable" aria-label="Metadata mapping interface">
+          <img
+            src="https://matomaton.github.io/product/img/MAP-CONCEPT.png"
+            alt="Interface showing the metadata mapping step with user controls to review and correct field assignments"
+            loading="lazy"
+          >
+          <figcaption>Metadata mapping — the system interprets, the user corrects.</figcaption>
+        </figure>
+
+        <section class="article-section">
+          <h3>Institution Collection Page</h3>
+          <p>Another crucial step in the process is setting up how the collection will be presented to scholars. Here we explored what types of tools and context institutions would like to provide when a scholar visits their collection.</p>
+        </section>
+
+        <figure class="article-figure figure--breakout figure--zoomable" aria-label="Institution collection page concept">
+          <img
+            src="https://matomaton.github.io/product/img/COLLECTION-PAGE.png"
+            alt="Concept for the institution-facing collection page showing tools and contextual information for scholars"
+            loading="lazy"
+          >
+          <figcaption>Institution collection page — tools and context for scholars.</figcaption>
+        </figure>
+
+
+        <!-- ── SECTION: EARLY ADOPTER PROGRAM ────────────────── -->
+        <section class="article-section">
+          <h2>Early Adopter Program</h2>
+          <p>Twenty-five institutions participated in overview sessions, while fifteen trialed the Collection Loader tool. Despite — and because — the tool being in active development throughout this program, participants provided valuable insights that directly shaped product and development priorities.</p>
+          <ul>
+            <li>Aligned the product design closer to the needs of the user</li>
+            <li>Pinpointed critical pre-launch issues for resolution</li>
+            <li>Validated workflow, design, and opportunities for improvement</li>
+            <li>Created an FAQ to equip support and onboarding teams</li>
+          </ul>
+        </section>
+
+        <blockquote>
+          <p>"This process is amazing for us. I used to use CONTENTdm and would set it up to upload overnight. I could do the same — load it at the end of day. This works for us! Donors complain: Why isn't it up? And here I have control."</p>
+          <cite>Megan, Southwestern University</cite>
+        </blockquote>
+
+
+        <!-- ── SECTION: LAUNCH ────────────────────────────────── -->
+        <section class="article-section">
+          <h2>Launch</h2>
+          <p>350+ institutions have utilized the tool to publish over 100,000 items — exceeding adoption goals by more than 10%.</p>
+        </section>
+
+        <!-- Figma prototype embed -->
+        <div class="embed-wrapper embed-wrapper--figma" role="region" aria-label="Collection Loader interactive prototype">
+          <iframe
+            src="https://embed.figma.com/proto/rZFPdpHHsdjjplxeqfvcVa/INGEST?page-id=10%3A2797&node-id=10-2798&viewport=1037%2C537%2C0.12&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=10%3A2798&embed-host=share"
+            title="Collection Loader interactive prototype"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+          <p class="embed-caption label">Interactive prototype — use Figma controls to navigate.</p>
+        </div>
+
+
+        <!-- ── SECTION: INTERNAL COMMUNICATION ───────────────── -->
+        <section class="article-section">
+          <h2>Internal Communication</h2>
+          <p>A story of how the Collection Loader integrates with and enhances our products and services — created to align internal stakeholders ahead of launch.</p>
+        </section>
+
+        <div class="article-figure figure--full" role="region" aria-label="Internal platform story presentation">
+          <iframe
+            src="https://embed.figma.com/proto/2wRFsj1wMUVz0zHQ0J8FTG/JSTOR-PLATFORM-STORY?page-id=207%3A2278&node-id=224-2440&viewport=479%2C477%2C0.03&scaling=scale-down-width&content-scaling=fixed&embed-host=share"
+            title="Internal platform story presentation"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+          <p class="embed-caption label">Platform story — presented to internal stakeholders pre-launch.</p>
+        </div>
+
+
+      </div><!-- /.content-narrow -->
+    </article>
+
+
+    <div class="container">
+      <a href="index.html" class="back-link">
+        <span class="back-arrow" aria-hidden="true">←</span> Back to Projects
+      </a>
+    </div>
+
+  </main>
+
+
+  <!-- ============================================================
+    FOOTER — identical across all pages, do not edit
+  ============================================================ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p class="footer-text">© 2026 Matthew</p>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="mailto:hello@example.com" class="footer-link">Email</a>
+        <a href="https://www.linkedin.com/in/atomaton/" class="footer-link">LinkedIn</a>
+        <a href="https://github.com/matomaton" class="footer-link">GitHub</a>
+      </nav>
+    </div>
+  </footer>
+  <!-- ============================================================ -->
+
+
+  <!-- ============================================================
+    LIGHTBOX — no dependencies, pure JS
+  ============================================================ -->
+  <div class="lightbox" id="lightbox" aria-modal="true" role="dialog" aria-label="Image viewer" aria-hidden="true">
+    <button class="lightbox__close" id="lightbox-close" aria-label="Close image viewer">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M2 2L18 18M18 2L2 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <figure class="lightbox__figure">
+      <img class="lightbox__img" id="lightbox-img" src="" alt="">
+      <figcaption class="lightbox__caption" id="lightbox-caption"></figcaption>
+    </figure>
+  </div>
+  <div class="lightbox-backdrop" id="lightbox-backdrop" aria-hidden="true"></div>
+
+  <script>
+    /* ── Lightbox ──────────────────────────────────────────────── */
+    (function () {
+      const lightbox   = document.getElementById('lightbox');
+      const backdrop   = document.getElementById('lightbox-backdrop');
+      const closeBtn   = document.getElementById('lightbox-close');
+      const lbImg      = document.getElementById('lightbox-img');
+      const lbCaption  = document.getElementById('lightbox-caption');
+      let previousFocus = null;
+
+      function openLightbox(img, caption) {
+        previousFocus = document.activeElement;
+        lbImg.src     = img.src;
+        lbImg.alt     = img.alt;
+        lbCaption.textContent = caption;
+        lightbox.setAttribute('aria-hidden', 'false');
+        backdrop.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('lightbox-open');
+        closeBtn.focus();
+      }
+
+      function closeLightbox() {
+        lightbox.setAttribute('aria-hidden', 'true');
+        backdrop.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('lightbox-open');
+        setTimeout(function () { lbImg.src = ''; }, 300);
+        if (previousFocus) previousFocus.focus();
+      }
+
+      document.querySelectorAll('.figure--zoomable').forEach(function (figure) {
+        const img     = figure.querySelector('img');
+        const caption = figure.querySelector('figcaption');
+        if (!img) return;
+        figure.setAttribute('tabindex', '0');
+        figure.setAttribute('role', 'button');
+        figure.setAttribute('aria-label', 'View image larger: ' + (img.alt || 'image'));
+        function trigger() { openLightbox(img, caption ? caption.textContent : ''); }
+        figure.addEventListener('click', trigger);
+        figure.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); trigger(); }
+        });
+      });
+
+      closeBtn.addEventListener('click', closeLightbox);
+      backdrop.addEventListener('click', closeLightbox);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && lightbox.getAttribute('aria-hidden') === 'false') closeLightbox();
+      });
+      lightbox.addEventListener('keydown', function (e) {
+        if (e.key !== 'Tab') return;
+        e.preventDefault();
+        closeBtn.focus();
+      });
+    })();
+
+    /* ── Metric counters ───────────────────────────────────────── */
+    /* Update targets below to match your actual numbers.
+       Format: { id, target, suffix }
+       suffix examples: '+', 'K+', '%', '' */
+    (function () {
+      const counters = [
+        { id: 'counter-institutions', target: 350, suffix: '+' },
+        { id: 'counter-artifacts',    target: 100, suffix: 'K+' },
+        { id: 'counter-revenue',      target: 10,  suffix: '%'  }
+      ];
+
+      function animateCounter(el, target, suffix, duration) {
+        const start     = performance.now();
+        const startVal  = 0;
+
+        function step(now) {
+          const elapsed  = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          // Ease out quad
+          const eased    = 1 - (1 - progress) * (1 - progress);
+          el.textContent = Math.round(startVal + (target - startVal) * eased) + suffix;
+          if (progress < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+
+      // Only animate when the metrics row enters the viewport
+      const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          counters.forEach(function (c) {
+            const el = document.getElementById(c.id);
+            if (el) animateCounter(el, c.target, c.suffix, 1200);
+          });
+          observer.disconnect();
+        });
+      }, { threshold: 0.3 });
+
+      const metricsRow = document.querySelector('.metrics-row');
+      if (metricsRow) observer.observe(metricsRow);
+    })();
+  </script>
+
+</body>
+</html>
