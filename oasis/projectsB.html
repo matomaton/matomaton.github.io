@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — Portfolio</title>
+  <meta name="description" content="Product design and UX work.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* ============================================================
+       PROJECTS INDEX — page-scoped styles
+       All design tokens come from styles.css
+
+       TWO LAYOUT OPTIONS ARE INCLUDED — pick one, delete the other.
+       OPTION A: Editorial list (mirrors the articles page)
+       OPTION B: Asymmetric card grid (visual-first, masonry feel)
+       Comment out / delete the section you don't want.
+    ============================================================ */
+
+    /* ── Shared page header ────────────────────────────────────── */
+    .page-header {
+      padding-block: var(--space-xl) var(--space-lg);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .page-header p {
+      margin-top: var(--space-sm);
+      color: var(--color-gray);
+      max-width: 50ch;
+    }
+
+
+    /* ============================================================
+       OPTION A: EDITORIAL LIST
+       Same pattern as articles.html — consistent, easy to scan.
+       Good when you have 6+ projects with distinct narratives.
+    ============================================================ */
+    .projects-list {
+      padding-block: 0 var(--space-xxl);
+    }
+
+    .project-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: start;
+      gap: var(--space-lg);
+      padding-block: var(--space-lg);
+      border-bottom: 1px solid var(--color-border);
+      transition: opacity var(--t-medium);
+    }
+
+    .project-row:hover {
+      opacity: 0.6;
+    }
+
+    /* Left: a thumbnail or a project index number */
+    .project-row__thumb {
+      width: clamp(80px, 12vw, 140px);
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: rgba(45,45,45,0.06);
+    }
+
+    .project-row__thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform var(--t-medium);
+    }
+
+    .project-row:hover .project-row__thumb img {
+      transform: scale(1.04);
+    }
+
+    /* If no image — show a number instead */
+    .project-row__num {
+      width: clamp(80px, 12vw, 140px);
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+      flex-shrink: 0;
+      padding-top: 4px;
+      font-size: var(--size-label);
+      font-weight: var(--weight-black);
+      letter-spacing: var(--ls-label);
+      color: var(--color-gray-light);
+    }
+
+    /* Center: text */
+    .project-row__body {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .project-row__meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      color: var(--color-gray);
+    }
+
+    .project-row__meta .divider { color: var(--color-border); }
+
+    .project-row__title {
+      font-size: clamp(1.25rem, 3vw, 1.75rem);
+      font-weight: var(--weight-light);
+      line-height: var(--lh-heading);
+      color: var(--color-charcoal);
+      max-width: none;
+    }
+
+    .project-row__excerpt {
+      color: var(--color-gray);
+      max-width: 55ch;
+    }
+
+    /* Right */
+    .project-row__arrow {
+      font-size: 1.25rem;
+      color: var(--color-gray-light);
+      transition: transform var(--t-medium), color var(--t-medium);
+      padding-top: 4px;
+      flex-shrink: 0;
+    }
+
+    .project-row:hover .project-row__arrow {
+      transform: translateX(6px);
+      color: var(--color-charcoal);
+    }
+
+
+    /* ============================================================
+       OPTION B: ASYMMETRIC CARD GRID
+       Two-column grid where cards have varying heights.
+       A wide "hero" card spans both columns at the top.
+       Good for visual-heavy work where images tell the story.
+    ============================================================ */
+    .projects-grid {
+      padding-block: var(--space-lg) var(--space-xxl);
+    }
+
+    /* The grid */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-md);
+    }
+
+    /* First card spans full width — hero moment */
+    .card-grid .project-card:first-child {
+      grid-column: 1 / -1;
+    }
+
+    /* Base card */
+    .project-card {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background: rgba(45, 45, 45, 0.04);
+      border: 1px solid var(--color-border);
+      transition: border-color var(--t-medium);
+    }
+
+    .project-card:hover {
+      border-color: var(--color-charcoal);
+    }
+
+    /* Image area — aspect ratio varies by card size */
+    .project-card__image {
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: rgba(45, 45, 45, 0.08);
+    }
+
+    /* Hero card gets a taller image */
+    .project-card:first-child .project-card__image {
+      aspect-ratio: 21 / 9;
+    }
+
+    .project-card__image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 400ms ease;
+    }
+
+    .project-card:hover .project-card__image img {
+      transform: scale(1.03);
+    }
+
+    /* Placeholder when no image is available */
+    .project-card__image--placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .project-card__image--placeholder::after {
+      content: attr(data-label);
+      font-size: var(--size-label);
+      font-weight: var(--weight-black);
+      letter-spacing: var(--ls-label);
+      text-transform: uppercase;
+      color: var(--color-gray-light);
+    }
+
+    /* Text area */
+    .project-card__body {
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      flex: 1;
+    }
+
+    .project-card__meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      color: var(--color-gray);
+    }
+
+    .project-card__meta .divider { color: var(--color-border); }
+
+    .project-card__title {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-weight: var(--weight-light);
+      line-height: var(--lh-heading);
+      color: var(--color-charcoal);
+      max-width: none;
+    }
+
+    .project-card__excerpt {
+      color: var(--color-gray);
+      font-size: clamp(0.9rem, 1.1vw, 1rem);
+    }
+
+    /* CTA row at base of card */
+    .project-card__cta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      margin-top: var(--space-sm);
+      font-size: var(--size-label);
+      font-weight: var(--weight-black);
+      text-transform: uppercase;
+      letter-spacing: var(--ls-label);
+      color: var(--color-charcoal);
+    }
+
+    .project-card__cta-arrow {
+      transition: transform var(--t-medium);
+    }
+
+    .project-card:hover .project-card__cta-arrow {
+      transform: translateX(4px);
+    }
+
+    /* Full card is the link */
+    .project-card a.card-link {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      /* visually hidden — the card itself is the affordance */
+    }
+
+    /* ── Responsive ─────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .project-row {
+        grid-template-columns: 1fr;
+      }
+
+      .project-row__thumb,
+      .project-row__num,
+      .project-row__arrow {
+        display: none;
+      }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .project-card:first-child {
+        grid-column: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================================
+    NAVIGATION — identical across all pages, do not edit
+  ============================================================ -->
+  <nav class="global-menu" aria-label="Site navigation">
+    <div class="container nav-inner">
+
+      <a href="index.html" class="nav-logo" aria-label="Home">
+        <svg class="logo" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <path d="M35.9893 46.1494L35.1768 51.5361L38.5908 54.0254L44.2676 53.1289L44.6553 53.0674L44.9814 53.2871L48.8838 55.9072L47.7686 57.5674L44.1914 55.165L38.4932 56.0674L38.083 56.1328L37.7471 55.8877L33.5088 52.7949L33.0186 52.4375L33.1094 51.8389L34.0107 45.8506L35.9893 46.1494ZM30 36H24.333V38.3193H31V52.4814H29V40.3193H24.333V56H10V54H22.333V34H30V36ZM56 36H51.667V38.3174H57V55H55V40.3174H51.667V51.2627H40V49.2627H49.667V34H56V36ZM19 48H8V36H19V48ZM10 46H17V38H10V46ZM45 36H36V38.5H45V40.5H36V43H45V45H34V34H45V36ZM55 10H48V12.8877H56V28H54V14.8877H48V29H31V27H46V8H55V10ZM30 10H24V13.1445H31V24.2236H29V15.1445H24V28H9V26H22V8H30V10ZM42 10H36V12.6426H42V14.6426H36V21H42V23H34V8H42V10ZM13 9C16.3137 9 19 11.6863 19 15C19 18.3137 16.3137 21 13 21C9.68629 21 7 18.3137 7 15C7 11.6863 9.68629 9 13 9ZM13 11C10.7909 11 9 12.7909 9 15C9 17.2091 10.7909 19 13 19C15.2091 19 17 17.2091 17 15C17 12.7909 15.2091 11 13 11Z" fill="darkred"/>
+        </svg>
+      </a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="nav-link nav-link--active" aria-current="page">Projects</a></li>
+        <li><a href="articles.html" class="nav-link">Articles</a></li>
+        <li><a href="backstory.html" class="nav-link">Backstory</a></li>
+        <li><a href="process.html" class="nav-link">Process</a></li>
+        <li><a href="resume.html" class="nav-link">Resume</a></li>
+      </ul>
+
+      <button class="nav-toggle" id="nav-toggle" aria-controls="nav-drawer" aria-expanded="false" aria-label="Open navigation menu">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+
+    </div>
+  </nav>
+
+  <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+    <ul class="nav-drawer__links">
+      <li><a href="index.html" class="nav-drawer__link nav-drawer__link--active" aria-current="page">Projects</a></li>
+      <li><a href="articles.html" class="nav-drawer__link">Articles</a></li>
+      <li><a href="backstory.html" class="nav-drawer__link">Backstory</a></li>
+      <li><a href="process.html" class="nav-drawer__link">Process</a></li>
+      <li><a href="resume.html" class="nav-drawer__link">Resume</a></li>
+    </ul>
+  </div>
+  <div class="nav-backdrop" id="nav-backdrop" aria-hidden="true"></div>
+
+  <script>
+    (function () {
+      const toggle = document.getElementById('nav-toggle');
+      const drawer = document.getElementById('nav-drawer');
+      const backdrop = document.getElementById('nav-backdrop');
+      function openMenu() { toggle.setAttribute('aria-expanded','true'); toggle.setAttribute('aria-label','Close navigation menu'); drawer.setAttribute('aria-hidden','false'); backdrop.setAttribute('aria-hidden','false'); document.body.classList.add('nav-open'); drawer.querySelector('.nav-drawer__link').focus(); }
+      function closeMenu() { toggle.setAttribute('aria-expanded','false'); toggle.setAttribute('aria-label','Open navigation menu'); drawer.setAttribute('aria-hidden','true'); backdrop.setAttribute('aria-hidden','true'); document.body.classList.remove('nav-open'); toggle.focus(); }
+      toggle.addEventListener('click', function () { toggle.getAttribute('aria-expanded') === 'true' ? closeMenu() : openMenu(); });
+      backdrop.addEventListener('click', closeMenu);
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') closeMenu(); });
+      drawer.addEventListener('keydown', function (e) { if (e.key !== 'Tab') return; const focusable = drawer.querySelectorAll('a'); const first = focusable[0]; const last = focusable[focusable.length - 1]; if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); } else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); } });
+    })();
+  </script>
+  <!-- ============================================================ -->
+
+  <main class="main" id="main-content">
+    <div class="container">
+
+      <!-- ── Page header ────────────────────────────────────────── -->
+      <header class="page-header">
+        <h1>Projects</h1>
+        <p>Selected product design and UX work.</p>
+      </header>
+
+    
+
+      <!-- ===========================================================
+        OPTION B: ASYMMETRIC CARD GRID
+        Comment out this entire <section> if you prefer Option A.
+        First card is always the hero (spans full width).
+        ADD PROJECT: duplicate a .project-card block.
+      ============================================================== -->
+  
+      <section class="projects-grid" aria-label="Project grid">
+        <div class="card-grid">
+         
+          <div class="project-card">
+            <a href="project-contentLoader.html" class="card-link" aria-label="View project: Content Loader"></a>
+            <div class="project-card__image">
+              <img src="CL-LAPTOP-WIDE.png" alt="Content Loader preview" loading="lazy">
+            </div>
+            <div class="project-card__body">
+              <div class="project-card__meta">
+                <span class="label">Product Design</span>
+                <span class="divider" aria-hidden="true">·</span>
+                <time class="label" datetime="2024">2024</time>
+              </div>
+              <h2 class="project-card__title">Content Loader</h2>
+              <p class="project-card__excerpt">Led the end-to-end design of a Content Management System tailored for cultural institutions and universities</p>
+              <span class="project-card__cta">
+                View project <span class="project-card__cta-arrow" aria-hidden="true">→</span>
+              </span>
+            </div>
+          </div>
+
+         
+          <div class="project-card">
+            <a href="project-onboarding.html" class="card-link" aria-label="View project: Onboarding Flow"></a>
+            <div class="project-card__image">
+              <img src="/assets/AlertInvestigation.webp" alt="Onboarding flow preview" loading="lazy">
+            </div>
+            <div class="project-card__body">
+              <div class="project-card__meta">
+                <span class="label">UX Design</span>
+                <span class="divider" aria-hidden="true">·</span>
+                <time class="label" datetime="2025">2025</time>
+              </div>
+              <h2 class="project-card__title">Onboarding Flow</h2>
+              <p class="project-card__excerpt">Reducing time-to-value from 14 days to under 3.</p>
+              <span class="project-card__cta">
+                View project <span class="project-card__cta-arrow" aria-hidden="true">→</span>
+              </span>
+            </div>
+          </div>
+
+    
+          <div class="project-card">
+            <a href="#" class="card-link" aria-label="View project: Coming Soon"></a>
+            <div class="project-card__image project-card__image--placeholder" data-label="Coming soon">
+              <img src="/assets/motion-monitorweb.webp" alt="Onboarding flow preview" loading="lazy">
+            </div>
+            <div class="project-card__body">
+              <div class="project-card__meta">
+                <span class="label">Research</span>
+                <span class="divider" aria-hidden="true">·</span>
+                <time class="label" datetime="2025">2025</time>
+              </div>
+              <h2 class="project-card__title">Project Three</h2>
+              <p class="project-card__excerpt">Short description of the project and what makes it interesting.</p>
+              <span class="project-card__cta">
+                View project <span class="project-card__cta-arrow" aria-hidden="true">→</span>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+ 
+      <!-- / OPTION B -->
+
+    </div>
+  </main>
+
+  <!-- ============================================================
+    FOOTER — identical across all pages, do not edit
+  ============================================================ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p class="footer-text">© 2025</p>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="mailto:hello@example.com" class="footer-link">Email</a>
+        <a href="#" class="footer-link">LinkedIn</a>
+        <a href="#" class="footer-link">Dribbble</a>
+      </nav>
+    </div>
+  </footer>
+  <!-- ============================================================ -->
+
+</body>
+</html>
