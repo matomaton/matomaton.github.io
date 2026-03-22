@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="stylesgem.css">
 
   <style>
     /* ============================================================
@@ -105,7 +105,7 @@
     })();
   </script>
   <!-- ============================================================ -->
-
+ <div class="progress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
   <main class="main" id="main-content">
 
     <!-- Page header — centered, matches article template -->
@@ -123,11 +123,10 @@
       ADD A CHAPTER: duplicate one section block and update content.
       Images: use figure--breakout for wider photos, inline for tighter.
     ============================================================ -->
-    <article class="article-body">
-      <div class="container content-narrow">
+   
 
         <!-- Hero portrait -->
-        <figure class="article-figure figure--breakout figure--zoomable" aria-label="Matthew Martin portrait">
+        <figure class="article-figure figure--full" aria-label="Matthew Martin portrait">
           <img
             src="https://matomaton.github.io/assets/HeadShotMatthewMartinLandScape.webp"
             alt="Matthew Martin"
@@ -136,23 +135,29 @@
         </figure>
 
         <!-- ── 01 Analog Photography ────────────────────────────── -->
+  <article class="article-body">
+      <div class="container content-narrow">
         <section class="article-section" aria-labelledby="ch-photography">
           <h2 id="ch-photography">Analog Photography</h2>
-          <p class="article-lead">My lifelong exploration of art and technology began with photography in the 1980s.</p>
+          <p>My lifelong exploration of art and technology began with photography in the 1980s.</p>
           <p>While in high school, a mentor developed my technical skills and nurtured my experimental spirit, leading to a scholarship at the Center for Creative Studies and the sale of my first piece.</p>
           <p>Photography was my first bridge between artistic expression and technological exploration.</p>
+          </section>
+      </div>
+          </article>
+      <div class="container">
           <figure class="article-figure figure--zoomable" aria-label="Duomo Milan, 1989">
             <img
               src="https://matomaton.github.io/assets/MILANweb.webp"
               alt="Duomo Milan, 1989 — black and white photograph"
-              loading="lazy"
-              width="1920"
-              height="1277"
-            >
+              loading="lazy">
+            
             <figcaption>Duomo Milan, 1989</figcaption>
           </figure>
-        </section>
-
+          </div>
+       
+<article class="article-body">
+      <div class="container content-narrow">
         <!-- ── 02 Psychology ──────────────────────────────────────── -->
         <section class="article-section" aria-labelledby="ch-psychology">
           <h2 id="ch-psychology">Psychology</h2>
@@ -229,21 +234,31 @@
             <figcaption>CBGB, New York</figcaption>
           </figure>
         </section>
-
+      </div>
+</article>
+<article class="article-body">
+      <div class="container content-narrow">
         <!-- ── 07 Art Gallery ─────────────────────────────────────── -->
         <section class="article-section" aria-labelledby="ch-gallery">
           <h2 id="ch-gallery">Art Gallery</h2>
           <p>Creativity was a shared language for my now-wife and me. In our spare time, we channeled this passion into founding a gallery. We were passionate about supporting a diverse range of artistic expression, including photography, painting, musical performances, and fashion shows.</p>
           <p>Our dedication to fostering this vibrant artistic community was acknowledged in 2005 when we received the "Best New Gallery" award from Real Detroit Magazine.</p>
+        </section>
+      </div>
+      </article>
+      
+          <div class="container">
           <figure class="article-figure figure--zoomable" aria-label="Installation at S3V3RANC3 Gallery, Detroit">
             <img
-              src="assets/Galeryy.webp"
+              src="/assets/Galeryy.webp"
               alt="Installation at S3V3RANC3 Gallery, Detroit"
               loading="lazy"
             >
             <figcaption>Installation at S3V3RANC3 Gallery, Detroit</figcaption>
           </figure>
-        </section>
+       <article class="article-body">
+      <div class="container content-narrow">
+
 
         <!-- ── 08 Digital Librarianship ───────────────────────────── -->
         <section class="article-section" aria-labelledby="ch-library">
@@ -252,7 +267,7 @@
           <p>My mission: to meticulously digitize, catalog, and make these unique and important scholarly artifacts accessible to everyone.</p>
           <figure class="article-figure figure--zoomable" aria-label="Wayne State University digital collections">
             <img
-              src="assets/WSUCOLLECTIONSCROP.webp"
+              src="/assets/WSUCOLLECTIONSCROP.webp"
               alt="Wayne State University digital collections"
               loading="lazy"
             >
