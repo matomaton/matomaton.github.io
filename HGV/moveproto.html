@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Itinerary Builder</title>
+    <style>
+        :root {
+            --bg-color: #f3f4f6;
+            --device-bg: #f9fafb;
+            --header-bg: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --primary: #3b82f6;
+            --border-color: #e5e7eb;
+            --card-bg: #ffffff;
+            --warning-bg: #fef9c3;
+            --warning-border: #eab308;
+            --warning-text: #854d0e;
+            
+            /* Timeline Constants */
+            --hour-height: 120px; /* 1 hour = 120px */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Mobile Device Container */
+        .device {
+            width: 390px;
+            height: 844px;
+            background-color: var(--device-bg);
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 8px solid #1f2937;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header UI */
+        .header {
+            background-color: var(--header-bg);
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .header button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* Scrollable Timeline Area */
+        .scroll-area {
+            flex: 1;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .timeline-container {
+            position: relative;
+            height: 1200px; /* 10 hours (12PM - 10PM) * 120px */
+            padding-bottom: 40px;
+        }
+
+        /* Time Markers */
+        .time-markers {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .time-marker {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: var(--hour-height);
+            border-top: 1px solid var(--border-color);
+            padding: 8px 16px;
+        }
+
+        .time-marker span {
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 500;
+            background: var(--device-bg);
+            padding-right: 8px;
+        }
+
+        /* Activities Layer */
+        .activities-layer {
+            position: absolute;
+            top: 0;
+            left: 70px; /* Offset for time labels */
+            right: 16px;
+            height: 100%;
+        }
+
+        /* Activity Cards */
+        .card {
+            position: absolute;
+            left: 0;
+            right: 0;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 12px 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            transition: box-shadow 0.2s, transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+            touch-action: none; /* Prevent scroll while dragging */
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .card-title {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .card-time {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Edit/Drag Icons */
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .drag-handle {
+            cursor: grab;
+            color: #9ca3af;
+        }
+
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+
+        /* Card States */
+        .card.dragging {
+            z-index: 50;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            opacity: 0.95;
+            transform: scale(1.02);
+            border-color: var(--primary);
+            transition: none; /* Instant follow during drag */
+        }
+
+        .card.ghost {
+            opacity: 0.3;
+            border: 2px dashed #9ca3af;
+            box-shadow: none;
+            pointer-events: none;
+        }
+
+        .card.conflict {
+            background-color: var(--warning-bg);
+            border-color: var(--warning-border);
+        }
+
+        /* Conflict UI */
+        .conflict-warning {
+            margin-top: auto;
+            background-color: #fef08a;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .conflict-text {
+            color: var(--warning-text);
+            font-weight: 500;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .conflict-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .conflict-btn {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-adjust {
+            background-color: var(--warning-text);
+            color: white;
+        }
+
+        .btn-keep {
+            background-color: transparent;
+            color: var(--warning-text);
+            border: 1px solid var(--warning-border);
+        }
+
+        /* Floating Label during drag */
+        .floating-label {
+            position: absolute;
+            background: #1f2937;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            pointer-events: none;
+            z-index: 100;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transform: translateY(-150%);
+            white-space: nowrap;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="device">
+        <header class="header">
+            <h1 id="header-title">Itinerary</h1>
+            <button id="header-action" style="display: none;">Done</button>
+        </header>
+
+        <div class="scroll-area" id="scroll-area">
+            <div class="timeline-container">
+                <div class="time-markers" id="time-markers">
+                    <!-- Markers injected by JS -->
+                </div>
+                <div class="activities-layer" id="activities-layer">
+                    <!-- Cards injected by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * Configuration & Constants
+         */
+        const START_HOUR = 12; // 12:00 PM
+        const END_HOUR = 22; // 10:00 PM
+        const PIXELS_PER_HOUR = 120;
+        const SNAP_MINUTES = 15;
+        const PIXELS_PER_SNAP = PIXELS_PER_HOUR * (SNAP_MINUTES / 60); // 30px per 15 mins
+        
+        // Initial Data Structure representing the itinerary
+        let activities = [
+            { id: 'act-1', title: 'Lunch', start: 12.5, duration: 1 }, // 12:30 PM, 1 hr
+            { id: 'act-2', title: 'Skiing', start: 13, duration: 3 },  // 1:00 PM, 3 hrs (Intentionally overlapping Lunch to demonstrate conflict)
+            { id: 'act-3', title: 'Dinner', start: 18, duration: 1 }   // 6:00 PM, 1 hr
+        ];
+
+        // App State
+        let isMoveMode = false;
+        let lastMovedId = null; 
+        let ignoredConflicts = new Set(); // Stores IDs of activities where user clicked "Keep anyway"
+
+        // DOM Elements
+        const headerTitle = document.getElementById('header-title');
+        const headerAction = document.getElementById('header-action');
+        const activitiesLayer = document.getElementById('activities-layer');
+        const timeMarkersContainer = document.getElementById('time-markers');
+        const scrollArea = document.getElementById('scroll-area');
+
+        /**
+         * Utility Functions
+         */
+
+        // Converts decimal hour (e.g., 13.5) to formatted string (e.g., "1:30 PM")
+        function formatTime(decimalHour) {
+            let hr = Math.floor(decimalHour);
+            let min = Math.round((decimalHour - hr) * 60);
+            if (min === 60) { hr += 1; min = 0; }
+            let ampm = hr >= 12 && hr < 24 ? 'PM' : 'AM';
+            let displayHr = hr % 12 || 12;
+            let displayMin = min.toString().padStart(2, '0');
+            return `${displayHr}:${displayMin} ${ampm}`;
+        }
+
+        // Converts time to vertical Y position in pixels
+        function timeToPixels(decimalHour) {
+            return (decimalHour - START_HOUR) * PIXELS_PER_HOUR;
+        }
+
+        // Converts vertical Y position to decimal time
+        function pixelsToTime(pixels) {
+            return START_HOUR + (pixels / PIXELS_PER_HOUR);
+        }
+
+        /**
+         * Core Logic: Conflict Detection
+         * Two activities overlap if Act A starts before Act B ends AND Act B starts before Act A ends.
+         */
+        function getConflicts(targetAct, allActivities) {
+            return allActivities.filter(a => {
+                if (a.id === targetAct.id) return false;
+                // Add a tiny buffer (0.01) to allow activities to touch borders without overlapping
+                return (targetAct.start < a.start + a.duration - 0.01) && 
+                       (a.start < targetAct.start + targetAct.duration - 0.01);
+            });
+        }
+
+        /**
+         * Rendering Functions
+         */
+
+        function renderTimeline() {
+            timeMarkersContainer.innerHTML = '';
+            for (let i = START_HOUR; i <= END_HOUR; i++) {
+                let div = document.createElement('div');
+                div.className = 'time-marker';
+                div.style.top = `${(i - START_HOUR) * PIXELS_PER_HOUR}px`;
+                div.innerHTML = `<span>${formatTime(i)}</span>`;
+                timeMarkersContainer.appendChild(div);
+            }
+        }
+
+        function renderActivities() {
+            activitiesLayer.innerHTML = '';
+
+            activities.forEach(act => {
+                const conflicts = getConflicts(act, activities);
+                const hasConflict = conflicts.length > 0 && !ignoredConflicts.has(act.id);
+                
+                const card = document.createElement('div');
+                card.className = `card ${hasConflict ? 'conflict' : ''}`;
+                card.id = act.id;
+                
+                // Visual mapping: Position = start time, Height = duration
+                card.style.top = `${timeToPixels(act.start)}px`;
+                card.style.height = `${act.duration * PIXELS_PER_HOUR}px`;
+
+                // Build Card HTML
+                let actionIcon = '';
+                if (isMoveMode) {
+                    // Drag Handle SVG
+                    actionIcon = `<button class="icon-btn drag-handle" aria-label="Move"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line></svg></button>`;
+                } else {
+                    // Edit Pencil SVG
+                    actionIcon = `<button class="icon-btn edit-btn" aria-label="Edit"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>`;
+                }
+
+                let conflictUI = '';
+                // Only show detailed resolution buttons if it was the recently moved item
+                // or if it's in a conflict state and we are NOT in move mode.
+                if (hasConflict && (act.id === lastMovedId || !isMoveMode)) {
+                    const overlapName = conflicts[0].title;
+                    const overlapTime = `${formatTime(conflicts[0].start)}–${formatTime(conflicts[0].start + conflicts[0].duration)}`;
+                    
+                    conflictUI = `
+                        <div class="conflict-warning">
+                            <div class="conflict-text">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                                Overlaps with ${overlapName} (${overlapTime})
+                            </div>
+                            <div class="conflict-actions">
+                                <button class="conflict-btn btn-adjust" onclick="adjustTime('${act.id}')">Adjust time</button>
+                                <button class="conflict-btn btn-keep" onclick="keepAnyway('${act.id}')">Keep anyway</button>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">${act.title}</div>
+                            <div class="card-time">${formatTime(act.start)} – ${formatTime(act.start + act.duration)}</div>
+                        </div>
+                        ${actionIcon}
+                    </div>
+                    ${conflictUI}
+                `;
+
+                activitiesLayer.appendChild(card);
+
+                // Attach Event Listeners
+                if (!isMoveMode) {
+                    const editBtn = card.querySelector('.edit-btn');
+                    if (editBtn) editBtn.addEventListener('click', toggleMoveMode);
+                } else {
+                    const dragHandle = card.querySelector('.drag-handle');
+                    if (dragHandle) {
+                        // Use pointer events for robust touch + mouse handling
+                        dragHandle.addEventListener('pointerdown', (e) => startDrag(e, act, card));
+                    }
+                }
+            });
+        }
+
+        /**
+         * State Transitions & Actions
+         */
+
+        function toggleMoveMode() {
+            isMoveMode = !isMoveMode;
+            if (isMoveMode) {
+                headerTitle.innerText = "Reorder activities";
+                headerAction.style.display = "block";
+                headerAction.onclick = toggleMoveMode;
+                lastMovedId = null; // Clear focus state
+            } else {
+                headerTitle.innerText = "Itinerary";
+                headerAction.style.display = "none";
+            }
+            renderActivities();
+        }
+
+        // Action: Shift activity down by 30 mins
+        window.adjustTime = function(id) {
+            const act = activities.find(a => a.id === id);
+            if (act) {
+                act.start += 0.5; // +30 minutes
+                // Ensure it doesn't push past the timeline end
+                if (act.start + act.duration > END_HOUR) {
+                    act.start = END_HOUR - act.duration;
+                }
+                ignoredConflicts.delete(id); // reset ignore state
+                lastMovedId = id;
+                renderActivities();
+            }
+        };
+
+        // Action: Dismiss warning UI for this activity
+        window.keepAnyway = function(id) {
+            ignoredConflicts.add(id);
+            renderActivities();
+        };
+
+
+        /**
+         * Drag and Drop Logic
+         */
+        function startDrag(e, act, cardElement) {
+            e.preventDefault();
+            
+            // 1. Setup Drag State
+            const startY = e.clientY;
+            const startTop = timeToPixels(act.start);
+            const maxTop = timeToPixels(END_HOUR - act.duration); // Cannot drag past 10 PM
+            
+            // 2. Create Ghost (Leaves a faded placeholder where the card originally was)
+            const ghost = cardElement.cloneNode(true);
+            ghost.className = 'card ghost';
+            activitiesLayer.appendChild(ghost);
+
+            // 3. Create Floating Time Label
+            const floatingLabel = document.createElement('div');
+            floatingLabel.className = 'floating-label';
+            cardElement.appendChild(floatingLabel);
+
+            // 4. Style Dragging Element
+            cardElement.classList.add('dragging');
+
+            // 5. Temporary state variables for moving
+            let currentTempStart = act.start;
+
+            function onPointerMove(moveEvent) {
+                moveEvent.preventDefault();
+                
+                // Calculate new vertical position based on mouse/touch movement
+                const deltaY = moveEvent.clientY - startY;
+                let newTop = startTop + deltaY;
+
+                // Restrict boundaries (12 PM to 10 PM max)
+                newTop = Math.max(0, Math.min(newTop, maxTop));
+
+                // Apply Snapping (nearest 15 min increment / 30 pixels)
+                const snappedTop = Math.round(newTop / PIXELS_PER_SNAP) * PIXELS_PER_SNAP;
+                
+                // Update DOM position for 60fps smoothness
+                cardElement.style.top = `${snappedTop}px`;
+
+                // Calculate the simulated time
+                currentTempStart = pixelsToTime(snappedTop);
+                const endTime = currentTempStart + act.duration;
+
+                // Update Floating Label
+                floatingLabel.innerText = `${formatTime(currentTempStart)} – ${formatTime(endTime)}`;
+
+                // Temporary live-conflict highlighting
+                const tempAct = { ...act, start: currentTempStart };
+                const tempConflicts = getConflicts(tempAct, activities).map(a => a.id);
+
+                // Highlight background cards dynamically
+                document.querySelectorAll('.card:not(.dragging):not(.ghost)').forEach(otherCard => {
+                    if (tempConflicts.includes(otherCard.id)) {
+                        otherCard.classList.add('conflict');
+                        // Add inline warning during drag dynamically
+                        if (!otherCard.querySelector('.drag-temp-warning')) {
+                            const warningMsg = document.createElement('div');
+                            warningMsg.className = 'conflict-text drag-temp-warning';
+                            warningMsg.style.marginTop = 'auto';
+                            warningMsg.style.fontSize = '12px';
+                            warningMsg.innerText = `Overlaps with ${act.title}`;
+                            otherCard.appendChild(warningMsg);
+                        }
+                    } else {
+                        // Restore state if no longer overlapping
+                        const isOriginallyConflict = getConflicts(activities.find(a=>a.id === otherCard.id), activities).length > 0 && !ignoredConflicts.has(otherCard.id);
+                        if (!isOriginallyConflict) {
+                            otherCard.classList.remove('conflict');
+                        }
+                        const tempWarning = otherCard.querySelector('.drag-temp-warning');
+                        if (tempWarning) tempWarning.remove();
+                    }
+                });
+            }
+
+            function onPointerUp() {
+                // Remove listeners
+                document.removeEventListener('pointermove', onPointerMove);
+                document.removeEventListener('pointerup', onPointerUp);
+
+                // Cleanup visual drag artifacts
+                cardElement.classList.remove('dragging');
+                ghost.remove();
+                floatingLabel.remove();
+
+                // Commit time change
+                act.start = currentTempStart;
+                lastMovedId = act.id;
+                
+                // Reset ignore state when manually moved
+                ignoredConflicts.delete(act.id); 
+
+                // Full re-render to apply final conflict states
+                renderActivities();
+            }
+
+            // Bind move and up to the document to catch drags outside the container
+            document.addEventListener('pointermove', onPointerMove, { passive: false });
+            document.addEventListener('pointerup', onPointerUp);
+            
+            // Trigger initial move logic immediately to show label
+            onPointerMove(e);
+        }
+
+        /**
+         * Initialization
+         */
+        renderTimeline();
+        renderActivities();
+
+    </script>
+</body>
+</html>
