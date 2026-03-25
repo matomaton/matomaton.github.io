@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HGV AI Assistant Prototype</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- React & ReactDOM -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  
+  <!-- Babel for in-browser JSX compilation -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    /* Prevent scrolling on the body so the app feels like a native widget */
+    body { margin: 0; overflow: hidden; background-color: #f3f4f6; }
+    /* Custom scrollbar for the chat area */
+    .chat-scroll::-webkit-scrollbar { width: 6px; }
+    .chat-scroll::-webkit-scrollbar-track { background: transparent; }
+    .chat-scroll::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 20px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    // --- ICON COMPONENTS (Replaces lucide-react for standalone usage) ---
+    const MoreVertical = ({ size = 24, className = "" }) => (
+      <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+    );
+    const MessageSquarePlus = ({ size = 24, className = "" }) => (
+      <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="9" y1="10" x2="15" y2="10"/><line x1="12" y1="7" x2="12" y2="13"/></svg>
+    );
+    const Minimize2 = ({ size = 24, className = "" }) => (
+      <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+    );
+    const ChevronDown = ({ size = 24, className = "" }) => (
+      <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="6 9 12 15 18 9"/></svg>
+    );
+    const HelpCircle = ({ size = 24, className = "" }) => (
+      <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    );
+    const Sparkles = ({ size = 24, className = "", fill = "none" }) => (
+      <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
+    );
+    const Send = ({ size = 24, className = "" }) => (
+      <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    );
+
+    // --- SCRIPT DATA ---
+    const chatScript = [
+      {
+        expectedUser: "Hey, can you help me tweak my Orlando Spring Break itinerary?",
+        botResponse: `Absolutely. I see an itinerary called **"Orlando – Spring Break"** for **March 12–16** with **2 adults and 2 kids**.\n\nAre we working on that trip, or a different one?`
+      },
+      {
+        expectedUser: "Yes, that one.",
+        botResponse: `Got it. I'll update **"Orlando – Spring Break"** as we go.\n\nIs there a specific day or activity you want to change first?`
+      },
+      {
+        expectedUser: "Let’s add something fun for the kids on Day 2 in the afternoon.",
+        botResponse: `Right now on **Day 2 (Tuesday)** you have:\n\n• 9:00 am – 12:00 pm: Magic Kingdom – Fantasyland\n• 12:00 pm – 1:30 pm: Lunch at Be Our Guest\n• 3:00 pm – 7:00 pm: Magic Kingdom – Parades & Fireworks\n\nYou've got a gap from **1:30 pm to 3:00 pm**.\n\nDo you want to fill that window with an activity nearby, like:\n• Mickey & Minnie meet-and-greet (~30–45 minutes)\n• Character photo session on Main Street (~45 minutes)\n• Downtime at the hotel pool (~1–1.5 hours)`
+      },
+      {
+        expectedUser: "Let’s do the pool time at the hotel.",
+        botResponse: `Great choice. I'll add **"Hotel pool & rest time"** on Day 2 from 1:30 pm to 3:00 pm between lunch and the parade.\n\n✅ I've added "Hotel pool & rest time" to Day 2, 1:30–3:00 pm.\n\nWould you like me to add any notes (e.g., "bring swimsuits, sunscreen")?`
+      },
+      {
+        expectedUser: "Yes, add \"bring swimsuits and snacks for the kids.\"",
+        botResponse: `Done. I've attached the note **"Bring swimsuits and snacks for the kids"** to that activity.`
+      },
+      {
+        expectedUser: "Actually, can we swap out the character photo session on Day 3 for something less crowded?",
+        botResponse: `On **Day 3 (Wednesday)** you currently have:\n\n• 9:00 am – 12:00 pm: EPCOT – World Showcase\n• 12:30 pm – 1:30 pm: Lunch at Via Napoli\n• 2:00 pm – 3:00 pm: Character photo session near the entrance\n• 4:00 pm – 7:00 pm: EPCOT evening & fireworks\n\nYou'd like to replace the **2:00–3:00 pm character photo session**, correct?`
+      },
+      {
+        expectedUser: "Yes, please.",
+        botResponse: `Got it. Which would you prefer instead for **2:00–3:00 pm**?\n\n• Frozen Ever After and meet Anna & Elsa\n• Turtle Talk with Crush and a quick aquarium walkthrough\n• A quiet break at the hotel before the evening`
+      },
+      {
+        expectedUser: "Let’s do Turtle Talk and the aquarium.",
+        botResponse: `Perfect. I'll swap out the character photo session and replace it with: "Turtle Talk with Crush + aquarium time" from 2:00–3:00 pm on Day 3.\n\n✅ I replaced "Character photo session" with "Turtle Talk with Crush + aquarium time" on Day 3, 2:00–3:00 pm.\n\nDo you want me to keep it as a **one-hour block**, or stretch it to **90 minutes**?`
+      },
+      {
+        expectedUser: "Make it 90 minutes.",
+        botResponse: `Updated. That block is now **2:00–3:30 pm**, and I've nudged your evening time to start at **4:30 pm** instead of 4:00.`
+      },
+      {
+        expectedUser: "I think we’re overdoing it on Day 1. Remove the evening Disney Springs shopping.",
+        botResponse: `On **Day 1 (Monday)** your evening is:\n\n• 6:00 pm – 9:00 pm: Disney Springs – Shopping & dinner\n\nDo you want to delete that entire block, or just shorten it?`
+      },
+      {
+        expectedUser: "Delete the whole thing.",
+        botResponse: `Understood. I'll remove **"Disney Springs – Shopping & dinner"** from Day 1, 6:00–9:00 pm.\n\n✅ That evening block is now **free**. If you change your mind, I can restore it or suggest a lighter option (like an early hotel night or quick-service dinner).`
+      },
+      {
+        expectedUser: "Can we move our Magic Kingdom morning on Day 2 a bit later? The kids won’t be up at 7.",
+        botResponse: `Right now on **Day 2** you have:\n\n• 9:00 am – 12:00 pm: Magic Kingdom – Fantasyland\n\nWhat time would you like to start instead?`
+      },
+      {
+        expectedUser: "Let’s start at 10:30.",
+        botResponse: `Got it. I'll shift "Magic Kingdom – Fantasyland" to:\n\n• **10:30 am – 1:30 pm**\n\nThat overlaps with your current **1:30–3:00 pm hotel pool time**. Would you like me to:\n\n• Shorten the park time to 10:30 am – 1:00 pm and keep pool from 1:00–2:30 pm, or\n• Move the pool time to after the parade in the evening, or\n• Delete the pool time?`
+      },
+      {
+        expectedUser: "Shorten park time and keep the pool.",
+        botResponse: `Done. Here's your updated **Day 2** schedule:\n\n• 10:30 am – 1:00 pm: Magic Kingdom – Fantasyland\n• 1:00 pm – 2:30 pm: Hotel pool & rest time\n• 3:00 pm – 7:00 pm: Magic Kingdom – Parades & Fireworks\n\nDoes this look better for your family?`
+      },
+      {
+        expectedUser: "Yes, much better.",
+        botResponse: `Here's a quick summary of the changes we just made to **"Orlando – Spring Break"**:\n\n**Day 1:**\n• Removed Disney Springs – Shopping & dinner (evening now free)\n\n**Day 2:**\n• Added "Hotel pool & rest time" between park and parade\n• Shifted Magic Kingdom – Fantasyland to start later at 10:30 am\n• Adjusted pool time to 1:00–2:30 pm so nothing overlaps\n\n**Day 3:**\n• Swapped "Character photo session" for "Turtle Talk with Crush + aquarium time"\n• Extended that block to 2:00–3:30 pm and pushed evening to 4:30 pm\n\nWhenever you're ready, just say, *"Show me Day 2"*, and I'll highlight it for you.`
+      }
+    ];
+
+    // --- MAIN APP COMPONENT ---
+    function App() {
+      const [messages, setMessages] = useState([
+        {
+          role: 'bot',
+          content: "Hi there! I'm your HGV AI Assistant. How can I help you with your travel plans today?",
+          time: getCurrentTime()
+        }
+      ]);
+      const [currentStep, setCurrentStep] = useState(0);
+      const [isTyping, setIsTyping] = useState(false);
+      const messagesEndRef = useRef(null);
+
+      function getCurrentTime() {
+        return new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+      }
+
+      const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      };
+
+      useEffect(() => {
+        scrollToBottom();
+      }, [messages, isTyping]);
+
+      const handleUserAdvance = () => {
+        if (currentStep >= chatScript.length || isTyping) return;
+
+        const stepData = chatScript[currentStep];
+
+        setMessages(prev => [...prev, {
+          role: 'user',
+          content: stepData.expectedUser,
+          time: getCurrentTime()
+        }]);
+
+        setIsTyping(true);
+
+        setTimeout(() => {
+          setMessages(prev => [...prev, {
+            role: 'bot',
+            content: stepData.botResponse,
+            time: getCurrentTime()
+          }]);
+          setIsTyping(false);
+          setCurrentStep(prev => prev + 1);
+        }, 1200); 
+      };
+
+      const renderFormattedText = (text) => {
+        let html = text
+          .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-gray-900">$1</strong>')
+          .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
+          .replace(/\n/g, '<br/>');
+        
+        return <div dangerouslySetInnerHTML={{ __html: html }} />;
+      };
+
+      return (
+        <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4 font-sans">
+          
+          <div className="w-full max-w-[400px] h-[800px] bg-white rounded-3xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden relative">
+            
+            <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+              <div className="flex items-center gap-4 text-gray-600">
+                <MoreVertical size={20} className="cursor-pointer" />
+                <MessageSquarePlus size={20} className="cursor-pointer" />
+              </div>
+              <div className="text-2xl font-black text-[#1e293b] tracking-tighter cursor-default">
+                HGV
+              </div>
+              <div className="flex items-center gap-4 text-gray-600">
+                <Minimize2 size={20} className="cursor-pointer" />
+                <ChevronDown size={20} className="cursor-pointer" />
+              </div>
+            </div>
+
+            <div className="flex items-center justify-center gap-1 py-1.5 border-b border-gray-100 bg-gray-50/50">
+              <span className="text-[11px] text-gray-500 uppercase font-semibold tracking-wide">Powered by AI</span>
+              <HelpCircle size={12} className="text-gray-400 cursor-pointer" />
+            </div>
+
+            <div className="flex-1 chat-scroll overflow-y-auto p-4 flex flex-col gap-6 bg-white pb-24">
+              {messages.map((msg, idx) => (
+                <div key={idx} className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
+                  
+                  {msg.role === 'bot' && (
+                    <div className="flex gap-3 max-w-[90%]">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#1e293b] flex items-center justify-center mt-1">
+                        <Sparkles size={16} className="text-white" fill="white" />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <div className="bg-[#f1f3f5] text-gray-800 p-4 rounded-2xl rounded-tl-sm text-[15px] leading-relaxed">
+                          {renderFormattedText(msg.content)}
+                        </div>
+                        <span className="text-[10px] text-gray-400 ml-1">{msg.time}</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {msg.role === 'user' && (
+                    <div className="flex flex-col gap-1 max-w-[85%] items-end">
+                      <div className="bg-[#1e293b] text-white p-4 rounded-2xl rounded-tr-sm text-[15px] leading-relaxed shadow-sm">
+                        {msg.content}
+                      </div>
+                      <span className="text-[10px] text-gray-400 mr-1">{msg.time}</span>
+                    </div>
+                  )}
+                </div>
+              ))}
+
+              {isTyping && (
+                <div className="flex gap-3 max-w-[90%] items-center">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#1e293b] flex items-center justify-center">
+                     <Sparkles size={16} className="text-white" fill="white" />
+                  </div>
+                  <div className="bg-[#f1f3f5] p-4 rounded-2xl rounded-tl-sm flex gap-1 items-center">
+                    <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                    <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                    <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                  </div>
+                </div>
+              )}
+
+              {!isTyping && currentStep < chatScript.length && (
+                <div className="flex justify-center mt-2 mb-4 w-full ml-10">
+                   <button 
+                    onClick={handleUserAdvance}
+                    className="text-left bg-white border border-gray-300 text-gray-600 rounded-full py-2.5 px-5 text-[15px] hover:bg-gray-50 hover:border-gray-400 transition-all shadow-sm max-w-[85%] leading-snug"
+                  >
+                    {chatScript[currentStep].expectedUser}
+                  </button>
+                </div>
+              )}
+              
+              <div ref={messagesEndRef}></div>
+            </div>
+
+            <div className="absolute bottom-0 left-0 w-full bg-white border-t border-gray-200 p-4">
+              <div className="flex items-center gap-3 border border-[#1e293b] rounded-xl px-4 py-3 bg-white shadow-sm">
+                <Sparkles size={20} className="text-[#1e293b] flex-shrink-0" fill="currentColor" />
+                <input 
+                  type="text" 
+                  placeholder={currentStep < chatScript.length ? "Click suggestion above..." : "Scenario complete."}
+                  readOnly
+                  className="flex-1 bg-transparent outline-none text-gray-700 placeholder-gray-400 text-[15px] cursor-pointer"
+                  onClick={() => { if(currentStep < chatScript.length) handleUserAdvance() }}
+                />
+                <button 
+                  onClick={() => { if(currentStep < chatScript.length) handleUserAdvance() }}
+                  className="flex-shrink-0 text-[#1e293b] hover:text-blue-600 transition-colors"
+                >
+                  <Send size={20} />
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      );
+    }
+
+    // --- MOUNT APP ---
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
