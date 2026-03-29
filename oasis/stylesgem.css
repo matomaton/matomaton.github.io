@@ -38,6 +38,10 @@
   --color-gray:         #595959; /* Darkened for higher contrast */
   --color-gray-light:   #767676; /* Darkened to pass WCAG AA standards */
   --color-border:       rgba(45, 45, 45, 0.15);
+  --color-link:         #4a6580;
+  --color-link-hover:   #2e4a62;
+
+
 
   /* Typography */
   --font-primary: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -52,7 +56,8 @@
   --size-h1:    clamp(3rem, 8vw, 6rem);
   --size-h2:    clamp(1.75rem, 4vw, 2.75rem);
   --size-label: clamp(0.65rem, 1.5vw, 0.75rem);
-  --size-body:  clamp(1rem, 1.2vw, 1.1rem);
+  /* --size-body:  clamp(1.25rem, 1.2vw, 2rem); */
+  --size-body:  clamp(1rem, 1.2vw, 2rem);
 
   /* Line heights */
   --lh-heading: 1.2;
@@ -147,6 +152,7 @@ h1, .h1 {
   line-height: var(--lh-heading);
   letter-spacing: -0.02em;
   color: var(--color-gray);
+  /* border: 1px solid red;  */
 }
 
 /* H2 — section headings */
@@ -155,6 +161,7 @@ h2, .h2 {
   font-weight: var(--weight-light);
   line-height: var(--lh-heading);
   color: var(--color-charcoal);
+  /* border: 1px solid purple;  */
 }
 
 /* H3, H4, labels — uppercase small caps */
@@ -166,6 +173,7 @@ h3, .h3 {
   text-transform: uppercase;
   letter-spacing: var(--ls-label);
   color: var(--color-charcoal);
+  /* border: 1px solid orange;  */
 }
 
 /* H4, labels — uppercase small caps, utility size */
@@ -185,35 +193,58 @@ p {
   line-height: var(--lh-body);
   color: var(--color-charcoal);
   max-width: var(--content-width);
+  /* border: 1px solid green;  */
 }
 
 /* Links */
 a {
-  color: var(--color-charcoal);
+  /* color: var(--color-charcoal); */
+  color: var(--color-link);
   text-decoration: none;
   transition: color var(--t-fast);
 }
 
 a:hover {
-  color: var(--color-gray);
+  /* color: var(--color-gray); */
+  color: var(--color-link-hover);
+  text-decoration-color: currentColor;
 }
-
+/* Prose links — slate color with subtle underline for readability */
+.article-body a,
+.article-section a,
+.backstory-section a,
+.process-section a {
+  color: var(--color-link);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+  transition: color var(--t-fast), text-decoration-color var(--t-fast);
+}
+ 
+.article-body a:hover,
+.article-section a:hover,
+.backstory-section a:hover,
+.process-section a:hover {
+  color: var(--color-link-hover);
+  text-decoration-color: currentColor;
+}
 /* Blockquote */
 blockquote {
-  /* padding: var(--space-lg) 0; */
+  padding: var(--space-md) 0;
   border-top: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
-  font-size: clamp(1.15rem, 2vw, 1.4rem);
+  font-size: clamp(1rem, 3vw, 3rem);
   font-weight: var(--weight-light);
   font-style: italic;
   line-height: 1.6;
   color: var(--color-gray);
   max-width: var(--content-width);
+  margin-bottom: var(--space-md);
 }
 
 blockquote cite {
   display: block;
-  /* margin-top: var(--space-md); */
+  margin-top: var(--space-sm);
   font-size: var(--size-label);
   font-weight: var(--weight-black);
   font-style: normal;
@@ -273,6 +304,7 @@ pre code {
   max-width: var(--container-width);
   margin-inline: auto;
   /* padding-inline: clamp(1.5rem, 5vw, 4rem); */
+  /* border: 1px solid blue;  */
 }
 
 /* Narrow reading column */
@@ -627,8 +659,9 @@ body.nav-open {
 
 /* Each logical section of the article */
 .article-section {
-  padding-block: var(--space-sm);
+  /* padding-block: var(--space-sm); */
   /* border-top: 1px solid var(--color-border); */
+  margin-bottom: var(--space-lg);
 }
 
 /* First section has no top border (sits right below the header) */
@@ -644,11 +677,11 @@ body.nav-open {
 
 /* Headings inside sections */
 .article-section h2 {
-  margin-bottom: var(--space-md);
+  margin-bottom: var(--space-sm);
 }
 
 .article-section h3 {
-  margin-top: var(--space-md);
+  /* margin-top: var(--space-md); */
   margin-bottom: var(--space-xs);
 }
 
@@ -657,8 +690,10 @@ body.nav-open {
 .article-section p + pre,
 .article-section pre + p,
 .article-section p + figure,
-.article-section figure + p {
+.article-section figure + p,
+.article-section p + h3 {
   margin-top: var(--space-md);
+  /* margin-bottom: var(--space-md); */
 }
 
 /* Lead paragraph — slightly larger intro text */
@@ -1013,6 +1048,7 @@ body.nav-open {
 
 .section-title {
   margin-bottom: var(--space-md);
+  /* border: 1px solid purple;  */
 }
 
 .section-content p + p {
