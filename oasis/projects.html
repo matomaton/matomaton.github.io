@@ -155,7 +155,8 @@
     }
 
     /* First card spans full width — hero moment */
-    .card-grid .project-card:first-child {
+    .card-grid .project-card:first-child,
+    .card-grid .project-card:last-child {
       grid-column: 1 / -1;
     }
 
@@ -181,8 +182,9 @@
       background: rgba(45, 45, 45, 0.08);
     }
 
-    /* Hero card gets a taller image */
-    .project-card:first-child .project-card__image {
+    /* Hero and last cards get a taller image */
+    .project-card:first-child .project-card__image,
+    .project-card:last-child .project-card__image {
       aspect-ratio: 21 / 9;
     }
 
@@ -365,7 +367,7 @@
   
   <section class="projects-grid" aria-label="Project grid">
         <div class="card-grid">
-         
+         <!-- HERO CARD CONTENT LOADER -->
           <div class="project-card">
             <a href="project-contentLoader.html" class="card-link" aria-label="View project: Content Loader"></a>
             <div class="project-card__image">
@@ -384,6 +386,7 @@
               </span>
             </div>
           </div>
+          <!-- APPLICATION MERGE -->
           <div class="project-card">
             <a href="appMerg.html" class="card-link" aria-label="View project: Consolidated two distinct SaaS products"></a>
             <div class="project-card__image">
@@ -402,6 +405,7 @@
               </span>
             </div>
           </div>
+          <!-- METADATA DIAGNOSIS -->
           <div class="project-card">
             <a href="metadataDiagnosis.html" class="card-link" aria-label="View project: Coming Soon"></a>
             <div class="project-card__image">
@@ -420,8 +424,9 @@
               </span>
             </div>
           </div>
+          <!-- ITINERARY BUILDER -->
           <div class="project-card">
-            <a href="project-contentLoader.html" class="card-link" aria-label="View project: Content Loader"></a>
+            <a href="ItineraryBuilderMobile.html" class="card-link" aria-label="View project: Itinerary Builder"></a>
             <div class="project-card__image">
               <img src="WallaceBermanHand.png" alt="Content Loader preview" loading="lazy">
             </div>
@@ -429,7 +434,7 @@
               <div class="project-card__meta">
                 <span class="label">Product Design</span>
                 <span class="divider" aria-hidden="true">·</span>
-                <time class="label" datetime="2024">2024</time>
+                <time class="label" datetime="2024">2026</time>
               </div>
               <h2 class="project-card__title">Itinerary Builder</h2>
               <p class="project-card__excerpt">Led product vision, user experience, and strategic roadmap for the itinerary builder</p>
