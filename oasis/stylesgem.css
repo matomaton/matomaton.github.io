@@ -677,7 +677,7 @@ body.nav-open {
 
 /* Headings inside sections */
 .article-section h2 {
-  margin-bottom: var(--space-sm);
+  margin-bottom: var(--space-md);
 }
 
 .article-section h3 {

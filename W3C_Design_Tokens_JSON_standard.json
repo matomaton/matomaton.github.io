@@ -1,0 +1,116 @@
+{
+  "$schema": "https://design-tokens.org/schema/v1.json",
+  "$type": "design-tokens",
+  "color": {
+    "bg": {
+      "$value": "#FCFCF9",
+      "$type": "color"
+    },
+    "navBg": {
+      "$value": "rgba(242, 242, 239, 0.6)",
+      "$type": "color"
+    },
+    "charcoal": {
+      "$value": "#2D2D2D",
+      "$type": "color"
+    },
+    "gray": {
+      "$value": "#595959",
+      "$type": "color"
+    },
+    "grayLight": {
+      "$value": "#767676",
+      "$type": "color"
+    },
+    "border": {
+      "$value": "rgba(45, 45, 45, 0.15)",
+      "$type": "color"
+    },
+    "link": {
+      "$value": "#4a6580",
+      "$type": "color"
+    },
+    "linkHover": {
+      "$value": "#2e4a62",
+      "$type": "color"
+    }
+  },
+  "fontWeight": {
+    "light": {
+      "$value": 300,
+      "$type": "fontWeight"
+    },
+    "regular": {
+      "$value": 400,
+      "$type": "fontWeight"
+    },
+    "bold": {
+      "$value": 700,
+      "$type": "fontWeight"
+    },
+    "black": {
+      "$value": 900,
+      "$type": "fontWeight"
+    }
+  },
+  "fontSize": {
+    "h1": {
+      "$value": "clamp(3rem, 8vw, 6rem)",
+      "$type": "fontSize"
+    },
+    "h2": {
+      "$value": "clamp(1.75rem, 4vw, 2.75rem)",
+      "$type": "fontSize"
+    },
+    "label": {
+      "$value": "clamp(0.65rem, 1.5vw, 0.75rem)",
+      "$type": "fontSize"
+    },
+    "body": {
+      "$value": "clamp(1rem, 1.2vw, 2rem)",
+      "$type": "fontSize"
+    }
+  },
+  "lineHeight": {
+    "heading": {
+      "$value": 1.2,
+      "$type": "lineHeight"
+    },
+    "body": {
+      "$value": 1.7,
+      "$type": "lineHeight"
+    }
+  },
+  "letterSpacing": {
+    "label": {
+      "$value": "0.15em",
+      "$type": "letterSpacing"
+    }
+  },
+  "sizing": {
+    "xs": {
+      "$value": "0.5rem",
+      "$type": "sizing"
+    },
+    "sm": {
+      "$value": "1rem",
+      "$type": "sizing"
+    },
+    "md": {
+      "$value": "2rem",
+      "$type": "sizing"
+    },
+    "lg": {
+      "$value": "4rem",
+      "$type": "sizing"
+    },
+    "xl": {
+      "$value": "6rem",
+      "$type": "sizing"
+    },
+    "xxl": {
+      "$value": "10rem",
+      "$type": "sizing"
+    }
+  }
+}
