@@ -1,0 +1,217 @@
+
+<div style="padding: 1rem 0;">
+
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin-bottom: 2rem;">
+  <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem;">
+    <div style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px;">total sessions analyzed</div>
+    <div style="font-size: 24px; font-weight: 500;">51,255</div>
+    <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 2px;">Nov 2025 – Mar 2026</div>
+  </div>
+  <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem;">
+    <div style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px;">points confusion — now</div>
+    <div style="font-size: 24px; font-weight: 500; color: #5DCAA5;">8.4%</div>
+    <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 2px;">down from 19% in Nov</div>
+  </div>
+  <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem;">
+    <div style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px;">confused session length</div>
+    <div style="font-size: 24px; font-weight: 500; color: #c0392b;">9.3 msgs</div>
+    <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 2px;">vs 6.9 normal — 35% longer</div>
+  </div>
+  <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem;">
+    <div style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px;">contact agent — Mar</div>
+    <div style="font-size: 24px; font-weight: 500; color: #c0392b;">10–12%</div>
+    <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 2px;">up from 7% baseline in Nov</div>
+  </div>
+</div>
+
+<div style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 4px;">points confusion % by week — full period (spike week excluded)</div>
+<div style="position:relative;width:100%;height:180px;margin-bottom:2rem;">
+  <canvas id="confWeekly"></canvas>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+  <div>
+    <div style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 6px;">how sessions open — first message intent (ex spike)</div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:6px;font-size:11px;color:var(--color-text-secondary);">
+      <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:rgba(50,102,173,0.45);"></span>Nov</span>
+      <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#888;"></span>Jan</span>
+      <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#3266ad;"></span>Mar</span>
+    </div>
+    <div style="position:relative;width:100%;height:250px;">
+      <canvas id="intentByMonth"></canvas>
+    </div>
+  </div>
+  <div>
+    <div style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 6px;">how sessions end — resolution breakdown</div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:6px;font-size:11px;color:var(--color-text-secondary);">
+      <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#c0392b;"></span>confused sessions</span>
+      <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:2px;background:#3266ad;"></span>all other sessions</span>
+    </div>
+    <div style="position:relative;width:100%;height:250px;">
+      <canvas id="resolutionComp"></canvas>
+    </div>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+  <div>
+    <div style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 6px;">session length distribution — all sessions</div>
+    <div style="position:relative;width:100%;height:180px;">
+      <canvas id="sessLenChart"></canvas>
+    </div>
+  </div>
+  <div>
+    <div style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 6px;">avg session length by month (ex spike)</div>
+    <div style="position:relative;width:100%;height:180px;">
+      <canvas id="sessLenMonth"></canvas>
+    </div>
+  </div>
+</div>
+
+<div style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 4px;">contact agent % by week — the persistent rise</div>
+<div style="position:relative;width:100%;height:160px;">
+  <canvas id="agentTrend"></canvas>
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const confWeeks = ['Nov 3','Nov 10','Nov 17','Nov 24','Dec 1','Dec 8','Dec 15','Dec 22','Jan 5','Jan 12','Jan 19','Jan 26','Feb 2','Feb 9','Feb 16','Feb 23','Mar 2','Mar 9'];
+const confPct   = [15.6,15.4,15.5,17.1,18.2,18.9,17.5,19.1,12.0,10.8,8.4,7.6,8.5,7.6,9.3,8.9,8.4,8.2];
+
+new Chart(document.getElementById('confWeekly'), {
+  type: 'line',
+  data: {
+    labels: confWeeks,
+    datasets: [{
+      data: confPct,
+      borderColor: '#c0392b',
+      backgroundColor: 'rgba(192,57,43,0.07)',
+      fill: true, tension: 0.3,
+      pointRadius: confPct.map((v,i) => i<=7?4:3),
+      pointBackgroundColor: confPct.map((v,i) => i<=7?'#c0392b':'#5DCAA5'),
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false },
+      annotation: {}
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#888', font: { size: 10 }, maxRotation: 45 } },
+      y: { min: 5, max: 22, grid: { color: 'rgba(128,128,128,0.15)' }, ticks: { color: '#888', callback: v => v+'%' } }
+    }
+  }
+});
+
+const intentLabels = ['short/vague','other','question','explicit explore','greeting','contact agent','availability','direct booking'];
+const novI  = [25.5, 23.1, 16.3, 10.7, 11.6, 4.8, 4.6, 2.4];
+const janI  = [27.6, 22.6, 13.2, 13.6,  9.8, 5.4, 5.1, 2.2];
+const marI  = [25.7, 21.0, 15.0, 14.6,  9.5, 6.2, 5.1, 2.4];
+
+new Chart(document.getElementById('intentByMonth'), {
+  type: 'bar',
+  data: {
+    labels: intentLabels,
+    datasets: [
+      { label: 'Nov', data: novI, backgroundColor: 'rgba(50,102,173,0.4)', borderRadius: 2 },
+      { label: 'Jan', data: janI, backgroundColor: 'rgba(136,135,128,0.55)', borderRadius: 2 },
+      { label: 'Mar', data: marI, backgroundColor: '#3266ad', borderRadius: 2 },
+    ]
+  },
+  options: {
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: 'rgba(128,128,128,0.15)' }, ticks: { color: '#888', callback: v => v+'%', font: { size: 11 } } },
+      y: { grid: { display: false }, ticks: { color: '#888', font: { size: 11 } } }
+    }
+  }
+});
+
+const resLabels = ['unclear exit','neutral exit','escalated','resolved positive','frustrated'];
+const confRes = [41.4, 34.9, 15.5, 7.8, 0.4];
+const normRes = [56.2, 20.9, 17.5, 4.8, 0.6];
+
+new Chart(document.getElementById('resolutionComp'), {
+  type: 'bar',
+  data: {
+    labels: resLabels,
+    datasets: [
+      { label: 'confused sessions', data: confRes, backgroundColor: '#c0392b', borderRadius: 2 },
+      { label: 'all other sessions', data: normRes, backgroundColor: '#3266ad', borderRadius: 2 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#888', font: { size: 10 }, maxRotation: 20 } },
+      y: { grid: { color: 'rgba(128,128,128,0.15)' }, ticks: { color: '#888', callback: v => v+'%' } }
+    }
+  }
+});
+
+new Chart(document.getElementById('sessLenChart'), {
+  type: 'bar',
+  data: {
+    labels: ['1–2 msgs','3–5 msgs','6–10 msgs','11–20 msgs','21+ msgs'],
+    datasets: [{ data: [23.9, 30.8, 27.9, 12.6, 4.8], backgroundColor: ['#B4B2A9','#5DCAA5','#3266ad','#E07B4F','#c0392b'], borderRadius: 3 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.raw}% of sessions` } } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#888', font: { size: 11 } } },
+      y: { grid: { color: 'rgba(128,128,128,0.15)' }, ticks: { color: '#888', callback: v => v+'%' } }
+    }
+  }
+});
+
+new Chart(document.getElementById('sessLenMonth'), {
+  type: 'line',
+  data: {
+    labels: ['Nov','Dec','Jan','Feb','Mar'],
+    datasets: [{
+      data: [8.0, 7.0, 7.4, 6.9, 6.4],
+      borderColor: '#5DCAA5', backgroundColor: 'rgba(93,202,165,0.08)',
+      fill: true, tension: 0.3, pointRadius: 5, pointBackgroundColor: '#5DCAA5'
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#888' } },
+      y: { min: 5.5, max: 9, grid: { color: 'rgba(128,128,128,0.15)' }, ticks: { color: '#888' } }
+    }
+  }
+});
+
+const agentWeeks = ['Nov 3','Nov 10','Nov 17','Nov 24','Dec 1','Dec 8','Dec 15','Dec 22','Dec 29','Jan 5','Jan 12','Jan 19','Jan 26','Feb 2','Feb 9','Feb 16','Feb 23','Mar 2','Mar 9'];
+const agentPct   = [7.1,7.8,7.7,7.1,8.8,7.6,8.1,7.1,10.6,8.5,6.8,9.8,11.1,10.4,10.6,11.6,11.6,9.4,10.8];
+
+new Chart(document.getElementById('agentTrend'), {
+  type: 'line',
+  data: {
+    labels: agentWeeks,
+    datasets: [{
+      data: agentPct,
+      borderColor: '#E07B4F',
+      backgroundColor: 'rgba(224,123,79,0.07)',
+      fill: true, tension: 0.3,
+      pointRadius: agentPct.map((v,i) => i <= 7 ? 3 : 4),
+      pointBackgroundColor: agentPct.map((v,i) => i <= 7 ? '#888' : '#E07B4F'),
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#888', font: { size: 10 }, maxRotation: 45 } },
+      y: { min: 5, max: 14, grid: { color: 'rgba(128,128,128,0.15)' }, ticks: { color: '#888', callback: v => v+'%' } }
+    }
+  }
+});
+</script>
