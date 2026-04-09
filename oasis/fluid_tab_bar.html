@@ -1,0 +1,137 @@
+<style>
+  :root {
+    --tab-gap: clamp(16px, 4vw, 64px);
+    /* Typography */
+  --font-primary: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  .tab-bar {
+    background: #0d1117;
+    padding: 0;
+    border-bottom: 1px solid #1e2530;
+    overflow-x: auto;
+  }
+  .tab-list {
+    display: flex;
+    gap: var(--tab-gap);
+    padding: 0 clamp(12px, 3vw, 32px);
+    margin: 0;
+    list-style: none;
+    white-space: nowrap;
+  }
+  .tab {
+    position: relative;
+    padding: 14px 0 12px;
+    font-family: var(--font-sans, sans-serif);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: #5a6475;
+    transition: color 0.15s ease;
+  }
+  .tab::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: transparent;
+    transition: background 0.15s ease;
+  }
+  .tab.active {
+    color: #ffffff;
+  }
+  .tab.active::after {
+    background: #00b4c8;
+  }
+  .tab:not(.active):hover {
+    color: #8a9ab0;
+  }
+  .demo-controls {
+    padding: 1.5rem clamp(12px, 3vw, 32px) 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .demo-controls label {
+    font-size: 13px;
+    color: var(--color-charcoal);
+  }
+  .demo-controls input[type=range] {
+    flex: 1;
+    max-width: 300px;
+  }
+  .demo-controls span {
+    font-size: 13px;
+    font-weight: 500;
+    min-width: 80px;
+    color: var(--color-charcoal);
+  }
+  .clamp-note {
+    font-size: 12px;
+    color: var(--font-primary);
+    padding: 0.5rem clamp(12px, 3vw, 32px) 1rem;
+    font-family: var(--font-mono, monospace);
+  }
+  body {
+    background:  var(--color-bg);
+    color: var(--color-charcoal);
+    font-family: var(--font-primary);
+    margin: 0;
+  }
+
+</style>
+
+<div class="demo-controls">
+  <label>Simulated viewport width</label>
+  <input type="range" min="320" max="1400" value="900" step="1" id="vpSlider" />
+  <span id="vpLabel">900px</span>
+</div>
+
+<div id="tabBarWrapper" style="width: 900px; max-width: 100%; overflow: hidden; transition: width 0.1s;">
+  <div class="tab-bar">
+    <ul class="tab-list" id="tabList" role="tablist">
+      <li role="none"><button class="tab active" role="tab" aria-selected="true">Active tab</button></li>
+      <li role="none"><button class="tab" role="tab" aria-selected="false">Inactive tab</button></li>
+      <li role="none"><button class="tab" role="tab" aria-selected="false">Inactive tab</button></li>
+      <li role="none"><button class="tab" role="tab" aria-selected="false">Inactive tab</button></li>
+      <li role="none"><button class="tab" role="tab" aria-selected="false">Inactive tab</button></li>
+      <li role="none"><button class="tab" role="tab" aria-selected="false">Inactive tab</button></li>
+    </ul>
+  </div>
+</div>
+
+<div class="clamp-note" id="clampNote">gap: clamp(16px, 4vw, 64px) → computed: <span id="computedGap">—</span></div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+    });
+  });
+
+  const slider = document.getElementById('vpSlider');
+  const label = document.getElementById('vpLabel');
+  const wrapper = document.getElementById('tabBarWrapper');
+  const tabList = document.getElementById('tabList');
+  const computedGap = document.getElementById('computedGap');
+
+  function updateWidth(val) {
+    const w = parseInt(val);
+    label.textContent = w + 'px';
+    wrapper.style.width = Math.min(w, wrapper.parentElement.clientWidth) + 'px';
+    const gap = Math.round(Math.min(Math.max(w * 0.04, 16), 64));
+    tabList.style.gap = gap + 'px';
+    computedGap.textContent = gap + 'px';
+  }
+
+  slider.addEventListener('input', e => updateWidth(e.target.value));
+  updateWidth(slider.value);
+</script>
