@@ -1,0 +1,147 @@
+
+<div style="padding: 1rem 0;">
+
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin-bottom: 2rem;">
+  <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem;">
+    <div style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 4px;">total sessions</div>
+    <div style="font-size: 24px; font-weight: 500;">9,768</div>
+  </div>
+  <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem;">
+    <div style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 4px;">total messages</div>
+    <div style="font-size: 24px; font-weight: 500;">76,602</div>
+  </div>
+  <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem;">
+    <div style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 4px;">avg session length</div>
+    <div style="font-size: 24px; font-weight: 500;">7.8 msgs</div>
+  </div>
+  <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem;">
+    <div style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 4px;">data range</div>
+    <div style="font-size: 24px; font-weight: 500;">Nov 3–30</div>
+  </div>
+</div>
+
+<div style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 4px;">weekly sessions (Deeded vs Trust)</div>
+<div style="display: flex; gap: 16px; margin-bottom: 8px; font-size: 12px; color: var(--color-text-secondary);">
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#3266ad;"></span>Deeded</span>
+  <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#5DCAA5;"></span>Trust</span>
+</div>
+<div style="position:relative;width:100%;height:220px;margin-bottom:2rem;">
+  <canvas id="sessionsChart"></canvas>
+</div>
+
+<div style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 4px;">user messages by hour of day</div>
+<div style="position:relative;width:100%;height:200px;margin-bottom:2rem;">
+  <canvas id="hourChart"></canvas>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+  <div>
+    <div style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 4px;">user messages by day of week</div>
+    <div style="position:relative;width:100%;height:220px;">
+      <canvas id="dowChart"></canvas>
+    </div>
+  </div>
+  <div>
+    <div style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 4px;">avg session length by week</div>
+    <div style="position:relative;width:100%;height:220px;">
+      <canvas id="lengthChart"></canvas>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const weeks = ['Nov 3', 'Nov 10', 'Nov 17', 'Nov 24'];
+const deeded = [840, 1328, 1337, 1367];
+const trust = [834, 1326, 1339, 1434];
+
+new Chart(document.getElementById('sessionsChart'), {
+  type: 'bar',
+  data: {
+    labels: weeks,
+    datasets: [
+      { label: 'Deeded', data: deeded, backgroundColor: '#3266ad', borderRadius: 3 },
+      { label: 'Trust', data: trust, backgroundColor: '#5DCAA5', borderRadius: 3 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#888' } },
+      y: { grid: { color: 'rgba(128,128,128,0.15)' }, ticks: { color: '#888' } }
+    }
+  }
+});
+
+const hours = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
+const hourData = [1845,1713,1491,1140,997,792,593,391,338,300,280,359,632,1099,1424,1763,2103,2411,2537,2559,2476,2217,1967,1878];
+
+new Chart(document.getElementById('hourChart'), {
+  type: 'line',
+  data: {
+    labels: hours.map(h => h === 0 ? '12am' : h < 12 ? h+'am' : h === 12 ? '12pm' : (h-12)+'pm'),
+    datasets: [{
+      data: hourData,
+      borderColor: '#3266ad',
+      backgroundColor: 'rgba(50,102,173,0.08)',
+      fill: true,
+      tension: 0.4,
+      pointRadius: 2
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#888', maxRotation: 0, autoSkip: true, maxTicksLimit: 12 } },
+      y: { grid: { color: 'rgba(128,128,128,0.15)' }, ticks: { color: '#888' } }
+    }
+  }
+});
+
+const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const dayData = [5191,4648,4912,4604,4917,4423,4610];
+
+new Chart(document.getElementById('dowChart'), {
+  type: 'bar',
+  data: {
+    labels: days,
+    datasets: [{ data: dayData, backgroundColor: days.map((d,i) => i===0?'#3266ad':'rgba(50,102,173,0.45)'), borderRadius: 3 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#888' } },
+      y: { grid: { color: 'rgba(128,128,128,0.15)' }, ticks: { color: '#888' } }
+    }
+  }
+});
+
+new Chart(document.getElementById('lengthChart'), {
+  type: 'line',
+  data: {
+    labels: weeks,
+    datasets: [{
+      data: [8.1, 7.5, 7.8, 8.0],
+      borderColor: '#5DCAA5',
+      backgroundColor: 'rgba(93,202,165,0.08)',
+      fill: true,
+      tension: 0.4,
+      pointRadius: 4,
+      pointBackgroundColor: '#5DCAA5'
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#888' } },
+      y: { min: 7, max: 8.5, grid: { color: 'rgba(128,128,128,0.15)' }, ticks: { color: '#888' } }
+    }
+  }
+});
+</script>
