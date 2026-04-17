@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ============================================================
+    ARTICLE META — update for each new article
+  ============================================================ -->
+  <title>The Three Things AI Actually Does — Matthew's Portfolio</title>
+  <meta name="description" content="AI doesn't do one thing — it does three very different things. Here's how to tell them apart and why it matters for your design work.">
+  <!-- ============================================================ -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- ============================================================
+    NAVIGATION — identical across all pages, do not edit
+  ============================================================ -->
+  <nav class="global-menu" aria-label="Site navigation">
+    <div class="container nav-inner">
+
+      <a href="index.html" class="nav-logo" aria-label="Home">
+        <svg class="logo" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <path d="M35.9893 46.1494L35.1768 51.5361L38.5908 54.0254L44.2676 53.1289L44.6553 53.0674L44.9814 53.2871L48.8838 55.9072L47.7686 57.5674L44.1914 55.165L38.4932 56.0674L38.083 56.1328L37.7471 55.8877L33.5088 52.7949L33.0186 52.4375L33.1094 51.8389L34.0107 45.8506L35.9893 46.1494ZM30 36H24.333V38.3193H31V52.4814H29V40.3193H24.333V56H10V54H22.333V34H30V36ZM56 36H51.667V38.3174H57V55H55V40.3174H51.667V51.2627H40V49.2627H49.667V34H56V36ZM19 48H8V36H19V48ZM10 46H17V38H10V46ZM45 36H36V38.5H45V40.5H36V43H45V45H34V34H45V36ZM55 10H48V12.8877H56V28H54V14.8877H48V29H31V27H46V8H55V10ZM30 10H24V13.1445H31V24.2236H29V15.1445H24V28H9V26H22V8H30V10ZM42 10H36V12.6426H42V14.6426H36V21H42V23H34V8H42V10ZM13 9C16.3137 9 19 11.6863 19 15C19 18.3137 16.3137 21 13 21C9.68629 21 7 18.3137 7 15C7 11.6863 9.68629 9 13 9ZM13 11C10.7909 11 9 12.7909 9 15C9 17.2091 10.7909 19 13 19C15.2091 19 17 17.2091 17 15C17 12.7909 15.2091 11 13 11Z" fill="darkred"/>
+        </svg>
+      </a>
+
+      <!-- Desktop links -->
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="nav-link">Projects</a></li>
+        <li><a href="articles.html" class="nav-link nav-link--active" aria-current="page">Articles</a></li>
+        <li><a href="backstory.html" class="nav-link">Backstory</a></li>
+        <li><a href="process.html" class="nav-link">Process</a></li>
+        <li><a href="resume.html" class="nav-link">Resume</a></li>
+      </ul>
+
+      <!-- Hamburger button — hidden on desktop -->
+      <button
+        class="nav-toggle"
+        id="nav-toggle"
+        aria-controls="nav-drawer"
+        aria-expanded="false"
+        aria-label="Open navigation menu"
+      >
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- Mobile drawer -->
+  <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+    <ul class="nav-drawer__links">
+      <li><a href="index.html" class="nav-drawer__link">Projects</a></li>
+      <li><a href="articles.html" class="nav-drawer__link nav-drawer__link--active" aria-current="page">Articles</a></li>
+      <li><a href="backstory.html" class="nav-drawer__link">Backstory</a></li>
+      <li><a href="process.html" class="nav-drawer__link">Process</a></li>
+      <li><a href="resume.html" class="nav-drawer__link">Resume</a></li>
+    </ul>
+  </div>
+  <div class="nav-backdrop" id="nav-backdrop" aria-hidden="true"></div>
+
+  <script>
+    (function () {
+      const toggle   = document.getElementById('nav-toggle');
+      const drawer   = document.getElementById('nav-drawer');
+      const backdrop = document.getElementById('nav-backdrop');
+      function openMenu() {
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.setAttribute('aria-label', 'Close navigation menu');
+        drawer.setAttribute('aria-hidden', 'false');
+        backdrop.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('nav-open');
+        drawer.querySelector('.nav-drawer__link').focus();
+      }
+      function closeMenu() {
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open navigation menu');
+        drawer.setAttribute('aria-hidden', 'true');
+        backdrop.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('nav-open');
+        toggle.focus();
+      }
+      toggle.addEventListener('click', function () {
+        toggle.getAttribute('aria-expanded') === 'true' ? closeMenu() : openMenu();
+      });
+      backdrop.addEventListener('click', closeMenu);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') closeMenu();
+      });
+      drawer.addEventListener('keydown', function (e) {
+        if (e.key !== 'Tab') return;
+        const focusable = drawer.querySelectorAll('a');
+        const first = focusable[0];
+        const last  = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      });
+    })();
+  </script>
+  <!-- ============================================================ -->
+
+  <div class="progress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+
+  <main class="main" id="main-content">
+
+    <div class="container">
+      <a href="articles.html" class="back-link">
+        <span class="back-arrow" aria-hidden="true">←</span> Back to Articles
+      </a>
+    </div>
+
+    <!-- ============================================================
+      ARTICLE HEADER — update for each new article
+    ============================================================ -->
+    <header class="article-header">
+      <div class="container article-header__inner">
+        <div class="article-meta">
+          <span class="label">Design &amp; AI</span>
+          <span class="article-meta__divider" aria-hidden="true">·</span>
+          <time class="label" datetime="2026-04">April 2026</time>
+          <span class="article-meta__divider" aria-hidden="true">·</span>
+          <span class="label">6 min read</span>
+        </div>
+        <h1 class="article-title">The Three Things AI Actually Does</h1>
+        <p class="article-subtitle">AI isn't one thing. Once you understand the three different ways it behaves, you'll design with it — not around it.</p>
+      </div>
+    </header>
+    <!-- ============================================================ -->
+
+    <article class="article-body" aria-labelledby="article-title">
+      <div class="container content-narrow">
+
+
+        <!-- ── SECTION 1 ─────────────────────────────────────────── -->
+        <section class="article-section">
+          <h2>The mistake everyone makes first</h2>
+          <p class="article-lead">Most designers starting out treat AI like a single tool — a magic black box you put a question into and get an answer out of. That's the mistake.</p>
+          <p>AI actually behaves in three distinct ways, and each one creates a completely different design challenge. When you don't know which mode you're working with, you end up designing the wrong interface for the job. Think of it like trying to design a car dashboard without knowing whether the car is electric, manual, or self-driving — the controls are totally different.</p>
+          <p>The three modes are: <strong>Generated</strong> (AI makes something new), <strong>Curated</strong> (AI ranks and filters what already exists), and <strong>Surfaced</strong> (AI decides when to show you something). Let's walk through each one.</p>
+        </section>
+
+
+        <!-- ── SECTION 2 ─────────────────────────────────────────── -->
+        <section class="article-section">
+          <h2>Mode 1: AI-Generated — the AI creates something new</h2>
+          <p class="article-lead">This is when the AI writes, draws, codes, or summarises something that didn't exist before. ChatGPT writing an email for you. Midjourney producing an image. Copilot suggesting a function.</p>
+          <p>The AI isn't retrieving a stored answer — it's constructing one on the spot. That's genuinely impressive, but it comes with a real problem: it can get things wrong in a very confident-sounding way. Designers call this "hallucination," and it's the core risk of this mode.</p>
+
+          <h3>Your two design responsibilities here</h3>
+          <p>When you're designing an interface that generates content, you're responsible for two things.</p>
+          <p>First, <strong>trust</strong>. Because the AI is essentially making things up (in the best possible sense), users need to be able to verify the output. That means showing sources, surfacing confidence levels, or making it easy to fact-check. A medical app summarising a patient's history needs to make those receipts visible. A social media caption tool probably doesn't.</p>
+          <p>Second, <strong>tone</strong>. The voice of generated content has to feel like it belongs in your product. A warm, chatty tone in a grief counselling app is a disaster. A robotic tone in a consumer food app feels cold and off-brand. You — the designer — are responsible for defining what "right" sounds like.</p>
+
+          <h3>A harder problem: what happens to junior designers?</h3>
+          <p>Here's something worth sitting with. Historically, junior designers learned their craft by doing the tedious work — the wireframes, the pixel-pushing, the component libraries. It was apprenticeship through repetition. AI is now doing a lot of that execution work faster and cheaper than a junior hire can.</p>
+          <p>This doesn't mean design is dying. It means the entry point is shifting. The industry hasn't figured out yet how to train the next generation of senior designers when the traditional "ground floor" work is disappearing. If you're a student, this is worth taking seriously. The designers who thrive won't be the ones who push pixels fastest — they'll be the ones who know <em>why</em> the pixels should go there at all.</p>
+        </section>
+
+
+        <!-- ── BLOCKQUOTE ─────────────────────────────────────────── -->
+        <blockquote>
+          <p>"The designers who thrive won't be the fastest pixel-pushers. They'll be the ones who know why the pixels should go there at all."</p>
+        </blockquote>
+
+
+        <!-- ── SECTION 3 ─────────────────────────────────────────── -->
+        <section class="article-section">
+          <h2>Mode 2: AI-Curated — the AI ranks what already exists</h2>
+          <p class="article-lead">Nothing new is created here. The AI is looking at a pile of existing content — products, articles, emails, notifications — and deciding what order to show it to you.</p>
+          <p>Your Spotify Discover Weekly. TikTok's For You page. Amazon's "you might also like." These are all curation. The underlying content is fixed; the AI is just figuring out what to put in front of you first.</p>
+          <p>This might sound simple, but it creates a sneaky design problem. Traditional interfaces are deterministic — click the "sort by price" button, always get results sorted by price. Curated interfaces are probabilistic — the AI makes its best guess, and that guess can change based on your history, the time of day, what other users are doing, and factors you can't see.</p>
+
+          <h3>The transparency problem</h3>
+          <p>When a traditional UI puts something at the top of a list, the user knows why — it's alphabetical, or newest, or most popular. When an AI puts something at the top, the user often has no idea why. That gap is where trust breaks down.</p>
+          <p>Your job as a designer is to make the reasoning visible. Not necessarily with a technical explanation — nobody wants to read about weighted ranking algorithms — but with clear, plain-language signals. "Because you watched this." "Trending in your area." "Based on your recent searches." These small cues are the difference between a system that feels intelligent and one that feels manipulative.</p>
+          <p>If you skip transparency, users start to feel like the interface has an agenda. And once that trust is gone, it's very hard to get back.</p>
+        </section>
+
+
+        <!-- ── SECTION 4 ─────────────────────────────────────────── -->
+        <section class="article-section">
+          <h2>Mode 3: AI-Surfaced — the AI decides when to interrupt you</h2>
+          <p class="article-lead">This is the most subtle mode. The content already exists, the AI already knows it's relevant — but it's also deciding this is the right moment to show it to you.</p>
+          <p>A navigation app rerouting you when it detects slow traffic ahead. A calendar assistant flagging that you should leave for your meeting now. A health app noticing you haven't logged water today and nudging you at 3pm. The information is timely, contextual, and — when it works well — feels almost like a thoughtful friend who noticed something you didn't.</p>
+          <p>When it doesn't work well, it feels like spam.</p>
+
+          <h3>The thin line between helpful and annoying</h3>
+          <p>The difference between a useful notification and an irritating one is often just a few seconds of timing and one bad read of context. Surface something too early and it's noise. Too late and it's useless. In the wrong situation — a meeting, a commute, a difficult conversation — and it's actively harmful to the experience.</p>
+          <p>Designing for this mode means thinking carefully about:</p>
+          <ul>
+            <li><strong>Timing</strong> — when is the user actually in a position to act on this?</li>
+            <li><strong>Context</strong> — what is the user likely doing right now, and what device are they on?</li>
+            <li><strong>Stakes</strong> — how wrong can the AI be before it breaks trust?</li>
+          </ul>
+
+          <h3>Design for when the AI gets it wrong</h3>
+          <p>Because AI is probabilistic, it will sometimes be wrong about when to interrupt. The design has to account for that. When the system isn't confident, it should surface suggestions quietly — a small badge rather than a full-screen interruption, an optional prompt rather than a blocking modal. This is called graceful degradation, and it's a core skill for anyone designing AI interfaces.</p>
+          <p>The goal is that even when the AI misjudges, the user experience stays coherent. The interface shrugs rather than crashes.</p>
+        </section>
+
+
+        <!-- ── SECTION 5 — SUMMARY TABLE ─────────────────────────── -->
+        <section class="article-section">
+          <h2>Quick reference: the three modes side by side</h2>
+          <p>Here's a plain-English summary of what each mode does, what you're responsible for as a designer, and what goes wrong when you ignore that responsibility.</p>
+
+          <!-- article-table: breakout width, matches embed-wrapper sizing -->
+          <table class="article-table">
+            <thead>
+              <tr>
+                <th scope="col">Mode</th>
+                <th scope="col">What the AI does</th>
+                <th scope="col">Your design job</th>
+                <th scope="col">What breaks if you skip it</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Generated</strong></td>
+                <td>Creates new content from scratch</td>
+                <td>Build trust &amp; match the right tone</td>
+                <td>Users can't verify outputs; voice feels wrong</td>
+              </tr>
+              <tr>
+                <td><strong>Curated</strong></td>
+                <td>Ranks and filters existing content</td>
+                <td>Make the reasoning transparent</td>
+                <td>Interface feels like a black box; users disengage</td>
+              </tr>
+              <tr>
+                <td><strong>Surfaced</strong></td>
+                <td>Chooses the right moment to show something</td>
+                <td>Nail timing and context; design for failure</td>
+                <td>Notifications feel like spam; users turn everything off</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+
+        <!-- ── SECTION 6 ─────────────────────────────────────────── -->
+        <section class="article-section">
+          <h2>So where does this leave you as a student?</h2>
+          <p class="article-lead">The short version: the craft of making things is being automated. The judgement about what to make — and why — is not.</p>
+          <p>AI is very good at execution. It can produce a decent wireframe, write passable copy, and generate a component in seconds. What it can't do is sit in the room when a user starts crying because an interface made them feel stupid. It wasn't in the meeting when the PM changed the product direction for the third time. It doesn't know that the engineering team has a six-year-old API that rules out half the ideas on the whiteboard.</p>
+          <p>That context — messy, human, situational — is where design actually lives. Your job as a student isn't to compete with AI on speed. It's to build the judgement that AI can't replicate: knowing which problem to solve, understanding why users behave the way they do, and advocating for experiences that are honest, clear, and worth people's time.</p>
+          <p>The pixels are increasingly the AI's problem. The system's integrity is yours.</p>
+        </section>
+
+
+        <!-- ── ARTICLE FOOTER ──────────────────────────────────────
+             Update tags to match the article topic
+        ─────────────────────────────────────────────────────────── -->
+        <footer class="article-footer">
+          <div class="article-tags">
+            <span class="label">Tagged:</span>
+            <ul class="tags-list" aria-label="Article tags">
+              <li><a href="#" class="tag">AI &amp; Design</a></li>
+              <li><a href="#" class="tag">Student Primer</a></li>
+              <li><a href="#" class="tag">UX Strategy</a></li>
+            </ul>
+          </div>
+          <div class="article-share">
+            <span class="label">Share:</span>
+            <div class="share-links">
+              <a href="#" class="share-link">Twitter</a>
+              <a href="#" class="share-link">LinkedIn</a>
+              <a href="#" class="share-link">Copy Link</a>
+            </div>
+          </div>
+        </footer>
+
+      </div><!-- /.content-narrow -->
+    </article>
+
+
+    <!-- ============================================================
+      RELATED ARTICLES — update links for each article
+    ============================================================ -->
+    <section class="related-articles" aria-labelledby="related-heading">
+      <div class="container content-narrow">
+        <h2 id="related-heading" class="label">More Reading</h2>
+        <div class="related-list">
+          <a href="testingMethology.html" class="related-item">
+            <p class="label">Process</p>
+            <h3 class="related-item-title">Testing Methodology</h3>
+          </a>
+          <a href="#" class="related-item">
+            <p class="label">Design Systems</p>
+            <h3 class="related-item-title">Button Placement: Hierarchy and Order</h3>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <a href="articles.html" class="back-link">
+        <span class="back-arrow" aria-hidden="true">←</span> Back to Articles
+      </a>
+    </div>
+
+  </main>
+
+
+  <!-- ============================================================
+    FOOTER — identical across all pages, do not edit
+  ============================================================ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p class="footer-text">© 2026</p>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="mailto:hello@yoursite.com" class="footer-link">Email</a>
+        <a href="#" class="footer-link">LinkedIn</a>
+        <a href="#" class="footer-link">Dribbble</a>
+      </nav>
+    </div>
+  </footer>
+  <!-- ============================================================ -->
+
+
+  <!-- ============================================================
+    LIGHTBOX — no dependencies, pure JS
+    Activated automatically on any figure.figure--zoomable
+  ============================================================ -->
+  <div class="lightbox" id="lightbox" aria-modal="true" role="dialog" aria-label="Image viewer" aria-hidden="true">
+    <button class="lightbox__close" id="lightbox-close" aria-label="Close image viewer">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M2 2L18 18M18 2L2 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <figure class="lightbox__figure">
+      <img class="lightbox__img" id="lightbox-img" src="" alt="">
+      <figcaption class="lightbox__caption" id="lightbox-caption"></figcaption>
+    </figure>
+  </div>
+  <div class="lightbox-backdrop" id="lightbox-backdrop" aria-hidden="true"></div>
+
+  <script>
+    (function () {
+      const lightbox   = document.getElementById('lightbox');
+      const backdrop   = document.getElementById('lightbox-backdrop');
+      const closeBtn   = document.getElementById('lightbox-close');
+      const lbImg      = document.getElementById('lightbox-img');
+      const lbCaption  = document.getElementById('lightbox-caption');
+      let previousFocus = null;
+
+      function openLightbox(img, caption) {
+        previousFocus = document.activeElement;
+        lbImg.src     = img.src;
+        lbImg.alt     = img.alt;
+        lbCaption.textContent = caption;
+        lightbox.setAttribute('aria-hidden', 'false');
+        backdrop.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('lightbox-open');
+        closeBtn.focus();
+      }
+
+      function closeLightbox() {
+        lightbox.setAttribute('aria-hidden', 'true');
+        backdrop.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('lightbox-open');
+        setTimeout(function () { lbImg.src = ''; }, 300);
+        if (previousFocus) previousFocus.focus();
+      }
+
+      document.querySelectorAll('.figure--zoomable').forEach(function (figure) {
+        const img     = figure.querySelector('img');
+        const caption = figure.querySelector('figcaption');
+        if (!img) return;
+        figure.setAttribute('tabindex', '0');
+        figure.setAttribute('role', 'button');
+        figure.setAttribute('aria-label', 'View image larger: ' + (img.alt || 'image'));
+        function trigger() { openLightbox(img, caption ? caption.textContent : ''); }
+        figure.addEventListener('click', trigger);
+        figure.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); trigger(); }
+        });
+      });
+
+      closeBtn.addEventListener('click', closeLightbox);
+      backdrop.addEventListener('click', closeLightbox);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && lightbox.getAttribute('aria-hidden') === 'false') closeLightbox();
+      });
+      lightbox.addEventListener('keydown', function (e) {
+        if (e.key !== 'Tab') return;
+        e.preventDefault();
+        closeBtn.focus();
+      });
+    })();
+  </script>
+
+</body>
+</html>
