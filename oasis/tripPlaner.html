@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ============================================================
+    ARTICLE META — update for each new article
+  ============================================================ -->
+  <title>AI Trip Planner Itinerary Builder — Portfolio</title>
+  <meta name="description" content="Merging two fragmented applications into one cohesive platform for libraries, archives, and universities.">
+  <!-- ============================================================ -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="stylesgem.css">
+<body>
+    <!-- ============================================================
+    NAVIGATION — identical across all pages, do not edit
+  ============================================================ -->
+  <nav class="global-menu" aria-label="Site navigation">
+    <div class="container nav-inner">
+
+      <a href="index.html" class="nav-logo" aria-label="Home">
+        <svg class="logo" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <path d="M35.9893 46.1494L35.1768 51.5361L38.5908 54.0254L44.2676 53.1289L44.6553 53.0674L44.9814 53.2871L48.8838 55.9072L47.7686 57.5674L44.1914 55.165L38.4932 56.0674L38.083 56.1328L37.7471 55.8877L33.5088 52.7949L33.0186 52.4375L33.1094 51.8389L34.0107 45.8506L35.9893 46.1494ZM30 36H24.333V38.3193H31V52.4814H29V40.3193H24.333V56H10V54H22.333V34H30V36ZM56 36H51.667V38.3174H57V55H55V40.3174H51.667V51.2627H40V49.2627H49.667V34H56V36ZM19 48H8V36H19V48ZM10 46H17V38H10V46ZM45 36H36V38.5H45V40.5H36V43H45V45H34V34H45V36ZM55 10H48V12.8877H56V28H54V14.8877H48V29H31V27H46V8H55V10ZM30 10H24V13.1445H31V24.2236H29V15.1445H24V28H9V26H22V8H30V10ZM42 10H36V12.6426H42V14.6426H36V21H42V23H34V8H42V10ZM13 9C16.3137 9 19 11.6863 19 15C19 18.3137 16.3137 21 13 21C9.68629 21 7 18.3137 7 15C7 11.6863 9.68629 9 13 9ZM13 11C10.7909 11 9 12.7909 9 15C9 17.2091 10.7909 19 13 19C15.2091 19 17 17.2091 17 15C17 12.7909 15.2091 11 13 11Z" fill="darkred"/>
+        </svg>
+      </a>
+
+      <!-- Desktop links -->
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="nav-link nav-link--active" aria-current="page">Projects</a></li>
+        <li><a href="articles.html" class="nav-link">Articles</a></li>
+        <li><a href="backstory.html" class="nav-link">Backstory</a></li>
+        <li><a href="process.html" class="nav-link">Process</a></li>
+        <li><a href="resume.html" class="nav-link">Resume</a></li>
+      </ul>
+
+      <!-- Hamburger button — hidden on desktop -->
+      <button
+        class="nav-toggle"
+        id="nav-toggle"
+        aria-controls="nav-drawer"
+        aria-expanded="false"
+        aria-label="Open navigation menu"
+      >
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- Mobile drawer -->
+  <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+    <ul class="nav-drawer__links">
+      <li><a href="index.html" class="nav-drawer__link nav-drawer__link--active" aria-current="page">Projects</a></li>
+      <li><a href="articles.html" class="nav-drawer__link">Articles</a></li>
+      <li><a href="backstory.html" class="nav-drawer__link">Backstory</a></li>
+      <li><a href="process.html" class="nav-drawer__link">Process</a></li>
+      <li><a href="resume.html" class="nav-drawer__link">Resume</a></li>
+    </ul>
+  </div>
+  <div class="nav-backdrop" id="nav-backdrop" aria-hidden="true"></div>
+
+  <script>
+    (function () {
+      const toggle   = document.getElementById('nav-toggle');
+      const drawer   = document.getElementById('nav-drawer');
+      const backdrop = document.getElementById('nav-backdrop');
+      function openMenu() {
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.setAttribute('aria-label', 'Close navigation menu');
+        drawer.setAttribute('aria-hidden', 'false');
+        backdrop.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('nav-open');
+        drawer.querySelector('.nav-drawer__link').focus();
+      }
+      function closeMenu() {
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open navigation menu');
+        drawer.setAttribute('aria-hidden', 'true');
+        backdrop.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('nav-open');
+        toggle.focus();
+      }
+      toggle.addEventListener('click', function () {
+        toggle.getAttribute('aria-expanded') === 'true' ? closeMenu() : openMenu();
+      });
+      backdrop.addEventListener('click', closeMenu);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') closeMenu();
+      });
+      drawer.addEventListener('keydown', function (e) {
+        if (e.key !== 'Tab') return;
+        const focusable = drawer.querySelectorAll('a');
+        const first = focusable[0];
+        const last  = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      });
+    })();
+  </script>
+  <!-- ============================================================ -->
+<!-- ============================================================ -->
+
+  <div class="progress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+
+
+
+
+  <main class="main" id="main-content">
+
+    <div class="container">
+      <a href="projects.html" class="back-link">
+        <span class="back-arrow" aria-hidden="true">←</span> Back to Projects
+      </a>
+    </div>
+ <!-- ============================================================
+      ARTICLE HEADER
+    ============================================================ -->
+    <header class="article-header">
+      <div class="container article-header__inner">
+        <div class="article-meta">
+          <span class="label">New Product</span>
+          <span class="article-meta__divider" aria-hidden="true">·</span>
+          <span class="label">Product Design</span>
+        </div>
+        <h1 class="article-title">Trip Planner Itinerary Builder</h1>
+        <p class="article-subtitle"> AI-driven technology that can personalize and simplify the booking experience. From anticipating travelers’ needs to offering tailored resort recommendations.</p>
+      </div>
+    </header>
+    <!-- Hero image — outside article grid for full bleed -->
+    <!-- <figure class="article-figure figure--full" aria-label="Application Merge final interface mockup">
+      <img
+        src="https://matomaton.github.io/assets/Cataloger-Admin-Mockup-CROP-1920.webp"
+        alt="The merged Cataloger and Admin interface displayed across multiple screen sizes"
+        loading="eager">
+    </figure> -->
+<!-- Figma prototype embed -->
+        <div class="embed-wrapper embed-wrapper--figma" role="region" aria-label="Collection Loader interactive prototype">
+          <iframe
+           src="https://embed.figma.com/proto/oDqepFFOqp2adQ0pcxT4u0/TRIP-PLANNER?node-id=7-774&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&embed-host=share"
+            title="Itinerary Builder Vision"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+          <p class="embed-caption label">Interactive prototype — use Figma controls to navigate.</p>
+        </div>
+ <article class="article-body" aria-label="Application Merge case study">
+      <div class="container content-narrow">
+
+
+        <!-- ── SECTION: COMPETITIVE ANALSYS ───────────────────────────── -->
+        <section class="article-section">
+          <h2>Competitive Analysis</h2>
+          <p>Conducted a cognitive walkthrough of the TripAdvisor Trip Planner mobile app evaluates how well its AI-powered itinerary builder supports a first-time, less tech-savvy traveler.</p>
+        <h3>Findings</h3>
+        <p>strong, confidence-building AI setup flow but a confusing and brittle post-generation editing experience, where key actions like saving, customizing, and collaborating are hard to discover, inconsistent, or even destructive.</p>
+        <p>Major usability gaps—especially around mental models for “saves” vs. “itinerary,” user control, and navigation—and distills them into concrete design recommendations for building a more intuitive, non-destructive itinerary planner.</p>
+        <p>Read the full report here: </p>
+        </section>
+
+        <!-- ── SECTION: PRIMARY RESEARCH ──────────────────────────────── -->
+        <section class="article-section">
+          <h2>Concept Testing</h2>
+          <p>Conducted concept testing of a proposed AI-powered itinerary builder plus in-depth interviews focused on the end-to-end HGV owner trip planning journey
+        <h3>Participants</h3>
+        <p>11 owners + 3 agents.</p>
+        <h3>Problem</h3>
+        <p> Booking is stressful + planning is fragmented; owners leave HGV post-booking.</p>
+        <h3>Evidence</h3>
+        <p> Workarounds (midnight booking, walking reservations), multi-tool planning, points confusion, low trust in search results, slow performance.</p>
+        <h3>Opportunity</h3>
+        <p>Build an integrated trip hub (AI itinerary builder) + alerts + integrations + points intelligence.</p>
+         <h3>Goal</h3> Owners can book and never need to leave HGV to plan, coordinate, or manage their trip.</p>
+        </section>
+         <!-- ── SECTION: MVP ──────────────────────────────── -->
+        <section class="article-section">
+        <h2>MVP</h2>
+        <p>A lightweight, chat-bot-driven itinerary builder to let members create, edit, save, and visualize trip plans (itineraries) and segments (activities, dining, reservations) with minimal risk exposure.</p>
+        <h3>Scope</h3>
+        <p>Chatbot integration only (access via chatbot); create/read/update/delete itineraries and segments; aspirational (recommendation) items primarily — not full booking integrations; basic UI to view itinerary by day and map items (latitude/longitude demo data); guardrails and feature flag for controlled rollout.</p>
+        <h3>Analytics</h3>
+        <p>Implement comprehensive logging for MVP1: capture user actions, intents, session context, login behavior, token usage, and chatbot interactions.</p>
+        <h3>Next Phase</h3>
+        <p>Use pilot data to prioritize deeper integrations (booking, concrete reservations), advanced agents, and personalization scoring.</p>
+        </section>
+
+      </div><!-- /.content-narrow -->
+    </article>
+</body>
+</html>
