@@ -4,283 +4,531 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Beyond Click Counts — ION Portfolio</title>
-  <meta name="description" content="Designing purposeful steps for productivity over machine efficiency.">
+  <!-- ============================================================
+    ARTICLE META — update for each new article
+  ============================================================ -->
+  <title>Beyond Click Counts: Designing Purposeful Steps</title>
+  <meta name="description" content="The real cost in any system is human time and errors, not machine cycles or the number of steps in a flow.">
+  <!-- ============================================================ -->
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&display=swap" rel="stylesheet">
-  
-  <style>
-    /* ============================================
-       INTEGRATED ION PORTFOLIO STYLES
-       ============================================ */
-    :root {
-      --color-bg: #FCFCF9;
-      --color-nav-bg: rgba(242, 242, 239, 0.4);
-      --color-charcoal: #2D2D2D;
-      --color-gray: #6D6D6D;
-      --color-gray-light: #B8B8B8;
-      --color-border: rgba(45, 45, 45, 0.1);
-      --font-primary: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
-      --weight-light: 300;
-      --weight-regular: 400;
-      --weight-bold: 700;
-      --weight-black: 900;
-      --space-xs: 0.5rem;
-      --space-sm: 1rem;
-      --space-md: 2.5rem;
-      --space-lg: 5rem;
-      --space-xl: 8rem;
-      --nav-height: 90px;
-      --container-max: 1280px;
-      --container-narrow: 800px;
-      --size-h1: 3.5rem;
-      --size-h2: 2.25rem;
-      --size-body: 1.125rem;
-      --size-label: 0.75rem;
-      --ls-label: 0.1em;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      background-color: var(--color-bg);
-      color: var(--color-charcoal);
-      font-family: var(--font-primary);
-      font-weight: var(--weight-regular);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .container {
-      width: 100%;
-      max-width: var(--container-max);
-      margin: 0 auto;
-      padding: 0 var(--space-md);
-    }
-
-    /* Navigation */
-    .global-menu {
-      height: var(--nav-height);
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-      background: var(--color-nav-bg);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--color-border);
-      display: flex;
-      align-items: center;
-    }
-
-    .nav-inner { display: flex; justify-content: space-between; align-items: center; }
-    .nav-logo { display: flex; align-items: center; text-decoration: none; color: inherit; font-weight: var(--weight-black); text-transform: uppercase; letter-spacing: 0.1em; }
-    .logo { width: 32px; height: 32px; margin-right: 12px; }
-
-    .nav-links { display: flex; gap: var(--space-md); list-style: none; }
-    .nav-links a { 
-      text-decoration: none; 
-      color: var(--color-gray); 
-      font-size: var(--size-label); 
-      font-weight: var(--weight-black); 
-      text-transform: uppercase; 
-      letter-spacing: var(--ls-label);
-      transition: color 0.2s ease;
-    }
-    .nav-links a:hover { color: var(--color-charcoal); }
-
-    /* Article Hero */
-    .article-hero {
-      padding-top: calc(var(--nav-height) + var(--space-xl));
-      padding-bottom: var(--space-lg);
-      border-bottom: 1px solid var(--color-border);
-    }
-
-    .hero-label {
-      font-size: var(--size-label);
-      font-weight: var(--weight-black);
-      text-transform: uppercase;
-      letter-spacing: var(--ls-label);
-      color: var(--color-gray);
-      margin-bottom: var(--space-sm);
-      display: block;
-    }
-
-    h1 {
-      font-size: var(--size-h1);
-      line-height: 1.1;
-      font-weight: var(--weight-black);
-      max-width: 900px;
-    }
-
-    /* Article Body */
-    .article-content {
-      padding: var(--space-lg) 0;
-      max-width: var(--container-narrow);
-      margin: 0 auto;
-    }
-
-    p { font-size: var(--size-body); margin-bottom: 1.8rem; }
-    h2 { font-size: var(--size-h2); margin: 3rem 0 1.5rem; line-height: 1.2; font-weight: var(--weight-bold); }
-    h3 { font-size: 1.5rem; margin: 2rem 0 1rem; font-weight: var(--weight-bold); }
-
-    strong { font-weight: var(--weight-bold); }
-
-    /* Table Styles */
-    .table-wrapper {
-      margin: var(--space-md) 0;
-      overflow-x: auto;
-      border: 1px solid var(--color-border);
-      border-radius: 8px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.95rem;
-    }
-
-    th, td {
-      padding: 1.2rem;
-      text-align: left;
-      border-bottom: 1px solid var(--color-border);
-    }
-
-    th {
-      background: rgba(0,0,0,0.02);
-      font-weight: var(--weight-black);
-      text-transform: uppercase;
-      font-size: var(--size-label);
-      letter-spacing: var(--ls-label);
-    }
-
-    /* Footer */
-    footer {
-      padding: var(--space-lg) 0;
-      border-top: 1px solid var(--color-border);
-    }
-
-    .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .copyright { font-size: 0.875rem; color: var(--color-gray); }
-
-    @media (max-width: 768px) {
-      h1 { font-size: 2.5rem; }
-      :root { --space-xl: 4rem; --space-lg: 3rem; }
-      .nav-links { display: none; }
-    }
-  </style>
+  <link rel="stylesheet" href="stylesgem.css">
 </head>
 
 <body>
 
+  <!-- ============================================================
+    NAVIGATION — identical across all pages, do not edit
+  ============================================================ -->
   <nav class="global-menu" aria-label="Site navigation">
     <div class="container nav-inner">
-      <a href="#" class="nav-logo">
-        <svg class="logo" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="64" height="64" fill="#2D2D2D"/>
-          <path d="M20 20H44V44H20V20Z" stroke="white" stroke-width="4"/>
+
+      <a href="index.html" class="nav-logo" aria-label="Home">
+        <svg class="logo" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <path d="M35.9893 46.1494L35.1768 51.5361L38.5908 54.0254L44.2676 53.1289L44.6553 53.0674L44.9814 53.2871L48.8838 55.9072L47.7686 57.5674L44.1914 55.165L38.4932 56.0674L38.083 56.1328L37.7471 55.8877L33.5088 52.7949L33.0186 52.4375L33.1094 51.8389L34.0107 45.8506L35.9893 46.1494ZM30 36H24.333V38.3193H31V52.4814H29V40.3193H24.333V56H10V54H22.333V34H30V36ZM56 36H51.667V38.3174H57V55H55V40.3174H51.667V51.2627H40V49.2627H49.667V34H56V36ZM19 48H8V36H19V48ZM10 46H17V38H10V46ZM45 36H36V38.5H45V40.5H36V43H45V45H34V34H45V36ZM55 10H48V12.8877H56V28H54V14.8877H48V29H31V27H46V8H55V10ZM30 10H24V13.1445H31V24.2236H29V15.1445H24V28H9V26H22V8H30V10ZM42 10H36V12.6426H42V14.6426H36V21H42V23H34V8H42V10ZM13 9C16.3137 9 19 11.6863 19 15C19 18.3137 16.3137 21 13 21C9.68629 21 7 18.3137 7 15C7 11.6863 9.68629 9 13 9ZM13 11C10.7909 11 9 12.7909 9 15C9 17.2091 10.7909 19 13 19C15.2091 19 17 17.2091 17 15C17 12.7909 15.2091 11 13 11Z" fill="darkred"/>
         </svg>
-        ION
       </a>
-      <ul class="nav-links">
-        <li><a href="#">Work</a></li>
-        <li><a href="#">Backstory</a></li>
-        <li><a href="#">Process</a></li>
-        <li><a href="#">Resume</a></li>
+
+      <!-- Desktop links -->
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="nav-link">Projects</a></li>
+        <li><a href="articles.html" class="nav-link nav-link--active" aria-current="page">Articles</a></li>
+        <li><a href="backstory.html" class="nav-link">Backstory</a></li>
+        <li><a href="process.html" class="nav-link">Process</a></li>
+        <li><a href="resume.html" class="nav-link">Resume</a></li>
       </ul>
+
+      <!-- Hamburger button — hidden on desktop -->
+      <button
+        class="nav-toggle"
+        id="nav-toggle"
+        aria-controls="nav-drawer"
+        aria-expanded="false"
+        aria-label="Open navigation menu"
+      >
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+
     </div>
   </nav>
 
-  <header class="article-hero">
+  <!-- Mobile drawer -->
+  <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+    <ul class="nav-drawer__links">
+      <li><a href="index.html" class="nav-drawer__link">Projects</a></li>
+      <li><a href="articles.html" class="nav-drawer__link nav-drawer__link--active" aria-current="page">Articles</a></li>
+      <li><a href="backstory.html" class="nav-drawer__link">Backstory</a></li>
+      <li><a href="process.html" class="nav-drawer__link">Process</a></li>
+      <li><a href="resume.html" class="nav-drawer__link">Resume</a></li>
+    </ul>
+  </div>
+  <div class="nav-backdrop" id="nav-backdrop" aria-hidden="true"></div>
+
+  <script>
+    (function () {
+      const toggle   = document.getElementById('nav-toggle');
+      const drawer   = document.getElementById('nav-drawer');
+      const backdrop = document.getElementById('nav-backdrop');
+      function openMenu() {
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.setAttribute('aria-label', 'Close navigation menu');
+        drawer.setAttribute('aria-hidden', 'false');
+        backdrop.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('nav-open');
+        drawer.querySelector('.nav-drawer__link').focus();
+      }
+      function closeMenu() {
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open navigation menu');
+        drawer.setAttribute('aria-hidden', 'true');
+        backdrop.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('nav-open');
+        toggle.focus();
+      }
+      toggle.addEventListener('click', function () {
+        toggle.getAttribute('aria-expanded') === 'true' ? closeMenu() : openMenu();
+      });
+      backdrop.addEventListener('click', closeMenu);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') closeMenu();
+      });
+      drawer.addEventListener('keydown', function (e) {
+        if (e.key !== 'Tab') return;
+        const focusable = drawer.querySelectorAll('a');
+        const first = focusable[0];
+        const last  = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      });
+    })();
+  </script>
+  <!-- ============================================================ -->
+
+  <div class="progress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+
+  <main class="main" id="main-content">
+
     <div class="container">
-      <span class="hero-label">UX Research & Strategy</span>
-      <h1>Beyond Click Counts: Designing Purposeful Steps</h1>
+      <a href="articles.html" class="back-link">
+        <span class="back-arrow" aria-hidden="true">←</span> Back to Articles
+      </a>
     </div>
-  </header>
 
-  <main class="container">
-    <article class="article-content">
-      <p>In the world of product development, there is a common misconception that the best user experience (UX) is the one with the fewest clicks. However, the real cost in any system is <strong>human time and errors</strong>, not machine cycles or the number of steps in a flow. We design for <strong>user productivity</strong>, not machine efficiency.</p>
+    <!-- ============================================================
+      ARTICLE HEADER — update for each new article
+    ============================================================ -->
+    <header class="article-header">
+      <div class="container article-header__inner">
+        <div class="article-meta">
+          <span class="label">Design Principles</span>
+          <span class="article-meta__divider" aria-hidden="true">·</span>
+          <time class="label" datetime="2026-01">January 2026</time>
+          <span class="article-meta__divider" aria-hidden="true">·</span>
+          <span class="label">2 min read</span>
+        </div>
+        <h1 class="article-title">Beyond Click Counts: Designing Purposeful Steps</h1>
+        <p class="article-subtitle">The real cost in any system is human time and errors, not machine cycles or the number of steps in a flow.</p>
+      </div>
+    </header>
+    <!-- ============================================================ -->
+        <!-- Hero portrait -->
+        <figure class="article-figure figure--full" aria-label="Matthew Martin portrait">
+          <img
+            src="handMouse.png"
+            alt="Matthew Martin"
+            loading="eager"
+          >
+        </figure>
 
-      <h2>How many clicks?</h2>
-      <p>I have often been pushed to minimize steps, assuming that less friction automatically equals a better experience. While this is a good starting point, it is not a universal law.</p>
+    <article class="article-body" aria-labelledby="article-title">
+      <div class="container content-narrow">
 
-      <p>Research by the Nielsen Norman Group found no evidence linking click counts to user success or satisfaction. Instead, two factors matter much more:</p>
-      
-      <ul>
-        <li><strong>Information Scent:</strong> This refers to how clearly a label or button indicates where the user is going. If the path is clear, users don't mind the extra clicks.</li>
-        <li><strong>Clarity over Redundancy:</strong> Fewer clicks are beneficial only when they eliminate redundant tasks, such as auto-filling forms or skipping unnecessary confirmations.</li>
-      </ul>
+        <!-- ── SECTION: Overview ──────────────────────────────── -->
+        <section class="article-section">
+          <h2>Overview</h2>
+          <p class="article-lead">In the world of product development, there is a common misconception that the best user experience is the one with the fewest clicks.</p>
+          <p class="article-lead"> We design for user productivity, not machine efficiency.</p>
+        </section>
 
-      <h2>When More Clicks Build Better Products</h2>
-      <p>In high-stakes environments—such as those dealing with sensitive data or financial transactions—adding "deliberate friction" can actually improve the experience.</p>
 
-      <h3>1. Building Trust Through Verification</h3>
-      <p>In a project involving archival metadata, an attempt to fully automate the process initially failed. While automation reduced the number of steps, archivists felt they had lost control. By re-introducing a <strong>verification step</strong>, the system became more rigorous. Dedicated review steps (showing amounts, fees, and accounts) boost user confidence and significantly reduce errors and disputes.</p>
+        <!-- ── INLINE FIGURE ─────────────────────────────────────
+             Replace src with your image. Add figure--zoomable to enable lightbox.
+             Remove figure--zoomable if no lightbox is needed.
+        ─────────────────────────────────────────────────────────── -->
+     
+       
 
-      <h2>Scenarios: Efficiency vs. Accuracy</h2>
-      <p>The following table illustrates why a "more clicks" approach often leads to better business outcomes.</p>
 
-      <div class="table-wrapper">
-        <table>
+        <!-- ── SECTION: How Many Clicks ──────────────────────── -->
+        <section class="article-section">
+          <h2>How Many Clicks?</h2>
+          <p>I have often been pushed to minimise steps, assuming that less friction automatically equals a better experience. While this is a good starting point, it is not a universal law.</p>
+<!-- 
+          <blockquote>
+            <p>"Look at the user's productivity, not the computer's."</p>
+            <cite>First Principles of Interaction Design (Revised &amp; Expanded)</cite>
+          </blockquote> -->
+
+          <p>Research by the Nielsen Norman Group found no evidence linking click counts to user success or satisfaction. Instead, two factors matter much more.</p>
+
+          <h3>Information Scent</h3>
+          <p>This refers to how clearly a label or button indicates where the user is going. If the path is clear, users don't mind the extra clicks.</p>
+
+          <h3>Clarity Over Redundancy</h3>
+          <p>Fewer clicks are beneficial only when they eliminate redundant tasks.  Examples include auto-filling forms or skipping unnecessary confirmations.</p>
+        </section>
+
+
+        <!-- ── BREAKOUT FIGURE ───────────────────────────────────
+             Good for diagrams, research screenshots, or annotated flows.
+             Add figure--zoomable to enable the lightbox.
+        ─────────────────────────────────────────────────────────── -->
+        <!--
+        <figure class="article-figure figure--breakout figure--zoomable" aria-label="[Describe the image]">
+          <img
+            src="your-image.png"
+            alt="[Descriptive alt text]"
+            loading="lazy"
+          >
+          <figcaption>[Caption text]</figcaption>
+        </figure>
+        -->
+
+
+        <!-- ── SECTION: When More Clicks Build Better Products ── -->
+        <section class="article-section">
+          <h2>When More Clicks Build Better Products</h2>
+
+          <h3>Building Trust Through Verification</h3>
+          <p>In a project involving archival metadata, an attempt to fully automate the process initially failed. While automation reduced the number of steps, archivists felt they had lost control. By re-introducing a verification step, the system built trust. Users wanted to see how the system was processing their data, even if it meant more clicks.</p>
+        </section>
+
+
+        <!-- ── SECTION: Case Study ───────────────────────────── -->
+        <section class="article-section">
+          <h2>Case Study</h2>
+          <h3> The Archivist's Dilemma</h3>
+          <p>In a previous project, I aimed to streamline the workflow for archivists by automating the ingestion and publication of metadata. My primary goal was "efficiency" — to automate as much as possible and free the archivists from manual labour.</p>
+          <p>During concept testing, we hit a wall. While the system was technically faster, the users felt a loss of agency. They didn't just want the work done; they needed to see how the system was processing their data. To solve this, we intentionally re-introduced an extra verification step.</p>
+          <p>Even though this meant adding more clicks, those clicks served a vital purpose: they built trust. By giving users a moment of control over the automation, we ensured accuracy and user confidence.</p>
+          <p>This experience highlighted a critical tension: in high-stakes environments dealing with complex data or financial transactions, "frictionless" design can often lead to a "trustless" experience.</p>
+        </section>
+
+
+        <!-- ── IMAGE GRID (2 columns) ────────────────────────────
+             Before/after, or two related screenshots side by side.
+             Swap to media-grid--3col for three images.
+        ─────────────────────────────────────────────────────────── -->
+        <!--
+        <div class="media-grid media-grid--2col">
+          <figure class="article-figure figure--zoomable" aria-label="[Image 1 description]">
+            <img src="your-image-1.png" alt="[Alt text]" loading="lazy">
+            <figcaption>[Caption for image 1]</figcaption>
+          </figure>
+          <figure class="article-figure figure--zoomable" aria-label="[Image 2 description]">
+            <img src="your-image-2.png" alt="[Alt text]" loading="lazy">
+            <figcaption>[Caption for image 2]</figcaption>
+          </figure>
+        </div>
+        -->
+
+
+        <!-- ── SECTION: Cognitive Load ──────────────────────── -->
+        <section class="article-section">
+          <h2>Reducing Cognitive Load via Chunking</h2>
+          <p>Cognitive load is the amount of mental effort required to complete a task. When a screen is too dense, it overwhelms the user.</p>
+
+          <h3>Chunking</h3>
+          <p>This is the process of breaking a single, overwhelming page into smaller, focused screens. Breaking down complex forms allows users to process one thing at a time, which often outperforms a single "efficient" scrollable page.</p>
+
+          <h3>Preventing Errors</h3>
+          <p>For high-risk actions like data deletion or large money transfers, "one-click magic" can be dangerous. Dedicated review steps: showing amounts, fees, and accounts will boost user confidence and significantly reduce errors and disputes.</p>
+        </section>
+
+
+        <!-- ── FIGMA EMBED ───────────────────────────────────────
+             Get the embed URL from: Share → Get embed code in Figma.
+             The wrapper maintains 16:9 by default.
+             Use embed-wrapper--tall for a taller 4:3 ratio.
+        ─────────────────────────────────────────────────────────── -->
+        <!--
+        <div class="embed-wrapper embed-wrapper--figma" role="region" aria-label="[Describe the Figma file]">
+          <iframe
+            src="https://www.figma.com/embed?embed_host=share&url=YOUR_FIGMA_URL_HERE"
+            allowfullscreen
+            title="[Iframe title for screen readers]"
+            loading="lazy"
+          ></iframe>
+          <p class="embed-caption label">[Caption text below the embed]</p>
+        </div>
+        -->
+
+
+        <!-- ── SECTION: Scenarios Table ─────────────────────── -->
+        <section class="article-section">
+          <h2>Scenarios</h2>
+          <h3>Efficiency vs. Accuracy</h3>
+          <p>The following table illustrates why a "more clicks" approach often leads to better business outcomes.</p>
+        </section>
+
+        <!-- ── DATA TABLE ────────────────────────────────────────
+             Sits in the breakout column (wider than the text body).
+             Add or remove <tr> rows as needed.
+        ─────────────────────────────────────────────────────────── -->
+        <table class="article-table" aria-label="Efficiency vs accuracy scenarios">
           <thead>
             <tr>
-              <th>Scenario</th>
-              <th>"Fewer Clicks" Approach</th>
-              <th>"More Clicks" Rationale</th>
-              <th>Outcome</th>
+              <th scope="col">Scenario</th>
+              <th scope="col">Fewer Clicks</th>
+              <th scope="col">More Clicks</th>
+              <th scope="col">Outcome</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>Payment Confirmation</strong></td>
-              <td>Single "Pay Now" button with inline summary.</td>
-              <td>Separate review screen + explicit "Confirm Amount".</td>
-              <td>Reduces chargebacks; users feel safer spotting errors early.</td>
+              <td>Payment Confirmation</td>
+              <td>Single "Pay Now" button with inline summary</td>
+              <td>Separate review screen + explicit "Confirm Amount"</td>
+              <td>Reduces chargebacks; users feel safer spotting errors early</td>
             </tr>
             <tr>
-              <td><strong>Data Entry Form</strong></td>
-              <td>All fields on one long, scrollable page.</td>
-              <td>Stepper: A flow that goes Collect → Review → Submit.</td>
-              <td>Lowers abandonment by 20-30%; reduces mental strain.</td>
+              <td>Data Entry Form</td>
+              <td>All fields on one long, scrollable page</td>
+              <td>Stepper: Collect → Review → Submit</td>
+              <td>Lowers abandonment by 20–30%; reduces mental strain</td>
             </tr>
             <tr>
-              <td><strong>Account Closure</strong></td>
-              <td>Instant "Delete Account" button.</td>
-              <td>Verify identity → Show impact → Final confirmation.</td>
-              <td>Prevents accidental losses and meets compliance needs.</td>
+              <td>Account Closure</td>
+              <td>Instant "Delete Account" button</td>
+              <td>Verify identity → Show impact → Final confirmation</td>
+              <td>Prevents accidental losses and meets compliance needs</td>
             </tr>
           </tbody>
         </table>
-      </div>
 
-      <h2>Strategy for Product Leaders</h2>
-      <p>As you evaluate your next product roadmap or design review, prioritize <strong>structure and support</strong> over raw efficiency. Users value control and low error rates far more than they value a low tap count.</p>
-      
-      <p><strong>Measure what matters:</strong> Instead of counting clicks, measure completion rates, error reduction, and user confidence.</p>
-      
-      <p><strong>Test the tension:</strong> When designing a complex flow, prototype both a "minimal click" version and a "structured" version. Let the data on user errors and speed guide your final decision.</p>
+
+        <!-- ── VIDEO (hosted mp4/webm) ───────────────────────────
+             For your own video files. Controls are always visible.
+             Include both mp4 and webm for broad browser support.
+        ─────────────────────────────────────────────────────────── -->
+        <!--
+        <div class="embed-wrapper embed-wrapper--video" role="region" aria-label="[Describe the video]">
+          <video
+            controls
+            preload="metadata"
+            poster="your-video-poster.png"
+            aria-label="[Video title for screen readers]"
+          >
+            <source src="your-video.mp4"  type="video/mp4">
+            <source src="your-video.webm" type="video/webm">
+            <p>Your browser doesn't support embedded video. <a href="your-video.mp4">Download the video (mp4)</a>.</p>
+          </video>
+          <p class="embed-caption label">[Caption text]</p>
+        </div>
+        -->
+
+        <!-- ── YOUTUBE / VIMEO ───────────────────────────────────
+             YouTube:  https://www.youtube.com/embed/VIDEO_ID
+             Vimeo:    https://player.vimeo.com/video/VIDEO_ID
+        ─────────────────────────────────────────────────────────── -->
+        <!--
+        <div class="embed-wrapper embed-wrapper--video" role="region" aria-label="[Describe the video]">
+          <iframe
+            src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
+            title="[Video title for screen readers]"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+          <p class="embed-caption label">[Caption text]</p>
+        </div>
+        -->
+
+
+        <!-- ── SECTION: Strategy ────────────────────────────── -->
+        <section class="article-section article-section--no-border-top">
+          <h2>Strategy</h2>
+          <p>As you evaluate your next product roadmap or design review, prioritise structure and support over raw efficiency. Users value control and low error rates far more than they value a low tap count.</p>
+
+          <h3>Measure What Matters</h3>
+          <p>Instead of counting clicks, measure completion rates, error reduction, and user confidence.</p>
+
+          <h3>Test the Tension</h3>
+          <p>When designing a complex flow, prototype both a "minimal click" version and a "structured" version. Let the data on user errors and speed guide your final decision.</p>
+        </section>
+
+
+        <!-- ── FULL-BLEED FIGURE ─────────────────────────────────
+             Use sparingly — high-impact moments only.
+             Does not support the lightbox (too large to enlarge further).
+        ─────────────────────────────────────────────────────────── -->
+        <!--
+        <figure class="article-figure figure--full" aria-label="[Describe the image]">
+          <img
+            src="your-image.png"
+            alt="[Descriptive alt text]"
+            loading="lazy"
+          >
+          <figcaption class="container">[Caption text]</figcaption>
+        </figure>
+        -->
+
+
+        <!-- ============================================================
+          ARTICLE FOOTER — update tags for each article
+        ============================================================ -->
+        <footer class="article-footer">
+          <div class="article-tags">
+            <span class="label">Tagged:</span>
+            <ul class="tags-list" aria-label="Article tags">
+              <li><a href="#" class="tag">Design Principles</a></li>
+              <li><a href="#" class="tag">UX Research</a></li>
+              <li><a href="#" class="tag">Interaction Design</a></li>
+            </ul>
+          </div>
+          <div class="article-share">
+            <span class="label">Share:</span>
+            <div class="share-links">
+              <a href="#" class="share-link">Twitter</a>
+              <a href="#" class="share-link">LinkedIn</a>
+              <a href="#" class="share-link">Copy Link</a>
+            </div>
+          </div>
+        </footer>
+
+      </div><!-- /.content-narrow -->
     </article>
+
+
+    <!-- ============================================================
+      RELATED ARTICLES — update links for each article
+    ============================================================ -->
+    <section class="related-articles" aria-labelledby="related-heading">
+      <div class="container content-narrow">
+        <h2 id="related-heading" class="label">More Reading</h2>
+        <div class="related-list">
+          <a href="testingMethology.html" class="related-item">
+            <p class="label">Case Study</p>
+            <h3 class="related-item-title">Testing Methodology</h3>
+          </a>
+          <a href="#" class="related-item">
+            <p class="label">Process</p>
+            <h3 class="related-item-title">Why I Start Every Project With a Question, Not a Solution</h3>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <a href="articles.html" class="back-link">
+        <span class="back-arrow" aria-hidden="true">←</span> Back to Articles
+      </a>
+    </div>
+
   </main>
 
-  <footer>
+
+  <!-- ============================================================
+    FOOTER — identical across all pages, do not edit
+  ============================================================ -->
+  <footer class="footer">
     <div class="container footer-inner">
-      <div class="copyright">
-        &copy; 2024 ION Portfolio. All rights reserved.
-      </div>
-      <ul class="nav-links" style="display: flex;">
-        <li><a href="#">Twitter</a></li>
-        <li><a href="#">LinkedIn</a></li>
-      </ul>
+      <p class="footer-text">© 2026</p>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="mailto:hello@example.com" class="footer-link">Email</a>
+        <a href="#" class="footer-link">LinkedIn</a>
+        <a href="#" class="footer-link">Dribbble</a>
+      </nav>
     </div>
   </footer>
+  <!-- ============================================================ -->
+
+
+  <!-- ============================================================
+    LIGHTBOX — no dependencies, pure JS
+    Activated automatically on any figure.figure--zoomable
+    Close: click backdrop, press Escape, or click × button
+  ============================================================ -->
+  <div class="lightbox" id="lightbox" aria-modal="true" role="dialog" aria-label="Image viewer" aria-hidden="true">
+    <button class="lightbox__close" id="lightbox-close" aria-label="Close image viewer">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M2 2L18 18M18 2L2 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <figure class="lightbox__figure">
+      <img class="lightbox__img" id="lightbox-img" src="" alt="">
+      <figcaption class="lightbox__caption" id="lightbox-caption"></figcaption>
+    </figure>
+  </div>
+  <div class="lightbox-backdrop" id="lightbox-backdrop" aria-hidden="true"></div>
+
+  <script>
+    (function () {
+      const lightbox   = document.getElementById('lightbox');
+      const backdrop   = document.getElementById('lightbox-backdrop');
+      const closeBtn   = document.getElementById('lightbox-close');
+      const lbImg      = document.getElementById('lightbox-img');
+      const lbCaption  = document.getElementById('lightbox-caption');
+      let previousFocus = null;
+
+      function openLightbox(img, caption) {
+        previousFocus = document.activeElement;
+        lbImg.src     = img.src;
+        lbImg.alt     = img.alt;
+        lbCaption.textContent = caption;
+        lightbox.setAttribute('aria-hidden', 'false');
+        backdrop.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('lightbox-open');
+        closeBtn.focus();
+      }
+
+      function closeLightbox() {
+        lightbox.setAttribute('aria-hidden', 'true');
+        backdrop.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('lightbox-open');
+        setTimeout(function () { lbImg.src = ''; }, 300);
+        if (previousFocus) previousFocus.focus();
+      }
+
+      document.querySelectorAll('.figure--zoomable').forEach(function (figure) {
+        const img     = figure.querySelector('img');
+        const caption = figure.querySelector('figcaption');
+        if (!img) return;
+
+        figure.setAttribute('tabindex', '0');
+        figure.setAttribute('role', 'button');
+        figure.setAttribute('aria-label', 'View image larger: ' + (img.alt || 'image'));
+
+        function trigger() {
+          openLightbox(img, caption ? caption.textContent : '');
+        }
+
+        figure.addEventListener('click', trigger);
+        figure.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); trigger(); }
+        });
+      });
+
+      closeBtn.addEventListener('click', closeLightbox);
+      backdrop.addEventListener('click', closeLightbox);
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && lightbox.getAttribute('aria-hidden') === 'false') {
+          closeLightbox();
+        }
+      });
+
+      lightbox.addEventListener('keydown', function (e) {
+        if (e.key !== 'Tab') return;
+        e.preventDefault();
+        closeBtn.focus();
+      });
+    })();
+  </script>
 
 </body>
 </html>
