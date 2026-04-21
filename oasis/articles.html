@@ -12,19 +12,10 @@
   <link rel="stylesheet" href="stylesgem.css">
 
   <style>
-    /* ============================================================
-       ARTICLES INDEX — page-scoped styles
-       All design tokens come from styles.css
-    ============================================================ */
-
-    /* ── Page heading ───────────────────────────────────────────── */
+    /* ── Page header ─────────────────────────────────────────────── */
     .page-header {
       padding-block: var(--space-xl) var(--space-lg);
       border-bottom: 1px solid var(--color-border);
-    }
-
-    .page-header h1 {
-      /* inherits h1 from styles.css — large, light, gray */
     }
 
     .page-header p {
@@ -33,21 +24,18 @@
       max-width: 50ch;
     }
 
-    /* ── Article list ───────────────────────────────────────────── */
+    /* ── Article list ────────────────────────────────────────────── */
     .articles-list {
       padding-block: 0 var(--space-xxl);
     }
 
-    /* Each row */
     .article-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: baseline;
-      gap: var(--space-md);
+      display: block;
       padding-block: var(--space-lg);
       border-bottom: 1px solid var(--color-border);
+      text-decoration: none;
+      color: inherit;
       transition: opacity var(--t-medium);
-      cursor: pointer;
     }
 
     .article-row:hover {
@@ -56,9 +44,16 @@
 
     .article-row:hover .article-row__arrow {
       transform: translateX(6px);
+      color: var(--color-charcoal);
     }
 
-    /* Left: meta + title + excerpt */
+    .article-row__inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: baseline;
+      gap: var(--space-md);
+    }
+
     .article-row__body {
       display: flex;
       flex-direction: column;
@@ -81,7 +76,6 @@
       font-weight: var(--weight-light);
       line-height: var(--lh-heading);
       color: var(--color-charcoal);
-      /* No max-width — let it stretch */
       max-width: none;
     }
 
@@ -90,22 +84,17 @@
       max-width: 60ch;
     }
 
-    /* Right: arrow */
     .article-row__arrow {
       font-size: 1.25rem;
       color: var(--color-gray-light);
       transition: transform var(--t-medium), color var(--t-medium);
       white-space: nowrap;
       flex-shrink: 0;
+      align-self: center;
     }
 
-    .article-row:hover .article-row__arrow {
-      color: var(--color-charcoal);
-    }
-
-    /* ── Responsive ────────────────────────────────────────────── */
     @media (max-width: 600px) {
-      .article-row {
+      .article-row__inner {
         grid-template-columns: 1fr;
       }
 
@@ -176,71 +165,98 @@
   <main class="main" id="main-content">
     <div class="container">
 
-      <!-- ── Page header ─────────────────────────────────────────── -->
       <header class="page-header">
         <h1>Articles</h1>
         <p>Writing on product design, UX methodology, and building things that work.</p>
       </header>
 
-      <!-- ── Article list ────────────────────────────────────────── -->
-      <!-- ADD NEW ARTICLES: duplicate an <article> block and update the content -->
+      <!-- ADD NEW ARTICLES: duplicate an <a> block and update the content. Newest first. -->
       <section class="articles-list" aria-label="Article list">
 
-        <!-- ── ARTICLE 1 ──────────────────────────────────────────
-             Update: href, category label, date, read time, title, excerpt
-        ─────────────────────────────────────────────────────────── -->
-        <article class="article-row" role="article">
-          <a href="testingMethology.html" class="article-row__body" aria-label="Read: Testing Methodology">
-            <div class="article-row__meta">
-              <span class="label">Case Study</span>
-              <span class="divider" aria-hidden="true">·</span>
-              <time class="label" datetime="2026-01">January 2026</time>
-              <span class="divider" aria-hidden="true">·</span>
-              <span class="label">8 min read</span>
+        <a href="ThreeLevelsofAIOutput.html" class="article-row">
+          <div class="article-row__inner">
+            <div class="article-row__body">
+              <div class="article-row__meta">
+                <span class="label">Design & AI</span>
+                <span class="divider" aria-hidden="true">·</span>
+                <time class="label" datetime="2026-04">April 2026</time>
+                <span class="divider" aria-hidden="true">·</span>
+                <span class="label">6 min read</span>
+              </div>
+              <h2 class="article-row__title">The Three Things AI Actually Does</h2>
+              <p class="article-row__excerpt">AI isn't one thing. Once you understand the three different ways it behaves, you'll design with it — not around it.</p>
             </div>
-            <h2 class="article-row__title">Testing Methodology</h2>
-            <p class="article-row__excerpt">A reference guide to every testing method worth knowing — from heuristic evaluation to multivariate testing.</p>
-          </a>
-          <span class="article-row__arrow" aria-hidden="true">→</span>
-        </article>
+            <span class="article-row__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
 
-        <!-- ── ARTICLE 2 ──────────────────────────────────────────
-             Update: href, category label, date, read time, title, excerpt
-        ─────────────────────────────────────────────────────────── -->
-        <article class="article-row" role="article">
-          <a href="#" class="article-row__body" aria-label="Read: Why I Start Every Project With a Question">
-            <div class="article-row__meta">
-              <span class="label">Process</span>
-              <span class="divider" aria-hidden="true">·</span>
-              <time class="label" datetime="2025-11">November 2025</time>
-              <span class="divider" aria-hidden="true">·</span>
-              <span class="label">5 min read</span>
+        <a href="designGovernance.html" class="article-row">
+          <div class="article-row__inner">
+            <div class="article-row__body">
+              <div class="article-row__meta">
+                <span class="label">Reference</span>
+                <span class="divider" aria-hidden="true">·</span>
+                <time class="label" datetime="2026-02">February 2026</time>
+                <span class="divider" aria-hidden="true">·</span>
+                <span class="label">2 min read</span>
+              </div>
+              <h2 class="article-row__title">Bridging Design and Governance</h2>
+              <p class="article-row__excerpt">Aligning the creative design process with Product Development to ensure strategic outcomes and operational efficiency.</p>
             </div>
-            <h2 class="article-row__title">Why I Start Every Project With a Question, Not a Solution</h2>
-            <p class="article-row__excerpt">Framing is the most underrated skill in design. Here's how I use it to avoid the expensive mistake of building the wrong thing.</p>
-          </a>
-          <span class="article-row__arrow" aria-hidden="true">→</span>
-        </article>
+            <span class="article-row__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
 
-        <!-- ── ARTICLE 3 ──────────────────────────────────────────
-             Update: href, category label, date, read time, title, excerpt
-        ─────────────────────────────────────────────────────────── -->
-        <article class="article-row" role="article">
-          <a href="#" class="article-row__body" aria-label="Read: Button Placement: Hierarchy and Order">
-            <div class="article-row__meta">
-              <span class="label">Design Systems</span>
-              <span class="divider" aria-hidden="true">·</span>
-              <time class="label" datetime="2025-09">September 2025</time>
-              <span class="divider" aria-hidden="true">·</span>
-              <span class="label">4 min read</span>
+        <a href="testingMethodology.html" class="article-row">
+          <div class="article-row__inner">
+            <div class="article-row__body">
+              <div class="article-row__meta">
+                <span class="label">Reference</span>
+                <span class="divider" aria-hidden="true">·</span>
+                <time class="label" datetime="2026-02">February 2026</time>
+                <span class="divider" aria-hidden="true">·</span>
+                <span class="label">2 min read</span>
+              </div>
+              <h2 class="article-row__title">Testing Methodology</h2>
+              <p class="article-row__excerpt">A reference guide to the spectrum of UX testing methods — from expert evaluation to feedback-based research.</p>
             </div>
-            <h2 class="article-row__title">Button Placement: Hierarchy and Order</h2>
-            <p class="article-row__excerpt">Primary, secondary, destructive — where you put a button teaches users how much to trust it. The rules are simpler than you think.</p>
-          </a>
-          <span class="article-row__arrow" aria-hidden="true">→</span>
-        </article>
+            <span class="article-row__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
 
-        <!-- ── ADD ARTICLE HERE — copy one block above ─────────── -->
+        <a href="artifactSelection.html" class="article-row">
+          <div class="article-row__inner">
+            <div class="article-row__body">
+              <div class="article-row__meta">
+                <span class="label">Article</span>
+                <span class="divider" aria-hidden="true">·</span>
+                <time class="label" datetime="2026-01">January 2026</time>
+                <span class="divider" aria-hidden="true">·</span>
+                <span class="label">3 min read</span>
+              </div>
+              <h2 class="article-row__title">Artifact Selection Guide</h2>
+              <p class="article-row__excerpt">High-fidelity prototypes are easy to make — but they aren't always the right tool. A guide to matching the artifact to the problem.</p>
+            </div>
+            <span class="article-row__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <a href="BeyondClicks.html" class="article-row">
+          <div class="article-row__inner">
+            <div class="article-row__body">
+              <div class="article-row__meta">
+                <span class="label">Design Principles</span>
+                <span class="divider" aria-hidden="true">·</span>
+                <time class="label" datetime="2026-01">January 2026</time>
+                <span class="divider" aria-hidden="true">·</span>
+                <span class="label">2 min read</span>
+              </div>
+              <h2 class="article-row__title">Beyond Click Counts: Designing Purposeful Steps</h2>
+              <p class="article-row__excerpt">The real cost in any system is human time and errors, not machine cycles or the number of steps in a flow.</p>
+            </div>
+            <span class="article-row__arrow" aria-hidden="true">→</span>
+          </div>
+        </a>
 
       </section>
 
@@ -252,7 +268,7 @@
   ============================================================ -->
   <footer class="footer">
     <div class="container footer-inner">
-      <p class="footer-text">© 2025</p>
+      <p class="footer-text">© 2026</p>
       <nav class="footer-links" aria-label="Footer navigation">
         <a href="mailto:hello@example.com" class="footer-link">Email</a>
         <a href="#" class="footer-link">LinkedIn</a>
