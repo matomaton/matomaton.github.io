@@ -1,0 +1,73 @@
+{
+  "color": {
+    "light": {
+      "bg":         { "value": "#FCFCF9",                    "type": "color", "description": "Warm off-white page background" },
+      "nav-bg":     { "value": "rgba(242, 242, 239, 0.60)",  "type": "color", "description": "Frosted nav — 60% opacity" },
+      "charcoal":   { "value": "#2D2D2D",                    "type": "color", "description": "Primary text and interactive elements" },
+      "gray":       { "value": "#595959",                    "type": "color", "description": "Secondary text — darkened from #6D6D6D for WCAG AA" },
+      "gray-light": { "value": "#767676",                    "type": "color", "description": "Tertiary / metadata — darkened from #B8B8B8 for WCAG AA" },
+      "border":     { "value": "rgba(45, 45, 45, 0.15)",     "type": "color", "description": "Subtle dividers and card outlines" },
+      "link":       { "value": "#4A6580",                    "type": "color", "description": "Prose link — slate blue" },
+      "link-hover": { "value": "#2E4A62",                    "type": "color", "description": "Prose link hover state" }
+    },
+    "dark": {
+      "bg":         { "value": "#181818",                    "type": "color", "description": "Dark mode page background" },
+      "nav-bg":     { "value": "rgba(24, 24, 24, 0.70)",     "type": "color", "description": "Dark mode frosted nav" },
+      "charcoal":   { "value": "#FCFCF9",                    "type": "color", "description": "Dark mode primary text (inverted)" },
+      "gray":       { "value": "#A3A3A3",                    "type": "color", "description": "Dark mode secondary text" },
+      "gray-light": { "value": "#8A8A8A",                    "type": "color", "description": "Dark mode tertiary text" },
+      "border":     { "value": "rgba(252, 252, 249, 0.15)",  "type": "color", "description": "Dark mode dividers" },
+      "nav-border": { "value": "rgba(255, 255, 255, 0.08)",  "type": "color", "description": "Dark mode nav border" }
+    },
+    "nav": {
+      "border":     { "value": "rgba(0, 0, 0, 0.08)",        "type": "color" },
+      "shadow":     { "value": "0 2px 12px rgba(0, 0, 0, 0.06)", "type": "other" }
+    }
+  },
+
+  "typography": {
+    "font": {
+      "primary":  { "value": "'Lato', -apple-system, BlinkMacSystemFont, sans-serif", "type": "fontFamilies" }
+    },
+    "weight": {
+      "light":    { "value": "300", "type": "fontWeights" },
+      "regular":  { "value": "400", "type": "fontWeights" },
+      "bold":     { "value": "700", "type": "fontWeights" },
+      "black":    { "value": "900", "type": "fontWeights" }
+    },
+    "size": {
+      "h1":       { "value": "6rem",   "type": "fontSizes", "description": "clamp(3rem, 8vw, 6rem) — 48–96px. 96px at desktop." },
+      "h2":       { "value": "2.75rem","type": "fontSizes", "description": "clamp(1.75rem, 4vw, 2.75rem) — 28–44px." },
+      "label":    { "value": "0.75rem","type": "fontSizes", "description": "clamp(0.65rem, 1.5vw, 0.75rem) — 10–12px." },
+      "body":     { "value": "1rem",   "type": "fontSizes", "description": "clamp(1rem, 1.2vw, 2rem) — NOTE: 2rem max is unusually large; use 1rem (16px) for Figma." }
+    },
+    "lineHeight": {
+      "heading":  { "value": "1.2", "type": "lineHeights" },
+      "body":     { "value": "1.7", "type": "lineHeights" }
+    },
+    "letterSpacing": {
+      "label":    { "value": "0.15em", "type": "letterSpacing", "description": "Uppercase label tracking" }
+    }
+  },
+
+  "spacing": {
+    "xs":   { "value": "0.5rem",  "type": "spacing", "description": "8px" },
+    "sm":   { "value": "1rem",    "type": "spacing", "description": "16px" },
+    "md":   { "value": "2rem",    "type": "spacing", "description": "32px" },
+    "lg":   { "value": "4rem",    "type": "spacing", "description": "64px" },
+    "xl":   { "value": "6rem",    "type": "spacing", "description": "96px" },
+    "xxl":  { "value": "10rem",   "type": "spacing", "description": "160px" }
+  },
+
+  "layout": {
+    "content-width":   { "value": "65ch",   "type": "sizing", "description": "Reading column max-width (~780px at 12px ch)" },
+    "container-width": { "value": "1200px", "type": "sizing", "description": "Page container max-width" },
+    "nav-height":      { "value": "80px",   "type": "sizing" }
+  },
+
+  "motion": {
+    "blur-amount": { "value": "12px",     "type": "other",  "description": "Nav backdrop blur" },
+    "t-fast":      { "value": "150ms ease","type": "other" },
+    "t-medium":    { "value": "300ms ease","type": "other" }
+  }
+}

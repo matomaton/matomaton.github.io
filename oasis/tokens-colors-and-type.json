@@ -1,0 +1,85 @@
+{
+  "color": {
+    "base": {
+      "bg":           { "value": "#FCFCF9",                   "type": "color", "description": "Warm off-white page background" },
+      "nav-bg":       { "value": "rgba(242, 242, 239, 0.40)", "type": "color", "description": "Frosted nav — 40% opacity (more transparent than stylesgem)" },
+      "charcoal":     { "value": "#2D2D2D",                   "type": "color", "description": "Primary text and interactive elements" },
+      "gray":         { "value": "#6D6D6D",                   "type": "color", "description": "Secondary text — original value (lighter than stylesgem's #595959)" },
+      "gray-light":   { "value": "#B8B8B8",                   "type": "color", "description": "Tertiary / metadata — original value (lighter than stylesgem's #767676)" },
+      "border":       { "value": "rgba(45, 45, 45, 0.10)",    "type": "color", "description": "Subtle dividers — more transparent than stylesgem's 0.15" },
+      "border-hover": { "value": "rgba(45, 45, 45, 0.40)",    "type": "color", "description": "Border on hover" },
+      "accent":       { "value": "#8B0000",                   "type": "color", "description": "darkred — logo and active nav state only" }
+    },
+    "semantic": {
+      "fg-primary":     { "value": "{color.base.charcoal}",   "type": "color", "description": "Primary foreground text" },
+      "fg-secondary":   { "value": "{color.base.gray}",       "type": "color", "description": "Secondary foreground text" },
+      "fg-tertiary":    { "value": "{color.base.gray-light}",  "type": "color", "description": "Tertiary foreground — metadata, placeholders" },
+      "fg-accent":      { "value": "{color.base.accent}",     "type": "color", "description": "Accent foreground — use sparingly" },
+      "bg-page":        { "value": "{color.base.bg}",         "type": "color", "description": "Page background" },
+      "bg-nav":         { "value": "{color.base.nav-bg}",     "type": "color", "description": "Nav background" },
+      "border-default": { "value": "{color.base.border}",     "type": "color", "description": "Default border" },
+      "border-hover":   { "value": "{color.base.border-hover}","type": "color", "description": "Border on hover" },
+      "border-active":  { "value": "{color.base.charcoal}",   "type": "color", "description": "Active / focused border" }
+    }
+  },
+
+  "typography": {
+    "font": {
+      "primary": { "value": "'Lato', -apple-system, BlinkMacSystemFont, sans-serif", "type": "fontFamilies" },
+      "mono":    { "value": "'Courier New', Courier, monospace",                     "type": "fontFamilies" }
+    },
+    "weight": {
+      "light":   { "value": "300", "type": "fontWeights" },
+      "regular": { "value": "400", "type": "fontWeights" },
+      "bold":    { "value": "700", "type": "fontWeights" },
+      "black":   { "value": "900", "type": "fontWeights" }
+    },
+    "size": {
+      "h1":    { "value": "6rem",    "type": "fontSizes", "description": "clamp(3rem, 8vw, 6rem) — 48–96px. Use 96px for desktop Figma frames." },
+      "h2":    { "value": "2.75rem", "type": "fontSizes", "description": "clamp(1.75rem, 4vw, 2.75rem) — 28–44px. Use 44px for desktop." },
+      "h3":    { "value": "1.4rem",  "type": "fontSizes", "description": "clamp(1.1rem, 2vw, 1.4rem) — 17.6–22.4px. Use 22px for desktop." },
+      "label": { "value": "0.75rem", "type": "fontSizes", "description": "clamp(0.65rem, 1.5vw, 0.75rem) — 10–12px. Use 12px for desktop." },
+      "body":  { "value": "1.1rem",  "type": "fontSizes", "description": "clamp(1rem, 1.2vw, 1.1rem) — 16–17.6px. Use 17px for desktop." },
+      "small": { "value": "0.95rem", "type": "fontSizes", "description": "clamp(0.85rem, 1vw, 0.95rem) — 13.6–15.2px. Use 15px for desktop." }
+    },
+    "lineHeight": {
+      "heading": { "value": "1.2", "type": "lineHeights" },
+      "body":    { "value": "1.7", "type": "lineHeights" },
+      "label":   { "value": "1.4", "type": "lineHeights" }
+    },
+    "letterSpacing": {
+      "heading": { "value": "-0.02em", "type": "letterSpacing", "description": "Tighten large headings" },
+      "label":   { "value": "0.15em",  "type": "letterSpacing", "description": "Open up uppercase labels" },
+      "body":    { "value": "0",       "type": "letterSpacing" }
+    }
+  },
+
+  "spacing": {
+    "xs":  { "value": "0.5rem",  "type": "spacing", "description": "8px" },
+    "sm":  { "value": "1rem",    "type": "spacing", "description": "16px" },
+    "md":  { "value": "2rem",    "type": "spacing", "description": "32px" },
+    "lg":  { "value": "4rem",    "type": "spacing", "description": "64px" },
+    "xl":  { "value": "6rem",    "type": "spacing", "description": "96px" },
+    "xxl": { "value": "10rem",   "type": "spacing", "description": "160px" }
+  },
+
+  "layout": {
+    "content-width":   { "value": "65ch",   "type": "sizing", "description": "Reading column max-width" },
+    "container-width": { "value": "1200px", "type": "sizing", "description": "Page container max-width" },
+    "nav-height":      { "value": "80px",   "type": "sizing" }
+  },
+
+  "motion": {
+    "t-fast":   { "value": "150ms ease",                          "type": "other" },
+    "t-medium": { "value": "300ms ease",                          "type": "other" },
+    "t-drawer": { "value": "280ms cubic-bezier(0.4, 0, 0.2, 1)", "type": "other", "description": "Nav drawer slide" }
+  },
+
+  "surface": {
+    "blur-nav":     { "value": "12px",                           "type": "other",  "description": "Nav backdrop-filter blur amount" },
+    "shadow-image": { "value": "0 2px 16px rgba(45, 45, 45, 0.08)", "type": "boxShadow" },
+    "shadow-nav":   { "value": "0 2px 12px rgba(0, 0, 0, 0.06)",    "type": "boxShadow" },
+    "radius-image": { "value": "3px", "type": "borderRadius", "description": "Applied to img elements only, not containers" },
+    "radius-small": { "value": "3px", "type": "borderRadius", "description": "Inline code, tiny badges" }
+  }
+}
