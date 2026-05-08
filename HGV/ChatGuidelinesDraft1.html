@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scheduler — Chatbot Interaction Design Guidelines</title>
+<style>
+  /* ── Reset & base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    color: #1a1a1a;
+    background: #f4f5f7;
+    padding: 2rem 1rem;
+  }
+
+  /* ── Page wrapper ── */
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+    padding: 3rem 3.5rem 4rem;
+  }
+
+  /* ── Copy-paste instructions banner ── */
+  .copy-banner {
+    background: #e3f2fd;
+    border: 1.5px solid #1976d2;
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 2.5rem;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .copy-banner .icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+  .copy-banner p { font-size: 13.5px; color: #0d47a1; line-height: 1.5; margin: 0; }
+  .copy-banner strong { font-weight: 600; }
+  .copy-start { border-top: 2.5px dashed #bbb; padding-top: 2rem; }
+
+  /* ── Cover block ── */
+  .cover { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 2px solid #e5e7eb; }
+  .cover-kicker { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #1D9E75; margin-bottom: .4rem; }
+  .cover h1 {
+    font-size: 2.1rem; font-weight: 700; color: #111;
+    line-height: 1.2; margin-bottom: .6rem;
+  }
+  .cover .subtitle { font-size: 1rem; color: #5F5E5A; margin-bottom: 1.4rem; }
+  .meta-row {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 0; border: 1px solid #d3d1c7; border-radius: 4px; overflow: hidden;
+  }
+  .meta-cell { padding: .6rem .9rem; border-right: 1px solid #d3d1c7; }
+  .meta-cell:last-child { border-right: none; }
+  .meta-cell .label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #888; margin-bottom: 2px; }
+  .meta-cell .value { font-size: 13.5px; color: #1a1a1a; }
+
+  /* ── Section headings ── */
+  h2 {
+    font-size: 1.45rem; font-weight: 700; color: #111;
+    margin: 2.8rem 0 .8rem;
+    padding-bottom: .5rem;
+    border-bottom: 2px solid #e5e7eb;
+  }
+  h3 {
+    font-size: 1rem; font-weight: 700; color: #444;
+    margin: 1.6rem 0 .4rem;
+    text-transform: uppercase; letter-spacing: .04em; font-size: 11.5px;
+  }
+  p { margin-bottom: .9rem; }
+
+  /* ── Hypothesis callout ── */
+  .callout {
+    border-left: 4px solid #534AB7;
+    background: #EEEDFE;
+    border-radius: 0 6px 6px 0;
+    padding: .9rem 1.1rem;
+    margin: 1.2rem 0;
+  }
+  .callout p { margin: 0; font-size: 14.5px; color: #26215C; }
+  .callout strong { color: #534AB7; }
+
+  /* ── Phase table ── */
+  .phase-table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-size: 13.5px; }
+  .phase-table th, .phase-table td { border: 1px solid #d3d1c7; padding: .55rem .75rem; vertical-align: top; }
+  .phase-table thead th { background: #f1efe8; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: #5F5E5A; }
+  .ph-orient  { background: #E1F5EE; color: #085041; font-weight: 700; }
+  .ph-gen     { background: #EEEDFE; color: #26215C; font-weight: 700; }
+  .ph-react   { background: #FAEEDA; color: #633806; font-weight: 700; }
+  .ph-refine  { background: #FAECE7; color: #4A1B0C; font-weight: 700; }
+  .ph-confirm { background: #E6F1FB; color: #042C53; font-weight: 700; }
+
+  /* ── Guideline header ── */
+  .g-header {
+    display: flex; align-items: flex-start; gap: 1rem;
+    margin: 2.5rem 0 1.2rem;
+    padding: 1rem 1.25rem;
+    border-radius: 6px;
+    border-left: 5px solid;
+  }
+  .g-code { font-size: 1.05rem; font-weight: 800; white-space: nowrap; margin-top: 1px; }
+  .g-meta {}
+  .g-title { font-size: 1.25rem; font-weight: 700; color: #111; line-height: 1.2; }
+  .g-phase { font-size: 12.5px; color: #666; margin-top: 3px; font-style: italic; }
+  .g-teal   { background: #E1F5EE; border-color: #1D9E75; }
+  .g-teal .g-code { color: #1D9E75; }
+  .g-purple { background: #EEEDFE; border-color: #534AB7; }
+  .g-purple .g-code { color: #534AB7; }
+  .g-gray   { background: #F1EFE8; border-color: #5F5E5A; }
+  .g-gray .g-code { color: #5F5E5A; }
+  .g-red    { background: #FCEBEB; border-color: #A32D2D; }
+  .g-red .g-code { color: #A32D2D; }
+  .g-green  { background: #EAF3DE; border-color: #3B6D11; }
+  .g-green .g-code { color: #3B6D11; }
+  .g-amber  { background: #FAEEDA; border-color: #BA7517; }
+  .g-amber .g-code { color: #BA7517; }
+  .g-blue   { background: #E6F1FB; border-color: #185FA5; }
+  .g-blue .g-code { color: #185FA5; }
+
+  /* ── Principle box ── */
+  .principle {
+    background: #f9f9f7;
+    border: 1px solid #d3d1c7;
+    border-radius: 6px;
+    padding: .9rem 1.1rem;
+    margin: .8rem 0;
+    font-size: 14.5px;
+  }
+
+  /* ── Do / don't ── */
+  .do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+  .do, .dont { border-radius: 6px; padding: .85rem 1rem; font-size: 13.5px; line-height: 1.55; }
+  .do { background: #EAF3DE; border: 1px solid #639922; }
+  .dont { background: #FCEBEB; border: 1px solid #A32D2D; }
+  .do-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #3B6D11; margin-bottom: .35rem; }
+  .dont-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #A32D2D; margin-bottom: .35rem; }
+  .do p, .dont p { margin: 0; }
+  .do p { color: #27500A; }
+  .dont p { color: #791F1F; }
+
+  /* ── Warning / note box ── */
+  .warn {
+    background: #FAEEDA;
+    border-left: 4px solid #BA7517;
+    border-radius: 0 6px 6px 0;
+    padding: .8rem 1rem;
+    margin: 1rem 0;
+    font-size: 13.5px;
+  }
+  .warn strong { color: #633806; }
+  .warn p { margin: 0; color: #1a1a1a; }
+
+  /* ── Pill tags ── */
+  .pill {
+    display: inline-block;
+    font-size: 11px; font-weight: 700;
+    padding: 2px 8px; border-radius: 3px;
+    margin-right: 6px; vertical-align: middle;
+    text-transform: uppercase; letter-spacing: .04em;
+  }
+  .pill-row { margin: .45rem 0; font-size: 14px; }
+
+  /* ── Generic table ── */
+  table.data { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 13.5px; }
+  table.data th { background: #F1EFE8; font-weight: 700; text-align: left; padding: .55rem .75rem; border: 1px solid #d3d1c7; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: #5F5E5A; }
+  table.data td { padding: .55rem .75rem; border: 1px solid #d3d1c7; vertical-align: top; line-height: 1.55; }
+  table.data tr:nth-child(even) td { background: #fafaf8; }
+  table.data .accent { font-weight: 700; }
+
+  /* ── MVC box ── */
+  .mvc {
+    background: #E1F5EE; border: 1px solid #1D9E75; border-radius: 6px;
+    padding: 1rem 1.2rem; margin: 1rem 0;
+  }
+  .mvc-item { display: flex; gap: .75rem; margin-bottom: .45rem; align-items: flex-start; }
+  .mvc-item:last-child { margin-bottom: 0; }
+  .mvc-key { font-weight: 700; color: #085041; min-width: 52px; font-size: 14px; }
+  .mvc-val { color: #1a1a1a; font-size: 14px; }
+  .mvc-note { font-size: 12.5px; color: #0F6E56; font-style: italic; margin-top: .6rem; border-top: 1px solid rgba(29,158,117,.25); padding-top: .6rem; }
+
+  /* ── Scaffold table ── */
+  .scaffold { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 14px; }
+  .scaffold td { padding: .6rem .9rem; border: 1px solid #d3d1c7; vertical-align: middle; }
+  .s-affirm td:first-child { background: #EAF3DE; font-weight: 700; color: #3B6D11; width: 100px; }
+  .s-change td:first-child { background: #FAEEDA; font-weight: 700; color: #633806; width: 100px; }
+  .s-remove td:first-child { background: #FCEBEB; font-weight: 700; color: #A32D2D; width: 100px; }
+  .s-affirm td:last-child { background: #EAF3DE; color: #27500A; }
+  .s-change td:last-child { background: #FAEEDA; color: #412402; }
+  .s-remove td:last-child { background: #FCEBEB; color: #791F1F; }
+
+  /* ── Quick ref table ── */
+  .qr { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 13.5px; }
+  .qr th { background: #f1efe8; font-weight: 700; text-align: left; padding: .5rem .75rem; border: 1px solid #d3d1c7; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: #5F5E5A; }
+  .qr td { padding: .55rem .75rem; border: 1px solid #d3d1c7; vertical-align: top; }
+  .qr-code { font-weight: 800; white-space: nowrap; }
+  .qr .g-name { font-weight: 600; }
+
+  /* ── Review questions ── */
+  ol.review { padding-left: 1.3rem; }
+  ol.review li { margin-bottom: .75rem; font-size: 14.5px; line-height: 1.6; }
+  ol.review li strong { color: #534AB7; }
+
+  /* ── Divider ── */
+  hr { border: none; border-top: 2px solid #e5e7eb; margin: 2.5rem 0; }
+
+  /* ── Print ── */
+  @media print {
+    body { background: #fff; padding: 0; }
+    .page { box-shadow: none; padding: 1.5rem 2rem; max-width: 100%; }
+    .copy-banner { display: none; }
+    h2 { page-break-before: always; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── INSTRUCTIONS (not for pasting) ── -->
+  <div class="copy-banner">
+    <div class="icon">📋</div>
+    <div>
+      <p><strong>To copy into Confluence:</strong> Click just below this blue box (at the dashed line), then press <strong>Ctrl+A</strong> / <strong>Cmd+A</strong> to select all content below, copy it, and paste directly into the Confluence page editor. Headings, tables, and colours will carry across. This instruction box will not be selected.</p>
+      <p style="margin-top:.4rem">Alternatively: open this file in Chrome, click after the dashed line, select to the end, and paste into Confluence's rich-text editor.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       COPY FROM HERE ↓
+  ══════════════════════════════════════════════════ -->
+  <div class="copy-start" id="copy-content">
+
+  <!-- COVER -->
+  <div class="cover">
+    <div class="cover-kicker">Scheduler · AI Experience</div>
+    <h1>Chatbot Interaction Design Guidelines</h1>
+    <p class="subtitle">Principles for developers, data scientists, and interaction designers. Industry-agnostic: travel, logistics, trucking, hospitality, manufacturing visits, and beyond.</p>
+    <div class="meta-row">
+      <div class="meta-cell"><div class="label">Status</div><div class="value">🟡 Draft — for review and comment</div></div>
+      <div class="meta-cell"><div class="label">Author</div><div class="value">Matthew Martin, Product Design</div></div>
+      <div class="meta-cell"><div class="label">Scope</div><div class="value">8 guidelines · 5-phase model</div></div>
+    </div>
+  </div>
+
+  <!-- PURPOSE -->
+  <h2>Purpose and scope</h2>
+  <p>This document defines the interaction design principles and guidelines that govern how the Scheduler application's AI chatbot should behave. It is written for the development team, data scientists, and AI model engineers who are building the experience.</p>
+  <p>The guidelines are deliberately <strong>principle-level rather than feature-level</strong>. Individual features will differ across verticals — a trucking dispatcher's canvas looks different from a leisure traveller's itinerary — but the underlying rules around transparency, user authority, coercion, and tone apply everywhere.</p>
+
+  <div class="callout">
+    <p><strong>Core design hypothesis.</strong> Users struggle to articulate preferences in the abstract. When shown a concrete first-draft plan, they immediately know what is wrong. The AI's role is not to ask what the user wants — it is to <em>show something good</em>, then help the user make it theirs.</p>
+  </div>
+
+  <!-- PHASES -->
+  <h2>The five-phase conversation model</h2>
+  <p>Every scheduler session follows this sequence. Phases 3 and 4 form an iterative loop that repeats until the user is satisfied.</p>
+
+  <table class="phase-table">
+    <thead>
+      <tr>
+        <th style="width:56px">#</th>
+        <th>Phase</th>
+        <th>What happens</th>
+        <th>Who leads</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="ph-orient">1</td>
+        <td class="ph-orient">Orient</td>
+        <td>Collect the three Minimum Viable Context fields: When, Where, Who. Nothing more.</td>
+        <td>AI asks · User provides</td>
+      </tr>
+      <tr>
+        <td class="ph-gen">2</td>
+        <td class="ph-gen">Generate</td>
+        <td>AI produces a complete first-draft dossier: canvas, calendar, and inline rationale for every item.</td>
+        <td>AI leads</td>
+      </tr>
+      <tr>
+        <td class="ph-react">3</td>
+        <td class="ph-react">React</td>
+        <td>User evaluates the plan. Three scaffolded prompts lower the entry barrier: Affirm / Change / Remove.</td>
+        <td>User leads</td>
+      </tr>
+      <tr>
+        <td class="ph-refine">4</td>
+        <td class="ph-refine">Refine</td>
+        <td>Iterative edits: swap, reschedule, delete, lock. Loop back to React as many times as needed.</td>
+        <td>User leads · AI executes</td>
+      </tr>
+      <tr>
+        <td class="ph-confirm">5</td>
+        <td class="ph-confirm">Confirm</td>
+        <td>Finalized dossier. User approves. Any consequential actions (bookings, purchases) require explicit sign-off.</td>
+        <td>User confirms</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="warn">
+    <p><strong>Important:</strong> The AI must never skip to Phase 2 without collecting all three MVC fields, and must never linger in Phase 1 longer than necessary. As soon as When, Where, and Who are complete — generate the draft.</p>
+  </div>
+
+  <hr>
+
+  <!-- G1 -->
+  <div class="g-header g-teal">
+    <div class="g-code">G1</div>
+    <div class="g-meta">
+      <div class="g-title">Show first, converse second</div>
+      <div class="g-phase">Phases: Orient → Generate &nbsp;·&nbsp; Minimum viable context</div>
+    </div>
+  </div>
+
+  <h3>Core principle</h3>
+  <div class="principle">The AI should never open a conversation with open-ended questions. Collect only the minimum information needed to generate a plausible first draft, then produce it immediately. The plan is the conversation starter — not a questionnaire.</div>
+
+  <h3>The Minimum Viable Context (MVC) rule</h3>
+  <p>Three fields unlock the first draft. Nothing else is required at this stage.</p>
+  <div class="mvc">
+    <div class="mvc-item"><span class="mvc-key">When</span><span class="mvc-val">Dates, times, and duration of the schedule.</span></div>
+    <div class="mvc-item"><span class="mvc-key">Where</span><span class="mvc-val">Origin, destination, or operating area.</span></div>
+    <div class="mvc-item"><span class="mvc-key">Who</span><span class="mvc-val">Number of people, roles, or special requirements.</span></div>
+    <div class="mvc-note">All other preferences are captured through the reaction loop in Phases 3 and 4 — not upfront.</div>
+  </div>
+
+  <h3>Do / Avoid</h3>
+  <div class="do-dont">
+    <div class="do">
+      <div class="do-label">✓ Do this</div>
+      <p>"I've built a 3-day Chicago itinerary for two people. Here's my best guess — what did I get right, and what would you change?"</p>
+    </div>
+    <div class="dont">
+      <div class="dont-label">✗ Avoid this</div>
+      <p>"What kind of activities do you like? What's your budget? Do you prefer morning or evening starts? Any dietary preferences?"</p>
+    </div>
+  </div>
+
+  <div class="warn">
+    <p><strong>Implementation note:</strong> Enforce the MVC rule at the API level. Reject generation calls missing any of the three fields with a structured validation error — do not silently fill in defaults.</p>
+  </div>
+
+  <hr>
+
+  <!-- G2 -->
+  <div class="g-header g-purple">
+    <div class="g-code">G2</div>
+    <div class="g-meta">
+      <div class="g-title">Transparent reasoning, woven inline</div>
+      <div class="g-phase">Phase: Generate &nbsp;·&nbsp; Trust infrastructure</div>
+    </div>
+  </div>
+
+  <h3>Core principle</h3>
+  <div class="principle">Every AI-suggested item must carry a plain-language reason. This is not a debug log — it is <strong>trust infrastructure</strong>. Users who understand why the AI chose something can evaluate it, accept it, or override it with confidence.</div>
+
+  <h3>Rationale format</h3>
+  <div class="callout" style="border-color:#534AB7;background:#EEEDFE;">
+    <p style="color:#26215C;font-style:italic;font-size:15px;">"Suggested because [user signal or context fact]."</p>
+    <p style="margin-top:.5rem;color:#534AB7;font-size:13px;">One sentence. Maximum 120 characters. Displayed as secondary text beneath the item title in both canvas and calendar views — never hidden behind a tooltip, "i" icon, or separate drawer.</p>
+  </div>
+
+  <h3>Do / Avoid</h3>
+  <div class="do-dont">
+    <div class="do">
+      <div class="do-label">✓ Do this</div>
+      <p>"Art Institute of Chicago — suggested because you indicated an interest in history and it is 0.3 miles from your hotel."</p>
+    </div>
+    <div class="dont">
+      <div class="dont-label">✗ Avoid this</div>
+      <p>Show a suggested item with no explanation, or put the reasoning in a separate "AI thinking" panel that users never open.</p>
+    </div>
+  </div>
+
+  <div class="warn">
+    <p><strong>Commercial bias rule:</strong> If a suggestion is influenced by a partner, referral fee, or promotion, it must be disclosed with a visible "Sponsored" label. Undisclosed commercial weighting violates the user's trust and the fiduciary duty of the AI.</p>
+  </div>
+
+  <hr>
+
+  <!-- G3 -->
+  <div class="g-header g-gray">
+    <div class="g-code">G3</div>
+    <div class="g-meta">
+      <div class="g-title">Mixed-initiative handover at decision boundaries</div>
+      <div class="g-phase">Phases: Refine → Confirm &nbsp;·&nbsp; Automation tiers</div>
+    </div>
+  </div>
+
+  <h3>Core principle</h3>
+  <div class="principle">Define two tiers of AI authority. The AI may act autonomously on <strong>Routine</strong> actions. It must pause and ask on <strong>Consequential</strong> ones. This boundary is non-negotiable and must be enforced in code, not just convention.</div>
+
+  <table class="data">
+    <thead><tr><th>Tier</th><th>Definition</th><th>Examples</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="accent" style="color:#3B6D11;background:#EAF3DE">Routine</td>
+        <td style="background:#EAF3DE">AI may act without asking</td>
+        <td style="background:#EAF3DE">Reordering stops · adjusting timing · suggesting alternatives · updating rationale text</td>
+      </tr>
+      <tr>
+        <td class="accent" style="color:#A32D2D;background:#FCEBEB">Consequential</td>
+        <td style="background:#FCEBEB">User must explicitly approve</td>
+        <td style="background:#FCEBEB">Financial transactions · bookings · significant plan deviations · irreversible actions</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>The pause-and-offer pattern</h3>
+  <p>When an external signal (weather, availability change, traffic) forces a replanning decision, the AI must present 2–4 options with trade-offs and wait for the user to choose. It must never silently pick one.</p>
+
+  <div class="do-dont">
+    <div class="do">
+      <div class="do-label">✓ Do this</div>
+      <p>"Rain is forecast on Day 2. I can swap the outdoor market for: (A) the Art Institute, (B) a cooking class, or (C) keep the original and revisit. What would you prefer?"</p>
+    </div>
+    <div class="dont">
+      <div class="dont-label">✗ Avoid this</div>
+      <p>Silently replace the outdoor market with the nearest indoor attraction and present a "done" state — even if the replacement is objectively better.</p>
+    </div>
+  </div>
+
+  <div class="warn">
+    <p><strong>Logistics / trucking note:</strong> Consequential actions include route changes that add cost, stops that alter delivery windows, or load reassignments. The AI proposes; the dispatcher confirms. Every approval event must be logged with a timestamp and the options that were presented.</p>
+  </div>
+
+  <hr>
+
+  <!-- G4 -->
+  <div class="g-header g-red">
+    <div class="g-code">G4</div>
+    <div class="g-meta">
+      <div class="g-title">No dark patterns, no coercive language</div>
+      <div class="g-phase">All phases &nbsp;·&nbsp; Ethical guardrail</div>
+    </div>
+  </div>
+
+  <h3>Core principle</h3>
+  <div class="principle">The chatbot must never use urgency, scarcity, guilt, or social pressure to override a user's intent. These patterns exploit cognitive load and manufacture anxiety. In a scheduling context — which is about purposeful planning — they are inappropriate regardless of vertical.</div>
+
+  <h3>Banned language patterns — QA must verify these are absent</h3>
+
+  <div class="pill-row"><span class="pill" style="background:#A32D2D;color:#fff">URGENCY</span> "Only 2 tickets left — book now!" when no genuine scarcity data exists</div>
+  <div class="pill-row"><span class="pill" style="background:#993C1D;color:#fff">GUILT</span> "I'd hate for you to miss this — are you sure?" used as a persuasion tactic</div>
+  <div class="pill-row"><span class="pill" style="background:#BA7517;color:#fff">FOMO</span> "Everyone visiting Chicago goes here" used as social pressure</div>
+  <div class="pill-row"><span class="pill" style="background:#534AB7;color:#fff">NAGGING</span> Re-suggesting a dismissed item more than once without new information</div>
+  <div class="pill-row"><span class="pill" style="background:#5F5E5A;color:#fff">EXIT BLOCK</span> "Are you really sure you want to stop?" when a user dismisses a suggestion</div>
+
+  <h3>Do / Avoid</h3>
+  <div class="do-dont">
+    <div class="do">
+      <div class="do-label">✓ Do this</div>
+      <p>"The Art Institute tends to sell out on weekends — you may want to reserve in advance if you're going Saturday." (Factual, useful, not pressured.)</p>
+    </div>
+    <div class="dont">
+      <div class="dont-label">✗ Avoid this</div>
+      <p>"Only 3 spots left — I'd feel terrible if you missed this! Book now before it's gone!"</p>
+    </div>
+  </div>
+
+  <div class="warn">
+    <p><strong>Dismissal rule:</strong> When a user dismisses or ignores a suggestion, record it. Do not resurface the item unless a new informational signal is present (e.g. price drop, availability change). The resurface must carry that new signal as its rationale. One follow-up with new information is acceptable. Repeated re-prompting is not.</p>
+  </div>
+
+  <hr>
+
+  <!-- G5 -->
+  <div class="g-header g-green">
+    <div class="g-code">G5</div>
+    <div class="g-meta">
+      <div class="g-title">User-configurable guardrails</div>
+      <div class="g-phase">Phases: Orient → Generate &nbsp;·&nbsp; Standing policies</div>
+    </div>
+  </div>
+
+  <h3>Core principle</h3>
+  <div class="principle">Users should be able to set standing rules that permanently shape the AI's behaviour without repeating them every session. These are not filters — they are <strong>policies</strong>. The AI honours them proactively; it does not wait for the user to catch a violation.</div>
+
+  <h3>Example policy types</h3>
+  <div class="pill-row"><span class="pill" style="background:#3B6D11;color:#fff">BUDGET</span> "Never suggest paid activities over $20 per person"</div>
+  <div class="pill-row"><span class="pill" style="background:#1D9E75;color:#fff">CONTENT</span> "Skip museums — I always prefer outdoor activities"</div>
+  <div class="pill-row"><span class="pill" style="background:#534AB7;color:#fff">PACING</span> "No more than two structured activities per day"</div>
+  <div class="pill-row"><span class="pill" style="background:#BA7517;color:#fff">COMMERCIAL</span> "Do not surface sponsored or promoted suggestions"</div>
+  <div class="pill-row"><span class="pill" style="background:#185FA5;color:#fff">TIMING</span> "Never schedule anything before 9am"</div>
+
+  <h3>Learning from the reaction loop</h3>
+  <p>The system should detect stable deletion patterns across sessions — for example, if the user consistently removes all nightlife items across three or more trips — and propose a policy: <em>"It looks like you prefer daytime-only activities. Should I make that a standing rule?"</em></p>
+  <div class="warn">
+    <p><strong>Critical rule:</strong> The system must never activate an inferred policy automatically. The user must explicitly confirm before it becomes active. Inferred and user-set policies must be visually distinguished in the preferences panel.</p>
+  </div>
+
+  <hr>
+
+  <!-- G6 -->
+  <div class="g-header g-amber">
+    <div class="g-code">G6</div>
+    <div class="g-meta">
+      <div class="g-title">Reaction scaffolding and structured prompts</div>
+      <div class="g-phase">Phase: React &nbsp;·&nbsp; Conversation design</div>
+    </div>
+  </div>
+
+  <h3>Core principle</h3>
+  <div class="principle">When presenting the first draft, the AI must not end with an open "What do you think?" — this returns users to the blank-slate problem. Instead, provide <strong>structured reaction prompts</strong> that lower the cognitive cost of engaging with the plan.</div>
+
+  <h3>The reaction scaffold (standard template)</h3>
+  <p>After presenting the draft, always surface these three entry points:</p>
+  <table class="scaffold">
+    <tr class="s-affirm"><td>✓ Affirm</td><td>"What did I get right — should I lock any of this in?"</td></tr>
+    <tr class="s-change"><td>↔ Change</td><td>"What would you swap, move, or change?"</td></tr>
+    <tr class="s-remove"><td>✕ Remove</td><td>"Is there anything you'd cut entirely?"</td></tr>
+  </table>
+
+  <h3>Implicit intent signals — for the NLP / ML team</h3>
+  <p>The model must recognise colloquial reaction signals and map them to structured edit operations:</p>
+  <table class="data">
+    <thead><tr><th>User says</th><th>System operation</th></tr></thead>
+    <tbody>
+      <tr><td>"I'd never do a museum on a vacation"</td><td style="color:#26215C;font-weight:600">DELETE_ITEM + CHANGE_PREFERENCE → propose standing policy</td></tr>
+      <tr><td>"Make Day 2 a bit lighter"</td><td style="color:#26215C;font-weight:600">REDUCE_DENSITY on Day 2 items</td></tr>
+      <tr><td>"Can we move dinner earlier?"</td><td style="color:#26215C;font-weight:600">RESCHEDULE_ITEM (dinner slot)</td></tr>
+      <tr><td>"What else could I do near the hotel?"</td><td style="color:#26215C;font-weight:600">REQUEST_ALTERNATIVES (proximity filter)</td></tr>
+      <tr><td>"Keep the morning hike — love that"</td><td style="color:#26215C;font-weight:600">LOCK_ITEM (morning hike)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="warn">
+    <p><strong>NLP target:</strong> Intent classifier failure rate should be below 5% on a test bank of 50 representative user messages before production release. Log all unmapped intents as training candidates.</p>
+  </div>
+
+  <hr>
+
+  <!-- G7 -->
+  <div class="g-header g-blue">
+    <div class="g-code">G7</div>
+    <div class="g-meta">
+      <div class="g-title">Contextual integrity across verticals</div>
+      <div class="g-phase">All phases &nbsp;·&nbsp; Tone and norms configuration</div>
+    </div>
+  </div>
+
+  <h3>Core principle</h3>
+  <div class="principle">The AI's tone and urgency level must match the social context of the activity being scheduled. A leisure trip has different norms than a logistics run. The same chatbot behaviour that feels helpful in one context can feel invasive or inappropriate in another.</div>
+
+  <h3>Vertical tone matrix</h3>
+  <table class="data">
+    <thead><tr><th>Vertical</th><th>Tone</th><th>Urgency norm</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="accent" style="color:#185FA5">Travel / tourism</td>
+        <td>Warm, exploratory, unhurried</td>
+        <td>None unless factually grounded</td>
+        <td>Leisure is the purpose. No pressure tactics.</td>
+      </tr>
+      <tr>
+        <td class="accent" style="color:#185FA5">Logistics / trucking</td>
+        <td>Efficient, precise, operational</td>
+        <td>Appropriate when genuine — time and cost deltas are primary</td>
+        <td>Compliance mode available for regulated routes.</td>
+      </tr>
+      <tr>
+        <td class="accent" style="color:#185FA5">Hotel / hospitality</td>
+        <td>Attentive, personal, anticipatory</td>
+        <td>None unless factually grounded</td>
+        <td>Upsells only if policy-permitted; never as pressure.</td>
+      </tr>
+      <tr>
+        <td class="accent" style="color:#185FA5">Manufacturing visits</td>
+        <td>Structured, formal, time-bounded</td>
+        <td>Operational — compliance-aware</td>
+        <td>No soft or persuasive language. All deviations must be confirmed.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="warn">
+    <p><strong>Configuration rule:</strong> Vertical context is set at the application configuration level by the operator — it is not inferred per conversation. A missing or malformed VerticalConfig must fail loudly on application startup, not silently default to a generic tone. Wrong vertical tone is an ethical issue, not just a UX bug.</p>
+  </div>
+
+  <hr>
+
+  <!-- G8 -->
+  <div class="g-header g-teal">
+    <div class="g-code">G8</div>
+    <div class="g-meta">
+      <div class="g-title">Measurable interaction quality signals</div>
+      <div class="g-phase">All phases &nbsp;·&nbsp; Product analytics and data science</div>
+    </div>
+  </div>
+
+  <h3>Core principle</h3>
+  <div class="principle">Avoid optimising for engagement proxies (session length, click-throughs) that can be inflated through dark patterns. Measure signals that reflect <strong>genuine user value</strong>.</div>
+
+  <h3>The five quality metrics</h3>
+  <table class="data">
+    <thead><tr><th>Metric</th><th>Definition</th><th>What it tells us</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="accent" style="color:#085041">Plan adoption rate</td>
+        <td>% of AI-generated items kept unmodified to the Confirm stage</td>
+        <td>First-draft quality and relevance</td>
+      </tr>
+      <tr>
+        <td class="accent" style="color:#085041">Reaction depth</td>
+        <td>Average number of specific edits made per session</td>
+        <td>Richness of engagement with the plan</td>
+      </tr>
+      <tr>
+        <td class="accent" style="color:#085041">Guardrail satisfaction</td>
+        <td>% of users rating their active policies as accurate</td>
+        <td>How well the inference pipeline learns preferences</td>
+      </tr>
+      <tr>
+        <td class="accent" style="color:#085041">First-draft accuracy</td>
+        <td>% of draft assumptions left uncorrected by the user</td>
+        <td>How well MVC signals translate to good defaults</td>
+      </tr>
+      <tr>
+        <td class="accent" style="color:#085041">Coercion signal rate</td>
+        <td>Resurfaced dismissed items ÷ total sessions</td>
+        <td>Early warning for dark pattern drift — alert at &gt;2%</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="warn">
+    <p><strong>Anti-metric:</strong> Do not use session length, message count, or click-through rate as success metrics. These can all be inflated by dark patterns. A user who refines their plan in 4 exchanges and leaves satisfied is a better outcome than a user who spends 20 minutes in open-ended dialogue and abandons. <strong>Document the excluded metrics explicitly</strong> so they are not quietly re-added during roadmap reviews.</p>
+  </div>
+
+  <hr>
+
+  <!-- QUICK REF -->
+  <h2>Quick reference summary</h2>
+  <table class="qr">
+    <thead>
+      <tr><th style="width:52px">Code</th><th style="width:200px">Guideline</th><th>One-line summary</th><th style="width:160px">Applies to</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="qr-code" style="color:#1D9E75">G1</td><td class="g-name">Show first, converse second</td><td>Collect only When / Where / Who, then generate the draft immediately.</td><td>Orient → Generate</td></tr>
+      <tr><td class="qr-code" style="color:#534AB7">G2</td><td class="g-name">Transparent reasoning inline</td><td>Every item carries a one-sentence plain-language rationale. Always visible.</td><td>Generate</td></tr>
+      <tr><td class="qr-code" style="color:#5F5E5A">G3</td><td class="g-name">Mixed-initiative handover</td><td>Routine = AI acts. Consequential = user approves. Always.</td><td>Refine → Confirm</td></tr>
+      <tr><td class="qr-code" style="color:#A32D2D">G4</td><td class="g-name">No dark patterns</td><td>No urgency, guilt, FOMO, nagging, or exit-blocking language. Ever.</td><td>All phases</td></tr>
+      <tr><td class="qr-code" style="color:#3B6D11">G5</td><td class="g-name">User-configurable guardrails</td><td>Standing policies, learned over time, never auto-activated without consent.</td><td>Orient → Generate</td></tr>
+      <tr><td class="qr-code" style="color:#BA7517">G6</td><td class="g-name">Reaction scaffolding</td><td>Post-draft: Affirm / Change / Remove prompts lower the entry barrier.</td><td>React</td></tr>
+      <tr><td class="qr-code" style="color:#185FA5">G7</td><td class="g-name">Contextual integrity</td><td>Vertical tone is set by operator config. Fail loudly if it's missing.</td><td>All phases</td></tr>
+      <tr><td class="qr-code" style="color:#1D9E75">G8</td><td class="g-name">Quality metrics</td><td>Measure plan adoption and reaction depth. Never session length.</td><td>All phases</td></tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <!-- REVIEW QUESTIONS -->
+  <h2>Notes for reviewers</h2>
+  <p>This document is a working draft. Your feedback is invited on all sections. The following questions are intended to guide targeted review — please add comments directly in Confluence against the relevant section.</p>
+
+  <ol class="review">
+    <li><strong>G1 — MVC scope.</strong> Is the Minimum Viable Context rule (When / Where / Who) the right scope for first-draft generation in your vertical? Are there cases where fewer or more inputs are genuinely needed before a useful draft is possible?</li>
+    <li><strong>G3 — Automation tier classification.</strong> Is the Routine / Consequential boundary correctly defined? Are there action types in your vertical that should be reclassified in either direction?</li>
+    <li><strong>G4 — Banned pattern list.</strong> Are there urgency or scarcity communication patterns that are <em>legitimately</em> appropriate for your vertical that this list would incorrectly prevent?</li>
+    <li><strong>G6 — Intent-to-operation mapping.</strong> Do the five example mappings in the NLP table cover the most common user messages in your vertical? What colloquial phrases are missing from the coverage?</li>
+    <li><strong>G7 — Vertical tone matrix.</strong> Is your vertical's tone and urgency profile correctly described? Are there additional verticals that should be added before the first release?</li>
+    <li><strong>G8 — Quality metrics.</strong> Are the five quality metrics the right ones to baseline before launch? Are there additional signals specific to your vertical or team that should be tracked from day one?</li>
+  </ol>
+
+  </div><!-- /copy-content -->
+</div><!-- /page -->
+</body>
+</html>
