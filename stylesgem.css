@@ -303,8 +303,12 @@ pre code {
   width: 100%;
   max-width: var(--container-width);
   margin-inline: auto;
-  /* padding-inline: clamp(1.5rem, 5vw, 4rem); */
-  /* border: 1px solid blue;  */
+  padding-inline: clamp(1.5rem, 5vw, 4rem);
+}
+
+/* Article body manages its own gutters via CSS grid — no extra padding needed */
+.article-body .container {
+  padding-inline: 0;
 }
 
 /* Narrow reading column */
