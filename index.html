@@ -37,17 +37,39 @@
       .anim-1, .anim-2, .anim-3, .anim-4 { animation: none; }
     }
 
-    /* ── Hero ────────────────────────────────────────────────── */
+    /* ── Hero — split layout ─────────────────────────────────── */
     .hp-hero {
       min-height: calc(100vh - var(--nav-height, 80px));
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: clamp(4rem, 10vh, 8rem) 0 clamp(3rem, 8vh, 6rem);
+      align-items: center;
+      border-bottom: 1px solid var(--color-border);
+      padding: clamp(3rem, 8vh, 5rem) 0;
     }
 
-    .hp-hero__content {
-      text-align: center;
+    .hp-hero__inner {
+      display: flex;
+      align-items: center;
+      gap: clamp(3rem, 7vw, 7rem);
+      width: 100%;
+    }
+
+    .hp-hero__text {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .hp-hero__portrait {
+      width: clamp(220px, 30vw, 380px);
+      flex-shrink: 0;
+    }
+
+    .hp-hero__portrait img {
+      width: 100%;
+      height: auto;
+      display: block;
     }
 
     .hp-hero__label {
@@ -56,56 +78,30 @@
       text-transform: uppercase;
       letter-spacing: var(--ls-label);
       color: var(--color-gray-light);
-      margin-bottom: 2rem;
     }
 
     .hp-hero__name {
-      font-size: clamp(3.5rem, 10vw, 7.5rem);
+      font-size: clamp(3.5rem, 7vw, 6.5rem);
       font-weight: var(--weight-light);
-      line-height: 1.05;
+      line-height: 1.0;
       letter-spacing: -0.025em;
       color: var(--color-gray);
-      margin-bottom: 2.5rem;
     }
 
     .hp-hero__tagline {
-      font-size: clamp(1rem, 1.4vw, 1.15rem);
+      font-size: clamp(1rem, 1.3vw, 1.1rem);
       font-weight: var(--weight-light);
-      line-height: 1.65;
-      color: var(--color-gray);
-      max-width: 48ch;
-      margin: 0 auto 3rem;
+      line-height: 1.7;
+      color: #404040;
+      max-width: 44ch;
     }
 
     .hp-hero__cta-row {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 3rem;
+      gap: 2.5rem;
       flex-wrap: wrap;
-    }
-
-    .hp-hero__scroll-cue {
-      margin-top: auto;
-      padding-top: 4rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .hp-hero__scroll-line {
-      width: 32px;
-      height: 1px;
-      background: var(--color-gray-light);
-      flex-shrink: 0;
-    }
-
-    .hp-hero__scroll-label {
-      font-size: var(--size-label);
-      font-weight: var(--weight-black);
-      text-transform: uppercase;
-      letter-spacing: var(--ls-label);
-      color: var(--color-gray-light);
+      padding-top: 0.25rem;
     }
 
     /* ── CTA links ───────────────────────────────────────────── */
@@ -119,13 +115,12 @@
       letter-spacing: var(--ls-label);
       color: var(--color-gray);
       text-decoration: none;
-      transition: color 200ms ease;
+      transition: opacity 200ms ease;
     }
 
-    .cta-link:hover { color: var(--color-charcoal); }
+    .cta-link:hover { opacity: 0.6; }
 
     .cta-link--primary { color: var(--color-charcoal); }
-    .cta-link--primary:hover { color: var(--color-gray); }
 
     .cta-link__arrow {
       display: inline-block;
@@ -134,48 +129,73 @@
 
     .cta-link:hover .cta-link__arrow { transform: translateX(5px); }
 
-    /* ── Project grid ────────────────────────────────────────── */
-    .hp-projects {
-      padding-bottom: 6rem;
+    /* ── Section layout ──────────────────────────────────────── */
+    .hp-section {
+      padding: 3.5rem 0;
+      border-bottom: 1px solid var(--color-border);
     }
 
+    .hp-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1.75rem;
+    }
+
+    .hp-section-label {
+      font-size: var(--size-label);
+      font-weight: var(--weight-black);
+      text-transform: uppercase;
+      letter-spacing: var(--ls-label);
+      color: var(--color-gray-light);
+    }
+
+    .hp-section-all {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: var(--size-label);
+      font-weight: var(--weight-black);
+      text-transform: uppercase;
+      letter-spacing: var(--ls-label);
+      color: var(--color-gray-light);
+      text-decoration: none;
+      transition: color 200ms ease;
+    }
+
+    .hp-section-all:hover { color: var(--color-charcoal); }
+
+    .hp-section-all__arrow {
+      display: inline-block;
+      transition: transform 300ms ease;
+    }
+
+    .hp-section-all:hover .hp-section-all__arrow { transform: translateX(4px); }
+
+    /* ── Project grid ────────────────────────────────────────── */
     .project-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1px;
-      border: 1px solid var(--color-border);
-      outline: 1px solid var(--color-border);
-    }
-
-    .project-grid__cell {
-      background: var(--color-bg);
-    }
-
-    .hp-projects__footer {
-      margin-top: 1.5rem;
-      text-align: right;
+      gap: 1rem;
     }
 
     /* ── Project card ────────────────────────────────────────── */
     .hp-card {
       display: flex;
       flex-direction: column;
-      border: 1px solid transparent;
+      border: 1px solid var(--color-border);
       overflow: hidden;
       text-decoration: none;
       color: inherit;
-      transition: border-color 300ms ease, opacity 300ms ease;
+      transition: border-color 300ms ease;
     }
 
-    .hp-card:hover {
-      border-color: rgba(45,45,45,0.35);
-      opacity: 0.85;
-    }
+    .hp-card:hover { border-color: rgba(45,45,45,0.3); }
 
     .hp-card__image {
       aspect-ratio: 16 / 9;
       overflow: hidden;
-      background: rgba(45,45,45,0.06);
+      background: rgba(45,45,45,0.05);
     }
 
     .hp-card__image img {
@@ -207,26 +227,26 @@
       color: var(--color-gray);
     }
 
-    .hp-card__meta-dot { color: var(--color-border); }
+    .hp-card__meta-dot { color: rgba(45,45,45,0.25); }
 
     .hp-card__title {
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       font-weight: var(--weight-light);
       line-height: 1.3;
       color: var(--color-charcoal);
     }
 
     .hp-card__excerpt {
-      font-size: 0.875rem;
+      font-size: 0.9rem;
       color: var(--color-gray);
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     .hp-card__cta {
       display: flex;
       align-items: center;
       gap: 4px;
-      margin-top: 4px;
+      margin-top: 0.75rem;
       font-size: var(--size-label);
       font-weight: var(--weight-black);
       text-transform: uppercase;
@@ -241,31 +261,6 @@
 
     .hp-card:hover .hp-card__cta-arrow { transform: translateX(5px); }
 
-    /* ── Writing section ─────────────────────────────────────── */
-    .hp-writing {
-      padding-bottom: 8rem;
-    }
-
-    .hp-section-header {
-      border-bottom: 1px solid var(--color-border);
-      margin-bottom: 0;
-    }
-
-    .hp-section-label {
-      font-size: var(--size-label);
-      font-weight: var(--weight-black);
-      text-transform: uppercase;
-      letter-spacing: var(--ls-label);
-      color: var(--color-gray-light);
-      margin-bottom: 1.5rem;
-    }
-
-    .hp-section-footer {
-      border-top: 1px solid var(--color-border);
-      padding-top: 1.5rem;
-      text-align: right;
-    }
-
     /* ── Article rows ────────────────────────────────────────── */
     .hp-article-row {
       display: grid;
@@ -276,10 +271,10 @@
       border-top: 1px solid var(--color-border);
       text-decoration: none;
       color: inherit;
-      transition: opacity 300ms ease;
+      transition: opacity 250ms ease;
     }
 
-    .hp-article-row:hover { opacity: 0.55; }
+    .hp-article-row:hover { opacity: 0.65; }
 
     .hp-article-row:hover .hp-article-row__arrow {
       transform: translateX(5px);
@@ -301,17 +296,17 @@
     }
 
     .hp-article-row__title {
-      font-size: clamp(1.1rem, 2vw, 1.3rem);
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
       font-weight: var(--weight-light);
       line-height: 1.3;
       color: var(--color-charcoal);
     }
 
     .hp-article-row__excerpt {
-      font-size: 0.875rem;
+      font-size: 0.9rem;
       color: var(--color-gray);
-      line-height: 1.5;
-      max-width: 60ch;
+      line-height: 1.6;
+      max-width: 72ch;
     }
 
     .hp-article-row__arrow {
@@ -324,9 +319,7 @@
 
     /* ── About strip ─────────────────────────────────────────── */
     .hp-about {
-      border-top: 1px solid var(--color-border);
-      padding-top: 5rem;
-      padding-bottom: 8rem;
+      padding: 5rem 0 8rem;
     }
 
     .hp-about-grid {
@@ -371,6 +364,18 @@
     }
 
     /* ── Responsive ──────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .hp-hero__inner {
+        flex-direction: column-reverse;
+        gap: 2rem;
+      }
+      .hp-hero__portrait {
+        width: clamp(180px, 50vw, 260px);
+        margin: 0 auto;
+      }
+      .hp-hero__tagline { max-width: 100%; }
+    }
+
     @media (max-width: 640px) {
       .project-grid { grid-template-columns: 1fr; }
       .hp-hero__cta-row { gap: 1.5rem; }
@@ -461,136 +466,131 @@
 
   <main id="main-content">
 
-    <!-- ── HERO ────────────────────────────────────────────────── -->
+    <!-- ── HERO — split layout ────────────────────────────────── -->
     <section class="hp-hero" aria-labelledby="hero-name">
-
-      <div class="container hp-hero__content">
-        <div class="hp-hero__label anim-1">Product Designer · HCI · Detroit</div>
-
-        <h1 id="hero-name" class="hp-hero__name anim-2">
-          Matthew<br>Martin
-        </h1>
-
-        <p class="hp-hero__tagline anim-3">
-          I design enterprise software and AI-assisted tools for cultural institutions. Twenty years bridging the gap between human understanding and complex systems.
-        </p>
-
-        <div class="hp-hero__cta-row anim-3">
-          <a href="projects.html" class="cta-link cta-link--primary">
-            View work <span class="cta-link__arrow" aria-hidden="true">→</span>
-          </a>
-          <a href="articles.html" class="cta-link">
-            Read articles <span class="cta-link__arrow" aria-hidden="true">→</span>
-          </a>
-        </div>
-      </div>
-
-      <div class="container hp-hero__scroll-cue anim-4" aria-hidden="true">
-        <div class="hp-hero__scroll-line"></div>
-        <span class="hp-hero__scroll-label">Selected work</span>
-      </div>
-
-    </section>
-
-    <!-- ── SELECTED PROJECTS ───────────────────────────────────── -->
-    <section class="hp-projects" aria-labelledby="projects-heading">
       <div class="container">
+        <div class="hp-hero__inner">
 
-        <h2 id="projects-heading" class="visually-hidden">Selected Projects</h2>
+          <div class="hp-hero__text">
+            <div class="hp-hero__label anim-1">Product Designer · HCI</div>
 
-        <div class="project-grid">
+            <h1 id="hero-name" class="hp-hero__name anim-2">
+              Matthew<br>Martin
+            </h1>
 
-          <div class="project-grid__cell">
-            <a href="project-contentLoader.html" class="hp-card">
-              <div class="hp-card__image">
-                <img src="CL-LAPTOP-WIDE.png" alt="Content Loader interface across screen sizes" loading="eager">
-              </div>
-              <div class="hp-card__body">
-                <div class="hp-card__meta">
-                  <span>Product Design</span>
-                  <span class="hp-card__meta-dot" aria-hidden="true">·</span>
-                  <span>2024</span>
-                </div>
-                <div class="hp-card__title">Content Loader</div>
-                <p class="hp-card__excerpt">End-to-end CMS design for cultural institutions — from discovery through delivery.</p>
-                <div class="hp-card__cta">
-                  View project <span class="hp-card__cta-arrow" aria-hidden="true">→</span>
-                </div>
-              </div>
-            </a>
+            <p class="hp-hero__tagline anim-3">
+              I design enterprise software and AI-assisted tools for cultural institutions, travel, and infrastructure. Twenty years connecting human understanding and complex systems.
+            </p>
+
+            <div class="hp-hero__cta-row anim-3">
+              <a href="projects.html" class="cta-link cta-link--primary">
+                View work <span class="cta-link__arrow" aria-hidden="true">→</span>
+              </a>
+              <a href="articles.html" class="cta-link">
+                Read articles <span class="cta-link__arrow" aria-hidden="true">→</span>
+              </a>
+            </div>
           </div>
 
-          <div class="project-grid__cell">
-            <a href="appMerg.html" class="hp-card">
-              <div class="hp-card__image">
-                <img src="Cataloger-AdminDraw.png" alt="Application Merge interface drawing" loading="eager">
-              </div>
-              <div class="hp-card__body">
-                <div class="hp-card__meta">
-                  <span>UX Design</span>
-                  <span class="hp-card__meta-dot" aria-hidden="true">·</span>
-                  <span>2025</span>
-                </div>
-                <div class="hp-card__title">Application Merge</div>
-                <p class="hp-card__excerpt">Consolidating two distinct SaaS products into a single, unified experience.</p>
-                <div class="hp-card__cta">
-                  View project <span class="hp-card__cta-arrow" aria-hidden="true">→</span>
-                </div>
-              </div>
-            </a>
+          <div class="hp-hero__portrait anim-4">
+            <img src="uploads/DraiwngE Portrait.png" alt="Matthew Martin — portrait sketch">
           </div>
 
         </div>
-
-        <div class="hp-projects__footer">
-          <a href="projects.html" class="cta-link">
-            All projects <span class="cta-link__arrow" aria-hidden="true">→</span>
-          </a>
-        </div>
-
       </div>
     </section>
 
-    <!-- ── FROM THE WRITING ─────────────────────────────────────── -->
-    <section class="hp-writing" aria-labelledby="writing-heading">
+    <!-- ── SELECTED PROJECTS ──────────────────────────────────── -->
+    <section class="hp-section" aria-labelledby="projects-heading">
       <div class="container">
 
         <div class="hp-section-header">
-          <h2 id="writing-heading" class="hp-section-label">From the writing</h2>
+          <h2 id="projects-heading" class="hp-section-label">Selected work</h2>
+          <a href="projects.html" class="hp-section-all">
+            All projects <span class="hp-section-all__arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <div class="project-grid">
+
+          <a href="project-contentLoader.html" class="hp-card">
+            <div class="hp-card__image">
+              <img src="CL-LAPTOP-WIDE.png" alt="Content Loader interface across screen sizes" loading="eager">
+            </div>
+            <div class="hp-card__body">
+              <div class="hp-card__meta">
+                <span>Product Design</span>
+                <span class="hp-card__meta-dot" aria-hidden="true">·</span>
+                <span>2024</span>
+              </div>
+              <div class="hp-card__title">Content Loader</div>
+              <p class="hp-card__excerpt">Led end-to-end design of a CMS tailored for cultural institutions and universities.</p>
+              <div class="hp-card__cta">
+                View project <span class="hp-card__cta-arrow" aria-hidden="true">→</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="appMerg.html" class="hp-card">
+            <div class="hp-card__image">
+              <img src="Cataloger-AdminDraw.png" alt="Application Merge interface drawing" loading="eager">
+            </div>
+            <div class="hp-card__body">
+              <div class="hp-card__meta">
+                <span>UX Design</span>
+                <span class="hp-card__meta-dot" aria-hidden="true">·</span>
+                <span>2025</span>
+              </div>
+              <div class="hp-card__title">Application Merge</div>
+              <p class="hp-card__excerpt">Consolidated two distinct SaaS products into a single, unified experience.</p>
+              <div class="hp-card__cta">
+                View project <span class="hp-card__cta-arrow" aria-hidden="true">→</span>
+              </div>
+            </div>
+          </a>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── WRITING ────────────────────────────────────────────── -->
+    <section class="hp-section" aria-labelledby="writing-heading">
+      <div class="container">
+
+        <div class="hp-section-header">
+          <h2 id="writing-heading" class="hp-section-label">Writing</h2>
+          <a href="articles.html" class="hp-section-all">
+            All articles <span class="hp-section-all__arrow" aria-hidden="true">→</span>
+          </a>
         </div>
 
         <a href="BeyondClicks.html" class="hp-article-row">
           <div class="hp-article-row__body">
-            <div class="hp-article-row__meta">Design Principles · January 2026</div>
-            <div class="hp-article-row__title">Beyond Click Counts: Designing Purposeful Steps</div>
-            <p class="hp-article-row__excerpt">The real cost in any system is human time and errors, not machine cycles or the number of steps in a flow.</p>
+            <div class="hp-article-row__meta">AI · 2025</div>
+            <div class="hp-article-row__title">Beyond Clicks</div>
+            <p class="hp-article-row__excerpt">How agentic AI is reframing what interaction design means in practice.</p>
           </div>
           <span class="hp-article-row__arrow" aria-hidden="true">→</span>
         </a>
 
         <a href="ThreeLevelsofAIOutput.html" class="hp-article-row">
           <div class="hp-article-row__body">
-            <div class="hp-article-row__meta">Design & AI · April 2026</div>
+            <div class="hp-article-row__meta">Research · 2024</div>
             <div class="hp-article-row__title">The Three Things AI Actually Does</div>
-            <p class="hp-article-row__excerpt">AI isn't one thing. Once you understand the three different ways it behaves, you'll design with it — not around it.</p>
+            <p class="hp-article-row__excerpt">A framework for understanding the distinct modes of AI output and their design implications.</p>
           </div>
           <span class="hp-article-row__arrow" aria-hidden="true">→</span>
         </a>
 
         <a href="designGovernance.html" class="hp-article-row">
           <div class="hp-article-row__body">
-            <div class="hp-article-row__meta">Reference · February 2026</div>
-            <div class="hp-article-row__title">Bridging Design and Governance</div>
-            <p class="hp-article-row__excerpt">Aligning the creative design process with Product Development to ensure strategic outcomes and operational efficiency.</p>
+            <div class="hp-article-row__meta">Strategy · 2024</div>
+            <div class="hp-article-row__title">Design Governance</div>
+            <p class="hp-article-row__excerpt">Making principled design decisions at scale requires more than a style guide.</p>
           </div>
           <span class="hp-article-row__arrow" aria-hidden="true">→</span>
         </a>
-
-        <div class="hp-section-footer">
-          <a href="articles.html" class="cta-link">
-            All articles <span class="cta-link__arrow" aria-hidden="true">→</span>
-          </a>
-        </div>
 
       </div>
     </section>
