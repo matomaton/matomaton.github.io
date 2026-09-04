@@ -116,12 +116,6 @@
 
   <main class="main" id="main-content">
 
-    <div class="container">
-      <a href="articles.html" class="back-link">
-        <span class="back-arrow" aria-hidden="true">←</span> Back to Articles
-      </a>
-    </div>
-
     <!-- ============================================================
       ARTICLE HEADER — update for each new article
     ============================================================ -->
@@ -283,14 +277,10 @@
               <li><a href="#" class="tag">Product Strategy</a></li>
             </ul>
           </div>
-          <div class="article-share">
-            <span class="label">Share:</span>
-            <div class="share-links">
-              <a href="#" class="share-link">Twitter</a>
-              <a href="#" class="share-link">LinkedIn</a>
-              <a href="#" class="share-link">Copy Link</a>
-            </div>
-          </div>
+          <button type="button" class="copy-link-btn" id="copy-link">
+            <span class="copy-link-btn__icon" aria-hidden="true">⎘</span>
+            <span class="copy-link-btn__text">Copy link</span>
+          </button>
         </footer>
 
       </div><!-- /.content-narrow -->
@@ -303,13 +293,21 @@
       <div class="container content-narrow">
         <h2 id="related-heading" class="label">More Reading</h2>
         <div class="related-list">
-          <a href="artifactSelection.html" class="related-item">
-            <p class="label">Article</p>
-            <h3 class="related-item-title">Artifact Selection Guide</h3>
+          <a href="artifactSelection.html" class="related-row">
+            <div class="related-row__body">
+              <span class="label related-row__meta">Article</span>
+              <h3 class="related-row__title">Artifact Selection Guide</h3>
+              <p class="related-row__excerpt">When you have a hammer, everything starts to look like a nail — a look at picking the right fidelity for the design question at hand.</p>
+            </div>
+            <span class="related-row__arrow" aria-hidden="true">→</span>
           </a>
-          <a href="testingMethodology.html" class="related-item">
-            <p class="label">Reference</p>
-            <h3 class="related-item-title">Testing Methodology</h3>
+          <a href="testingMethodology.html" class="related-row">
+            <div class="related-row__body">
+              <span class="label related-row__meta">Reference</span>
+              <h3 class="related-row__title">Testing Methodology</h3>
+              <p class="related-row__excerpt">A reference guide to the full spectrum of UX testing methods — from expert evaluation to feedback-based research.</p>
+            </div>
+            <span class="related-row__arrow" aria-hidden="true">→</span>
           </a>
         </div>
       </div>
@@ -421,6 +419,31 @@
       });
     })();
   </script>
+
+  <!-- ============================================================
+    COPY-LINK BUTTON — identical across all pages, do not edit
+  ============================================================ -->
+  <script>
+    (function () {
+      var btn = document.getElementById('copy-link');
+      if (!btn) return;
+      var label = btn.querySelector('.copy-link-btn__text');
+      btn.addEventListener('click', function () {
+        var url = window.location.href;
+        function done() {
+          label.textContent = 'Copied ✓';
+          btn.dataset.copied = 'true';
+          setTimeout(function () { label.textContent = 'Copy link'; btn.dataset.copied = 'false'; }, 1800);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(done).catch(done);
+        } else {
+          done();
+        }
+      });
+    })();
+  </script>
+  <!-- ============================================================ -->
 
 </body>
 </html>

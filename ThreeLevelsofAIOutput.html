@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="stylesgem.css">
 </head>
 
 <body>
@@ -115,12 +115,6 @@
   <div class="progress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
 
   <main class="main" id="main-content">
-
-    <div class="container">
-      <a href="articles.html" class="back-link">
-        <span class="back-arrow" aria-hidden="true">←</span> Back to Articles
-      </a>
-    </div>
 
     <!-- ============================================================
       ARTICLE HEADER — update for each new article
@@ -273,14 +267,10 @@
               <li><a href="#" class="tag">UX Strategy</a></li>
             </ul>
           </div>
-          <div class="article-share">
-            <span class="label">Share:</span>
-            <div class="share-links">
-              <a href="#" class="share-link">Twitter</a>
-              <a href="#" class="share-link">LinkedIn</a>
-              <a href="#" class="share-link">Copy Link</a>
-            </div>
-          </div>
+          <button type="button" class="copy-link-btn" id="copy-link">
+            <span class="copy-link-btn__icon" aria-hidden="true">⎘</span>
+            <span class="copy-link-btn__text">Copy link</span>
+          </button>
         </footer>
 
       </div><!-- /.content-narrow -->
@@ -294,13 +284,21 @@
       <div class="container content-narrow">
         <h2 id="related-heading" class="label">More Reading</h2>
         <div class="related-list">
-          <a href="testingMethology.html" class="related-item">
-            <p class="label">Process</p>
-            <h3 class="related-item-title">Testing Methodology</h3>
+          <a href="testingMethodology.html" class="related-row">
+            <div class="related-row__body">
+              <span class="label related-row__meta">Process</span>
+              <h3 class="related-row__title">Testing Methodology</h3>
+              <p class="related-row__excerpt">A reference guide to the full spectrum of UX testing methods — from expert evaluation to feedback-based research.</p>
+            </div>
+            <span class="related-row__arrow" aria-hidden="true">→</span>
           </a>
-          <a href="#" class="related-item">
-            <p class="label">Design Systems</p>
-            <h3 class="related-item-title">Button Placement: Hierarchy and Order</h3>
+          <a href="#" class="related-row">
+            <div class="related-row__body">
+              <span class="label related-row__meta">Design Systems</span>
+              <h3 class="related-row__title">Button Placement: Hierarchy and Order</h3>
+              <p class="related-row__excerpt">Where a button sits changes what it means before a user ever reads the label.</p>
+            </div>
+            <span class="related-row__arrow" aria-hidden="true">→</span>
           </a>
         </div>
       </div>
@@ -402,6 +400,31 @@
       });
     })();
   </script>
+
+  <!-- ============================================================
+    COPY-LINK BUTTON — identical across all pages, do not edit
+  ============================================================ -->
+  <script>
+    (function () {
+      var btn = document.getElementById('copy-link');
+      if (!btn) return;
+      var label = btn.querySelector('.copy-link-btn__text');
+      btn.addEventListener('click', function () {
+        var url = window.location.href;
+        function done() {
+          label.textContent = 'Copied ✓';
+          btn.dataset.copied = 'true';
+          setTimeout(function () { label.textContent = 'Copy link'; btn.dataset.copied = 'false'; }, 1800);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(done).catch(done);
+        } else {
+          done();
+        }
+      });
+    })();
+  </script>
+  <!-- ============================================================ -->
 
 </body>
 </html>

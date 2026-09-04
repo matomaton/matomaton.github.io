@@ -116,12 +116,6 @@
 
   <main class="main" id="main-content">
 
-    <div class="container">
-      <a href="articles.html" class="back-link">
-        <span class="back-arrow" aria-hidden="true">←</span> Back to Articles
-      </a>
-    </div>
-
     <!-- ============================================================
       ARTICLE HEADER — update for each new article
       Optional: add article-meta block (category · date · read time)
@@ -209,7 +203,8 @@
         <!-- ── SECTION ─────────────────────────────────────────── -->
           <section class="article-section">
           <h2>Background</h2>
-         <p>I compiled this list to remind myself, and to help other designers review the range of tools available for answering design questions. <p>Design is about making thinking visible. The artifacts we create should help us communicate clearly—whether we’re sharing ideas with participants in a study or with engineers who will eventually build the product.</p>
+         <p>I compiled this list to remind myself, and to help other designers review the range of tools available for answering design questions.</p>
+          <p>Design is about making thinking visible. The artifacts we create should help us communicate clearly—whether we’re sharing ideas with participants in a study or with engineers who will eventually build the product.</p>
           <p>This is the story of how we audited what existed, defined what it needed to do, and rebuilt it without breaking the workflows of 40,000 active users.</p>
         </section>
         <!-- <section class="article-section">
@@ -288,17 +283,12 @@
              Wider than the text column. Good for most screenshots.
              Remove "figure--zoomable" if you don't want lightbox.
         ─────────────────────────────────────────────────────────── -->
- 
-
-<article class="article-body">
-  <section class="article-section">
 
 
     <figure class="article-figure figure--full">
-        <img src="wfsketch.png" alt="A sketch of my first webpage in 1997">
-        <figcaption>A sketch of my first webpage in 1997</figcaption>
-      </figure>
-
+      <img src="wfsketch.png" alt="A sketch of my first webpage in 1997">
+      <figcaption>A sketch of my first webpage in 1997</figcaption>
+    </figure>
 
         <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
@@ -564,14 +554,10 @@
               <li><a href="#" class="tag">Data Visualisation</a></li>
             </ul>
           </div>
-          <div class="article-share">
-            <span class="label">Share:</span>
-            <div class="share-links">
-              <a href="#" class="share-link">Twitter</a>
-              <a href="#" class="share-link">LinkedIn</a>
-              <a href="#" class="share-link">Copy Link</a>
-            </div>
-          </div>
+          <button type="button" class="copy-link-btn" id="copy-link">
+            <span class="copy-link-btn__icon" aria-hidden="true">⎘</span>
+            <span class="copy-link-btn__text">Copy link</span>
+          </button>
         </footer>
 
       </div><!-- /.content-narrow -->
@@ -585,13 +571,21 @@
       <div class="container content-narrow">
         <h2 id="related-heading" class="label">More Reading</h2>
         <div class="related-list">
-          <a href="#" class="related-item">
-            <p class="label">Process</p>
-            <h3 class="related-item-title">Why I Start Every Project With a Question, Not a Solution</h3>
+          <a href="#" class="related-row">
+            <div class="related-row__body">
+              <span class="label related-row__meta">Process</span>
+              <h3 class="related-row__title">Why I Start Every Project With a Question, Not a Solution</h3>
+              <p class="related-row__excerpt">Jumping straight to a solution skips the step that actually determines whether it's the right one.</p>
+            </div>
+            <span class="related-row__arrow" aria-hidden="true">→</span>
           </a>
-          <a href="#" class="related-item">
-            <p class="label">Design Systems</p>
-            <h3 class="related-item-title">Button Placement: Hierarchy and Order</h3>
+          <a href="#" class="related-row">
+            <div class="related-row__body">
+              <span class="label related-row__meta">Design Systems</span>
+              <h3 class="related-row__title">Button Placement: Hierarchy and Order</h3>
+              <p class="related-row__excerpt">Where a button sits changes what it means before a user ever reads the label.</p>
+            </div>
+            <span class="related-row__arrow" aria-hidden="true">→</span>
           </a>
         </div>
       </div>
@@ -708,6 +702,31 @@
       });
     })();
   </script>
+
+  <!-- ============================================================
+    COPY-LINK BUTTON — identical across all pages, do not edit
+  ============================================================ -->
+  <script>
+    (function () {
+      var btn = document.getElementById('copy-link');
+      if (!btn) return;
+      var label = btn.querySelector('.copy-link-btn__text');
+      btn.addEventListener('click', function () {
+        var url = window.location.href;
+        function done() {
+          label.textContent = 'Copied ✓';
+          btn.dataset.copied = 'true';
+          setTimeout(function () { label.textContent = 'Copy link'; btn.dataset.copied = 'false'; }, 1800);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(done).catch(done);
+        } else {
+          done();
+        }
+      });
+    })();
+  </script>
+  <!-- ============================================================ -->
 
 </body>
 </html>

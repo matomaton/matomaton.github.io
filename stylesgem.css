@@ -36,8 +36,9 @@
   --color-nav-bg:       rgba(242, 242, 239, 0.6);  
   --color-charcoal:     #2D2D2D;
   --color-gray:         #595959; /* Darkened for higher contrast */
-  --color-gray-light:   #767676; /* Darkened to pass WCAG AA standards */
+  --color-gray-light:   #6E6E6E; /* WCAG AA for small text (~4.95:1); was #767676 (~4.42:1, failing) */
   --color-border:       rgba(45, 45, 45, 0.15);
+  --color-fill:         rgba(45, 45, 45, 0.05); /* subtle chip/pill background (tags) */
   --color-link:         #4a6580;
   --color-link-hover:   #2e4a62;
 
@@ -53,18 +54,18 @@
   --weight-black:   900;
 
   /* Type scale */
-  --size-h1:    clamp(3rem, 8vw, 6rem);
-  --size-h2:    clamp(1.75rem, 4vw, 2.75rem);
-  --size-label: clamp(0.65rem, 1.5vw, 0.75rem);
-  /* --size-body:  clamp(1.25rem, 1.2vw, 2rem); */
-  --size-body:  clamp(1rem, 1.2vw, 2rem);
+  --size-h1:    clamp(2.75rem, 6vw, 4.5rem);
+  --size-h2:    clamp(1.6rem, 3.2vw, 2.25rem);
+  --size-label: clamp(0.68rem, 1.4vw, 0.76rem);
+  /* Capped so body text can't balloon past ~18px on very wide/multi-monitor viewports */
+  --size-body:  clamp(1rem, 0.3vw + 0.95rem, 1.125rem);
 
   /* Line heights */
   --lh-heading: 1.2;
   --lh-body:    1.7;
 
   /* Letter spacing */
-  --ls-label: 0.15em;
+  --ls-label: 0.13em;
 
   /* Spacing scale */
   --space-xs:  0.5rem;   /* 8px */
@@ -75,7 +76,7 @@
   --space-xxl: 10rem;    /* 160px */
 
   /* Layout */
-  --content-width:   65ch;
+  --content-width:   68ch;
   --container-width: 1200px;
   --nav-height:      80px;
 
@@ -96,9 +97,10 @@
     --color-bg:           #181818; 
     --color-nav-bg:       rgba(24, 24, 24, 0.7);  
     --color-charcoal:     #FCFCF9; /* Off-white text */
-    --color-gray:         #A3A3A3; 
-    --color-gray-light:   #8A8A8A; 
+    --color-gray:         #A3A3A3;
+    --color-gray-light:   #8A8A8A;
     --color-border:       rgba(252, 252, 249, 0.15);
+    --color-fill:         rgba(252, 252, 249, 0.07);
 
     /* Navigation blur adjustments for dark mode */
     --nav-border:  rgba(255, 255, 255, 0.08);
@@ -607,7 +609,7 @@ body.nav-open {
 
 /* --- Header --- */
 .article-header {
-  /* padding-block: var(--space-xl) var(--space-lg); */
+  padding-block: var(--space-lg) var(--space-md);
   text-align: center;
 }
 
@@ -625,16 +627,25 @@ body.nav-open {
   color: var(--color-gray);
 }
 
-.article-meta__divider {
+/* Quieted so the meta row doesn't compete with the title below it */
+.article-meta .label {
+  font-weight: var(--weight-regular);
+  letter-spacing: 0.09em;
   color: var(--color-gray-light);
 }
 
+.article-meta__divider {
+  color: var(--color-border);
+}
+
+/* Scoped override — keeps the H1 at full contrast instead of the
+   washed-out gray the global h1 rule uses on its own */
 .article-title {
-  /* inherits h1 styles — large, light, gray */
+  color: var(--color-charcoal);
 }
 /* Article subtitle — sits below the H1 in the page header */
 .article-subtitle {
-  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-size: clamp(1.2rem, 2.3vw, 1.6rem);
   font-weight: var(--weight-light);
   line-height: 1.5;
   color: var(--color-gray);
@@ -679,9 +690,14 @@ body.nav-open {
   border-top: none;
 }
 
-/* Headings inside sections */
+/* Headings inside sections.
+   Intra-section rhythm: heading-to-copy and copy-to-copy share one
+   tight value (1.25rem), kept well under a line-height (30.6px at
+   1.7×18px) so a section reads as one connected unit. Section-to-
+   section spacing (--space-lg, 64px) stays far larger — the only
+   "big" gap on the page. */
 .article-section h2 {
-  margin-bottom: var(--space-md);
+  margin-bottom: 1.25rem;
 }
 
 .article-section h3 {
@@ -696,13 +712,21 @@ body.nav-open {
 .article-section p + figure,
 .article-section figure + p,
 .article-section p + h3 {
-  margin-top: var(--space-md);
-  /* margin-bottom: var(--space-md); */
+  margin-top: 1.25rem;
 }
 
-/* Lead paragraph — slightly larger intro text */
+/* Body copy sits at a softer contrast than headings — reduces glare
+   over long reads, still well clear of WCAG AA (~6.8:1 on --color-bg) */
+.article-body p,
+.article-section li {
+  color: var(--color-gray);
+}
+
+/* Lead paragraph — slightly larger intro text (rarely used now that
+   opening paragraphs read as normal body copy under an "Overview"
+   heading — kept for the odd standalone pull-quote-style intro) */
 .article-lead {
-  font-size: clamp(1.1rem, 1.5vw, 1.2rem);
+  font-size: clamp(1.15rem, 1.4vw, 1.3rem);
   font-weight: var(--weight-light);
   color: var(--color-gray);
   max-width: var(--content-width);
@@ -713,9 +737,12 @@ body.nav-open {
   /* margin-block: var(--space-lg); */
 }
 
-/* Lists inside article sections — restore styles */
+/* Lists inside article sections — restore styles.
+   margin-top added: a list following a paragraph previously had no
+   top margin at all and sat flush against the text above it. */
 .article-section ul,
 .article-section ol {
+  margin-top: 1.25rem;
   margin-left: var(--space-md);
   margin-bottom: var(--space-md);
   list-style: circle;
@@ -746,7 +773,7 @@ body.nav-open {
   width: min(900px, 100vw - 3rem);
   margin-inline: calc(50% - min(450px, 50vw - 1.5rem));
   border-collapse: collapse;
-  margin-block-start: var(--space-sm);
+  margin-block-start: 1.25rem;
   margin-block-end: var(--space-lg);
 }
 
@@ -755,6 +782,7 @@ body.nav-open {
   padding: var(--space-xs) var(--space-sm);
   text-align: left;
   border-bottom: 1px solid var(--color-border);
+  color: var(--color-gray);
 }
 
 .article-table th {
@@ -775,16 +803,16 @@ body.nav-open {
   vertical-align: top;
 }
 
-/* --- Footer (tags + share) --- */
+/* --- Footer (tags + copy-link) --- */
 .article-footer {
-  margin-top: var(--space-xl);
+  margin-top: var(--space-lg);
   padding-top: var(--space-lg);
   border-top: 1px solid var(--color-border);
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-md);
+  gap: var(--space-md) var(--space-lg);
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .article-tags,
@@ -795,73 +823,145 @@ body.nav-open {
   flex-wrap: wrap;
 }
 
+.article-tags > .label {
+  color: var(--color-gray-light);
+  font-weight: var(--weight-regular);
+}
+
+/* Tag chips — pill background instead of a bordered box, quieter on
+   the page. Selectors also cover a plain <li> (no inner <a>) so the
+   same markup works whether or not tags link anywhere. */
 .tags-list {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-xs);
+  gap: 0.5em;
 }
 
-.tag {
+.tags-list li {
+  font-size: var(--size-label);
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  color: var(--color-gray);
+  background: var(--color-fill);
+  padding: 0.3em 0.75em;
+  border-radius: 3px;
+  transition: color var(--t-fast);
+}
+
+.tags-list li:hover,
+.tags-list .tag:hover {
+  color: var(--color-charcoal);
+}
+
+.tags-list .tag {
+  color: inherit;
+}
+
+/* Single copy-link control — replaces the old three-link share row */
+.copy-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: inherit;
   font-size: var(--size-label);
   font-weight: var(--weight-black);
   text-transform: uppercase;
   letter-spacing: var(--ls-label);
   color: var(--color-gray);
-  padding: 0.25em 0.6em;
-  border: 1px solid var(--color-gray-light);
-  transition: border-color var(--t-fast), color var(--t-fast);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color var(--t-fast);
 }
 
-.tag:hover {
+.copy-link-btn:hover,
+.copy-link-btn[data-copied="true"] {
   color: var(--color-charcoal);
-  border-color: var(--color-charcoal);
 }
 
-.share-links {
-  display: flex;
-  gap: var(--space-md);
+.copy-link-btn__icon {
+  display: inline-flex;
+  transition: transform var(--t-medium);
+  font-size: 1.05em;
+  line-height: 1;
 }
 
-.share-link {
-  font-size: var(--size-label);
-  font-weight: var(--weight-black);
-  text-transform: uppercase;
-  letter-spacing: var(--ls-label);
-  text-decoration: underline;
-  text-underline-offset: 3px;
+.copy-link-btn:hover .copy-link-btn__icon {
+  transform: translateY(-2px);
 }
 
 /* --- Related articles --- */
 .related-articles {
   padding-block: var(--space-xl);
-  border-top: 1px solid var(--color-border);
 }
 
 .related-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: var(--space-lg);
+  display: flex;
+  flex-direction: column;
   margin-top: var(--space-md);
 }
 
-.related-item {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
+.related-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--space-md);
   padding-block: var(--space-md);
   border-top: 1px solid var(--color-border);
   transition: opacity var(--t-medium);
 }
 
-.related-item:hover {
+.related-list .related-row:last-child {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.related-row:hover {
   opacity: 0.6;
 }
 
-.related-item-title {
-  font-size: var(--size-h2);
+.related-row:hover .related-row__arrow {
+  transform: translateX(6px);
+  color: var(--color-charcoal);
+}
+
+.related-row__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.related-row__meta {
+  color: var(--color-gray-light);
+}
+
+.related-row__title {
+  font-size: clamp(1.15rem, 2.4vw, 1.4rem);
   font-weight: var(--weight-light);
   line-height: var(--lh-heading);
   color: var(--color-charcoal);
+}
+
+.related-row__excerpt {
+  font-size: 0.92em;
+  color: var(--color-gray);
+  max-width: 58ch;
+}
+
+.related-row__arrow {
+  font-size: 1.15rem;
+  color: var(--color-gray-light);
+  transition: transform var(--t-medium), color var(--t-medium);
+}
+
+@media (max-width: 600px) {
+  .related-row {
+    grid-template-columns: 1fr;
+  }
+  .related-row__arrow {
+    display: none;
+  }
 }
 
 
@@ -1250,6 +1350,7 @@ body.nav-open {
 
   .article-footer {
     flex-direction: column;
+    align-items: flex-start;
   }
 
   .footer-inner {

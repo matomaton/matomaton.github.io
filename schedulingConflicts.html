@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <!-- Google tag (gtag.js) -->
@@ -15,8 +15,8 @@
   <!-- ============================================================
     ARTICLE META — update for each new article
   ============================================================ -->
-  <title>Testing Methodology — Portfolio</title>
-  <meta name="description" content="A reference guide to the full spectrum of UX testing methods — from expert evaluation to feedback-based research.">
+  <title>Never Silently Overwrite — Portfolio</title>
+  <meta name="description" content="A drag-and-drop itinerary tool needs to handle the moment one activity collides with another. The naive fix is one conflict dialog. The better fix is noticing that 'conflict' isn't one problem.">
   <!-- ============================================================ -->
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -122,181 +122,109 @@
     <header class="article-header">
       <div class="container article-header__inner">
         <div class="article-meta">
-          <span class="label">Reference</span>
+          <span class="label">Interaction Design</span>
           <span class="article-meta__divider" aria-hidden="true">·</span>
-          <time class="label" datetime="2026-03">February 2026</time>
+          <time class="label" datetime="2026-09">September 2026</time>
           <span class="article-meta__divider" aria-hidden="true">·</span>
-          <span class="label">2 min read</span>
+          <span class="label">5 min read</span>
         </div>
-        <h1 class="article-title">Testing Methodology</h1>
-        <p class="article-subtitle">A reference guide to the spectrum of UX testing methods</p>
+        <h1 class="article-title">Never Silently Overwrite</h1>
+        <p class="article-subtitle">A small taxonomy of scheduling conflicts</p>
       </div>
     </header>
     <!-- ============================================================ -->
-<div class="container"><figure class="article-figure figure--zoomable" aria-label="Application Merge final interface mockup">
-      <img
-        src="/assets/StandardBusinessProcedures 1920web.webp"
-        alt="The merged Cataloger and Admin interface displayed across multiple screen sizes"
-        loading="eager"
-      >
-    </figure>
-    </div>
 
     <article class="article-body" aria-labelledby="article-title">
       <div class="container content-narrow">
 
- <!-- ── SECTION: Overview ──────────────────────────────── -->
+        <!-- ── SECTION: Overview ──────────────────────────────── -->
         <section class="article-section">
           <h2>Overview</h2>
-          <p>Every client and organization brings their own definition of user research — shaped by their experience and maturity. This guide maps out the full range of testing methods I draw from, so we have a shared vocabulary before deciding how to investigate.</p>
-          <p>The right tool for the task at hand.</p>
+          <p>A drag-and-drop itinerary tool needs to handle the moment one activity collides with another. The naive fix is one conflict dialog. The better fix is noticing that "conflict" isn't one problem — it's several.</p>
+          <p>Picture a trip-planning tool where a traveler can drag an activity to a new time slot. It's a simple interaction on the surface: pick up a card, drop it somewhere else on the day. But the moment you let people move things freely, you inherit a harder problem: what happens when the new time slot isn't actually free?</p>
+          <p>The tempting answer is a single conflict dialog. Something moved, something else is now in the way, show a warning, offer "Override" and "Cancel," done. I've seen that shipped more than once, and it always breaks down the same way: the first real conflict a user hits doesn't match the two buttons on offer, because "conflict" was never one problem to begin with.</p>
+          <p>A moved activity can collide with the rest of a schedule in a handful of genuinely different ways, and each one calls for its own resolution, not a shared modal that happens to fit none of them well. The design work isn't writing a clever conflict dialog. It's naming every distinct way the collision can happen, before designing anything.</p>
         </section>
-
-       
-        <!-- ── SECTION ─────────────────────────────────────────── -->
-        <section class="article-section">
-          <h2>Expert-Based Evaluation</h2>
-
-          <h3>Heuristic Evaluation</h3>
-          <p>A systematic inspection of the user interface design against recognized usability principles (heuristics). Experts evaluate the interface independently and compare findings. Measures compliance with established design principles and identifies potential usability problems.</p>
-
-          <h3>Cognitive Walkthrough</h3>
-          <p>Evaluators work through a series of tasks from a user's perspective, focusing on cognitive processes required to complete each task. Measures learnability and identifies areas where users might struggle with task completion.</p>
-          <p>The method involves the tester asking four simple questions about the way a specific user journey is conducted:</p>
-          <ol>
-            <li>Will the user try to achieve the right result?</li>
-            <li>Will the user notice that the correct action is available?</li>
-            <li>Will the user associate the correct action with the effect they're trying to achieve?</li>
-            <li>After the action is performed, will the user see that progress is being made toward that goal?</li>
-          </ol>
-        </section>
-
 
         <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
-          <h2>User-Based Testing</h2>
-
-          <h3>Usability Testing</h3>
-          <p>Observation of real users completing specific tasks while thinking aloud. Measures ease of use, task completion rates, time on task, and user satisfaction. Can be conducted as:</p>
-          <ul>
-            <li>Moderated — Conducted with a facilitator present</li>
-            <li>Unmoderated — Users complete tasks independently</li>
-            <li>Remote — Conducted online</li>
-            <li>In-person — Conducted in a lab or specific location</li>
-          </ul>
-
-          <h3>Eye Tracking</h3>
-          <p>Tracks users' eye movements while they interact with the interface. Measures visual attention, scanning patterns, and areas of interest — helping understand what users actually look at and for how long.</p>
-
-          <h3>First Click Testing</h3>
-          <p>Users indicate where they would click first to complete a given task. Measures intuitive navigation and information architecture effectiveness.</p>
-
-          <h3>Preference Testing</h3>
-          <p>A quick research method used to determine which design option users prefer when presented with two or more variations. It primarily focuses on subjective appeal, aesthetics, and initial impressions.</p>
+          <h2>The mild case: partial overlap</h2>
+          <p>The most common case is also the gentlest: a moved activity bleeds into the start or end of the one next to it. A dinner reservation creeps twenty minutes into a walking tour. Here the traveler has real, low-stakes options: nudge the neighboring activity to make room, trim the moved one to fit, let both sit there with the overlap flagged for later, or back out entirely. Four choices, and every one of them is reversible and low-consequence. This is the case a lot of teams design for first, and then quietly assume it covers everything else.</p>
         </section>
-
 
         <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
-          <h2>Information Architecture Testing</h2>
-
-          <h3>Card Sorting</h3>
-          <p>Users organize content items into groups that make sense to them. Can be:</p>
-          <ul>
-            <li><strong>Open Sort</strong> — Users create and name their own categories</li>
-            <li><strong>Closed Sort</strong> — Users sort items into predefined categories</li>
-          </ul>
-          <p>Measures how users expect content to be organized and labeled.</p>
-
-          <h3>Tree Testing</h3>
-          <p>Users attempt to locate items in a stripped-down site structure. Measures the effectiveness of your site's navigation hierarchy without visual design influence.</p>
+          <h2>The case that erases something: full overlap and cascades</h2>
+          <p>Two other shapes get more serious. A moved activity can fully swallow a smaller one already there, a three-hour excursion landing right on top of a thirty-minute lunch. Here the traveler isn't just resizing something, they're deciding whether the smaller activity survives at all. That's a different decision than a partial overlap, and it deserves options that say so: replace the smaller activity outright, keep both and accept the overlap, or cancel the move.</p>
+          <p>The other serious shape is a cascading conflict: shifting one activity fixes the immediate collision but creates a new one further down the day. Push the tour back an hour, and now it collides with whatever comes after it, and so on. The honest options here are auto-cascading the whole chain by the same delta, or stepping through each collision one at a time so the traveler sees what's happening at every step. Neither should happen silently. A tool that quietly cascades changes across a day without telling anyone is the fastest way to lose a user's trust in the schedule they built.</p>
         </section>
-
 
         <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
-          <h2>Quantitative Testing</h2>
-
-          <h3>A/B Testing</h3>
-          <p>Compare two versions of a page element to see which performs better. Measures specific metrics like conversion rates, click-through rates, or time on page.</p>
-
-          <h3>Multivariate Testing</h3>
-          <p>Tests multiple variables simultaneously to determine optimal combinations. Measures how different elements interact with each other to influence user behavior.</p>
-
-          <h3>Web Analytics</h3>
-          <p>Collection and analysis of website usage data, including:</p>
-          <ul>
-            <li>Traffic patterns</li>
-            <li>User flows</li>
-            <li>Page performance</li>
-            <li>User behavior</li>
-            <li>Conversion funnels</li>
-          </ul>
-          <p>Measures various aspects of user behavior and website performance at scale.</p>
-
-          <h3>Heat Mapping</h3>
-          <p>Visual representation of where users click, move, and scroll on your pages. Measures user engagement and interaction patterns across your website.</p>
+          <h2>The case you can't just re-time: a fixed booking</h2>
+          <p>The case that matters most, and the one a generic dialog handles worst, is a conflict with something that can't move: a paid reservation, a ticketed tour, anything with a locked time. Here there's really only one flexible party in the collision, so the resolution isn't a coin flip between two equal options. It's telling the traveler plainly that the thing they're moving is the only thing that can give, then letting them adjust it, accept the overlap, or cancel. Treating a fixed booking the same as two flexible activities is where a generic conflict dialog does real damage, because it implies a choice that doesn't actually exist.</p>
         </section>
-
 
         <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
-          <h2>Technical Testing</h2>
-
-          <h3>Performance Testing</h3>
-          <p>Evaluation of website speed, responsiveness, and stability under various conditions. Measures:</p>
-          <ul>
-            <li>Load times</li>
-            <li>Server response times</li>
-            <li>Resource usage</li>
-            <li>Scalability</li>
-            <li>Stability under stress</li>
-          </ul>
-
-          <h3>Cross-Browser / Device Testing</h3>
-          <p>Testing website functionality and appearance across different browsers, devices, and screen sizes. Measures consistency of user experience across platforms.</p>
-
-          <h3>Accessibility Testing</h3>
-          <p>Evaluation of website usability for people with disabilities. Measures compliance with accessibility standards (WCAG) and actual usability for users with various disabilities.</p>
+          <h2>Four conflict types, side by side</h2>
+          <table class="article-table" aria-label="Scheduling conflict types and the options offered for each">
+            <thead>
+              <tr>
+                <th scope="col">Conflict type</th>
+                <th scope="col">What happened</th>
+                <th scope="col">Options offered</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Partial overlap</td>
+                <td>Moved activity bleeds into the start or end of another</td>
+                <td>Nudge neighbor · Trim moved activity · Allow overlap · Cancel</td>
+              </tr>
+              <tr>
+                <td>Full overlap</td>
+                <td>Moved activity fully swallows a smaller one</td>
+                <td>Replace · Keep both, accept overlap · Cancel</td>
+              </tr>
+              <tr>
+                <td>Cascade</td>
+                <td>Fixing one collision creates a new one further down the day</td>
+                <td>Auto-cascade by same delta · Step through each collision</td>
+              </tr>
+              <tr>
+                <td>Fixed booking</td>
+                <td>Collides with a locked reservation or ticketed time</td>
+                <td>Adjust the movable activity · Accept overlap · Cancel</td>
+              </tr>
+            </tbody>
+          </table>
         </section>
-
 
         <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
-          <h2>Feedback-Based Methods</h2>
+          <h2>What this isn't</h2>
+          <p>This isn't a complete list, and it isn't meant to be. Two harder shapes sit past what's covered here: a move that pushes an activity across midnight into the next day, and a move that creates several conflicts at once. Both are real, and both deserve their own resolution. For the second one, a summary view that lets someone act on every affected activity at once tends to work better than forcing them through collisions one at a time.</p>
+          <p>The point isn't to enumerate every possible collision before shipping anything. It's to keep treating "conflict" as a category with real subtypes, and add a new one deliberately when testing surfaces it, rather than folding it into whichever dialog already exists.</p>
+        </section>
 
-          <h3>Surveys and Questionnaires</h3>
-          <p>Structured collection of user feedback through various question types. Measures user satisfaction, preferences, and demographic information.</p>
-
-          <h3>User Interviews</h3>
-          <p>In-depth conversations with users about their experiences, needs, and pain points. Measures qualitative aspects of user experience and gathers detailed feedback.</p>
-
-          <h3>Contextual Inquiry / Ethnographic Studies</h3>
-          <p>Qualitative research where researchers observe users performing tasks within their natural environment — workplace, home — to gain a deep understanding of behaviors, context, challenges, workflow, and motivations as they naturally occur. It often involves observation combined with targeted questions asked "in context."</p>
-
-          <h3>Focus Groups</h3>
-          <p>Moderated discussions with groups of users about their experiences and expectations. Measures collective user opinions and generates ideas for improvement.</p>
-          <p>I've included this method due to its frequent request, but it carries several challenges worth understanding before you reach for it.</p>
-
-          <!-- Caveats & Biases — presented as a two-part list -->
-          <h3>Focus Group Caveats</h3>
+        <!-- ── SECTION ─────────────────────────────────────────── -->
+        <section class="article-section">
+          <h2>What I'd carry forward</h2>
+          <p>A few things worth applying to any tool where one edit can invalidate another:</p>
           <ul>
-            <li><strong>Groupthink</strong> — Participants may conform to dominant opinions or avoid dissent.</li>
-            <li><strong>Moderator influence</strong> — Poor facilitation can bias responses.</li>
-            <li><strong>Limited generalizability</strong> — Small, non-random samples don't represent broader populations.</li>
-            <li><strong>Social desirability bias</strong> — People may give answers they think are acceptable or expected.</li>
-            <li><strong>Dominant voices</strong> — Some participants may overshadow quieter ones.</li>
-          </ul>
-
-          <h3>Common Biases</h3>
-          <ul>
-            <li><strong>Conformity bias</strong> — Tendency to agree with the group or influential members.</li>
-            <li><strong>Moderator bias</strong> — Leading questions or reactions sway participants' responses.</li>
-            <li><strong>Sampling bias</strong> — The group may not represent the target population.</li>
-            <li><strong>Response bias</strong> — Participants may withhold honest feedback to avoid judgment.</li>
+            <li>List the actual ways a conflict can occur before designing how to resolve it. "A conflict happened" is not a specification.</li>
+            <li>Check that each scenario's options are genuinely different from the others. If two conflict types share the same two buttons, they're probably not two conflict types.</li>
+            <li>Never resolve anything irreversible without showing the person what's about to happen, even when auto-resolving would be technically correct.</li>
+            <li>Treat a fixed, unmovable commitment as its own category. It doesn't share options with a conflict between two flexible things, and design that pretends otherwise misleads people.</li>
           </ul>
         </section>
 
+        <!-- ── SECTION: Closing ──────────────────────────────── -->
+        <section class="article-section">
+          <h2>Closing</h2>
+          <p>None of these resolutions are clever. They're closer to just paying attention: naming what's colliding, saying what will happen, and giving the person a real choice instead of a plausible-looking one. The bar for a good conflict dialog isn't cleverness. It's coverage.</p>
+        </section>
 
         <!-- ============================================================
           ARTICLE FOOTER — update tags for each article
@@ -305,9 +233,9 @@
           <div class="article-tags">
             <span class="label">Tagged:</span>
             <ul class="tags-list" aria-label="Article tags">
-              <li><a href="#" class="tag">Research</a></li>
-              <li><a href="#" class="tag">UX Testing</a></li>
-              <li><a href="#" class="tag">Process</a></li>
+              <li><a href="#" class="tag">Interaction Design</a></li>
+              <li><a href="#" class="tag">Edge Cases</a></li>
+              <li><a href="#" class="tag">Systems Thinking</a></li>
             </ul>
           </div>
           <button type="button" class="copy-link-btn" id="copy-link">
@@ -327,19 +255,19 @@
       <div class="container content-narrow">
         <h2 id="related-heading" class="label">More Reading</h2>
         <div class="related-list">
-          <a href="#" class="related-row">
+          <a href="frictionGap.html" class="related-row">
             <div class="related-row__body">
-              <span class="label related-row__meta">Process</span>
-              <h3 class="related-row__title">Why I Start Every Project With a Question, Not a Solution</h3>
-              <p class="related-row__excerpt">Jumping straight to a solution skips the step that actually determines whether it's the right one.</p>
+              <span class="label related-row__meta">Research</span>
+              <h3 class="related-row__title">The Friction Gap</h3>
+              <p class="related-row__excerpt">Two months of support chat logs held the same story on repeat: the system and the member were describing the same balance in two different languages.</p>
             </div>
             <span class="related-row__arrow" aria-hidden="true">→</span>
           </a>
-          <a href="#" class="related-row">
+          <a href="BeyondClicks.html" class="related-row">
             <div class="related-row__body">
-              <span class="label related-row__meta">Design Systems</span>
-              <h3 class="related-row__title">Button Placement: Hierarchy and Order</h3>
-              <p class="related-row__excerpt">Where a button sits changes what it means before a user ever reads the label.</p>
+              <span class="label related-row__meta">Design Principles</span>
+              <h3 class="related-row__title">Beyond Click Counts: Designing Purposeful Steps</h3>
+              <p class="related-row__excerpt">The real cost in any system is human time and errors, not machine cycles or the number of steps in a flow.</p>
             </div>
             <span class="related-row__arrow" aria-hidden="true">→</span>
           </a>

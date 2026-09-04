@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <!-- Google tag (gtag.js) -->
@@ -15,8 +15,8 @@
   <!-- ============================================================
     ARTICLE META — update for each new article
   ============================================================ -->
-  <title>Testing Methodology — Portfolio</title>
-  <meta name="description" content="A reference guide to the full spectrum of UX testing methods — from expert evaluation to feedback-based research.">
+  <title>The Alignment Problem Hiding in Your Recommendation Shelf — Portfolio</title>
+  <meta name="description" content="A design ticket asking whether AI recommendations should blend into search results or stand apart turned out to be unanswerable at the design layer. The real question had never been settled two steps upstream.">
   <!-- ============================================================ -->
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -122,181 +122,72 @@
     <header class="article-header">
       <div class="container article-header__inner">
         <div class="article-meta">
-          <span class="label">Reference</span>
+          <span class="label">Strategy</span>
           <span class="article-meta__divider" aria-hidden="true">·</span>
-          <time class="label" datetime="2026-03">February 2026</time>
+          <time class="label" datetime="2026-09">September 2026</time>
           <span class="article-meta__divider" aria-hidden="true">·</span>
-          <span class="label">2 min read</span>
+          <span class="label">5 min read</span>
         </div>
-        <h1 class="article-title">Testing Methodology</h1>
-        <p class="article-subtitle">A reference guide to the spectrum of UX testing methods</p>
+        <h1 class="article-title">The Alignment Problem Hiding in Your Recommendation Shelf</h1>
+        <p class="article-subtitle">A design ticket about a divider turned out to be a strategy question wearing a costume</p>
       </div>
     </header>
     <!-- ============================================================ -->
-<div class="container"><figure class="article-figure figure--zoomable" aria-label="Application Merge final interface mockup">
-      <img
-        src="/assets/StandardBusinessProcedures 1920web.webp"
-        alt="The merged Cataloger and Admin interface displayed across multiple screen sizes"
-        loading="eager"
-      >
-    </figure>
-    </div>
 
     <article class="article-body" aria-labelledby="article-title">
       <div class="container content-narrow">
 
- <!-- ── SECTION: Overview ──────────────────────────────── -->
+        <!-- ── SECTION: Overview ──────────────────────────────── -->
         <section class="article-section">
           <h2>Overview</h2>
-          <p>Every client and organization brings their own definition of user research — shaped by their experience and maturity. This guide maps out the full range of testing methods I draw from, so we have a shared vocabulary before deciding how to investigate.</p>
-          <p>The right tool for the task at hand.</p>
+          <p>A design ticket asking whether AI recommendations should blend into search results or stand apart turned out to be unanswerable at the design layer. The real question had never been settled two steps upstream.</p>
+          <p>A ticket landed on my desk with a deceptively simple ask: design a clearer visual separator between an AI-powered recommendation module and the rest of a resort search results page. Travelers were confused about which results were their actual search and which ones the AI had inserted.</p>
+          <p>The obvious fix was a label, maybe a divider, a small "Recommended for you" treatment. I drafted ten versions of the copy. But underneath the copy sat a real fork nobody had resolved. One option intermixed the AI picks with the organic results and positioned them higher, where they'd get more clicks. The other kept them clearly separated, even if that meant fewer people ever noticed them.</p>
+          <p>Those aren't the same goal. One optimizes for people clicking on a recommendation. The other optimizes for people understanding what they're looking at. No amount of typography solves that, because it was never a typography problem.</p>
+          <p>It's tempting to treat that as a design decision waiting on stakeholder input. I think it was something else: a strategy question that had never been settled, wearing a design ticket as a costume. Once I looked at the rest of the recommendation program, I found the same unresolved question sitting underneath more than one ticket.</p>
         </section>
-
-       
-        <!-- ── SECTION ─────────────────────────────────────────── -->
-        <section class="article-section">
-          <h2>Expert-Based Evaluation</h2>
-
-          <h3>Heuristic Evaluation</h3>
-          <p>A systematic inspection of the user interface design against recognized usability principles (heuristics). Experts evaluate the interface independently and compare findings. Measures compliance with established design principles and identifies potential usability problems.</p>
-
-          <h3>Cognitive Walkthrough</h3>
-          <p>Evaluators work through a series of tasks from a user's perspective, focusing on cognitive processes required to complete each task. Measures learnability and identifies areas where users might struggle with task completion.</p>
-          <p>The method involves the tester asking four simple questions about the way a specific user journey is conducted:</p>
-          <ol>
-            <li>Will the user try to achieve the right result?</li>
-            <li>Will the user notice that the correct action is available?</li>
-            <li>Will the user associate the correct action with the effect they're trying to achieve?</li>
-            <li>After the action is performed, will the user see that progress is being made toward that goal?</li>
-          </ol>
-        </section>
-
 
         <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
-          <h2>User-Based Testing</h2>
-
-          <h3>Usability Testing</h3>
-          <p>Observation of real users completing specific tasks while thinking aloud. Measures ease of use, task completion rates, time on task, and user satisfaction. Can be conducted as:</p>
-          <ul>
-            <li>Moderated — Conducted with a facilitator present</li>
-            <li>Unmoderated — Users complete tasks independently</li>
-            <li>Remote — Conducted online</li>
-            <li>In-person — Conducted in a lab or specific location</li>
-          </ul>
-
-          <h3>Eye Tracking</h3>
-          <p>Tracks users' eye movements while they interact with the interface. Measures visual attention, scanning patterns, and areas of interest — helping understand what users actually look at and for how long.</p>
-
-          <h3>First Click Testing</h3>
-          <p>Users indicate where they would click first to complete a given task. Measures intuitive navigation and information architecture effectiveness.</p>
-
-          <h3>Preference Testing</h3>
-          <p>A quick research method used to determine which design option users prefer when presented with two or more variations. It primarily focuses on subjective appeal, aesthetics, and initial impressions.</p>
+          <h2>What the review actually found</h2>
+          <p>When the team stepped back and looked at where the recommendation engine stood, two related gaps showed up.</p>
+          <p>First, several models didn't have fully settled logic. One model, built to surface options similar to a traveler's past bookings, and a newer one meant to broaden personalization further, had drifted close enough together that nobody could clearly say what made them different.</p>
+          <p>Second, and this was the bigger one: there was no shared definition of what a model was actually <em>for</em>. Every model was evaluated on its own internal statistics — precision, recall, training performance. None of that told anyone whether a recommendation shown to a traveler ever led to a booking. Data science, engineering, and design were each judging success by a different yardstick, and none of those yardsticks connected back to what a traveler actually did.</p>
+          <p>Those two gaps compound each other. Without a clear definition of what a model does, it's hard to build toward a shared goal. Without a shared goal, there's no pressure to define the model clearly in the first place. The program had grown this way for over a year, which is a fairly normal way for a recommendation system to develop, and also exactly how a design team ends up litigating tone of voice on a shelf label instead of the question underneath it.</p>
         </section>
-
 
         <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
-          <h2>Information Architecture Testing</h2>
-
-          <h3>Card Sorting</h3>
-          <p>Users organize content items into groups that make sense to them. Can be:</p>
-          <ul>
-            <li><strong>Open Sort</strong> — Users create and name their own categories</li>
-            <li><strong>Closed Sort</strong> — Users sort items into predefined categories</li>
-          </ul>
-          <p>Measures how users expect content to be organized and labeled.</p>
-
-          <h3>Tree Testing</h3>
-          <p>Users attempt to locate items in a stripped-down site structure. Measures the effectiveness of your site's navigation hierarchy without visual design influence.</p>
+          <h2>The fix that caught something real</h2>
+          <p>The fix we tried wasn't a process rollout. It was closer to a one-page form: for every recommendation model, write down what data it uses, how it ranks results, who sees it, what makes it different from every other model, and how you'd measure whether it worked. Nothing more elaborate than that.</p>
+          <p>Writing it down is what caught the problem. The two overlapping models turned out to have almost identical inputs and no clear answer for how they differed. That overlap had been sitting there for a while. It just wasn't visible until someone had to write a plain sentence explaining why a traveler would see one shelf instead of the other, and couldn't.</p>
+          <p>Personalization systems tend to accumulate this kind of debt quietly, especially once the people building a model, the people naming it, and the people measuring it all sit in different parts of the org chart. It's not unique to travel, or to one team.</p>
         </section>
-
 
         <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
-          <h2>Quantitative Testing</h2>
-
-          <h3>A/B Testing</h3>
-          <p>Compare two versions of a page element to see which performs better. Measures specific metrics like conversion rates, click-through rates, or time on page.</p>
-
-          <h3>Multivariate Testing</h3>
-          <p>Tests multiple variables simultaneously to determine optimal combinations. Measures how different elements interact with each other to influence user behavior.</p>
-
-          <h3>Web Analytics</h3>
-          <p>Collection and analysis of website usage data, including:</p>
-          <ul>
-            <li>Traffic patterns</li>
-            <li>User flows</li>
-            <li>Page performance</li>
-            <li>User behavior</li>
-            <li>Conversion funnels</li>
-          </ul>
-          <p>Measures various aspects of user behavior and website performance at scale.</p>
-
-          <h3>Heat Mapping</h3>
-          <p>Visual representation of where users click, move, and scroll on your pages. Measures user engagement and interaction patterns across your website.</p>
+          <h2>What this isn't</h2>
+          <p>I want to be honest about what this is, and isn't. It wasn't a finished success story with a conversion lift to point to. It was a proposed direction, tested against one real example of the ambiguity it was meant to catch.</p>
+          <p>It's also not an argument for more process. The point of the one-pager was to add just enough friction to catch a real problem, not to build an approval chain that slows down every future model. If it takes more than a paragraph to explain what a recommendation is for, that's worth noticing. If it takes a committee to sign off on it, that's a different problem.</p>
         </section>
-
 
         <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
-          <h2>Technical Testing</h2>
-
-          <h3>Performance Testing</h3>
-          <p>Evaluation of website speed, responsiveness, and stability under various conditions. Measures:</p>
+          <h2>What I'd carry forward</h2>
+          <p>A few things I'd apply on the next recommendation system, or any feature with a model quietly making decisions behind it:</p>
           <ul>
-            <li>Load times</li>
-            <li>Server response times</li>
-            <li>Resource usage</li>
-            <li>Scalability</li>
-            <li>Stability under stress</li>
+            <li>Write the one-paragraph definition — covering data, logic, audience, differentiation, and goal — before a model goes anywhere near naming or visual design.</li>
+            <li>If two models need nearly the same sentence to describe them, treat that as a signal to merge or retire one, not a copywriting problem.</li>
+            <li>When a design decision feels like a genuine coin flip between two reasonable goals, ask whether the strategy that should have decided it was ever actually made.</li>
+            <li>Treat "we can't tell if this recommendation worked" as a blocking issue, not a metric to backfill later.</li>
           </ul>
-
-          <h3>Cross-Browser / Device Testing</h3>
-          <p>Testing website functionality and appearance across different browsers, devices, and screen sizes. Measures consistency of user experience across platforms.</p>
-
-          <h3>Accessibility Testing</h3>
-          <p>Evaluation of website usability for people with disabilities. Measures compliance with accessibility standards (WCAG) and actual usability for users with various disabilities.</p>
         </section>
 
-
-        <!-- ── SECTION ─────────────────────────────────────────── -->
+        <!-- ── SECTION: Closing ──────────────────────────────── -->
         <section class="article-section">
-          <h2>Feedback-Based Methods</h2>
-
-          <h3>Surveys and Questionnaires</h3>
-          <p>Structured collection of user feedback through various question types. Measures user satisfaction, preferences, and demographic information.</p>
-
-          <h3>User Interviews</h3>
-          <p>In-depth conversations with users about their experiences, needs, and pain points. Measures qualitative aspects of user experience and gathers detailed feedback.</p>
-
-          <h3>Contextual Inquiry / Ethnographic Studies</h3>
-          <p>Qualitative research where researchers observe users performing tasks within their natural environment — workplace, home — to gain a deep understanding of behaviors, context, challenges, workflow, and motivations as they naturally occur. It often involves observation combined with targeted questions asked "in context."</p>
-
-          <h3>Focus Groups</h3>
-          <p>Moderated discussions with groups of users about their experiences and expectations. Measures collective user opinions and generates ideas for improvement.</p>
-          <p>I've included this method due to its frequent request, but it carries several challenges worth understanding before you reach for it.</p>
-
-          <!-- Caveats & Biases — presented as a two-part list -->
-          <h3>Focus Group Caveats</h3>
-          <ul>
-            <li><strong>Groupthink</strong> — Participants may conform to dominant opinions or avoid dissent.</li>
-            <li><strong>Moderator influence</strong> — Poor facilitation can bias responses.</li>
-            <li><strong>Limited generalizability</strong> — Small, non-random samples don't represent broader populations.</li>
-            <li><strong>Social desirability bias</strong> — People may give answers they think are acceptable or expected.</li>
-            <li><strong>Dominant voices</strong> — Some participants may overshadow quieter ones.</li>
-          </ul>
-
-          <h3>Common Biases</h3>
-          <ul>
-            <li><strong>Conformity bias</strong> — Tendency to agree with the group or influential members.</li>
-            <li><strong>Moderator bias</strong> — Leading questions or reactions sway participants' responses.</li>
-            <li><strong>Sampling bias</strong> — The group may not represent the target population.</li>
-            <li><strong>Response bias</strong> — Participants may withhold honest feedback to avoid judgment.</li>
-          </ul>
+          <h2>Closing</h2>
+          <p>The ticket about the visual separator eventually got resolved with a label and a clear boundary. But the more useful outcome was smaller and less visible: a habit of writing the sentence down before building around it. Most alignment problems don't announce themselves in a strategy meeting. They show up quietly, in a ticket that looks like it's about a divider.</p>
         </section>
-
 
         <!-- ============================================================
           ARTICLE FOOTER — update tags for each article
@@ -305,9 +196,9 @@
           <div class="article-tags">
             <span class="label">Tagged:</span>
             <ul class="tags-list" aria-label="Article tags">
-              <li><a href="#" class="tag">Research</a></li>
-              <li><a href="#" class="tag">UX Testing</a></li>
-              <li><a href="#" class="tag">Process</a></li>
+              <li><a href="#" class="tag">AI & Design</a></li>
+              <li><a href="#" class="tag">Strategy</a></li>
+              <li><a href="#" class="tag">Design Systems</a></li>
             </ul>
           </div>
           <button type="button" class="copy-link-btn" id="copy-link">
@@ -327,19 +218,19 @@
       <div class="container content-narrow">
         <h2 id="related-heading" class="label">More Reading</h2>
         <div class="related-list">
-          <a href="#" class="related-row">
+          <a href="designGovernance.html" class="related-row">
             <div class="related-row__body">
-              <span class="label related-row__meta">Process</span>
-              <h3 class="related-row__title">Why I Start Every Project With a Question, Not a Solution</h3>
-              <p class="related-row__excerpt">Jumping straight to a solution skips the step that actually determines whether it's the right one.</p>
+              <span class="label related-row__meta">Strategy</span>
+              <h3 class="related-row__title">Bridging Design and Governance</h3>
+              <p class="related-row__excerpt">Aligning the creative design process with Product Development to ensure strategic outcomes and operational efficiency.</p>
             </div>
             <span class="related-row__arrow" aria-hidden="true">→</span>
           </a>
-          <a href="#" class="related-row">
+          <a href="frictionGap.html" class="related-row">
             <div class="related-row__body">
-              <span class="label related-row__meta">Design Systems</span>
-              <h3 class="related-row__title">Button Placement: Hierarchy and Order</h3>
-              <p class="related-row__excerpt">Where a button sits changes what it means before a user ever reads the label.</p>
+              <span class="label related-row__meta">Research</span>
+              <h3 class="related-row__title">The Friction Gap</h3>
+              <p class="related-row__excerpt">Two months of support chat logs held the same story on repeat: the system and the member were describing the same balance in two different languages.</p>
             </div>
             <span class="related-row__arrow" aria-hidden="true">→</span>
           </a>
