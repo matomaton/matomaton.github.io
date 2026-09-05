@@ -36,13 +36,8 @@
   --color-nav-bg:       rgba(242, 242, 239, 0.6);  
   --color-charcoal:     #2D2D2D;
   --color-gray:         #595959; /* Darkened for higher contrast */
-  --color-gray-light:   #6E6E6E; /* WCAG AA for small text (~4.95:1); was #767676 (~4.42:1, failing) */
+  --color-gray-light:   #767676; /* Darkened to pass WCAG AA standards */
   --color-border:       rgba(45, 45, 45, 0.15);
-  --color-fill:         rgba(45, 45, 45, 0.05); /* subtle chip/pill background (tags) */
-  --color-link:         #4a6580;
-  --color-link-hover:   #2e4a62;
-
-
 
   /* Typography */
   --font-primary: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -54,18 +49,17 @@
   --weight-black:   900;
 
   /* Type scale */
-  --size-h1:    clamp(2.75rem, 6vw, 4.5rem);
-  --size-h2:    clamp(1.6rem, 3.2vw, 2.25rem);
-  --size-label: clamp(0.68rem, 1.4vw, 0.76rem);
-  /* Capped so body text can't balloon past ~18px on very wide/multi-monitor viewports */
-  --size-body:  clamp(1rem, 0.3vw + 0.95rem, 1.125rem);
+  --size-h1:    clamp(3rem, 8vw, 6rem);
+  --size-h2:    clamp(1.75rem, 4vw, 2.75rem);
+  --size-label: clamp(0.65rem, 1.5vw, 0.75rem);
+  --size-body:  clamp(1rem, 1.2vw, 1.1rem);
 
   /* Line heights */
   --lh-heading: 1.2;
   --lh-body:    1.7;
 
   /* Letter spacing */
-  --ls-label: 0.13em;
+  --ls-label: 0.15em;
 
   /* Spacing scale */
   --space-xs:  0.5rem;   /* 8px */
@@ -76,7 +70,7 @@
   --space-xxl: 10rem;    /* 160px */
 
   /* Layout */
-  --content-width:   68ch;
+  --content-width:   65ch;
   --container-width: 1200px;
   --nav-height:      80px;
 
@@ -97,10 +91,9 @@
     --color-bg:           #181818; 
     --color-nav-bg:       rgba(24, 24, 24, 0.7);  
     --color-charcoal:     #FCFCF9; /* Off-white text */
-    --color-gray:         #A3A3A3;
-    --color-gray-light:   #8A8A8A;
+    --color-gray:         #A3A3A3; 
+    --color-gray-light:   #8A8A8A; 
     --color-border:       rgba(252, 252, 249, 0.15);
-    --color-fill:         rgba(252, 252, 249, 0.07);
 
     /* Navigation blur adjustments for dark mode */
     --nav-border:  rgba(255, 255, 255, 0.08);
@@ -154,7 +147,6 @@ h1, .h1 {
   line-height: var(--lh-heading);
   letter-spacing: -0.02em;
   color: var(--color-gray);
-  /* border: 1px solid red;  */
 }
 
 /* H2 — section headings */
@@ -163,23 +155,11 @@ h2, .h2 {
   font-weight: var(--weight-light);
   line-height: var(--lh-heading);
   color: var(--color-charcoal);
-  /* border: 1px solid purple;  */
 }
 
 /* H3, H4, labels — uppercase small caps */
-/* H3 — subsection heading within article body */
-h3, .h3 {
-  font-size: clamp(0.9rem, 1.8vw, 1.1rem);
-  font-weight: var(--weight-black);
-  line-height: 1.4;
-  text-transform: uppercase;
-  letter-spacing: var(--ls-label);
-  color: var(--color-charcoal);
-  /* border: 1px solid orange;  */
-}
-
-/* H4, labels — uppercase small caps, utility size */
-h4, .h4,
+h3, h4,
+.h3, .h4,
 .label {
   font-size: var(--size-label);
   font-weight: var(--weight-black);
@@ -188,6 +168,7 @@ h4, .h4,
   letter-spacing: var(--ls-label);
   color: var(--color-charcoal);
 }
+
 /* Body / paragraph */
 p {
   font-size: var(--size-body);
@@ -195,58 +176,35 @@ p {
   line-height: var(--lh-body);
   color: var(--color-charcoal);
   max-width: var(--content-width);
-  /* border: 1px solid green;  */
 }
 
 /* Links */
 a {
-  /* color: var(--color-charcoal); */
-  color: var(--color-link);
+  color: var(--color-charcoal);
   text-decoration: none;
   transition: color var(--t-fast);
 }
 
 a:hover {
-  /* color: var(--color-gray); */
-  color: var(--color-link-hover);
-  text-decoration-color: currentColor;
+  color: var(--color-gray);
 }
-/* Prose links — slate color with subtle underline for readability */
-.article-body a,
-.article-section a,
-.backstory-section a,
-.process-section a {
-  color: var(--color-link);
-  text-decoration: underline;
-  text-decoration-color: transparent;
-  text-underline-offset: 3px;
-  transition: color var(--t-fast), text-decoration-color var(--t-fast);
-}
- 
-.article-body a:hover,
-.article-section a:hover,
-.backstory-section a:hover,
-.process-section a:hover {
-  color: var(--color-link-hover);
-  text-decoration-color: currentColor;
-}
+
 /* Blockquote */
 blockquote {
-  padding: var(--space-md) 0;
+  padding: var(--space-lg) 0;
   border-top: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
-  font-size: clamp(1rem, 3vw, 3rem);
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
   font-weight: var(--weight-light);
   font-style: italic;
   line-height: 1.6;
   color: var(--color-gray);
   max-width: var(--content-width);
-  margin-bottom: var(--space-md);
 }
 
 blockquote cite {
   display: block;
-  margin-top: var(--space-sm);
+  margin-top: var(--space-md);
   font-size: var(--size-label);
   font-weight: var(--weight-black);
   font-style: normal;
@@ -290,7 +248,7 @@ pre code {
 }
 
 .article-figure figcaption {
-  /* margin-top: var(--space-xs); */
+  margin-top: var(--space-xs);
   font-size: var(--size-label);
   color: var(--color-gray);
   letter-spacing: var(--ls-label);
@@ -306,11 +264,6 @@ pre code {
   max-width: var(--container-width);
   margin-inline: auto;
   padding-inline: clamp(1.5rem, 5vw, 4rem);
-}
-
-/* Article body manages its own gutters via CSS grid — no extra padding needed */
-.article-body .container {
-  padding-inline: 0;
 }
 
 /* Narrow reading column */
@@ -556,7 +509,7 @@ body.nav-open {
    6. MAIN / PAGE SHELL
    ============================================ */
 .main {
-  /* padding-top: var(--space-lg);   breathing room below sticky nav */
+  padding-top: var(--space-lg);   /* breathing room below sticky nav */
   min-height: 100vh;
 }
 
@@ -609,7 +562,7 @@ body.nav-open {
 
 /* --- Header --- */
 .article-header {
-  padding-block: var(--space-lg) var(--space-md);
+  padding-block: var(--space-xl) var(--space-lg);
   text-align: center;
 }
 
@@ -627,29 +580,12 @@ body.nav-open {
   color: var(--color-gray);
 }
 
-/* Quieted so the meta row doesn't compete with the title below it */
-.article-meta .label {
-  font-weight: var(--weight-regular);
-  letter-spacing: 0.09em;
+.article-meta__divider {
   color: var(--color-gray-light);
 }
 
-.article-meta__divider {
-  color: var(--color-border);
-}
-
-/* Scoped override — keeps the H1 at full contrast instead of the
-   washed-out gray the global h1 rule uses on its own */
 .article-title {
-  color: var(--color-charcoal);
-}
-/* Article subtitle — sits below the H1 in the page header */
-.article-subtitle {
-  font-size: clamp(1.2rem, 2.3vw, 1.6rem);
-  font-weight: var(--weight-light);
-  line-height: 1.5;
-  color: var(--color-gray);
-  max-width: 52ch; /* slightly tighter than body — keeps it punchy */
+  /* inherits h1 styles — large, light, gray */
 }
 
 /* --- Body --- */
@@ -664,7 +600,7 @@ body.nav-open {
     minmax(0, 100px) [breakout-end]
     minmax(1.5rem, 1fr) [full-end];
   
-  /* padding-bottom: var(--space-xl); */
+  padding-bottom: var(--space-xl);
 }
 
 /* Force all standard elements (p, h2, ul, etc) into the center 'content' column */
@@ -674,9 +610,8 @@ body.nav-open {
 
 /* Each logical section of the article */
 .article-section {
-  /* padding-block: var(--space-sm); */
-  /* border-top: 1px solid var(--color-border); */
-  margin-bottom: var(--space-lg);
+  padding-block: var(--space-lg);
+  border-top: 1px solid var(--color-border);
 }
 
 /* First section has no top border (sits right below the header) */
@@ -684,24 +619,14 @@ body.nav-open {
   border-top: none;
   padding-top: 0;
 }
-/* Suppress top border when a section follows a table or other block element
-   that already provides visual separation */
-.article-section--no-border-top {
-  border-top: none;
-}
 
-/* Headings inside sections.
-   Intra-section rhythm: heading-to-copy and copy-to-copy share one
-   tight value (1.25rem), kept well under a line-height (30.6px at
-   1.7×18px) so a section reads as one connected unit. Section-to-
-   section spacing (--space-lg, 64px) stays far larger — the only
-   "big" gap on the page. */
+/* Headings inside sections */
 .article-section h2 {
-  margin-bottom: 1.25rem;
+  margin-bottom: var(--space-md);
 }
 
 .article-section h3 {
-  /* margin-top: var(--space-md); */
+  margin-top: var(--space-md);
   margin-bottom: var(--space-xs);
 }
 
@@ -710,23 +635,13 @@ body.nav-open {
 .article-section p + pre,
 .article-section pre + p,
 .article-section p + figure,
-.article-section figure + p,
-.article-section p + h3 {
-  margin-top: 1.25rem;
+.article-section figure + p {
+  margin-top: var(--space-md);
 }
 
-/* Body copy sits at a softer contrast than headings — reduces glare
-   over long reads, still well clear of WCAG AA (~6.8:1 on --color-bg) */
-.article-body p,
-.article-section li {
-  color: var(--color-gray);
-}
-
-/* Lead paragraph — slightly larger intro text (rarely used now that
-   opening paragraphs read as normal body copy under an "Overview"
-   heading — kept for the odd standalone pull-quote-style intro) */
+/* Lead paragraph — slightly larger intro text */
 .article-lead {
-  font-size: clamp(1.15rem, 1.4vw, 1.3rem);
+  font-size: clamp(1.1rem, 1.5vw, 1.2rem);
   font-weight: var(--weight-light);
   color: var(--color-gray);
   max-width: var(--content-width);
@@ -734,32 +649,9 @@ body.nav-open {
 
 /* Blockquote inside article needs top/bottom breathing room */
 .article-body blockquote {
-  /* margin-block: var(--space-lg); */
+  margin-block: var(--space-lg);
 }
 
-/* Lists inside article sections — restore styles.
-   margin-top added: a list following a paragraph previously had no
-   top margin at all and sat flush against the text above it. */
-.article-section ul,
-.article-section ol {
-  margin-top: 1.25rem;
-  margin-left: var(--space-md);
-  margin-bottom: var(--space-md);
-  list-style: circle;
-}
-
-.article-section ul ul,
-.article-section ol ol,
-.article-section ul ol,
-.article-section ol ul {
-  margin-top: var(--space-xs);
-  margin-bottom: var(--space-xs);
-}
-
-.article-section li {
-  margin-bottom: var(--space-xs);
-  line-height: var(--lh-body);
-}
 /* --- Article data table (reusable) -------------------------
    Use class "article-table" on <table>.
    Uses same breakout width as embed-wrapper / figure--breakout
@@ -773,8 +665,9 @@ body.nav-open {
   width: min(900px, 100vw - 3rem);
   margin-inline: calc(50% - min(450px, 50vw - 1.5rem));
   border-collapse: collapse;
-  margin-block-start: 1.25rem;
-  margin-block-end: var(--space-lg);
+  margin-block: var(--space-lg);
+  font-size: var(--size-body);
+  color: var(--color-charcoal);
 }
 
 .article-table th,
@@ -782,7 +675,6 @@ body.nav-open {
   padding: var(--space-xs) var(--space-sm);
   text-align: left;
   border-bottom: 1px solid var(--color-border);
-  color: var(--color-gray);
 }
 
 .article-table th {
@@ -803,16 +695,16 @@ body.nav-open {
   vertical-align: top;
 }
 
-/* --- Footer (tags + copy-link) --- */
+/* --- Footer (tags + share) --- */
 .article-footer {
-  margin-top: var(--space-lg);
+  margin-top: var(--space-xl);
   padding-top: var(--space-lg);
   border-top: 1px solid var(--color-border);
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-md) var(--space-lg);
+  gap: var(--space-md);
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .article-tags,
@@ -823,145 +715,73 @@ body.nav-open {
   flex-wrap: wrap;
 }
 
-.article-tags > .label {
-  color: var(--color-gray-light);
-  font-weight: var(--weight-regular);
-}
-
-/* Tag chips — pill background instead of a bordered box, quieter on
-   the page. Selectors also cover a plain <li> (no inner <a>) so the
-   same markup works whether or not tags link anywhere. */
 .tags-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5em;
+  gap: var(--space-xs);
 }
 
-.tags-list li {
-  font-size: var(--size-label);
-  font-weight: var(--weight-bold);
-  text-transform: uppercase;
-  letter-spacing: var(--ls-label);
-  color: var(--color-gray);
-  background: var(--color-fill);
-  padding: 0.3em 0.75em;
-  border-radius: 3px;
-  transition: color var(--t-fast);
-}
-
-.tags-list li:hover,
-.tags-list .tag:hover {
-  color: var(--color-charcoal);
-}
-
-.tags-list .tag {
-  color: inherit;
-}
-
-/* Single copy-link control — replaces the old three-link share row */
-.copy-link-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  font-family: inherit;
+.tag {
   font-size: var(--size-label);
   font-weight: var(--weight-black);
   text-transform: uppercase;
   letter-spacing: var(--ls-label);
   color: var(--color-gray);
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  transition: color var(--t-fast);
+  padding: 0.25em 0.6em;
+  border: 1px solid var(--color-gray-light);
+  transition: border-color var(--t-fast), color var(--t-fast);
 }
 
-.copy-link-btn:hover,
-.copy-link-btn[data-copied="true"] {
+.tag:hover {
   color: var(--color-charcoal);
+  border-color: var(--color-charcoal);
 }
 
-.copy-link-btn__icon {
-  display: inline-flex;
-  transition: transform var(--t-medium);
-  font-size: 1.05em;
-  line-height: 1;
+.share-links {
+  display: flex;
+  gap: var(--space-md);
 }
 
-.copy-link-btn:hover .copy-link-btn__icon {
-  transform: translateY(-2px);
+.share-link {
+  font-size: var(--size-label);
+  font-weight: var(--weight-black);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 /* --- Related articles --- */
 .related-articles {
   padding-block: var(--space-xl);
+  border-top: 1px solid var(--color-border);
 }
 
 .related-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-lg);
   margin-top: var(--space-md);
 }
 
-.related-row {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: var(--space-md);
+.related-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
   padding-block: var(--space-md);
   border-top: 1px solid var(--color-border);
   transition: opacity var(--t-medium);
 }
 
-.related-list .related-row:last-child {
-  border-bottom: 1px solid var(--color-border);
-}
-
-.related-row:hover {
+.related-item:hover {
   opacity: 0.6;
 }
 
-.related-row:hover .related-row__arrow {
-  transform: translateX(6px);
-  color: var(--color-charcoal);
-}
-
-.related-row__body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.related-row__meta {
-  color: var(--color-gray-light);
-}
-
-.related-row__title {
-  font-size: clamp(1.15rem, 2.4vw, 1.4rem);
+.related-item-title {
+  font-size: var(--size-h2);
   font-weight: var(--weight-light);
   line-height: var(--lh-heading);
   color: var(--color-charcoal);
-}
-
-.related-row__excerpt {
-  font-size: 0.92em;
-  color: var(--color-gray);
-  max-width: 58ch;
-}
-
-.related-row__arrow {
-  font-size: 1.15rem;
-  color: var(--color-gray-light);
-  transition: transform var(--t-medium), color var(--t-medium);
-}
-
-@media (max-width: 600px) {
-  .related-row {
-    grid-template-columns: 1fr;
-  }
-  .related-row__arrow {
-    display: none;
-  }
 }
 
 
@@ -1015,7 +835,7 @@ body.nav-open {
 .media-grid {
   display: grid;
   gap: var(--space-md);
-  /* margin-block: var(--space-lg); */
+  margin-block: var(--space-lg);
 }
 
 .media-grid--2col { grid-template-columns: repeat(2, 1fr); }
@@ -1152,7 +972,6 @@ body.nav-open {
 
 .section-title {
   margin-bottom: var(--space-md);
-  /* border: 1px solid purple;  */
 }
 
 .section-content p + p {
@@ -1285,6 +1104,33 @@ body.nav-open {
   border: 1px solid var(--color-border);
 }
 
+/* Bulleted job-description lists inside a resume-item.
+   The global reset strips list-style and spacing, so bulleted
+   resume descriptions need their own rule. Reuse "stack-xs" on
+   the <ul> for consistent spacing between bullets. */
+.resume-item-description {
+  color: var(--color-gray);
+}
+
+.resume-item-description li {
+  position: relative;
+  padding-left: 1.1em;
+}
+
+.resume-item-description li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--color-gray-light);
+}
+
+/* Sub-headings (e.g. "Accessibility", "Information Architecture")
+   grouping bullets within a single resume-item */
+.resume-item h3 {
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-xs);
+}
+
 
 /* ============================================
    12. FOOTER
@@ -1350,7 +1196,6 @@ body.nav-open {
 
   .article-footer {
     flex-direction: column;
-    align-items: flex-start;
   }
 
   .footer-inner {
