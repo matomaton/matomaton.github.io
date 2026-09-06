@@ -117,7 +117,7 @@
   <main class="main" id="main-content">
 
     <div class="container">
-      <a href="index.html" class="back-link">
+      <a href="projects.html" class="back-link">
         <span class="back-arrow" aria-hidden="true">←</span> Back to Projects
       </a>
     </div>
@@ -313,7 +313,7 @@
           <h3>Disadvantages</h3>
           <p>While this aligned with the future direction of the organization, it presented a profound impact on many teams and the broader JSTOR platform.</p>
           <h3>New Product Inspiration</h3>
-          <p>Starting small with entry points from the platform to the publishing tool could be considered in the near term. Ultimately, ideas from this concept inspired a new product called <a href="collectionLoader.html">Collection Loader</a>.</p>
+          <p>Starting small with entry points from the platform to the publishing tool could be considered in the near term. Ultimately, ideas from this concept inspired a new product called <a href="project-contentLoader.html">Collection Loader</a>.</p>
         </section>
 
       </div><!-- /.content-narrow -->
@@ -415,14 +415,44 @@
               <li><a href="#" class="tag">Product Design</a></li>
             </ul>
           </div>
+          <button type="button" class="copy-link-btn" id="copy-link">
+            <span class="copy-link-btn__icon" aria-hidden="true">⎘</span>
+            <span class="copy-link-btn__text">Copy link</span>
+          </button>
         </footer>
 
       </div><!-- /.content-narrow -->
     </article>
 
+    <!-- ============================================================
+      RELATED PROJECTS
+    ============================================================ -->
+    <section class="related-articles" aria-labelledby="related-heading">
+      <div class="container content-narrow">
+        <h2 id="related-heading" class="label">More Projects</h2>
+        <div class="related-list">
+          <a href="project-contentLoader.html" class="related-row">
+            <div class="related-row__body">
+              <span class="label related-row__meta">Case Study</span>
+              <h3 class="related-row__title">Collection Loader</h3>
+              <p class="related-row__excerpt">An automated migration tool that helped libraries and cultural institutions publish their digital collections at scale.</p>
+            </div>
+            <span class="related-row__arrow" aria-hidden="true">→</span>
+          </a>
+          <a href="tripPlaner.html" class="related-row">
+            <div class="related-row__body">
+              <span class="label related-row__meta">Product Design</span>
+              <h3 class="related-row__title">Trip Planner Itinerary Builder</h3>
+              <p class="related-row__excerpt">AI-driven technology that personalizes and simplifies the booking experience, from anticipating travelers' needs to tailored recommendations.</p>
+            </div>
+            <span class="related-row__arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
 
     <div class="container">
-      <a href="index.html" class="back-link">
+      <a href="projects.html" class="back-link">
         <span class="back-arrow" aria-hidden="true">←</span> Back to Projects
       </a>
     </div>
@@ -514,6 +544,27 @@
         if (e.key !== 'Tab') return;
         e.preventDefault();
         closeBtn.focus();
+      });
+    })();
+  </script>
+
+  <script>
+    (function () {
+      var btn = document.getElementById('copy-link');
+      if (!btn) return;
+      var label = btn.querySelector('.copy-link-btn__text');
+      btn.addEventListener('click', function () {
+        var url = window.location.href;
+        function done() {
+          label.textContent = 'Copied ✓';
+          btn.dataset.copied = 'true';
+          setTimeout(function () { label.textContent = 'Copy link'; btn.dataset.copied = 'false'; }, 1800);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(done).catch(done);
+        } else {
+          done();
+        }
       });
     })();
   </script>

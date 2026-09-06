@@ -33,14 +33,15 @@
 :root {
   /* Colors */
   --color-bg:           #FCFCF9;
-  --color-nav-bg:       rgba(242, 242, 239, 0.6);  
-  --color-charcoal:     #2D2D2D;
-  --color-gray:         #595959; /* Darkened for higher contrast */
-  --color-gray-light:   #767676; /* Darkened to pass WCAG AA standards */
+  --color-nav-bg:       rgba(242, 242, 239, 0.6);
+  --color-charcoal:     #4A4A4A; /* was #2D2D2D (13.4:1) — now 8.62:1, less harsh, still well clear of AA */
+  --color-gray:         #595959; /* unchanged — already 6.81:1, a good soft mid-tone */
+  --color-gray-light:   #737373; /* was #767676 (4.42:1, just under AA) — now 4.61:1 */
   --color-border:       rgba(45, 45, 45, 0.15);
+  --color-accent:       #B03030; /* new: for active/highlighted states, replaces hardcoded darkred */
 
   /* Typography */
-  --font-primary: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-primary: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   /* Font weights */
   --weight-light:   300;
@@ -62,12 +63,12 @@
   --ls-label: 0.15em;
 
   /* Spacing scale */
-  --space-xs:  0.5rem;   /* 8px */
-  --space-sm:  1rem;     /* 16px */
-  --space-md:  2rem;     /* 32px */
-  --space-lg:  4rem;     /* 64px */
-  --space-xl:  6rem;     /* 96px */
-  --space-xxl: 10rem;    /* 160px */
+  --space-xs:  0.5rem;
+  --space-sm:  1rem;
+  --space-md:  2rem;
+  --space-lg:  4rem;
+  --space-xl:  6rem;
+  --space-xxl: 10rem;
 
   /* Layout */
   --content-width:   65ch;
@@ -88,19 +89,19 @@
 @media (prefers-color-scheme: dark) {
   :root {
     /* Colors */
-    --color-bg:           #181818; 
-    --color-nav-bg:       rgba(24, 24, 24, 0.7);  
-    --color-charcoal:     #FCFCF9; /* Off-white text */
-    --color-gray:         #A3A3A3; 
-    --color-gray-light:   #8A8A8A; 
+    --color-bg:           #181818;
+    --color-nav-bg:       rgba(24, 24, 24, 0.7);
+    --color-charcoal:     #B0B0B0; /* was #FCFCF9 (17.28:1) — now 8.19:1, mirrors the light-mode softening */
+    --color-gray:         #A3A3A3; /* unchanged — already 7.04:1 */
+    --color-gray-light:   #8A8A8A; /* unchanged — already 5.14:1, passes fine */
     --color-border:       rgba(252, 252, 249, 0.15);
+    --color-accent:       #E08080; /* new: dark-mode counterpart, ~4.6:1 on #181818 */
 
     /* Navigation blur adjustments for dark mode */
     --nav-border:  rgba(255, 255, 255, 0.08);
     --nav-shadow:  0 2px 12px rgba(0, 0, 0, 0.2);
   }
 }
-
 /* ============================================
    2. RESET & BASE
    ============================================ */
@@ -456,8 +457,8 @@ pre code {
 }
 
 .nav-drawer__link--active {
-  border-left-color: darkred;
-  color: darkred;
+  border-left-color: var(--color-accent);
+  color: var(--color-accent);
 }
 
 /* Stagger link entrance animations */

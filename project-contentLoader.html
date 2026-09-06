@@ -164,7 +164,7 @@
   <main class="main" id="main-content">
 
     <div class="container">
-      <a href="index.html" class="back-link">
+      <a href="projects.html" class="back-link">
         <span class="back-arrow" aria-hidden="true">←</span> Back to Projects
       </a>
     </div>
@@ -209,7 +209,7 @@
   </div><!-- /.content-narrow -->
 </article>
 
-<!-- Metric cards 
+<!-- Metric cards -->
 <div style="padding-block: var(--space-sm) var(--space-lg);">
   <div class="container">
     <div class="metrics-row" aria-label="Key results">
@@ -228,7 +228,6 @@
     </div>
   </div>
 </div>
--->
  <article class="article-body" aria-label="Collection Loader case study continued">
       <div class="container content-narrow">
 
@@ -438,15 +437,46 @@
           <p class="embed-caption label">Platform story — presented to internal stakeholders pre-launch.</p>
         </div>
 
-     
+    <footer class="article-footer">
+      <div class="container content-narrow">
+        <ul class="tags-list" aria-label="Topics">
+          <li><a href="#" class="tag">Product Design</a></li>
+          <li><a href="#" class="tag">0 to 1</a></li>
+          <li><a href="#" class="tag">Migration Tools</a></li>
+        </ul>
+        <button type="button" class="copy-link-btn" id="copy-link">
+          <span class="copy-link-btn__icon" aria-hidden="true">⎘</span>
+          <span class="copy-link-btn__text">Copy link</span>
+        </button>
+      </div>
+    </footer>
 
-
-      </div><!-- /.content-narrow -->
-    </article>
-
+    <section class="related-articles" aria-labelledby="related-heading">
+      <div class="container content-narrow">
+        <h2 id="related-heading" class="label">More Projects</h2>
+        <div class="related-list">
+          <a href="appMerg.html" class="related-row">
+            <div class="related-row__body">
+              <span class="label related-row__meta">Case Study</span>
+              <h3 class="related-row__title">Application Merge</h3>
+              <p class="related-row__excerpt">Merging two fragmented applications into one cohesive platform for libraries, archives, and universities.</p>
+            </div>
+            <span class="related-row__arrow" aria-hidden="true">→</span>
+          </a>
+          <a href="tripPlaner.html" class="related-row">
+            <div class="related-row__body">
+              <span class="label related-row__meta">Product Design</span>
+              <h3 class="related-row__title">Trip Planner Itinerary Builder</h3>
+              <p class="related-row__excerpt">AI-driven technology that personalizes and simplifies the booking experience, from anticipating travelers' needs to tailored recommendations.</p>
+            </div>
+            <span class="related-row__arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
 
     <div class="container">
-      <a href="index.html" class="back-link">
+      <a href="projects.html" class="back-link">
         <span class="back-arrow" aria-hidden="true">←</span> Back to Projects
       </a>
     </div>
@@ -582,6 +612,27 @@
 
       const metricsRow = document.querySelector('.metrics-row');
       if (metricsRow) observer.observe(metricsRow);
+    })();
+  </script>
+
+  <script>
+    (function () {
+      var btn = document.getElementById('copy-link');
+      if (!btn) return;
+      var label = btn.querySelector('.copy-link-btn__text');
+      btn.addEventListener('click', function () {
+        var url = window.location.href;
+        function done() {
+          label.textContent = 'Copied ✓';
+          btn.dataset.copied = 'true';
+          setTimeout(function () { label.textContent = 'Copy link'; btn.dataset.copied = 'false'; }, 1800);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(done).catch(done);
+        } else {
+          done();
+        }
+      });
     })();
   </script>
 
