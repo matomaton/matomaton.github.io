@@ -9,14 +9,14 @@
     gtag('js', new Date());
     gtag('config', 'G-BQSRM5PRTV');
   </script>
-  <meta charset="UTF-8">
+    <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- ============================================================
     ARTICLE META — update for each new article
   ============================================================ -->
-  <title>The Friction Gap — Portfolio</title>
-  <meta name="description" content="Two months of support chat logs held the same story on repeat: the system and the member were describing the same balance in two different languages.">
+  <title>The Friction Gap — Matthew Martin</title>
+  <meta name="description" content="Two months of support chat logs held the same story on repeat: members and the system were describing the same balance in two different languages.">
   <!-- ============================================================ -->
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -116,6 +116,12 @@
 
   <main class="main" id="main-content">
 
+    <div class="container">
+      <a href="articles.html" class="back-link">
+        <span class="back-arrow" aria-hidden="true">←</span> Back to Articles
+      </a>
+    </div>
+
     <!-- ============================================================
       ARTICLE HEADER — update for each new article
     ============================================================ -->
@@ -126,10 +132,10 @@
           <span class="article-meta__divider" aria-hidden="true">·</span>
           <time class="label" datetime="2026-09">September 2026</time>
           <span class="article-meta__divider" aria-hidden="true">·</span>
-          <span class="label">4 min read</span>
+          <span class="label">5 min read</span>
         </div>
-        <h1 class="article-title">The Friction Gap</h1>
-        <p class="article-subtitle">Where system logic and member mental models stop agreeing</p>
+        <h1 class="article-title" id="article-title">The Friction Gap</h1>
+        <p class="article-subtitle">Two months of support chat logs held the same story on repeat: members weren't confused by any one rule about their points. They were confused because the system and the member were quietly describing the same balance in two different languages.</p>
       </div>
     </header>
     <!-- ============================================================ -->
@@ -137,33 +143,27 @@
     <article class="article-body" aria-labelledby="article-title">
       <div class="container content-narrow">
 
-        <!-- ── SECTION: Overview ──────────────────────────────── -->
         <section class="article-section">
-          <h2>Overview</h2>
-          <p>Two months of support chat logs held the same story on repeat: members weren't confused by any one rule about their points. They were confused because the system and the member were quietly describing the same balance in two different languages.</p>
           <p>We pulled every chat message mentioning "points" over a two-month stretch of support logs, close to 7,600 messages in all. Reading through them wasn't like triaging a pile of unrelated questions. The same handful of confusions kept resurfacing, worded differently each time, but structurally identical. That kind of repetition is usually a sign the problem isn't in the rules themselves. It's in the gap between how the system was built and how people actually think.</p>
           <p>A membership points system can be internally consistent, every rule making sense in isolation, and still generate constant confusion, because the system and the member are answering different questions with the same word: points.</p>
         </section>
 
-        <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
           <h2>What the system is actually tracking</h2>
           <p>On the system side, points aren't one thing. They're several categories, each governed by its own rules: eligibility rules for different point types, saving and borrowing mechanics that move points between years, conversion rules for exchanging points into partner programs, fees attached to specific transactions, and inventory rules that tie a booking to a specific funding year rather than the calendar year most people plan around. Every one of those rules exists for a real operational reason. None of them is unreasonable on its own.</p>
         </section>
 
-        <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
           <h2>What the member is actually asking</h2>
           <p>Ask a member what they're trying to figure out, and the questions look nothing like the system's categories. Do I have enough for this trip? Which year's points am I actually spending? Is this a good use of my points compared to my other options? What happens to my points if I have to cancel? What's left for my next trip if I use these now?</p>
           <p>None of those questions care which bucket a point came from. They treat points the way people treat a single currency: fungible, cumulative, spendable.</p>
         </section>
 
-        <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
           <h2>Where the two stop agreeing</h2>
-          <p>Lay the two layers side by side and the friction stops being abstract.</p>
+          <p class="article-lead">Lay the two layers side by side and the friction stops being abstract.</p>
 
-          <table class="article-table" aria-label="Where the system's logic and the member's mental model diverge">
+          <table class="article-table">
             <thead>
               <tr>
                 <th scope="col">The system</th>
@@ -193,28 +193,27 @@
           <p>None of these are edge cases. They're the default experience of anyone trying to plan a trip with points, because the system's organizing logic and the member's organizing logic were never actually the same logic to begin with.</p>
         </section>
 
-        <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
           <h2>What this is and isn't</h2>
           <p>Worth naming plainly: this is a read of support conversations, not a controlled study. It tells you where people got stuck enough to ask for help, not how everyone experiences the system, including the people who never had to ask. It also doesn't prove which fix works, only where to aim one. Testing whether members' stated priorities hold up against the system's actual constraints is a different piece of work, and a necessary next step before building anything.</p>
         </section>
 
-        <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
           <h2>What I'd carry forward</h2>
           <p>A few things this kind of analysis is good for on any system with a similar shape, one currency built out of several rule-bound sources that people want to think about as a single number:</p>
-          <ul>
-            <li>Read support logs for structural repetition, not just topic frequency. The same underlying confusion often shows up worded a dozen different ways.</li>
-            <li>Write the system's mental model and the user's mental model down as two separate lists before trying to fix anything. The friction is usually visible the moment they sit side by side.</li>
-            <li>Look for places where the system's unit of time — a fiscal year, a billing cycle, a funding year — doesn't match the unit of time people actually plan around.</li>
-            <li>Treat "is this a good use of my balance" as a real question the interface needs to answer, not a nice-to-have. It showed up on its own, without being asked for.</li>
-          </ul>
+          <p>Read support logs for structural repetition, not just topic frequency. The same underlying confusion often shows up worded a dozen different ways.</p>
+          <p>Write the system's mental model and the user's mental model down as two separate lists before trying to fix anything. The friction is usually visible the moment they sit side by side.</p>
+          <p>Look for places where the system's unit of time, a fiscal year, a billing cycle, a funding year, doesn't match the unit of time people actually plan around.</p>
+          <p>Treat "is this a good use of my balance" as a real question the interface needs to answer, not a nice-to-have. It showed up on its own, without being asked for.</p>
         </section>
 
-        <!-- ── SECTION: Closing ──────────────────────────────── -->
+        <blockquote>
+          <p>"The system wasn't wrong, and neither were the members. They were running two different models of the same thing, and nobody had put both models on paper long enough to see exactly where they diverged."</p>
+        </blockquote>
+
         <section class="article-section">
           <h2>Closing</h2>
-          <p>The system wasn't wrong, and neither were the members. They were running two different models of the same thing, and nobody had put both models on paper long enough to see exactly where they diverged. That's a cheaper problem to find than to guess at, and cheaper still than shipping a fix for the wrong one.</p>
+          <p>That's a cheaper problem to find than to guess at, and cheaper still than shipping a fix for the wrong one.</p>
         </section>
 
         <!-- ============================================================
@@ -225,19 +224,22 @@
             <span class="label">Tagged:</span>
             <ul class="tags-list" aria-label="Article tags">
               <li><a href="#" class="tag">Research</a></li>
-              <li><a href="#" class="tag">Mental Models</a></li>
-              <li><a href="#" class="tag">UX Strategy</a></li>
+              <li><a href="#" class="tag">UX Research</a></li>
+              <li><a href="#" class="tag">Systems Thinking</a></li>
             </ul>
           </div>
-          <button type="button" class="copy-link-btn" id="copy-link">
-            <span class="copy-link-btn__icon" aria-hidden="true">⎘</span>
-            <span class="copy-link-btn__text">Copy link</span>
-          </button>
+          <div class="article-share">
+            <span class="label">Share:</span>
+            <div class="share-links">
+              <a href="#" class="share-link">Twitter</a>
+              <a href="#" class="share-link">LinkedIn</a>
+              <a href="#" class="share-link">Copy Link</a>
+            </div>
+          </div>
         </footer>
 
       </div><!-- /.content-narrow -->
     </article>
-
 
     <!-- ============================================================
       RELATED ARTICLES — update links for each article
@@ -246,21 +248,13 @@
       <div class="container content-narrow">
         <h2 id="related-heading" class="label">More Reading</h2>
         <div class="related-list">
-          <a href="schedulingConflicts.html" class="related-row">
-            <div class="related-row__body">
-              <span class="label related-row__meta">Interaction Design</span>
-              <h3 class="related-row__title">Never Silently Overwrite: A Small Taxonomy of Scheduling Conflicts</h3>
-              <p class="related-row__excerpt">The naive fix for a calendar collision is one conflict dialog. The better fix is noticing that "conflict" isn't one problem — it's several.</p>
-            </div>
-            <span class="related-row__arrow" aria-hidden="true">→</span>
+          <a href="schedulingConflicts.html" class="related-item">
+            <p class="label">Interaction Design</p>
+            <h3 class="related-item-title">Never Silently Overwrite: A Small Taxonomy of Scheduling Conflicts</h3>
           </a>
-          <a href="testingMethodology.html" class="related-row">
-            <div class="related-row__body">
-              <span class="label related-row__meta">Reference</span>
-              <h3 class="related-row__title">Testing Methodology</h3>
-              <p class="related-row__excerpt">A reference guide to the full spectrum of UX testing methods — from expert evaluation to feedback-based research.</p>
-            </div>
-            <span class="related-row__arrow" aria-hidden="true">→</span>
+          <a href="recommendationAlignment.html" class="related-item">
+            <p class="label">Product Strategy</p>
+            <h3 class="related-item-title">The Alignment Problem Hiding in Your Recommendation Shelf</h3>
           </a>
         </div>
       </div>
@@ -274,28 +268,26 @@
 
   </main>
 
-
   <!-- ============================================================
     FOOTER — identical across all pages, do not edit
   ============================================================ -->
   <footer class="footer">
     <div class="container footer-inner">
-      <p class="footer-text">© 2026 Matthew</p>
+      <p class="footer-text">© 2026</p>
       <nav class="footer-links" aria-label="Footer navigation">
         <a href="mailto:matthew.martin.atomaton@gmail.com" class="footer-link">Email</a>
-        <a href="https://www.linkedin.com/in/atomaton/" class="footer-link">LinkedIn</a>
-        <a href="https://github.com/matomaton" class="footer-link">GitHub</a>
+        <a href="https://linkedin.com/in/atomaton/" class="footer-link">LinkedIn</a>
         <a href="https://atomaton.substack.com/" class="footer-link">Substack</a>
       </nav>
     </div>
   </footer>
   <!-- ============================================================ -->
 
-
   <!-- ============================================================
     LIGHTBOX — no dependencies, pure JS
     Activated automatically on any figure.figure--zoomable
-    Close: click backdrop, press Escape, or click × button
+    Not used on this page (no images), left in for consistency
+    and in case a figure is added later.
   ============================================================ -->
   <div class="lightbox" id="lightbox" aria-modal="true" role="dialog" aria-label="Image viewer" aria-hidden="true">
     <button class="lightbox__close" id="lightbox-close" aria-label="Close image viewer">
@@ -373,31 +365,6 @@
       });
     })();
   </script>
-
-  <!-- ============================================================
-    COPY-LINK BUTTON — identical across all pages, do not edit
-  ============================================================ -->
-  <script>
-    (function () {
-      var btn = document.getElementById('copy-link');
-      if (!btn) return;
-      var label = btn.querySelector('.copy-link-btn__text');
-      btn.addEventListener('click', function () {
-        var url = window.location.href;
-        function done() {
-          label.textContent = 'Copied ✓';
-          btn.dataset.copied = 'true';
-          setTimeout(function () { label.textContent = 'Copy link'; btn.dataset.copied = 'false'; }, 1800);
-        }
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(url).then(done).catch(done);
-        } else {
-          done();
-        }
-      });
-    })();
-  </script>
-  <!-- ============================================================ -->
 
 </body>
 </html>

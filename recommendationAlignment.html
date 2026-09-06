@@ -9,13 +9,13 @@
     gtag('js', new Date());
     gtag('config', 'G-BQSRM5PRTV');
   </script>
-  <meta charset="UTF-8">
+    <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- ============================================================
     ARTICLE META — update for each new article
   ============================================================ -->
-  <title>The Alignment Problem Hiding in Your Recommendation Shelf — Portfolio</title>
+  <title>The Alignment Problem — Matthew Martin</title>
   <meta name="description" content="A design ticket asking whether AI recommendations should blend into search results or stand apart turned out to be unanswerable at the design layer. The real question had never been settled two steps upstream.">
   <!-- ============================================================ -->
 
@@ -23,6 +23,49 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="stylesgem.css">
+
+  <!-- ============================================================
+    PAGE-SCOPED STYLE — the "split diagram" below (root cause →
+    two symptoms) isn't a component in styles.css yet. Kept scoped
+    here for now; promote it into styles.css if you reuse this
+    pattern on another article.
+  ============================================================ -->
+  <style>
+    .split-diagram {
+      margin-block: var(--space-lg);
+      max-width: var(--content-width);
+    }
+    .split-diagram__root {
+      padding: var(--space-sm) var(--space-md);
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      font-size: var(--size-body);
+      font-weight: var(--weight-bold);
+      text-align: center;
+    }
+    .split-diagram__connector {
+      width: 1px;
+      height: var(--space-md);
+      margin-inline: auto;
+      background: var(--color-border);
+    }
+    .split-diagram__branches {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-md);
+    }
+    .split-diagram__branch {
+      padding: var(--space-sm) var(--space-md);
+      border-top: 2px solid var(--color-charcoal);
+    }
+    .split-diagram__branch p {
+      margin-top: var(--space-xs);
+      color: var(--color-gray);
+    }
+    @media (max-width: 600px) {
+      .split-diagram__branches { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 
 <body>
@@ -116,20 +159,26 @@
 
   <main class="main" id="main-content">
 
+    <div class="container">
+      <a href="articles.html" class="back-link">
+        <span class="back-arrow" aria-hidden="true">←</span> Back to Articles
+      </a>
+    </div>
+
     <!-- ============================================================
       ARTICLE HEADER — update for each new article
     ============================================================ -->
     <header class="article-header">
       <div class="container article-header__inner">
         <div class="article-meta">
-          <span class="label">Strategy</span>
+          <span class="label">Product Strategy</span>
           <span class="article-meta__divider" aria-hidden="true">·</span>
           <time class="label" datetime="2026-09">September 2026</time>
           <span class="article-meta__divider" aria-hidden="true">·</span>
-          <span class="label">5 min read</span>
+          <span class="label">6 min read</span>
         </div>
-        <h1 class="article-title">The Alignment Problem Hiding in Your Recommendation Shelf</h1>
-        <p class="article-subtitle">A design ticket about a divider turned out to be a strategy question wearing a costume</p>
+        <h1 class="article-title" id="article-title">The Alignment Problem</h1>
+        <p class="article-subtitle">A design ticket asking whether AI recommendations should blend into search results or stand apart turned out to be unanswerable at the design layer. The real question had never been settled two steps upstream.</p>
       </div>
     </header>
     <!-- ============================================================ -->
@@ -137,56 +186,98 @@
     <article class="article-body" aria-labelledby="article-title">
       <div class="container content-narrow">
 
-        <!-- ── SECTION: Overview ──────────────────────────────── -->
         <section class="article-section">
-          <h2>Overview</h2>
-          <p>A design ticket asking whether AI recommendations should blend into search results or stand apart turned out to be unanswerable at the design layer. The real question had never been settled two steps upstream.</p>
           <p>A ticket landed on my desk with a deceptively simple ask: design a clearer visual separator between an AI-powered recommendation module and the rest of a resort search results page. Travelers were confused about which results were their actual search and which ones the AI had inserted.</p>
           <p>The obvious fix was a label, maybe a divider, a small "Recommended for you" treatment. I drafted ten versions of the copy. But underneath the copy sat a real fork nobody had resolved. One option intermixed the AI picks with the organic results and positioned them higher, where they'd get more clicks. The other kept them clearly separated, even if that meant fewer people ever noticed them.</p>
           <p>Those aren't the same goal. One optimizes for people clicking on a recommendation. The other optimizes for people understanding what they're looking at. No amount of typography solves that, because it was never a typography problem.</p>
           <p>It's tempting to treat that as a design decision waiting on stakeholder input. I think it was something else: a strategy question that had never been settled, wearing a design ticket as a costume. Once I looked at the rest of the recommendation program, I found the same unresolved question sitting underneath more than one ticket.</p>
         </section>
 
-        <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
           <h2>What the review actually found</h2>
           <p>When the team stepped back and looked at where the recommendation engine stood, two related gaps showed up.</p>
+
+          <div class="split-diagram">
+            <p class="split-diagram__root">No shared definition of "what a model is for"</p>
+            <div class="split-diagram__connector" aria-hidden="true"></div>
+            <div class="split-diagram__branches">
+              <div class="split-diagram__branch">
+                <span class="label">Symptom A</span>
+                <p>Which model should own this behavior? Two models had drifted close enough together that nobody could clearly say what made them different.</p>
+              </div>
+              <div class="split-diagram__branch">
+                <span class="label">Symptom B</span>
+                <p>How should the UI distinguish it? A design ticket was asked to resolve a strategy question it had no way to answer.</p>
+              </div>
+            </div>
+          </div>
+
           <p>First, several models didn't have fully settled logic. One model, built to surface options similar to a traveler's past bookings, and a newer one meant to broaden personalization further, had drifted close enough together that nobody could clearly say what made them different.</p>
           <p>Second, and this was the bigger one: there was no shared definition of what a model was actually <em>for</em>. Every model was evaluated on its own internal statistics — precision, recall, training performance. None of that told anyone whether a recommendation shown to a traveler ever led to a booking. Data science, engineering, and design were each judging success by a different yardstick, and none of those yardsticks connected back to what a traveler actually did.</p>
           <p>Those two gaps compound each other. Without a clear definition of what a model does, it's hard to build toward a shared goal. Without a shared goal, there's no pressure to define the model clearly in the first place. The program had grown this way for over a year, which is a fairly normal way for a recommendation system to develop, and also exactly how a design team ends up litigating tone of voice on a shelf label instead of the question underneath it.</p>
         </section>
 
-        <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
           <h2>The fix that caught something real</h2>
           <p>The fix we tried wasn't a process rollout. It was closer to a one-page form: for every recommendation model, write down what data it uses, how it ranks results, who sees it, what makes it different from every other model, and how you'd measure whether it worked. Nothing more elaborate than that.</p>
+
+          <table class="article-table">
+            <thead>
+              <tr>
+                <th scope="col">Field</th>
+                <th scope="col">What it has to answer</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Data</td>
+                <td>What inputs does this model actually use?</td>
+              </tr>
+              <tr>
+                <td>Logic</td>
+                <td>How does it rank or select results?</td>
+              </tr>
+              <tr>
+                <td>Audience</td>
+                <td>Who sees this, and in what context?</td>
+              </tr>
+              <tr>
+                <td>Differentiation</td>
+                <td>What makes it different from every other model in the program?</td>
+              </tr>
+              <tr>
+                <td>Goal / measurement</td>
+                <td>How would you know if it worked?</td>
+              </tr>
+            </tbody>
+          </table>
+
           <p>Writing it down is what caught the problem. The two overlapping models turned out to have almost identical inputs and no clear answer for how they differed. That overlap had been sitting there for a while. It just wasn't visible until someone had to write a plain sentence explaining why a traveler would see one shelf instead of the other, and couldn't.</p>
           <p>Personalization systems tend to accumulate this kind of debt quietly, especially once the people building a model, the people naming it, and the people measuring it all sit in different parts of the org chart. It's not unique to travel, or to one team.</p>
         </section>
 
-        <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
           <h2>What this isn't</h2>
           <p>I want to be honest about what this is, and isn't. It wasn't a finished success story with a conversion lift to point to. It was a proposed direction, tested against one real example of the ambiguity it was meant to catch.</p>
           <p>It's also not an argument for more process. The point of the one-pager was to add just enough friction to catch a real problem, not to build an approval chain that slows down every future model. If it takes more than a paragraph to explain what a recommendation is for, that's worth noticing. If it takes a committee to sign off on it, that's a different problem.</p>
         </section>
 
-        <!-- ── SECTION ─────────────────────────────────────────── -->
+        <blockquote>
+          <p>"Most alignment problems don't announce themselves in a strategy meeting. They show up quietly, in a ticket that looks like it's about a divider."</p>
+        </blockquote>
+
         <section class="article-section">
           <h2>What I'd carry forward</h2>
           <p>A few things I'd apply on the next recommendation system, or any feature with a model quietly making decisions behind it:</p>
-          <ul>
-            <li>Write the one-paragraph definition — covering data, logic, audience, differentiation, and goal — before a model goes anywhere near naming or visual design.</li>
-            <li>If two models need nearly the same sentence to describe them, treat that as a signal to merge or retire one, not a copywriting problem.</li>
-            <li>When a design decision feels like a genuine coin flip between two reasonable goals, ask whether the strategy that should have decided it was ever actually made.</li>
-            <li>Treat "we can't tell if this recommendation worked" as a blocking issue, not a metric to backfill later.</li>
-          </ul>
+          <p>Write the one-paragraph definition, covering data, logic, audience, differentiation, and goal, before a model goes anywhere near naming or visual design.</p>
+          <p>If two models need nearly the same sentence to describe them, treat that as a signal to merge or retire one, not a copywriting problem.</p>
+          <p>When a design decision feels like a genuine coin flip between two reasonable goals, ask whether the strategy that should have decided it was ever actually made.</p>
+          <p>Treat "we can't tell if this recommendation worked" as a blocking issue, not a metric to backfill later.</p>
         </section>
 
-        <!-- ── SECTION: Closing ──────────────────────────────── -->
         <section class="article-section">
           <h2>Closing</h2>
-          <p>The ticket about the visual separator eventually got resolved with a label and a clear boundary. But the more useful outcome was smaller and less visible: a habit of writing the sentence down before building around it. Most alignment problems don't announce themselves in a strategy meeting. They show up quietly, in a ticket that looks like it's about a divider.</p>
+          <p>The ticket about the visual separator eventually got resolved with a label and a clear boundary. But the more useful outcome was smaller and less visible: a habit of writing the sentence down before building around it.</p>
         </section>
 
         <!-- ============================================================
@@ -196,20 +287,23 @@
           <div class="article-tags">
             <span class="label">Tagged:</span>
             <ul class="tags-list" aria-label="Article tags">
-              <li><a href="#" class="tag">AI & Design</a></li>
-              <li><a href="#" class="tag">Strategy</a></li>
-              <li><a href="#" class="tag">Design Systems</a></li>
+              <li><a href="#" class="tag">Product Strategy</a></li>
+              <li><a href="#" class="tag">AI</a></li>
+              <li><a href="#" class="tag">Cross-functional</a></li>
             </ul>
           </div>
-          <button type="button" class="copy-link-btn" id="copy-link">
-            <span class="copy-link-btn__icon" aria-hidden="true">⎘</span>
-            <span class="copy-link-btn__text">Copy link</span>
-          </button>
+          <div class="article-share">
+            <span class="label">Share:</span>
+            <div class="share-links">
+              <a href="#" class="share-link">Twitter</a>
+              <a href="#" class="share-link">LinkedIn</a>
+              <a href="#" class="share-link">Copy Link</a>
+            </div>
+          </div>
         </footer>
 
       </div><!-- /.content-narrow -->
     </article>
-
 
     <!-- ============================================================
       RELATED ARTICLES — update links for each article
@@ -218,21 +312,13 @@
       <div class="container content-narrow">
         <h2 id="related-heading" class="label">More Reading</h2>
         <div class="related-list">
-          <a href="designGovernance.html" class="related-row">
-            <div class="related-row__body">
-              <span class="label related-row__meta">Strategy</span>
-              <h3 class="related-row__title">Bridging Design and Governance</h3>
-              <p class="related-row__excerpt">Aligning the creative design process with Product Development to ensure strategic outcomes and operational efficiency.</p>
-            </div>
-            <span class="related-row__arrow" aria-hidden="true">→</span>
+          <a href="frictionGap.html" class="related-item">
+            <p class="label">Research</p>
+            <h3 class="related-item-title">The Friction Gap: Where System Logic and Member Mental Models Stop Agreeing</h3>
           </a>
-          <a href="frictionGap.html" class="related-row">
-            <div class="related-row__body">
-              <span class="label related-row__meta">Research</span>
-              <h3 class="related-row__title">The Friction Gap</h3>
-              <p class="related-row__excerpt">Two months of support chat logs held the same story on repeat: the system and the member were describing the same balance in two different languages.</p>
-            </div>
-            <span class="related-row__arrow" aria-hidden="true">→</span>
+          <a href="schedulingConflicts.html" class="related-item">
+            <p class="label">Interaction Design</p>
+            <h3 class="related-item-title">Never Silently Overwrite: A Small Taxonomy of Scheduling Conflicts</h3>
           </a>
         </div>
       </div>
@@ -246,28 +332,26 @@
 
   </main>
 
-
   <!-- ============================================================
     FOOTER — identical across all pages, do not edit
   ============================================================ -->
   <footer class="footer">
     <div class="container footer-inner">
-      <p class="footer-text">© 2026 Matthew</p>
+      <p class="footer-text">© 2026</p>
       <nav class="footer-links" aria-label="Footer navigation">
         <a href="mailto:matthew.martin.atomaton@gmail.com" class="footer-link">Email</a>
-        <a href="https://www.linkedin.com/in/atomaton/" class="footer-link">LinkedIn</a>
-        <a href="https://github.com/matomaton" class="footer-link">GitHub</a>
+        <a href="https://linkedin.com/in/atomaton/" class="footer-link">LinkedIn</a>
         <a href="https://atomaton.substack.com/" class="footer-link">Substack</a>
       </nav>
     </div>
   </footer>
   <!-- ============================================================ -->
 
-
   <!-- ============================================================
     LIGHTBOX — no dependencies, pure JS
     Activated automatically on any figure.figure--zoomable
-    Close: click backdrop, press Escape, or click × button
+    Not used on this page (no images), left in for consistency
+    and in case a figure is added later.
   ============================================================ -->
   <div class="lightbox" id="lightbox" aria-modal="true" role="dialog" aria-label="Image viewer" aria-hidden="true">
     <button class="lightbox__close" id="lightbox-close" aria-label="Close image viewer">
@@ -345,31 +429,6 @@
       });
     })();
   </script>
-
-  <!-- ============================================================
-    COPY-LINK BUTTON — identical across all pages, do not edit
-  ============================================================ -->
-  <script>
-    (function () {
-      var btn = document.getElementById('copy-link');
-      if (!btn) return;
-      var label = btn.querySelector('.copy-link-btn__text');
-      btn.addEventListener('click', function () {
-        var url = window.location.href;
-        function done() {
-          label.textContent = 'Copied ✓';
-          btn.dataset.copied = 'true';
-          setTimeout(function () { label.textContent = 'Copy link'; btn.dataset.copied = 'false'; }, 1800);
-        }
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(url).then(done).catch(done);
-        } else {
-          done();
-        }
-      });
-    })();
-  </script>
-  <!-- ============================================================ -->
 
 </body>
 </html>

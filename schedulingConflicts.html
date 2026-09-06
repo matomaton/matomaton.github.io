@@ -9,14 +9,14 @@
     gtag('js', new Date());
     gtag('config', 'G-BQSRM5PRTV');
   </script>
-  <meta charset="UTF-8">
+    <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- ============================================================
     ARTICLE META — update for each new article
   ============================================================ -->
-  <title>Never Silently Overwrite — Portfolio</title>
-  <meta name="description" content="A drag-and-drop itinerary tool needs to handle the moment one activity collides with another. The naive fix is one conflict dialog. The better fix is noticing that 'conflict' isn't one problem.">
+  <title>Never Silently Overwrite — Matthew Martin</title>
+  <meta name="description" content="A drag-and-drop itinerary tool needs to handle the moment one activity collides with another. The naive fix is one conflict dialog. The better fix is noticing that conflict isn't one problem.">
   <!-- ============================================================ -->
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -116,6 +116,12 @@
 
   <main class="main" id="main-content">
 
+    <div class="container">
+      <a href="articles.html" class="back-link">
+        <span class="back-arrow" aria-hidden="true">←</span> Back to Articles
+      </a>
+    </div>
+
     <!-- ============================================================
       ARTICLE HEADER — update for each new article
     ============================================================ -->
@@ -126,10 +132,10 @@
           <span class="article-meta__divider" aria-hidden="true">·</span>
           <time class="label" datetime="2026-09">September 2026</time>
           <span class="article-meta__divider" aria-hidden="true">·</span>
-          <span class="label">5 min read</span>
+          <span class="label">6 min read</span>
         </div>
-        <h1 class="article-title">Never Silently Overwrite</h1>
-        <p class="article-subtitle">A small taxonomy of scheduling conflicts</p>
+        <h1 class="article-title" id="article-title">Never Silently Overwrite</h1>
+        <p class="article-subtitle">A drag-and-drop itinerary tool needs to handle the moment one activity collides with another. The naive fix is one conflict dialog. The better fix is noticing that "conflict" isn't one problem, it's several.</p>
       </div>
     </header>
     <!-- ============================================================ -->
@@ -137,38 +143,31 @@
     <article class="article-body" aria-labelledby="article-title">
       <div class="container content-narrow">
 
-        <!-- ── SECTION: Overview ──────────────────────────────── -->
         <section class="article-section">
-          <h2>Overview</h2>
-          <p>A drag-and-drop itinerary tool needs to handle the moment one activity collides with another. The naive fix is one conflict dialog. The better fix is noticing that "conflict" isn't one problem — it's several.</p>
           <p>Picture a trip-planning tool where a traveler can drag an activity to a new time slot. It's a simple interaction on the surface: pick up a card, drop it somewhere else on the day. But the moment you let people move things freely, you inherit a harder problem: what happens when the new time slot isn't actually free?</p>
           <p>The tempting answer is a single conflict dialog. Something moved, something else is now in the way, show a warning, offer "Override" and "Cancel," done. I've seen that shipped more than once, and it always breaks down the same way: the first real conflict a user hits doesn't match the two buttons on offer, because "conflict" was never one problem to begin with.</p>
           <p>A moved activity can collide with the rest of a schedule in a handful of genuinely different ways, and each one calls for its own resolution, not a shared modal that happens to fit none of them well. The design work isn't writing a clever conflict dialog. It's naming every distinct way the collision can happen, before designing anything.</p>
         </section>
 
-        <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
           <h2>The mild case: partial overlap</h2>
           <p>The most common case is also the gentlest: a moved activity bleeds into the start or end of the one next to it. A dinner reservation creeps twenty minutes into a walking tour. Here the traveler has real, low-stakes options: nudge the neighboring activity to make room, trim the moved one to fit, let both sit there with the overlap flagged for later, or back out entirely. Four choices, and every one of them is reversible and low-consequence. This is the case a lot of teams design for first, and then quietly assume it covers everything else.</p>
         </section>
 
-        <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
           <h2>The case that erases something: full overlap and cascades</h2>
           <p>Two other shapes get more serious. A moved activity can fully swallow a smaller one already there, a three-hour excursion landing right on top of a thirty-minute lunch. Here the traveler isn't just resizing something, they're deciding whether the smaller activity survives at all. That's a different decision than a partial overlap, and it deserves options that say so: replace the smaller activity outright, keep both and accept the overlap, or cancel the move.</p>
           <p>The other serious shape is a cascading conflict: shifting one activity fixes the immediate collision but creates a new one further down the day. Push the tour back an hour, and now it collides with whatever comes after it, and so on. The honest options here are auto-cascading the whole chain by the same delta, or stepping through each collision one at a time so the traveler sees what's happening at every step. Neither should happen silently. A tool that quietly cascades changes across a day without telling anyone is the fastest way to lose a user's trust in the schedule they built.</p>
         </section>
 
-        <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
           <h2>The case you can't just re-time: a fixed booking</h2>
           <p>The case that matters most, and the one a generic dialog handles worst, is a conflict with something that can't move: a paid reservation, a ticketed tour, anything with a locked time. Here there's really only one flexible party in the collision, so the resolution isn't a coin flip between two equal options. It's telling the traveler plainly that the thing they're moving is the only thing that can give, then letting them adjust it, accept the overlap, or cancel. Treating a fixed booking the same as two flexible activities is where a generic conflict dialog does real damage, because it implies a choice that doesn't actually exist.</p>
         </section>
 
-        <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
-          <h2>Four conflict types, side by side</h2>
-          <table class="article-table" aria-label="Scheduling conflict types and the options offered for each">
+          <h2>The taxonomy at a glance</h2>
+          <table class="article-table">
             <thead>
               <tr>
                 <th scope="col">Conflict type</th>
@@ -179,48 +178,43 @@
             <tbody>
               <tr>
                 <td>Partial overlap</td>
-                <td>Moved activity bleeds into the start or end of another</td>
-                <td>Nudge neighbor · Trim moved activity · Allow overlap · Cancel</td>
+                <td>Moved activity bleeds into a neighboring one</td>
+                <td>Nudge neighbor · trim moved activity · allow overlap (flagged) · cancel</td>
               </tr>
               <tr>
                 <td>Full overlap</td>
                 <td>Moved activity fully swallows a smaller one</td>
-                <td>Replace · Keep both, accept overlap · Cancel</td>
+                <td>Replace the smaller activity · keep both, accept overlap · cancel</td>
               </tr>
               <tr>
                 <td>Cascade</td>
                 <td>Fixing one collision creates a new one further down the day</td>
-                <td>Auto-cascade by same delta · Step through each collision</td>
+                <td>Auto-cascade the whole chain · step through each collision one at a time</td>
               </tr>
               <tr>
                 <td>Fixed booking</td>
-                <td>Collides with a locked reservation or ticketed time</td>
-                <td>Adjust the movable activity · Accept overlap · Cancel</td>
+                <td>Collides with something that can't move (paid, ticketed)</td>
+                <td>Adjust the moved activity · accept the overlap · cancel</td>
               </tr>
             </tbody>
           </table>
         </section>
 
-        <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
           <h2>What this isn't</h2>
           <p>This isn't a complete list, and it isn't meant to be. Two harder shapes sit past what's covered here: a move that pushes an activity across midnight into the next day, and a move that creates several conflicts at once. Both are real, and both deserve their own resolution. For the second one, a summary view that lets someone act on every affected activity at once tends to work better than forcing them through collisions one at a time.</p>
           <p>The point isn't to enumerate every possible collision before shipping anything. It's to keep treating "conflict" as a category with real subtypes, and add a new one deliberately when testing surfaces it, rather than folding it into whichever dialog already exists.</p>
         </section>
 
-        <!-- ── SECTION ─────────────────────────────────────────── -->
         <section class="article-section">
           <h2>What I'd carry forward</h2>
           <p>A few things worth applying to any tool where one edit can invalidate another:</p>
-          <ul>
-            <li>List the actual ways a conflict can occur before designing how to resolve it. "A conflict happened" is not a specification.</li>
-            <li>Check that each scenario's options are genuinely different from the others. If two conflict types share the same two buttons, they're probably not two conflict types.</li>
-            <li>Never resolve anything irreversible without showing the person what's about to happen, even when auto-resolving would be technically correct.</li>
-            <li>Treat a fixed, unmovable commitment as its own category. It doesn't share options with a conflict between two flexible things, and design that pretends otherwise misleads people.</li>
-          </ul>
+          <p>List the actual ways a conflict can occur before designing how to resolve it. "A conflict happened" is not a specification.</p>
+          <p>Check that each scenario's options are genuinely different from the others. If two conflict types share the same two buttons, they're probably not two conflict types.</p>
+          <p>Never resolve anything irreversible without showing the person what's about to happen, even when auto-resolving would be technically correct.</p>
+          <p>Treat a fixed, unmovable commitment as its own category. It doesn't share options with a conflict between two flexible things, and design that pretends otherwise misleads people.</p>
         </section>
 
-        <!-- ── SECTION: Closing ──────────────────────────────── -->
         <section class="article-section">
           <h2>Closing</h2>
           <p>None of these resolutions are clever. They're closer to just paying attention: naming what's colliding, saying what will happen, and giving the person a real choice instead of a plausible-looking one. The bar for a good conflict dialog isn't cleverness. It's coverage.</p>
@@ -234,19 +228,22 @@
             <span class="label">Tagged:</span>
             <ul class="tags-list" aria-label="Article tags">
               <li><a href="#" class="tag">Interaction Design</a></li>
+              <li><a href="#" class="tag">Product Design</a></li>
               <li><a href="#" class="tag">Edge Cases</a></li>
-              <li><a href="#" class="tag">Systems Thinking</a></li>
             </ul>
           </div>
-          <button type="button" class="copy-link-btn" id="copy-link">
-            <span class="copy-link-btn__icon" aria-hidden="true">⎘</span>
-            <span class="copy-link-btn__text">Copy link</span>
-          </button>
+          <div class="article-share">
+            <span class="label">Share:</span>
+            <div class="share-links">
+              <a href="#" class="share-link">Twitter</a>
+              <a href="#" class="share-link">LinkedIn</a>
+              <a href="#" class="share-link">Copy Link</a>
+            </div>
+          </div>
         </footer>
 
       </div><!-- /.content-narrow -->
     </article>
-
 
     <!-- ============================================================
       RELATED ARTICLES — update links for each article
@@ -255,21 +252,13 @@
       <div class="container content-narrow">
         <h2 id="related-heading" class="label">More Reading</h2>
         <div class="related-list">
-          <a href="frictionGap.html" class="related-row">
-            <div class="related-row__body">
-              <span class="label related-row__meta">Research</span>
-              <h3 class="related-row__title">The Friction Gap</h3>
-              <p class="related-row__excerpt">Two months of support chat logs held the same story on repeat: the system and the member were describing the same balance in two different languages.</p>
-            </div>
-            <span class="related-row__arrow" aria-hidden="true">→</span>
+          <a href="frictionGap.html" class="related-item">
+            <p class="label">Research</p>
+            <h3 class="related-item-title">The Friction Gap: Where System Logic and Member Mental Models Stop Agreeing</h3>
           </a>
-          <a href="BeyondClicks.html" class="related-row">
-            <div class="related-row__body">
-              <span class="label related-row__meta">Design Principles</span>
-              <h3 class="related-row__title">Beyond Click Counts: Designing Purposeful Steps</h3>
-              <p class="related-row__excerpt">The real cost in any system is human time and errors, not machine cycles or the number of steps in a flow.</p>
-            </div>
-            <span class="related-row__arrow" aria-hidden="true">→</span>
+          <a href="recommendationAlignment.html" class="related-item">
+            <p class="label">Product Strategy</p>
+            <h3 class="related-item-title">The Alignment Problem Hiding in Your Recommendation Shelf</h3>
           </a>
         </div>
       </div>
@@ -283,28 +272,26 @@
 
   </main>
 
-
   <!-- ============================================================
     FOOTER — identical across all pages, do not edit
   ============================================================ -->
   <footer class="footer">
     <div class="container footer-inner">
-      <p class="footer-text">© 2026 Matthew</p>
+      <p class="footer-text">© 2026</p>
       <nav class="footer-links" aria-label="Footer navigation">
         <a href="mailto:matthew.martin.atomaton@gmail.com" class="footer-link">Email</a>
-        <a href="https://www.linkedin.com/in/atomaton/" class="footer-link">LinkedIn</a>
-        <a href="https://github.com/matomaton" class="footer-link">GitHub</a>
+        <a href="https://linkedin.com/in/atomaton/" class="footer-link">LinkedIn</a>
         <a href="https://atomaton.substack.com/" class="footer-link">Substack</a>
       </nav>
     </div>
   </footer>
   <!-- ============================================================ -->
 
-
   <!-- ============================================================
     LIGHTBOX — no dependencies, pure JS
     Activated automatically on any figure.figure--zoomable
-    Close: click backdrop, press Escape, or click × button
+    Not used on this page (no images), left in for consistency
+    and in case a figure is added later.
   ============================================================ -->
   <div class="lightbox" id="lightbox" aria-modal="true" role="dialog" aria-label="Image viewer" aria-hidden="true">
     <button class="lightbox__close" id="lightbox-close" aria-label="Close image viewer">
@@ -382,31 +369,6 @@
       });
     })();
   </script>
-
-  <!-- ============================================================
-    COPY-LINK BUTTON — identical across all pages, do not edit
-  ============================================================ -->
-  <script>
-    (function () {
-      var btn = document.getElementById('copy-link');
-      if (!btn) return;
-      var label = btn.querySelector('.copy-link-btn__text');
-      btn.addEventListener('click', function () {
-        var url = window.location.href;
-        function done() {
-          label.textContent = 'Copied ✓';
-          btn.dataset.copied = 'true';
-          setTimeout(function () { label.textContent = 'Copy link'; btn.dataset.copied = 'false'; }, 1800);
-        }
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(url).then(done).catch(done);
-        } else {
-          done();
-        }
-      });
-    })();
-  </script>
-  <!-- ============================================================ -->
 
 </body>
 </html>
