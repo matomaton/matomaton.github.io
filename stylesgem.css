@@ -540,7 +540,7 @@ body.nav-open {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  margin-block: var(--space-md);
+  margin-block: var(--space-sm); /* was var(--space-md) — header's own padding already provides separation */
   font-size: var(--size-label);
   font-weight: var(--weight-black);
   text-transform: uppercase;
@@ -563,7 +563,7 @@ body.nav-open {
 
 /* --- Header --- */
 .article-header {
-  padding-block: var(--space-xl) var(--space-lg);
+  padding-block: var(--space-lg); /* was var(--space-xl) var(--space-lg) — trimmed the doubled gap under the back-link */
   text-align: center;
 }
 
@@ -619,6 +619,13 @@ body.nav-open {
 .article-section:first-child {
   border-top: none;
   padding-top: 0;
+}
+
+/* A blockquote already closes itself with a bottom border — drop the
+   next section's own top border so two lines don't stack one after
+   the other with only whitespace between them. */
+blockquote + .article-section {
+  border-top: none;
 }
 
 /* Headings inside sections */
