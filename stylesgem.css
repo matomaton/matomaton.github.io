@@ -799,7 +799,7 @@ blockquote + .article-section {
 
 /* --- Figure Base --- */
 .article-figure {
-  margin-block: var(--space-lg);
+  margin-block: var(--space-md); /* was --space-lg (64px) — stacked with the section's own padding and read as an oversized gap around images */
   display: flex;
   flex-direction: column;
 }
@@ -843,7 +843,7 @@ blockquote + .article-section {
 .media-grid {
   display: grid;
   gap: var(--space-md);
-  margin-block: var(--space-lg);
+  margin-block: var(--space-md); /* was --space-lg (64px) — same fix as .article-figure above */
 }
 
 .media-grid--2col { grid-template-columns: repeat(2, 1fr); }
