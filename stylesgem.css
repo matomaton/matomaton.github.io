@@ -902,6 +902,76 @@ blockquote + .article-section {
   opacity: 1;
 }
 
+/* --- Lightbox (image viewer) --- native <dialog> ------------------
+   showModal() promotes the dialog to the browser's top layer, so it
+   sits above everything with no z-index management needed, and the
+   browser handles the backdrop, ESC-to-close, focus trapping, and
+   returning focus on close — all natively, none of it hand-rolled.
+   -------------------------------------------------------------------- */
+.lightbox {
+  border: none;
+  padding: var(--space-lg);
+  max-width: min(1200px, 92vw);
+  max-height: 90vh;
+  background: transparent;
+  overflow: visible;
+}
+
+.lightbox::backdrop {
+  background: rgba(10, 10, 10, 0.92);
+}
+
+.lightbox__figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lightbox__img {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.lightbox__caption {
+  margin-top: var(--space-sm);
+  color: rgba(255, 255, 255, 0.75);
+  font-size: var(--size-label);
+  font-weight: var(--weight-black);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  text-align: center;
+}
+
+.lightbox__close {
+  position: fixed;
+  top: var(--space-md);
+  right: var(--space-md);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  transition: background var(--t-fast);
+}
+
+.lightbox__close:hover,
+.lightbox__close:focus-visible {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Lock background scroll while the lightbox is open. */
+body:has(.lightbox[open]) {
+  overflow: hidden;
+}
+
 /* ============================================
    9. LIST VIEW (Projects / Articles index)
    ============================================ */

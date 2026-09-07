@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-06T00:00:00Z",
+  "title": "Design System: Matthew Martin — Product Designer Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "bg": { "role": "neutral", "displayName": "Warm Paper", "canonical": "#FCFCF9", "tonalRamp": ["#181818", "#2B2B28", "#3E3E3A", "#63625B", "#8C8B81", "#C4C3B7", "#E7E6DC", "#FCFCF9"] },
+      "charcoal": { "role": "neutral", "displayName": "Charcoal", "canonical": "#4A4A4A", "tonalRamp": ["#161616", "#242424", "#333333", "#4A4A4A", "#6B6B6B", "#949494", "#C4C4C4", "#EDEDED"] },
+      "gray": { "role": "neutral", "displayName": "Gray", "canonical": "#595959", "tonalRamp": ["#1C1C1C", "#2C2C2C", "#3F3F3F", "#595959", "#7A7A7A", "#A0A0A0", "#C9C9C9", "#EFEFEF"] },
+      "gray-light": { "role": "neutral", "displayName": "Gray Light", "canonical": "#737373", "tonalRamp": ["#242424", "#383838", "#4F4F4F", "#737373", "#8F8F8F", "#AFAFAF", "#D2D2D2", "#F2F2F2"] },
+      "oxblood": { "role": "primary", "displayName": "Oxblood", "canonical": "#B03030", "tonalRamp": ["#3D1010", "#5C1818", "#7E2020", "#B03030", "#C55B5B", "#D98888", "#E8B4B4", "#F6DEDE"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display / H1", "purpose": "Page-level titles, light weight, colored as secondary gray for a soft first impression." },
+      "headline": { "displayName": "Headline / H2", "purpose": "Section headings, full charcoal." },
+      "label": { "displayName": "Label", "purpose": "The system's structural voice: H3/H4, nav links, metadata, tags, footer text, CTA links." },
+      "body": { "displayName": "Body", "purpose": "Paragraph text, capped at a 65ch measure." },
+      "mono": { "displayName": "Mono", "purpose": "Inline code and code blocks only." }
+    },
+    "shadows": [
+      { "name": "shadow-nav", "value": "0 2px 12px rgba(0, 0, 0, 0.06)", "purpose": "Soft ambient lift under the sticky, frosted nav bar." },
+      { "name": "shadow-image", "value": "0 2px 16px rgba(45, 45, 45, 0.08)", "purpose": "Soft ambient shadow under article figures/photography only." }
+    ],
+    "motion": [
+      { "name": "t-fast", "value": "150ms ease", "purpose": "Link color/opacity transitions, hover states." },
+      { "name": "t-medium", "value": "300ms ease", "purpose": "Underline growth, arrow translation, back-link hover." },
+      { "name": "t-drawer", "value": "280ms cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Mobile nav drawer slide open/close." }
+    ],
+    "breakpoints": [
+      { "name": "mobile", "value": "768px" },
+      { "name": "media-grid-stack", "value": "600px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "CTA Link",
+      "kind": "custom",
+      "refersTo": "cta-link",
+      "description": "The system's stand-in for a button: uppercase label text with a hover-sliding arrow.",
+      "html": "<a href=\"#\" class=\"ds-cta-link ds-cta-link--primary\">View work <span class=\"ds-cta-link__arrow\">→</span></a>",
+      "css": ".ds-cta-link { display: inline-flex; align-items: center; gap: 6px; font-family: 'Lato', sans-serif; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.15em; color: #595959; text-decoration: none; transition: opacity 200ms ease; } .ds-cta-link--primary { color: #4A4A4A; } .ds-cta-link:hover { opacity: 0.6; } .ds-cta-link__arrow { display: inline-block; transition: transform 300ms ease; } .ds-cta-link:hover .ds-cta-link__arrow { transform: translateX(5px); } .ds-cta-link:focus-visible { outline: 2px solid #4A4A4A; outline-offset: 3px; }"
+    },
+    {
+      "name": "Project Card",
+      "kind": "card",
+      "refersTo": "hp-card",
+      "description": "Bordered project preview card, no shadow, no radius, subtle image zoom on hover.",
+      "html": "<a href=\"#\" class=\"ds-card\"><div class=\"ds-card__image\"><img src=\"\" alt=\"\"></div><div class=\"ds-card__body\"><div class=\"ds-card__meta\">Case Study</div><div class=\"ds-card__title\">Project Title</div><div class=\"ds-card__excerpt\">One-line project summary goes here.</div><div class=\"ds-card__cta\">View project <span class=\"ds-card__cta-arrow\">→</span></div></div></a>",
+      "css": ".ds-card { display: flex; flex-direction: column; border: 1px solid rgba(45,45,45,0.15); text-decoration: none; color: inherit; transition: border-color 300ms ease; } .ds-card:hover { border-color: rgba(45,45,45,0.3); } .ds-card__image { aspect-ratio: 16/9; overflow: hidden; background: rgba(45,45,45,0.05); } .ds-card__image img { width: 100%; height: 100%; object-fit: cover; transition: transform 500ms ease; } .ds-card:hover .ds-card__image img { transform: scale(1.03); } .ds-card__body { padding: 1.5rem; display: flex; flex-direction: column; gap: 8px; } .ds-card__meta { font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.15em; color: #595959; } .ds-card__title { font-size: 1.2rem; font-weight: 300; color: #4A4A4A; } .ds-card__excerpt { font-size: 0.9rem; color: #595959; line-height: 1.6; } .ds-card__cta { display: flex; align-items: center; gap: 4px; margin-top: 0.75rem; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.15em; color: #4A4A4A; } .ds-card__cta-arrow { transition: transform 300ms ease; } .ds-card:hover .ds-card__cta-arrow { transform: translateX(5px); }"
+    },
+    {
+      "name": "Nav Link",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Uppercase nav link with a growing underline on hover/active; the active drawer link is the system's only use of Oxblood.",
+      "html": "<a href=\"#\" class=\"ds-nav-link ds-nav-link--active\">Projects</a>",
+      "css": ".ds-nav-link { font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.15em; color: #4A4A4A; text-decoration: none; position: relative; } .ds-nav-link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background-color: #4A4A4A; transition: width 300ms ease; } .ds-nav-link:hover::after { width: 100%; } .ds-nav-link--active { color: #B03030; } .ds-nav-link--active::after { width: 100%; background-color: #B03030; }"
+    },
+    {
+      "name": "Tag",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Unfilled, unrounded tag/skill chip — border darkens on hover, no background fill.",
+      "html": "<span class=\"ds-tag\">Design Systems</span>",
+      "css": ".ds-tag { display: inline-block; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.15em; color: #595959; padding: 0.25em 0.6em; border: 1px solid #737373; transition: border-color 150ms ease, color 150ms ease; } .ds-tag:hover { color: #4A4A4A; border-color: #4A4A4A; }"
+    },
+    {
+      "name": "List Item Row",
+      "kind": "custom",
+      "refersTo": "list-item",
+      "description": "Full-width index row (projects/articles list) separated by a top hairline border, opacity fade on hover.",
+      "html": "<a href=\"#\" class=\"ds-list-item\"><div class=\"ds-list-item__label\">Case Study</div><div class=\"ds-list-item__title\">Project Title</div><div class=\"ds-list-item__meta\">2026 · Product Design</div></a>",
+      "css": ".ds-list-item { display: block; padding-block: 4rem; border-bottom: 1px solid rgba(45,45,45,0.15); transition: opacity 300ms ease; text-decoration: none; color: inherit; } .ds-list-item:hover { opacity: 0.7; } .ds-list-item__label { margin-bottom: 0.5rem; color: #595959; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.15em; } .ds-list-item__title { margin-bottom: 1rem; font-size: 1.4rem; font-weight: 300; color: #4A4A4A; } .ds-list-item__meta { font-size: 0.75rem; font-weight: 400; text-transform: uppercase; letter-spacing: 0.15em; color: #737373; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Editorial Studio",
+    "overview": "The system reads as a design director's own portfolio typeset like a well-edited magazine, not assembled from a UI kit: light-weight display type carries the ideas, black-weight uppercase micro-labels carry structure and metadata, and everything else stays quiet enough to let the work and the writing lead. There are no filled buttons anywhere on the site; every call to action is a plain text link with a small arrow glyph that slides on hover. Cards and list items are defined by a single 1px border, never a shadow. The one saturated color (Oxblood) is reserved for exactly one job: marking the current/active nav state, nowhere else.",
+    "keyCharacteristics": [
+      "Light-weight (300) display type at a wide scale (48–96px H1) against black-weight (900) uppercase micro-labels",
+      "Thin 1px borders instead of shadows for nearly everything; shadow reserved for sticky nav and article imagery only",
+      "No filled buttons — every action is a text link + arrow that translates on hover",
+      "Opacity-based hover feedback on cards and list rows rather than color or elevation changes",
+      "Contrast-tuned automatic dark mode implemented per-token, not a blanket invert"
+    ],
+    "rules": [
+      { "name": "The One Voice Rule", "body": "Oxblood exists to answer one question — where am I right now in the nav — and nothing else. It never appears on a CTA, heading, card, or hover state.", "section": "colors" },
+      { "name": "The No-Shadow Rule", "body": "Structure is drawn with 1px hairline borders, not elevation. The only two shadows (shadow-nav, shadow-image) are named exceptions, not general permission to add more.", "section": "elevation" },
+      { "name": "The Two-Weight Rule", "body": "Only 300 (light, reading/headlines) and 900 (black, labels/structure) appear in normal use; 400 and 700 exist but are used sparingly rather than as a third visual register.", "section": "typography" }
+    ],
+    "dos": [
+      "Do build every new interactive element as a text link + arrow (cta-link pattern), not a filled or outlined button.",
+      "Do use a 1px hairline border for structure; reserve shadow strictly for nav and article imagery.",
+      "Do keep new headings/labels on the existing two-weight system.",
+      "Do preserve and extend the existing per-token contrast-tuned dark mode."
+    ],
+    "donts": [
+      "Don't introduce Oxblood anywhere except the active nav-drawer state.",
+      "Don't add a filled button, badge, or pill-shaped element.",
+      "Don't add a third font-weight register for everyday use.",
+      "Don't carry forward styles.css / colors_and_type.css or their token files as sources of truth — they're superseded by stylesgem.css / tokens-stylesgem.json and already drift from it."
+    ]
+  }
+}

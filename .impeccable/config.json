@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-09-07T00:14:10.338Z",
+        "reason": "Agent: .hp-hero has clamp(3rem,8vh,5rem) vertical padding plus flex align-items:center before its border-bottom \\u2014 verified in D:/matomaton.github.io/.impeccable/audit/2026-09-06-index-BeyondClicks.md; detector appears to miss 2-value padding shorthand"
+      }
+    ]
+  }
+}

@@ -248,13 +248,21 @@
       <div class="container content-narrow">
         <h2 id="related-heading" class="label">More Reading</h2>
         <div class="related-list">
-          <a href="schedulingConflicts.html" class="related-item">
-            <p class="label">Interaction Design</p>
-            <h3 class="related-item-title">Never Silently Overwrite: A Small Taxonomy of Scheduling Conflicts</h3>
+          <a href="schedulingConflicts.html" class="related-row">
+            <div class="related-row__body">
+              <span class="label related-row__meta">Interaction Design</span>
+              <h3 class="related-row__title">Never Silently Overwrite: A Small Taxonomy of Scheduling Conflicts</h3>
+              <p class="related-row__excerpt">The naive fix for a calendar collision is one conflict dialog. The better fix is noticing that "conflict" isn't one problem — it's several.</p>
+            </div>
+            <span class="related-row__arrow" aria-hidden="true">→</span>
           </a>
-          <a href="recommendationAlignment.html" class="related-item">
-            <p class="label">Product Strategy</p>
-            <h3 class="related-item-title">The Alignment Problem Hiding in Your Recommendation Shelf</h3>
+          <a href="recommendationAlignment.html" class="related-row">
+            <div class="related-row__body">
+              <span class="label related-row__meta">Product Strategy</span>
+              <h3 class="related-row__title">The Alignment Problem Hiding in Your Recommendation Shelf</h3>
+              <p class="related-row__excerpt">A design ticket about a divider turned out to be a strategy question that had never been settled, wearing a design ticket as a costume.</p>
+            </div>
+            <span class="related-row__arrow" aria-hidden="true">→</span>
           </a>
         </div>
       </div>
@@ -283,13 +291,13 @@
   </footer>
   <!-- ============================================================ -->
 
-  <!-- ============================================================
-    LIGHTBOX — no dependencies, pure JS
-    Activated automatically on any figure.figure--zoomable
-    Not used on this page (no images), left in for consistency
-    and in case a figure is added later.
+    <!-- ============================================================
+    LIGHTBOX — native <dialog>, showModal()
+    Activated automatically on any figure.figure--zoomable.
+    The browser handles the backdrop, ESC-to-close, focus
+    trapping, and scroll lock — no custom JS for any of that.
   ============================================================ -->
-  <div class="lightbox" id="lightbox" aria-modal="true" role="dialog" aria-label="Image viewer" aria-hidden="true">
+  <dialog class="lightbox" id="lightbox" aria-label="Image viewer">
     <button class="lightbox__close" id="lightbox-close" aria-label="Close image viewer">
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
         <path d="M2 2L18 18M18 2L2 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
@@ -299,35 +307,20 @@
       <img class="lightbox__img" id="lightbox-img" src="" alt="">
       <figcaption class="lightbox__caption" id="lightbox-caption"></figcaption>
     </figure>
-  </div>
-  <div class="lightbox-backdrop" id="lightbox-backdrop" aria-hidden="true"></div>
+  </dialog>
 
   <script>
     (function () {
       const lightbox   = document.getElementById('lightbox');
-      const backdrop   = document.getElementById('lightbox-backdrop');
       const closeBtn   = document.getElementById('lightbox-close');
       const lbImg      = document.getElementById('lightbox-img');
       const lbCaption  = document.getElementById('lightbox-caption');
-      let previousFocus = null;
 
       function openLightbox(img, caption) {
-        previousFocus = document.activeElement;
-        lbImg.src     = img.src;
-        lbImg.alt     = img.alt;
+        lbImg.src = img.src;
+        lbImg.alt = img.alt;
         lbCaption.textContent = caption;
-        lightbox.setAttribute('aria-hidden', 'false');
-        backdrop.setAttribute('aria-hidden', 'false');
-        document.body.classList.add('lightbox-open');
-        closeBtn.focus();
-      }
-
-      function closeLightbox() {
-        lightbox.setAttribute('aria-hidden', 'true');
-        backdrop.setAttribute('aria-hidden', 'true');
-        document.body.classList.remove('lightbox-open');
-        setTimeout(function () { lbImg.src = ''; }, 300);
-        if (previousFocus) previousFocus.focus();
+        lightbox.showModal();
       }
 
       document.querySelectorAll('.figure--zoomable').forEach(function (figure) {
@@ -349,19 +342,20 @@
         });
       });
 
-      closeBtn.addEventListener('click', closeLightbox);
-      backdrop.addEventListener('click', closeLightbox);
-
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && lightbox.getAttribute('aria-hidden') === 'false') {
-          closeLightbox();
-        }
+      closeBtn.addEventListener('click', function () {
+        lightbox.close();
       });
 
-      lightbox.addEventListener('keydown', function (e) {
-        if (e.key !== 'Tab') return;
-        e.preventDefault();
-        closeBtn.focus();
+      // Click on the backdrop (outside the dialog's own box) closes it.
+      lightbox.addEventListener('click', function (e) {
+        const r = lightbox.getBoundingClientRect();
+        const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+        if (!inside) lightbox.close();
+      });
+
+      // ESC-to-close and focus trapping are native to <dialog> + showModal().
+      lightbox.addEventListener('close', function () {
+        lbImg.src = '';
       });
     })();
   </script>
