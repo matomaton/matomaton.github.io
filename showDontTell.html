@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BQSRM5PRTV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-BQSRM5PRTV');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ============================================================
+    ARTICLE META — update for each new article
+  ============================================================ -->
+  <title>Show, Don't Just Tell — Matthew Martin</title>
+  <meta name="description" content="A prototype is not a finished screen. It is a question, given a shape. A short case study in using AI to make design thinking visible fast enough to react to.">
+  <!-- ============================================================ -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="stylesgem.css">
+
+  <style>
+    /* ============================================================
+       TAB-OVERFLOW DEMO — page-scoped styles only for this article.
+       stylesgem.css has no interactive-embed component, so this is
+       added here rather than touching the shared stylesheet.
+       Everything is namespaced under .tab-demo so nothing here can
+       leak into the rest of the site (the demo has its own generic
+       class names like .tab, .frame, .more, .menu).
+    ============================================================ */
+    .tab-demo {
+      /* Same breakout-width trick used by .article-table: escapes the
+         narrow reading column without relying on CSS grid placement,
+         so it still works nested inside .article-section. */
+      width: min(900px, 100vw - 3rem);
+      margin-inline: calc(50% - min(450px, 50vw - 1.5rem));
+      margin-block: var(--space-lg);
+
+      --navy:#1b2a4a; --strip:#0d1526; --teal:#178089; --tab-idle:#243a5e;
+      --demo-text:#fff; --demo-card:#fff; --demo-border:#e2e7ee; --demo-ink:#1b2a4a;
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--demo-ink);
+    }
+    .tab-demo * { box-sizing: border-box; }
+
+    .tab-demo .controls{background:var(--demo-card);border:1px solid var(--demo-border);border-radius:10px;padding:16px 18px;margin-bottom:16px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;}
+    .tab-demo .controls label{font-size:13px;font-weight:600;color:#3a4a66;display:flex;align-items:center;gap:10px;}
+    .tab-demo .controls input[type=range]{width:220px;accent-color:var(--teal);}
+    .tab-demo .controls .val{font-variant-numeric:tabular-nums;color:var(--teal);min-width:52px;font-size:13px;}
+    .tab-demo .pill{font-size:12px;color:#5a6b85;background:#eef2f7;border-radius:20px;padding:4px 11px;}
+
+    .tab-demo .frame{background:var(--strip);border-radius:10px 10px 0 0;overflow:visible;box-shadow:0 6px 20px rgba(20,30,50,.12);width:var(--vw,720px);max-width:100%;transition:width .12s ease;}
+    .tab-demo .brandbar{background:var(--navy);height:44px;display:flex;align-items:center;padding:0 16px;border-radius:10px 10px 0 0;}
+    .tab-demo .brandbar .logo{color:#fff;font-weight:700;font-size:13px;letter-spacing:.5px;}
+
+    .tab-demo .tabstrip{display:flex;align-items:stretch;padding:6px 6px 0;gap:4px;background:var(--strip);min-width:0;position:relative;}
+    .tab-demo .tab{display:flex;align-items:center;gap:7px;background:var(--tab-idle);color:var(--demo-text);border-radius:8px 8px 0 0;padding:0 10px;height:38px;font-size:13px;font-weight:600;cursor:pointer;position:relative;min-width:0;flex:0 0 auto;transition:width .12s ease,background .12s ease;user-select:none;}
+    .tab-demo .tab.active{background:var(--teal);}
+    .tab-demo .tab .star{flex:0 0 auto;opacity:.9;}
+    .tab-demo .tab .label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}
+    .tab-demo .tab .close{flex:0 0 auto;width:16px;height:16px;border-radius:4px;display:grid;place-items:center;opacity:.65;font-size:14px;line-height:1;}
+    .tab-demo .tab .close:hover{background:rgba(255,255,255,.18);opacity:1;}
+    .tab-demo .tab.icononly{padding:0 9px;justify-content:center;}
+    .tab-demo .tab.icononly .label,.tab-demo .tab.icononly .close{display:none;}
+
+    .tab-demo .more{flex:0 0 auto;height:38px;display:flex;align-items:center;gap:6px;background:#33456b;color:#fff;border-radius:8px 8px 0 0;padding:0 12px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;}
+    .tab-demo .more:hover{background:#3d517d;}
+    .tab-demo .more .cnt{background:var(--teal);border-radius:12px;padding:1px 7px;font-size:11px;}
+
+    .tab-demo .menu{position:absolute;top:46px;right:6px;z-index:40;background:#fff;border:1px solid var(--demo-border);border-radius:10px;box-shadow:0 12px 34px rgba(20,30,50,.22);padding:6px;min-width:240px;max-height:340px;overflow:auto;display:none;}
+    .tab-demo .menu.open{display:block;}
+    .tab-demo .menu .mi{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:7px;font-size:13px;color:#26344d;cursor:pointer;font-weight:500;}
+    .tab-demo .menu .mi:hover{background:#eef3f8;}
+    .tab-demo .menu .mi .star{color:#178089;}
+    .tab-demo .menu .mhead{font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#8493a8;padding:6px 10px 4px;font-weight:700;}
+
+    .tab-demo .body{background:#fff;height:80px;border-radius:0 0 10px 10px;display:flex;align-items:center;justify-content:center;color:#9aa7bc;font-size:13px;}
+    .tab-demo .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:#5a6b85;margin-top:12px;}
+    .tab-demo .legend b{color:#3a4a66;}
+    .tab-demo code{background:#eef2f7;padding:1px 5px;border-radius:4px;font-size:12px;}
+
+    .tab-demo .tip{position:fixed;z-index:60;pointer-events:none;background:#0d1526;color:#fff;font-size:12px;font-weight:500;padding:6px 9px;border-radius:6px;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.3);opacity:0;transform:translateY(4px);transition:opacity .1s;}
+    .tab-demo .tip.show{opacity:1;transform:translateY(0);}
+    .tab-demo .tip::after{content:"";position:absolute;top:-5px;left:14px;border:5px solid transparent;border-bottom-color:#0d1526;}
+
+    .tab-demo__standalone-link{display:inline-block;margin-top:14px;font-size:var(--size-label);font-weight:var(--weight-black);text-transform:uppercase;letter-spacing:var(--ls-label);text-decoration:underline;text-underline-offset:3px;}
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================================
+    NAVIGATION — identical across all pages, do not edit
+  ============================================================ -->
+  <nav class="global-menu" aria-label="Site navigation">
+    <div class="container nav-inner">
+
+      <a href="index.html" class="nav-logo" aria-label="Home">
+        <svg class="logo" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <path d="M35.9893 46.1494L35.1768 51.5361L38.5908 54.0254L44.2676 53.1289L44.6553 53.0674L44.9814 53.2871L48.8838 55.9072L47.7686 57.5674L44.1914 55.165L38.4932 56.0674L38.083 56.1328L37.7471 55.8877L33.5088 52.7949L33.0186 52.4375L33.1094 51.8389L34.0107 45.8506L35.9893 46.1494ZM30 36H24.333V38.3193H31V52.4814H29V40.3193H24.333V56H10V54H22.333V34H30V36ZM56 36H51.667V38.3174H57V55H55V40.3174H51.667V51.2627H40V49.2627H49.667V34H56V36ZM19 48H8V36H19V48ZM10 46H17V38H10V46ZM45 36H36V38.5H45V40.5H36V43H45V45H34V34H45V36ZM55 10H48V12.8877H56V28H54V14.8877H48V29H31V27H46V8H55V10ZM30 10H24V13.1445H31V24.2236H29V15.1445H24V28H9V26H22V8H30V10ZM42 10H36V12.6426H42V14.6426H36V21H42V23H34V8H42V10ZM13 9C16.3137 9 19 11.6863 19 15C19 18.3137 16.3137 21 13 21C9.68629 21 7 18.3137 7 15C7 11.6863 9.68629 9 13 9ZM13 11C10.7909 11 9 12.7909 9 15C9 17.2091 10.7909 19 13 19C15.2091 19 17 17.2091 17 15C17 12.7909 15.2091 11 13 11Z" fill="var(--color-accent)"/>
+        </svg>
+      </a>
+
+      <!-- Desktop links -->
+      <ul class="nav-links" id="nav-links">
+        <li><a href="projects.html" class="nav-link">Projects</a></li>
+        <li><a href="articles.html" class="nav-link nav-link--active" aria-current="page">Articles</a></li>
+        <li><a href="backstory.html" class="nav-link">Backstory</a></li>
+      </ul>
+
+      <!-- Hamburger button — hidden on desktop -->
+      <button
+        class="nav-toggle"
+        id="nav-toggle"
+        aria-controls="nav-drawer"
+        aria-expanded="false"
+        aria-label="Open navigation menu"
+      >
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- Mobile drawer -->
+  <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+    <ul class="nav-drawer__links">
+      <li><a href="projects.html" class="nav-drawer__link">Projects</a></li>
+      <li><a href="articles.html" class="nav-drawer__link nav-drawer__link--active" aria-current="page">Articles</a></li>
+      <li><a href="backstory.html" class="nav-drawer__link">Backstory</a></li>
+    </ul>
+  </div>
+  <div class="nav-backdrop" id="nav-backdrop" aria-hidden="true"></div>
+
+  <script>
+    (function () {
+      const toggle   = document.getElementById('nav-toggle');
+      const drawer   = document.getElementById('nav-drawer');
+      const backdrop = document.getElementById('nav-backdrop');
+      function openMenu() {
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.setAttribute('aria-label', 'Close navigation menu');
+        drawer.setAttribute('aria-hidden', 'false');
+        backdrop.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('nav-open');
+        drawer.querySelector('.nav-drawer__link').focus();
+      }
+      function closeMenu() {
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open navigation menu');
+        drawer.setAttribute('aria-hidden', 'true');
+        backdrop.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('nav-open');
+        toggle.focus();
+      }
+      toggle.addEventListener('click', function () {
+        toggle.getAttribute('aria-expanded') === 'true' ? closeMenu() : openMenu();
+      });
+      backdrop.addEventListener('click', closeMenu);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') closeMenu();
+      });
+      drawer.addEventListener('keydown', function (e) {
+        if (e.key !== 'Tab') return;
+        const focusable = drawer.querySelectorAll('a');
+        const first = focusable[0];
+        const last  = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      });
+    })();
+  </script>
+  <!-- ============================================================ -->
+
+  <div class="progress" role="progressbar" aria-label="Reading progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+
+  <main class="main" id="main-content">
+
+    <div class="container">
+      <a href="articles.html" class="back-link">
+        <span class="back-arrow" aria-hidden="true">←</span> Back to Articles
+      </a>
+    </div>
+
+    <!-- ============================================================
+      ARTICLE HEADER — update for each new article
+    ============================================================ -->
+    <header class="article-header">
+      <div class="container article-header__inner">
+        <div class="article-meta">
+          <span class="label">AI &amp; Design</span>
+          <span class="article-meta__divider" aria-hidden="true">·</span>
+          <time class="label" datetime="2026-09">September 2026</time>
+          <span class="article-meta__divider" aria-hidden="true">·</span>
+          <span class="label">4 min read</span>
+        </div>
+        <h1 class="article-title" id="article-title">Show, Don't Just Tell</h1>
+        <p class="article-subtitle">A short case study in using AI to make design thinking visible, fast enough to actually react to.</p>
+      </div>
+    </header>
+    <!-- ============================================================ -->
+
+    <article class="article-body" aria-labelledby="article-title">
+      <div class="container content-narrow">
+
+        <section class="article-section">
+          <p>An agent flags a small thing: a tab in an internal tool reads "Guest Prof..." with no way to see the rest. It looks like a one-line fix. Truncate less aggressively, add a tooltip, ship it.</p>
+          <p>That is not what happened. The truncated label was a symptom. The real question was one nobody had actually answered: how should a row of tabs behave as more of them pile up. Nobody had defined that. So before any screen got touched, the problem got renamed, from "fix this label" to "define this behavior."</p>
+          <p>That renaming is most of what design work is. The screen is the last thing produced, not the first. Most of the effort goes into getting the problem right and making the tradeoffs visible enough that a team can choose between them. An artifact, a sketch, a clickable prototype, a diagram, exists to trigger that choice. It does not need to be polished. It needs to be real enough to react to.</p>
+          <p>AI does not change that job. It changes how fast you can get to the reacting part.</p>
+        </section>
+
+        <section class="article-section">
+          <h2>The loop, not the tool</h2>
+          <p>Here is roughly how it went, using that tab bar as the example.</p>
+          <ul class="stack-sm">
+            <li><b>Start from a real observation, not a spec.</b> There was a screenshot and a hunch, nothing more. The first thing worth asking AI for was not "make this pretty." It was help comparing two or three plausible behaviors before committing to one.</li>
+            <li><b>Make it tangible fast.</b> The idea became a working, clickable prototype in minutes rather than days: a strip of tabs, a slider to shrink the available width, another to add more tabs. Reacting to something you can actually poke at beats arguing about something everyone is picturing differently in their head.</li>
+            <li><b>Iterate on specific feedback.</b> "It still truncates when there is room to spare." "The tab I am currently on should never get cut off." Each note went back into the prototype and it updated. See it, react, refine. That loop is the whole game, and it is the part AI shortens the most.</li>
+            <li><b>Check it against reality.</b> At some point the prototype got compared against the actual product requirements, and a gap turned up: the number of tabs a person might realistically have open had never been defined. Rather than guessing, that became a specific question to bring back to the team.</li>
+            <li><b>Package it for a decision.</b> The last step was not a finished design. It was a short rationale plus a scannable summary, built so a room of people could look at it and choose, not so it would look done.</li>
+          </ul>
+        </section>
+
+        <section class="article-section">
+          <h2>Try it yourself</h2>
+          <p>The prototype itself is the best explanation of what "make it tangible fast" meant in practice. Drag the width slider down, or push the tab count up, and watch three behaviors kick in, in order: full labels while there is room, icon-only tabs once space gets tight, then an overflow menu once even icons will not fit. The active tab is exempt the whole time. It never truncates and never gets pushed into the menu.</p>
+
+          <div class="tab-demo" role="group" aria-label="Interactive tab overflow prototype">
+            <div class="controls">
+              <label>Available width
+                <input id="vw" type="range" min="380" max="1180" value="720">
+                <span class="val" id="vwVal">720px</span>
+              </label>
+              <label>Tabs open
+                <input id="count" type="range" min="3" max="20" value="12">
+                <span class="val" id="countVal">12</span>
+              </label>
+              <span class="pill" id="state"></span>
+            </div>
+
+            <div class="frame" id="frame">
+              <div class="brandbar"><span class="logo">MERIDIAN CLUB</span></div>
+              <div class="tabstrip" id="strip"></div>
+              <div class="body">Active tab content…</div>
+            </div>
+
+            <div class="legend">
+              <span><b>Comfortable floor:</b> ~120px, label truncates with tooltip</span>
+              <span><b>Hard floor:</b> ~44px, icon-only + tooltip</span>
+              <span><b>Overflow:</b> <code>More ▾</code> menu with +N badge</span>
+              <span><b>Active tab:</b> exempt, never shrinks past its label, never overflows</span>
+            </div>
+          </div>
+          <div class="tip" id="tip"></div>
+
+          <a href="tab-overflow-prototype.html" target="_blank" rel="noopener" class="tab-demo__standalone-link">Open the standalone prototype in a new tab →</a>
+        </section>
+
+        <section class="article-section">
+          <h2>What AI actually did</h2>
+          <p>It collapsed the distance between having an idea and seeing it, which meant more ideas got tried instead of one getting defended. It handled the parts that are tedious but not hard: measuring, checking the math, comparing the draft against the spec, drafting the question for the team. And it kept a record along the way, so the thinking stayed reusable instead of living only in someone's head.</p>
+        </section>
+
+        <section class="article-section">
+          <h2>What it did not do</h2>
+          <p>It did not decide which problem was worth solving in the first place. It did not know what "good" feels like for someone actually doing this job under real conditions. It did not know when to stop exploring and go ask a person. And it did not make the final call. AI amplified the judgment already in the room. It did not supply judgment that was not already there.</p>
+          <p>That distinction matters more as these tools get better at producing convincing output. A prototype that looks finished is not the same as a decision that has been made well. The looking-finished part is now cheap. The deciding-well part is not, and was never going to be.</p>
+        </section>
+
+        <section class="article-section">
+          <h2>Where this leaves someone starting out</h2>
+          <p>You do not need to draw beautifully to start doing this work. You need to be able to name a problem clearly and make it real enough for someone else to react to. A prototype is not a finished piece of work waiting to be admired. It is a question, given a shape.</p>
+          <p>Used well, AI lets someone newer to the field punch above their weight, not by producing more polish, but by trying more, learning faster, and spending saved time on the judgment calls that were always the actual job.</p>
+        </section>
+
+        <!-- ============================================================
+          ARTICLE FOOTER — update tags for each article
+        ============================================================ -->
+        <footer class="article-footer">
+          <div class="article-tags">
+            <span class="label">Tagged:</span>
+            <ul class="tags-list" aria-label="Article tags">
+              <li><a href="#" class="tag">AI</a></li>
+              <li><a href="#" class="tag">Prototyping</a></li>
+              <li><a href="#" class="tag">Design Process</a></li>
+            </ul>
+          </div>
+          <div class="article-share">
+            <span class="label">Share:</span>
+            <div class="share-links">
+              <a href="#" class="share-link">Twitter</a>
+              <a href="#" class="share-link">LinkedIn</a>
+              <a href="#" class="share-link">Copy Link</a>
+            </div>
+          </div>
+        </footer>
+
+      </div><!-- /.content-narrow -->
+    </article>
+
+    <!-- ============================================================
+      RELATED ARTICLES — update links for each article
+    ============================================================ -->
+    <section class="related-articles" aria-labelledby="related-heading">
+      <div class="container content-narrow">
+        <h2 id="related-heading" class="label">More Reading</h2>
+        <div class="related-list">
+          <a href="schedulingConflicts.html" class="related-row">
+            <div class="related-row__body">
+              <span class="label related-row__meta">Interaction Design</span>
+              <h3 class="related-row__title">Never Silently Overwrite</h3>
+              <p class="related-row__excerpt">A drag-and-drop itinerary tool needs to handle the moment one activity collides with another. The naive fix is one conflict dialog. The better fix is noticing that conflict isn't one problem.</p>
+            </div>
+            <span class="related-row__arrow" aria-hidden="true">→</span>
+          </a>
+          <a href="frictionGap.html" class="related-row">
+            <div class="related-row__body">
+              <span class="label related-row__meta">Research</span>
+              <h3 class="related-row__title">The Friction Gap: Where System Logic and Member Mental Models Stop Agreeing</h3>
+              <p class="related-row__excerpt">Two months of support chat logs held the same story on repeat: the system and the member were describing the same balance in two different languages.</p>
+            </div>
+            <span class="related-row__arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <a href="articles.html" class="back-link">
+        <span class="back-arrow" aria-hidden="true">←</span> Back to Articles
+      </a>
+    </div>
+
+  </main>
+
+  <!-- ============================================================
+    FOOTER — identical across all pages, do not edit
+  ============================================================ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p class="footer-text">© 2026</p>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="mailto:matthew.martin.atomaton@gmail.com" class="footer-link">Email</a>
+        <a href="https://linkedin.com/in/atomaton/" class="footer-link">LinkedIn</a>
+        <a href="https://atomaton.substack.com/" class="footer-link">Substack</a>
+      </nav>
+    </div>
+  </footer>
+  <!-- ============================================================ -->
+
+    <!-- ============================================================
+    LIGHTBOX — native <dialog>, showModal()
+    Activated automatically on any figure.figure--zoomable.
+    The browser handles the backdrop, ESC-to-close, focus
+    trapping, and scroll lock — no custom JS for any of that.
+  ============================================================ -->
+  <dialog class="lightbox" id="lightbox" aria-label="Image viewer">
+    <button class="lightbox__close" id="lightbox-close" aria-label="Close image viewer">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M2 2L18 18M18 2L2 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <figure class="lightbox__figure">
+      <img class="lightbox__img" id="lightbox-img" src="" alt="">
+      <figcaption class="lightbox__caption" id="lightbox-caption"></figcaption>
+    </figure>
+  </dialog>
+
+  <script>
+    (function () {
+      const lightbox   = document.getElementById('lightbox');
+      const closeBtn   = document.getElementById('lightbox-close');
+      const lbImg      = document.getElementById('lightbox-img');
+      const lbCaption  = document.getElementById('lightbox-caption');
+
+      function openLightbox(img, caption) {
+        lbImg.src = img.src;
+        lbImg.alt = img.alt;
+        lbCaption.textContent = caption;
+        lightbox.showModal();
+      }
+
+      document.querySelectorAll('.figure--zoomable').forEach(function (figure) {
+        const img     = figure.querySelector('img');
+        const caption = figure.querySelector('figcaption');
+        if (!img) return;
+
+        figure.setAttribute('tabindex', '0');
+        figure.setAttribute('role', 'button');
+        figure.setAttribute('aria-label', 'View image larger: ' + (img.alt || 'image'));
+
+        function trigger() {
+          openLightbox(img, caption ? caption.textContent : '');
+        }
+
+        figure.addEventListener('click', trigger);
+        figure.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); trigger(); }
+        });
+      });
+
+      closeBtn.addEventListener('click', function () {
+        lightbox.close();
+      });
+
+      // Click on the backdrop (outside the dialog's own box) closes it.
+      lightbox.addEventListener('click', function (e) {
+        const r = lightbox.getBoundingClientRect();
+        const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+        if (!inside) lightbox.close();
+      });
+
+      // ESC-to-close and focus trapping are native to <dialog> + showModal().
+      lightbox.addEventListener('close', function () {
+        lbImg.src = '';
+      });
+    })();
+  </script>
+
+  <!-- ============================================================
+    TAB-OVERFLOW DEMO — page-scoped script, only runs against the
+    #vw / #count / #frame / #strip elements inside .tab-demo above.
+  ============================================================ -->
+  <script>
+  (function () {
+    const NAMES = ["Search","Orders","Fulfillment","Contracts","Filters",
+      "Traveler Manifest","Cruise Booking","Excursions","Flights","Invoices","Refunds",
+      "Guest Profiles","Reporting","Inventory","Rate Plans","Cancellations","Waitlist",
+      "Documents","Audit Log","Settings"];
+    const star='<svg class="star" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.09 5.26L20 8l-4 3.9L17 18l-5-2.8L7 18l1-6.1L4 8l5.91-.74z"/></svg>';
+
+    const HARD=44, LABEL_MIN=78, GAP=4, MOREW=96, PAD=12;
+    let active=2, menuOpen=false;
+
+    const strip=document.getElementById('strip');
+    const tip=document.getElementById('tip');
+    if (!strip) return; // demo markup not on this page
+
+    function fitWidths(nat, budget){ // max-min fair: full width when it fits, shrink largest first
+      const n=nat.length; if(!n) return [];
+      const sum=nat.reduce((a,b)=>a+b,0);
+      if(sum<=budget) return nat.map(x=>Math.floor(x));      // room for every full label
+      let lo=HARD, hi=Math.max(...nat), W=lo;
+      for(let it=0;it<40;it++){
+        const mid=(lo+hi)/2;
+        const used=nat.reduce((a,x)=>a+Math.max(HARD,Math.min(x,mid)),0);
+        if(used<=budget){W=mid;lo=mid;}else{hi=mid;}
+      }
+      return nat.map(x=>Math.floor(Math.max(HARD,Math.min(x,W))));
+    }
+
+    let _mc;
+    function measure(text){ // real natural width: render an actual .tab off-screen and measure it
+      if(!_mc){_mc=document.createElement('div');
+        _mc.style.cssText='position:absolute;left:-9999px;top:-9999px;visibility:hidden;display:flex;';
+        document.body.appendChild(_mc);}
+      const el=document.createElement('div');
+      el.className='tab'; el.style.flex='0 0 auto';
+      el.innerHTML=star+'<span class="label">'+text+'</span><span class="close">×</span>';
+      _mc.appendChild(el);
+      const w=el.offsetWidth; _mc.removeChild(el);
+      return w + 2; // +2 guards against sub-pixel rounding triggering the ellipsis
+    }
+
+    function layout(){
+      const total=+document.getElementById('count').value;
+      const vw=+document.getElementById('vw').value;
+      document.getElementById('vwVal').textContent=vw+'px';
+      document.getElementById('countVal').textContent=total;
+      document.getElementById('frame').style.setProperty('--vw',vw+'px');
+
+      const names=NAMES.slice(0,total);
+      if(active>=total) active=total-1;
+      const stripW=vw-PAD-8; /* 8px safety buffer so tabs never clip the strip edge */
+      const activeW=Math.min(measure(names[active]),340); // active shows its full label — never truncates
+
+      const others=names.map((n,i)=>({n,i})).filter(o=>o.i!==active);
+
+      let avail=stripW-activeW-GAP;
+      let canShow=Math.max(0,Math.floor((avail+GAP)/(HARD+GAP)));
+      let overflow = canShow < others.length;
+      if(overflow){ avail=stripW-activeW-GAP-MOREW-GAP; canShow=Math.max(0,Math.floor((avail+GAP)/(HARD+GAP))); }
+
+      const visibleOthers=others.slice(0,canShow);
+      const hidden=others.slice(canShow);
+
+      const innerAvail = avail - Math.max(0,visibleOthers.length-1)*GAP;
+      const naturals = visibleOthers.map(o=>Math.min(measure(names[o.i]),260));
+      const widths = fitWidths(naturals, innerAvail);
+      const wmap={}; visibleOthers.forEach((o,k)=>wmap[o.i]=widths[k]);
+
+      strip.innerHTML='';
+      const visIdx=new Set(visibleOthers.map(o=>o.i));
+      names.forEach((n,i)=>{
+        if(i!==active && !visIdx.has(i)) return;
+        const isActive=i===active;
+        const el=document.createElement('div');
+        const w=isActive?activeW:(wmap[i]||HARD);
+        const iconOnly=!isActive && w<LABEL_MIN;
+        el.className='tab'+(isActive?' active':'')+(iconOnly?' icononly':'');
+        el.style.width=w+'px';
+        el.dataset.full=n;
+        el.innerHTML=star+'<span class="label">'+n+'</span><span class="close">×</span>';
+        el.addEventListener('click',e=>{if(e.target.classList.contains('close'))return;active=i;menuOpen=false;layout();});
+        strip.appendChild(el);
+      });
+
+      if(overflow){
+        const more=document.createElement('div');
+        more.className='more';
+        more.innerHTML='More <span class="cnt">+'+hidden.length+'</span> ▾';
+        more.addEventListener('click',e=>{e.stopPropagation();menuOpen=!menuOpen;drawMenu(hidden);});
+        strip.appendChild(more);
+        if(menuOpen) drawMenu(hidden);
+      } else { menuOpen=false; }
+
+      requestAnimationFrame(()=>{
+        [...strip.querySelectorAll('.tab')].forEach(t=>{
+          const l=t.querySelector('.label');
+          const clipped=t.classList.contains('icononly')||l.scrollWidth>l.clientWidth+1;
+          t.dataset.trunc=clipped?'1':'0';
+        });
+      });
+
+      const iconCount=[...strip.querySelectorAll('.tab.icononly')].length;
+      let s;
+      if(overflow) s=hidden.length+' in More menu · '+iconCount+' icon-only';
+      else if(iconCount) s=iconCount+' icon-only, rest labelled';
+      else s='all '+total+' tabs fit with labels';
+      document.getElementById('state').textContent=s;
+    }
+
+    function drawMenu(hidden){
+      let menu=document.getElementById('ovmenu');
+      if(menu) menu.remove();
+      if(!menuOpen) return;
+      menu=document.createElement('div');
+      menu.id='ovmenu'; menu.className='menu open';
+      menu.innerHTML='<div class="mhead">'+hidden.length+' more tabs</div>'+
+        hidden.map(o=>'<div class="mi" data-i="'+o.i+'">'+star+'<span>'+o.n+'</span></div>').join('');
+      menu.addEventListener('click',e=>{const mi=e.target.closest('.mi');if(mi){active=+mi.dataset.i;menuOpen=false;layout();}});
+      const frame=document.getElementById('frame');
+      frame.appendChild(menu);
+      const more=strip.querySelector('.more');
+      if(more){
+        const fr=frame.getBoundingClientRect(), mr=more.getBoundingClientRect();
+        menu.style.left='auto';
+        menu.style.right=Math.max(6,(fr.right-mr.right))+'px';
+        menu.style.top=(mr.bottom-fr.top+6)+'px';
+      }
+    }
+
+    document.addEventListener('mouseover',e=>{
+      const t=e.target.closest('.tab-demo .tab');
+      if(!t||t.dataset.trunc!=='1'){return;}
+      tip.textContent=t.dataset.full; tip.classList.add('show');
+      const r=t.getBoundingClientRect();
+      tip.style.left=r.left+'px'; tip.style.top=(r.bottom+8)+'px';
+    });
+    document.addEventListener('mouseout',e=>{if(e.target.closest('.tab-demo .tab'))tip.classList.remove('show');});
+    document.addEventListener('click',e=>{
+      if(menuOpen && !e.target.closest('.more') && !e.target.closest('.menu')){
+        menuOpen=false;const m=document.getElementById('ovmenu');if(m)m.remove();
+      }
+    });
+
+    document.getElementById('vw').addEventListener('input',layout);
+    document.getElementById('count').addEventListener('input',layout);
+    window.addEventListener('resize',layout);
+    layout();
+  })();
+  </script>
+
+</body>
+</html>
