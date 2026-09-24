@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Travel connectors — during-drag prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #202b46;
+      --text: #202b46;
+      --muted: #5a6170;
+      --caption: #787878;
+      --line: #e3e3e3;
+      --grid: #dedfdf;
+      --white: #fff;
+      --info-tint: #c5dbef;
+      --danger-tint: #ffd0d4;
+      --danger: #e73c3e;
+      --ok: #018289;
+      --hour-px: 72px;
+      --gutter: 56px;
+      --day-w: 420px;
+      --radius: 4px;
+      --shadow: 0 12px 24px rgba(32, 43, 70, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: Montserrat, "Helvetica Neue", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1000px 500px at 0% 0%, rgba(27, 90, 125, 0.25), transparent 55%),
+        radial-gradient(800px 400px at 100% 100%, rgba(1, 130, 137, 0.2), transparent 50%),
+        #eef1f3;
+    }
+
+    .stage {
+      display: grid;
+      grid-template-columns: minmax(280px, 340px) 1fr;
+      gap: 24px;
+      padding: 28px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .panel {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px 18px 20px;
+      box-shadow: var(--shadow);
+      height: fit-content;
+      position: sticky;
+      top: 20px;
+    }
+    .panel h1 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .panel .lede {
+      margin: 0 0 14px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .panel h2 {
+      margin: 16px 0 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--caption);
+    }
+    .panel ul {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--text);
+    }
+    .panel li { margin-bottom: 6px; }
+    .panel kbd {
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 600;
+      background: #f1f1f1;
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      padding: 1px 5px;
+    }
+
+    .status {
+      margin-top: 14px;
+      padding: 10px 12px;
+      border-radius: 6px;
+      background: #f6f8fa;
+      border: 1px solid var(--line);
+      font-size: 12px;
+      line-height: 1.45;
+      min-height: 72px;
+    }
+    .status strong { display: block; margin-bottom: 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--caption); }
+    .status.dragging { background: var(--info-tint); border-color: #9ebdd8; }
+    .status.conflict { background: var(--danger-tint); border-color: #f0a0a6; }
+
+    .toggles { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .toggles label {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 500;
+      background: #f6f8fa; border: 1px solid var(--line);
+      border-radius: 999px; padding: 6px 10px; cursor: pointer;
+    }
+    .toggles input { accent-color: var(--navy); }
+
+    .calendar-shell {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .cal-header {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .cal-header .title { font-size: 15px; font-weight: 700; }
+    .cal-header .meta { font-size: 12px; color: var(--muted); }
+
+    .day-wrap {
+      display: grid;
+      grid-template-columns: var(--gutter) var(--day-w);
+      position: relative;
+      max-height: calc(14 * var(--hour-px));
+      overflow-y: auto;
+    }
+
+    .time-rail {
+      position: relative;
+      border-right: 1px solid var(--line);
+      background: #fafbfc;
+    }
+    .time-label {
+      position: absolute;
+      right: 8px;
+      transform: translateY(-50%);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--caption);
+    }
+
+    .day-col {
+      position: relative;
+      height: calc(14 * var(--hour-px));
+      background-image: repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent calc(var(--hour-px) - 1px),
+        var(--grid) calc(var(--hour-px) - 1px),
+        var(--grid) var(--hour-px)
+      );
+    }
+
+    .segment {
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      border-radius: var(--radius);
+      background: var(--white);
+      border: 1px solid #d8dde6;
+      border-left: 4px solid #c99435;
+      box-shadow: var(--shadow);
+      padding: 8px 10px;
+      cursor: grab;
+      user-select: none;
+      z-index: 2;
+      transition: box-shadow 0.12s ease, opacity 0.12s ease;
+    }
+    .segment:hover { box-shadow: 0 16px 28px rgba(32, 43, 70, 0.12); }
+    .segment.dragging {
+      cursor: grabbing;
+      opacity: 0.92;
+      z-index: 20;
+      box-shadow: 0 20px 36px rgba(32, 43, 70, 0.18);
+      border-color: #1b5a7d;
+    }
+    .segment.ghost {
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 1;
+      box-shadow: none;
+      border-style: dashed;
+    }
+    .segment .name {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.25;
+      margin: 0 0 2px;
+    }
+    .segment .time {
+      font-size: 11px;
+      color: var(--muted);
+      margin: 0;
+    }
+    .segment .loc {
+      font-size: 11px;
+      color: var(--caption);
+      margin: 2px 0 0;
+    }
+    .segment .resize-handle {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 8px;
+      cursor: ns-resize;
+    }
+    .segment .resize-handle::after {
+      content: "";
+      display: block;
+      width: 28px; height: 3px;
+      margin: 3px auto 0;
+      border-radius: 2px;
+      background: #c5cad3;
+    }
+
+    .connector {
+      position: absolute;
+      left: 32px;
+      right: 24px;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      transition: top 0.08s linear, height 0.08s linear;
+    }
+    .connector.preview {
+      z-index: 15;
+    }
+    .connector .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      max-width: 100%;
+      padding: 2px 10px;
+      border-radius: var(--radius);
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 16px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      background: var(--info-tint);
+      color: var(--navy);
+      box-shadow: 0 4px 10px rgba(32, 43, 70, 0.06);
+    }
+    .connector.conflict .pill {
+      background: var(--danger-tint);
+      color: var(--danger);
+    }
+    .connector.uncertain .pill {
+      background: #eceef1;
+      color: var(--muted);
+    }
+    .connector .icon { font-size: 12px; line-height: 1; flex-shrink: 0; }
+    .connector.preview .pill {
+      outline: 2px solid rgba(27, 90, 125, 0.35);
+      outline-offset: 1px;
+    }
+    .connector.preview.conflict .pill {
+      outline-color: rgba(231, 60, 62, 0.45);
+    }
+
+    .dest-cue {
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      z-index: 4;
+      padding: 3px 10px;
+      border-radius: var(--radius);
+      background: var(--danger-tint);
+      color: var(--danger);
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 1.3;
+      pointer-events: none;
+    }
+    .dest-cue.preview {
+      outline: 2px solid rgba(231, 60, 62, 0.35);
+    }
+
+    .legend-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      padding: 10px 18px 14px;
+      border-top: 1px solid var(--line);
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .legend-row span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .swatch {
+      width: 14px; height: 10px; border-radius: 2px;
+      display: inline-block;
+    }
+    .swatch.ok { background: var(--info-tint); }
+    .swatch.bad { background: var(--danger-tint); }
+
+    @media (max-width: 860px) {
+      .stage { grid-template-columns: 1fr; }
+      .panel { position: static; }
+    }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <aside class="panel">
+      <h1>During-drag travel connectors</h1>
+      <p class="lede">
+        Drag a segment vertically. Connectors recalculate live for the
+        <strong>prospective</strong> neighbors — neighbors do not auto-push.
+      </p>
+
+      <h2>Try this</h2>
+      <ul>
+        <li>Drag <kbd>China Town</kbd> earlier so the gap after Beach is under 8 minutes → conflict.</li>
+        <li>Drag <kbd>Lunch</kbd> toward Bistro (needs ~120 min drive) → conflict + destination cue.</li>
+        <li>Resize a block from the bottom handle; connectors update on release and while resizing.</li>
+        <li>Drop where you want — the segment stays; conflict informs, it does not move neighbors.</li>
+      </ul>
+
+      <h2>Options</h2>
+      <div class="toggles">
+        <label>
+          <input type="checkbox" id="optLive" checked />
+          Live connector preview while dragging
+        </label>
+        <label>
+          <input type="checkbox" id="optGhost" checked />
+          Show ghost at original position
+        </label>
+        <label>
+          <input type="checkbox" id="optSnap" checked />
+          Snap to 15-minute grid
+        </label>
+      </div>
+
+      <div class="status" id="status">
+        <strong>Status</strong>
+        Idle — drag any segment to see connection feedback.
+      </div>
+    </aside>
+
+    <div class="calendar-shell">
+      <div class="cal-header">
+        <div class="title">Thursday · Jun 12</div>
+        <div class="meta">Travel connections · drag experiment</div>
+      </div>
+      <div class="day-wrap" id="dayWrap">
+        <div class="time-rail" id="timeRail"></div>
+        <div class="day-col" id="dayCol"></div>
+      </div>
+      <div class="legend-row">
+        <span><i class="swatch ok"></i> Feasible / leave-by connector</span>
+        <span><i class="swatch bad"></i> Conflict — gap too short</span>
+        <span>Connectors are not draggable</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /**
+     * Day runs 7:00–21:00 (14 hours).
+     * Travel required is minutes between location keys (asymmetric not needed).
+     */
+    const DAY_START = 7; // 7 AM
+    const HOURS = 14;
+    const HOUR_PX = 72;
+    const SNAP_MIN = 15;
+
+    const TRAVEL = {
+      // minutes required between location ids
+      "strip|chinatown": { minutes: 8, mode: "walk", label: "walk" },
+      "chinatown|strip": { minutes: 8, mode: "walk", label: "walk" },
+      "bistro|joes": { minutes: 120, mode: "drive", label: "drive" },
+      "joes|bistro": { minutes: 120, mode: "drive", label: "drive" },
+      "bistro|chinatown": { minutes: 35, mode: "drive", label: "drive" },
+      "chinatown|bistro": { minutes: 35, mode: "drive", label: "drive" },
+      "chinatown|joes": { minutes: 25, mode: "drive", label: "drive" },
+      "joes|chinatown": { minutes: 25, mode: "drive", label: "drive" },
+      "strip|joes": { minutes: 40, mode: "drive", label: "drive" },
+      "joes|strip": { minutes: 40, mode: "drive", label: "drive" },
+      "strip|bistro": { minutes: 15, mode: "walk", label: "walk" },
+      "bistro|strip": { minutes: 15, mode: "walk", label: "walk" },
+    };
+
+    /** @type {{id:string,title:string,location:string|null,locId:string|null,startMin:number,durationMin:number,color:string}[]} */
+    let segments = [
+      { id: "beach", title: "Beach", location: "Las Vegas Strip", locId: "strip", startMin: 60, durationMin: 120, color: "#c99435" },
+      { id: "china", title: "China Town", location: "Chinatown", locId: "chinatown", startMin: 210, durationMin: 150, color: "#1b5a7d" },
+      { id: "bistro", title: "Bistro", location: "Summerlin", locId: "bistro", startMin: 420, durationMin: 90, color: "#c99435" },
+      { id: "lunch", title: "Lunch at Joe’s on Jolly", location: "Joe’s on Jolly", locId: "joes", startMin: 540, durationMin: 75, color: "#018289" },
+    ];
+
+    const dayCol = document.getElementById("dayCol");
+    const timeRail = document.getElementById("timeRail");
+    const statusEl = document.getElementById("status");
+    const optLive = document.getElementById("optLive");
+    const optGhost = document.getElementById("optGhost");
+    const optSnap = document.getElementById("optSnap");
+
+    let dragState = null;
+
+    function minToY(min) {
+      return (min / 60) * HOUR_PX;
+    }
+    function yToMin(y) {
+      return (y / HOUR_PX) * 60;
+    }
+    function formatTime(minFromStart) {
+      const total = DAY_START * 60 + minFromStart;
+      let h = Math.floor(total / 60);
+      const m = Math.round(total % 60);
+      const ampm = h >= 12 ? "pm" : "am";
+      h = h % 12;
+      if (h === 0) h = 12;
+      return m === 0 ? `${h}:00${ampm}` : `${h}:${String(m).padStart(2, "0")}${ampm}`;
+    }
+    function snap(min) {
+      if (!optSnap.checked) return Math.max(0, Math.min(HOURS * 60 - 15, min));
+      const s = Math.round(min / SNAP_MIN) * SNAP_MIN;
+      return Math.max(0, Math.min(HOURS * 60 - 15, s));
+    }
+    function clampDuration(start, dur) {
+      return Math.max(30, Math.min(dur, HOURS * 60 - start));
+    }
+
+    function travelBetween(a, b) {
+      if (!a.locId || !b.locId) return null;
+      if (a.locId === b.locId) return { suppress: true };
+      return TRAVEL[`${a.locId}|${b.locId}`] || { minutes: 45, mode: "drive", label: "drive", uncertain: true };
+    }
+
+    function ordered(list) {
+      return [...list].sort((a, b) => a.startMin - b.startMin || a.durationMin - b.durationMin);
+    }
+
+    function connectionsFor(list) {
+      const ord = ordered(list);
+      const out = [];
+      for (let i = 0; i < ord.length - 1; i++) {
+        const a = ord[i];
+        const b = ord[i + 1];
+        const travel = travelBetween(a, b);
+        if (!travel || travel.suppress) continue;
+
+        const aEnd = a.startMin + a.durationMin;
+        const gap = b.startMin - aEnd;
+        const need = travel.minutes;
+        const conflict = gap < need;
+        const leaveBy = b.startMin - need;
+
+        let label;
+        if (travel.uncertain && !conflict) {
+          label = `~${need} min · estimate`;
+        } else if (conflict) {
+          label = `Need ${fmtDur(need)} · ${fmtDur(Math.max(0, gap))} available`;
+        } else if (need >= 20) {
+          label = `${fmtDur(need)} ${travel.label} · Leave by ${formatTime(leaveBy)}`;
+        } else {
+          label = `${fmtDur(need)} ${travel.label}`;
+        }
+
+        out.push({
+          fromId: a.id,
+          toId: b.id,
+          top: minToY(aEnd),
+          height: Math.max(18, minToY(Math.max(gap, 18))),
+          gap,
+          need,
+          conflict,
+          uncertain: !!travel.uncertain && !conflict,
+          label,
+          cue: conflict
+            ? `${travel.label === "walk" ? "Walk" : "Drive"} from ${a.title} ≈ ${fmtDur(need)} · only ${fmtDur(Math.max(0, gap))} gap`
+            : null,
+          modeIcon: travel.label === "walk" ? "🚶" : travel.uncertain ? "?" : "🚗",
+        });
+      }
+      return out;
+    }
+
+    function fmtDur(mins) {
+      if (mins < 60) return `${Math.round(mins)} min`;
+      const h = Math.floor(mins / 60);
+      const m = Math.round(mins % 60);
+      return m ? `${h} hr ${m} min` : `${h} hr`;
+    }
+
+    function buildTimeRail() {
+      timeRail.innerHTML = "";
+      timeRail.style.height = `${HOURS * HOUR_PX}px`;
+      for (let i = 0; i <= HOURS; i++) {
+        const el = document.createElement("div");
+        el.className = "time-label";
+        el.style.top = `${i * HOUR_PX}px`;
+        const h = DAY_START + i;
+        const display = h > 12 ? h - 12 : h;
+        const ampm = h >= 12 && h < 24 ? "PM" : "AM";
+        el.textContent = `${display} ${ampm}`;
+        timeRail.appendChild(el);
+      }
+    }
+
+    function render(previewList) {
+      const list = previewList || segments;
+      const isPreview = !!previewList && !!dragState;
+
+      dayCol.querySelectorAll(".segment:not(.ghost), .connector, .dest-cue").forEach((n) => n.remove());
+
+      // segments
+      for (const seg of list) {
+        const el = document.createElement("div");
+        el.className = "segment" + (dragState && dragState.id === seg.id && isPreview ? " dragging" : "");
+        el.dataset.id = seg.id;
+        el.style.top = `${minToY(seg.startMin)}px`;
+        el.style.height = `${minToY(seg.durationMin)}px`;
+        el.style.borderLeftColor = seg.color;
+        el.innerHTML = `
+          <p class="name">${escapeHtml(seg.title)}</p>
+          <p class="time">${formatTime(seg.startMin)} – ${formatTime(seg.startMin + seg.durationMin)}</p>
+          ${seg.location ? `<p class="loc">${escapeHtml(seg.location)}</p>` : ""}
+          <div class="resize-handle" data-resize="${seg.id}"></div>
+        `;
+        if (!(dragState && dragState.id === seg.id && isPreview)) {
+          el.addEventListener("pointerdown", onSegmentPointerDown);
+        }
+        dayCol.appendChild(el);
+      }
+
+      // connectors from preview or committed list
+      const conns = connectionsFor(list);
+      for (const c of conns) {
+        const wrap = document.createElement("div");
+        wrap.className =
+          "connector" +
+          (c.conflict ? " conflict" : "") +
+          (c.uncertain ? " uncertain" : "") +
+          (isPreview ? " preview" : "");
+        wrap.style.top = `${c.top}px`;
+        wrap.style.height = `${Math.min(c.height, 48)}px`;
+        wrap.innerHTML = `<div class="pill"><span class="icon" aria-hidden="true">${c.modeIcon}</span>${escapeHtml(c.label)}</div>`;
+        dayCol.appendChild(wrap);
+
+        if (c.cue) {
+          const cue = document.createElement("div");
+          cue.className = "dest-cue" + (isPreview ? " preview" : "");
+          // place just above destination
+          const dest = list.find((s) => s.id === c.toId);
+          cue.style.top = `${minToY(dest.startMin) - 22}px`;
+          cue.textContent = c.cue;
+          dayCol.appendChild(cue);
+        }
+      }
+
+      updateStatus(conns, isPreview);
+    }
+
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function updateStatus(conns, isPreview) {
+      statusEl.classList.remove("dragging", "conflict");
+      const conflicts = conns.filter((c) => c.conflict);
+      if (isPreview) {
+        statusEl.classList.add("dragging");
+        if (conflicts.length) statusEl.classList.add("conflict");
+        statusEl.innerHTML =
+          `<strong>During drag</strong>` +
+          (conflicts.length
+            ? `Prospective conflict: ${conflicts.map((c) => c.label).join("; ")}. Neighbors stay put — drop to keep this placement.`
+            : `Prospective connections look feasible. Release to commit.`);
+      } else if (conflicts.length) {
+        statusEl.classList.add("conflict");
+        statusEl.innerHTML =
+          `<strong>Conflict on calendar</strong>` +
+          conflicts.map((c) => c.cue || c.label).join(" · ");
+      } else {
+        statusEl.innerHTML =
+          `<strong>Status</strong>Idle — ${conns.length} connection${conns.length === 1 ? "" : "s"} calculated. Drag any segment.`;
+      }
+    }
+
+    function onSegmentPointerDown(e) {
+      if (e.button !== 0) return;
+      const handle = e.target.closest("[data-resize]");
+      const segEl = e.currentTarget;
+      const id = segEl.dataset.id;
+      const seg = segments.find((s) => s.id === id);
+      if (!seg) return;
+
+      e.preventDefault();
+      segEl.setPointerCapture(e.pointerId);
+
+      const mode = handle ? "resize" : "move";
+      const startY = e.clientY;
+      const origStart = seg.startMin;
+      const origDur = seg.durationMin;
+
+      dragState = { id, mode, startY, origStart, origDur, ghost: null };
+
+      if (mode === "move" && optGhost.checked) {
+        const ghost = segEl.cloneNode(true);
+        ghost.classList.add("ghost");
+        ghost.classList.remove("dragging");
+        ghost.querySelector(".resize-handle")?.remove();
+        dayCol.appendChild(ghost);
+        dragState.ghost = ghost;
+      }
+
+      const onMove = (ev) => {
+        const dy = ev.clientY - startY;
+        const dMin = yToMin(dy);
+        let next = segments.map((s) => ({ ...s }));
+        const target = next.find((s) => s.id === id);
+
+        if (mode === "move") {
+          target.startMin = snap(origStart + dMin);
+          // keep duration; clamp so it stays in day
+          target.durationMin = clampDuration(target.startMin, target.durationMin);
+          if (target.startMin + target.durationMin > HOURS * 60) {
+            target.startMin = HOURS * 60 - target.durationMin;
+          }
+        } else {
+          target.durationMin = clampDuration(origStart, snap(origDur + dMin) || origDur + dMin);
+        }
+
+        if (optLive.checked) {
+          render(next);
+          // re-attach dragging visual is handled in render
+        } else {
+          // only move the active element visually without connector preview
+          const live = dayCol.querySelector(`.segment[data-id="${id}"]`);
+          if (live) {
+            live.style.top = `${minToY(target.startMin)}px`;
+            live.style.height = `${minToY(target.durationMin)}px`;
+            live.classList.add("dragging");
+          }
+        }
+
+        // stash prospective for commit
+        dragState.prospective = next;
+      };
+
+      const onUp = () => {
+        segEl.releasePointerCapture?.(e.pointerId);
+        window.removeEventListener("pointermove", onMove);
+        window.removeEventListener("pointerup", onUp);
+
+        if (dragState.prospective) {
+          segments = dragState.prospective;
+        }
+        if (dragState.ghost) dragState.ghost.remove();
+        dragState = null;
+        render();
+      };
+
+      window.addEventListener("pointermove", onMove);
+      window.addEventListener("pointerup", onUp);
+    }
+
+    // Toggle options re-render when idle
+    [optLive, optGhost, optSnap].forEach((el) => {
+      el.addEventListener("change", () => {
+        if (!dragState) render();
+      });
+    });
+
+    buildTimeRail();
+    render();
+  </script>
+</body>
+</html>
