@@ -40,7 +40,8 @@
 
     .stage {
       display: grid;
-      grid-template-columns: minmax(280px, 340px) 1fr;
+      /* grid-template-columns: minmax(280px, 340px) 1fr; */
+      grid-template-columns: 1fr;
       gap: 24px;
       padding: 28px;
       max-width: 1100px;
@@ -139,8 +140,8 @@
       display: grid;
       grid-template-columns: var(--gutter) var(--day-w);
       position: relative;
-      max-height: calc(14 * var(--hour-px));
-      overflow-y: auto;
+      /* max-height: calc(14 * var(--hour-px));
+      overflow-y: auto; */
     }
 
     .time-rail {
@@ -325,6 +326,7 @@
 </head>
 <body>
   <div class="stage">
+    <!-- Instructions panel removed
     <aside class="panel">
       <h1>During-drag travel connectors</h1>
       <p class="lede">
@@ -361,6 +363,7 @@
         Idle — drag any segment to see connection feedback.
       </div>
     </aside>
+    -->
 
     <div class="calendar-shell">
       <div class="cal-header">
@@ -415,10 +418,10 @@
 
     const dayCol = document.getElementById("dayCol");
     const timeRail = document.getElementById("timeRail");
-    const statusEl = document.getElementById("status");
-    const optLive = document.getElementById("optLive");
-    const optGhost = document.getElementById("optGhost");
-    const optSnap = document.getElementById("optSnap");
+    const statusEl = document.getElementById("status") || document.createElement("div");
+    const optLive = document.getElementById("optLive") || { checked: true, addEventListener() {} };
+    const optGhost = document.getElementById("optGhost") || { checked: true, addEventListener() {} };
+    const optSnap = document.getElementById("optSnap") || { checked: true, addEventListener() {} };
 
     let dragState = null;
 
