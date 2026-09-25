@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chatbot Plan a Trip — Before / After Prototype</title>
+<style>
+  :root{
+    --navy:#0b1f4b;
+    --teal:#128a99;
+    --teal-dark:#0d6e7a;
+    --bubble-bot:#ececee;
+    --bubble-user:#eef0f2;
+    --border:#e4e6ea;
+    --gray-text:#6b7280;
+    --link:#1a5fb4;
+    --bad:#c0392b;
+    --good:#1a7a4c;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:#f3f4f6;
+    padding:32px 24px 60px;
+  }
+  .page-header{
+    max-width:1000px;
+    margin:0 auto 28px;
+    text-align:center;
+  }
+  .page-header h1{
+    font-size:22px;
+    color:var(--navy);
+    margin:0 0 6px;
+  }
+  .page-header p{
+    color:var(--gray-text);
+    font-size:14px;
+    margin:0;
+  }
+  .compare{
+    display:flex;
+    justify-content:center;
+    gap:36px;
+    flex-wrap:wrap;
+    max-width:1100px;
+    margin:0 auto;
+  }
+  .column{
+    width:390px;
+  }
+  .col-label{
+    text-align:center;
+    font-weight:700;
+    font-size:15px;
+    color:var(--navy);
+    margin-bottom:10px;
+  }
+  .stat-bar{
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+    font-size:12px;
+    font-weight:600;
+    border-radius:8px;
+    padding:8px 12px;
+    margin-bottom:14px;
+  }
+  .stat-bar.bad{ background:#fbe9e7; color:var(--bad); }
+  .stat-bar.good{ background:#e6f4ea; color:var(--good); }
+  .stat-bar span{ white-space:nowrap; }
+
+  /* ---- Widget shell ---- */
+  .widget{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 6px 18px rgba(0,0,0,0.06);
+    display:flex;
+    flex-direction:column;
+  }
+  .w-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 16px 10px;
+    border-bottom:1px solid var(--border);
+  }
+  .w-header .icon-set{ display:flex; gap:10px; color:#8a8f98; font-size:15px; }
+  .w-header .logo{ font-weight:800; font-size:19px; letter-spacing:0.5px; color:var(--navy); }
+  .w-sub{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    padding:8px 0;
+    font-size:12px;
+    color:var(--gray-text);
+    border-bottom:1px solid #f1f2f4;
+  }
+  .w-sub .q{
+    width:14px;height:14px;border-radius:50%;border:1px solid #c7cad0;
+    display:flex;align-items:center;justify-content:center;font-size:9px;color:#9aa0a6;
+  }
+  .messages{
+    padding:16px;
+    height:560px;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    background:#fff;
+  }
+  .divider{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#9aa0a6;
+    font-size:11px;
+    margin:2px 0;
+  }
+  .divider::before, .divider::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:#eceef1;
+  }
+  .row{ display:flex; gap:8px; align-items:flex-start; }
+  .row.user{ justify-content:flex-end; }
+  .avatar{
+    width:26px;height:26px;border-radius:50%;
+    background:var(--navy);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;color:#fff;font-size:12px;margin-top:2px;
+  }
+  .bubble-wrap{ max-width:82%; display:flex; flex-direction:column; }
+  .bubble{
+    background:var(--bubble-bot);
+    border-radius:14px;
+    padding:12px 14px;
+    font-size:13.5px;
+    line-height:1.5;
+    color:#232529;
+  }
+  .row.user .bubble{ background:var(--bubble-user); }
+  .bubble p{ margin:0 0 8px; }
+  .bubble p:last-child{ margin-bottom:0; }
+  .bubble ul{ margin:6px 0 10px; padding-left:18px; }
+  .bubble li{ margin-bottom:10px; }
+  .bubble li:last-child{ margin-bottom:0; }
+  .bubble a{ color:var(--link); text-decoration:underline; }
+  .bubble strong{ color:#111; }
+  .timestamp{ font-size:10.5px; color:#9aa0a6; margin-top:4px; }
+  .row.user .timestamp{ text-align:right; }
+  .row:not(.user) .timestamp{ margin-left:34px; }
+  .feedback{
+    display:flex; align-items:center; gap:10px; margin-top:6px; margin-left:34px;
+  }
+  .feedback svg{ width:15px;height:15px; stroke:#9aa0a6; fill:none; }
+  .feedback .ts{ font-size:10.5px; color:#9aa0a6; margin-left:auto; }
+
+  .pills{
+    display:flex; flex-wrap:wrap; gap:8px;
+    padding:12px 16px; border-top:1px solid var(--border);
+  }
+  .pill{
+    border:1px solid var(--teal);
+    color:var(--teal-dark);
+    border-radius:20px;
+    padding:6px 13px;
+    font-size:12px;
+    white-space:nowrap;
+    background:#fff;
+  }
+  .input-row{
+    display:flex; align-items:center; gap:10px;
+    padding:12px 16px 16px;
+  }
+  .input-row .fake-input{
+    flex:1;
+    border:1px solid var(--teal);
+    border-radius:20px;
+    padding:9px 14px;
+    font-size:13px;
+    color:#9aa0a6;
+  }
+  .send-btn{
+    width:32px;height:32px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--teal); flex-shrink:0;
+  }
+  .send-btn svg{ width:18px; height:18px; }
+
+  .cta-btn{
+    display:inline-block;
+    margin-top:2px;
+    padding:6px 12px;
+    border:1px solid var(--teal);
+    border-radius:16px;
+    color:var(--teal-dark) !important;
+    font-size:12.5px;
+    font-weight:600;
+    text-decoration:none !important;
+  }
+</style>
+</head>
+<body>
+
+  <div class="compare">
+
+    <!-- ===================== CURRENT ===================== -->
+    <div class="column">
+      <div class="col-label">Current Experience</div>
+      <div class="stat-bar bad">
+        <span>6 bot turns</span><span>~440 words</span><span>0 button-style CTAs</span>
+      </div>
+
+      <div class="widget">
+        <div class="w-header">
+          <div class="icon-set">
+            <span>&#8942;</span>
+            <span>&#10011;</span>
+          </div>
+          <div class="logo">HGV</div>
+          <div class="icon-set">
+            <span>&#10021;</span>
+            <span>&#8964;</span>
+          </div>
+        </div>
+        <div class="w-sub">Powered by AI <span class="q">?</span></div>
+
+        <div class="messages">
+
+          <div class="row">
+            <div class="avatar">&#10022;</div>
+            <div class="bubble-wrap">
+              <div class="bubble">
+                <p>Hi HGV MAX – NEW SALE! Welcome to Hilton Grand Vacations. I'm your virtual assistant, here to help you discover personalized travel ideas, check availability and make the most of your travel planning. What can I assist you with today?</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider">Today</div>
+
+          <div class="row user">
+            <div class="bubble-wrap">
+              <div class="bubble">Plan a trip</div>
+              <div class="timestamp">5m ago</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="avatar">&#10022;</div>
+            <div class="bubble-wrap">
+              <div class="bubble">
+                <p>Where would you like to go?</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row user">
+            <div class="bubble-wrap">
+              <div class="bubble">Florida</div>
+              <div class="timestamp">4m ago</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="avatar">&#10022;</div>
+            <div class="bubble-wrap">
+              <div class="bubble">
+                <p>What dates should I plan for your Florida trip? If you know your party size too, include that as well so I can tailor the itinerary.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row user">
+            <div class="bubble-wrap">
+              <div class="bubble">Oct 23-27 family of 4</div>
+              <div class="timestamp">4m ago</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="avatar">&#10022;</div>
+            <div class="bubble-wrap">
+              <div class="bubble">
+                <p>What part of Florida would you like to visit? Orlando, Miami, Tampa Bay, the Gulf Coast, the Keys, or another area all work.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row user">
+            <div class="bubble-wrap">
+              <div class="bubble">Orlando</div>
+              <div class="timestamp">3m ago</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="avatar">&#10022;</div>
+            <div class="bubble-wrap">
+              <div class="bubble">
+                <p>Great choice. For your October 23rd, 2026 to October 27th, 2026 Orlando trip, here's a solid family-friendly plan to start with:</p>
+                <p>Hilton Grand Vacations Club at SeaWorld® Orlando or Hilton Grand Vacations Club Tuscany Village Orlando<br>
+                A strong home base for a family of 4, with easy access to the parks and plenty to do nearby.</p>
+                <p>Day 1 — Easy arrival day<br>
+                Check in, enjoy the pool, and have a relaxed dinner nearby. Good first-night options include Maggiano's Little Italy or a casual meal around International Drive.</p>
+                <p>Day 2 — Magic Kingdom<br>
+                Best if you want the classic Orlando experience. In late October, Mickey's Not-So-Scary Halloween Party may also be an option on select nights.</p>
+                <p>Day 3 — SEA LIFE Orlando Aquarium + ICON Park<br>
+                A lighter day that works well between big park days. SEA LIFE Orlando Aquarium has seasonal family programming, and ICON Park gives you several easy attractions in one area.</p>
+                <p>Day 4 — Universal Orlando Resort<br>
+                Good for a full day of rides and themed attractions. If your group prefers a less intense day, this could be swapped for SeaWorld Orlando.</p>
+                <p>Day 5 — Slow morning before departure<br>
+                Resort time, outlet shopping at Lake Buena Vista Factory Stores, or one last meal before heading out.</p>
+                <p>If you want, I can turn this into a saved trip and start by adding your first confirmed items. A simple starting set would be:</p>
+                <ul>
+                  <li>your Orlando stay</li>
+                  <li>Magic Kingdom</li>
+                  <li>SEA LIFE Orlando Aquarium + ICON Park</li>
+                  <li>and one Universal day</li>
+                </ul>
+                <p>Just say "add those," or tell me which items you want on the trip.</p>
+              </div>
+              <div class="feedback">
+                <svg viewBox="0 0 24 24"><path d="M7 10v11H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h3Zm3.5-8.5L9 4l1 6h8.3a2 2 0 0 1 1.98 2.3l-1.2 8A2 2 0 0 1 17.1 22H9a2 2 0 0 1-2-2V9.5l3.5-7Z"/></svg>
+                <svg viewBox="0 0 24 24" style="transform:scaleY(-1)"><path d="M7 10v11H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h3Zm3.5-8.5L9 4l1 6h8.3a2 2 0 0 1 1.98 2.3l-1.2 8A2 2 0 0 1 17.1 22H9a2 2 0 0 1-2-2V9.5l3.5-7Z"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="row user">
+            <div class="bubble-wrap">
+              <div class="bubble">add those</div>
+              <div class="timestamp">2m ago</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="avatar">&#10022;</div>
+            <div class="bubble-wrap">
+              <div class="bubble">
+                <p>Done — your trip is saved.</p>
+                <p>View your trip: <a href="#">Orlando</a></p>
+                <p>Right now it includes:</p>
+                <ul>
+                  <li>Oct 23, 2026, 3:00 PM — Hilton Grand Vacations Club Tuscany Village Orlando</li>
+                  <li>Oct 24, 2026, 9:00 AM — Magic Kingdom</li>
+                  <li>Oct 25, 2026, 10:00 AM — SEA LIFE Orlando Aquarium</li>
+                  <li>Oct 25, 2026, 2:00 PM — ICON Park Orlando</li>
+                  <li>Oct 26, 2026, 9:00 AM — Universal Orlando Resort</li>
+                </ul>
+                <p>A good next step for Oct 23 or the morning of Oct 27 would be a relaxed family meal or a low-key activity near the resort. I can add one of those next if you want.</p>
+              </div>
+              <div class="feedback">
+                <svg viewBox="0 0 24 24"><path d="M7 10v11H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h3Zm3.5-8.5L9 4l1 6h8.3a2 2 0 0 1 1.98 2.3l-1.2 8A2 2 0 0 1 17.1 22H9a2 2 0 0 1-2-2V9.5l3.5-7Z"/></svg>
+                <svg viewBox="0 0 24 24" style="transform:scaleY(-1)"><path d="M7 10v11H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h3Zm3.5-8.5L9 4l1 6h8.3a2 2 0 0 1 1.98 2.3l-1.2 8A2 2 0 0 1 17.1 22H9a2 2 0 0 1-2-2V9.5l3.5-7Z"/></svg>
+                <span class="ts">2m ago</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="pills">
+          <div class="pill">Plan a trip</div>
+          <div class="pill">View reservation</div>
+          <div class="pill">Manage Points</div>
+          <div class="pill">Pay HOA fee</div>
+          <div class="pill">Recommend a destination</div>
+        </div>
+        <div class="input-row">
+          <div class="fake-input">Type a message...</div>
+          <div class="send-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#128a99" stroke-width="2"><path d="M3 11l18-8-8 18-2-8-8-2Z"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== PROPOSED ===================== -->
+    <div class="column">
+      <div class="col-label">Proposed Experience</div>
+      <div class="stat-bar good">
+        <span>5 bot turns</span><span>~120 words</span><span>1 button-style CTA</span>
+      </div>
+
+      <div class="widget">
+        <div class="w-header">
+          <div class="icon-set">
+            <span>&#8942;</span>
+            <span>&#10011;</span>
+          </div>
+          <div class="logo">HGV</div>
+          <div class="icon-set">
+            <span>&#10021;</span>
+            <span>&#8964;</span>
+          </div>
+        </div>
+        <div class="w-sub">Powered by AI <span class="q">?</span></div>
+
+        <div class="messages">
+
+          <div class="row">
+            <div class="avatar">&#10022;</div>
+            <div class="bubble-wrap">
+              <div class="bubble">
+                <p>Hi HGV MAX – NEW SALE! Welcome to Hilton Grand Vacations. I'm your virtual assistant, here to help you discover personalized travel ideas, check availability and make the most of your travel planning. What can I assist you with today?</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider">Today</div>
+
+          <div class="row user">
+            <div class="bubble-wrap">
+              <div class="bubble">Plan a trip</div>
+              <div class="timestamp">3m ago</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="avatar">&#10022;</div>
+            <div class="bubble-wrap">
+              <div class="bubble">
+                <p>Where would you like to go?</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row user">
+            <div class="bubble-wrap">
+              <div class="bubble">Florida</div>
+              <div class="timestamp">3m ago</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="avatar">&#10022;</div>
+            <div class="bubble-wrap">
+              <div class="bubble">
+                <p>What dates, and how many people?</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row user">
+            <div class="bubble-wrap">
+              <div class="bubble">Oct 23-27 family of 4</div>
+              <div class="timestamp">2m ago</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="avatar">&#10022;</div>
+            <div class="bubble-wrap">
+              <div class="bubble">
+                <p>Which area — Orlando, Miami, Tampa Bay, the Gulf Coast, or the Keys?</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row user">
+            <div class="bubble-wrap">
+              <div class="bubble">Orlando</div>
+              <div class="timestamp">2m ago</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="avatar">&#10022;</div>
+            <div class="bubble-wrap">
+              <div class="bubble">
+                <p><strong>Orlando trip ready — Oct 23–27, family of 4.</strong></p>
+                <p>I've drafted a SeaWorld / Tuscany Village stay with Magic Kingdom, ICON Park, and Universal days — suggested because parks and a nearby resort work well for a family of 4.</p>
+                <p><a class="cta-btn" href="#">View Plan →</a></p>
+                <p>What did I get right? What would you swap or cut?</p>
+              </div>
+              <div class="feedback">
+                <svg viewBox="0 0 24 24"><path d="M7 10v11H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h3Zm3.5-8.5L9 4l1 6h8.3a2 2 0 0 1 1.98 2.3l-1.2 8A2 2 0 0 1 17.1 22H9a2 2 0 0 1-2-2V9.5l3.5-7Z"/></svg>
+                <svg viewBox="0 0 24 24" style="transform:scaleY(-1)"><path d="M7 10v11H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h3Zm3.5-8.5L9 4l1 6h8.3a2 2 0 0 1 1.98 2.3l-1.2 8A2 2 0 0 1 17.1 22H9a2 2 0 0 1-2-2V9.5l3.5-7Z"/></svg>
+                <span class="ts">2m ago</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="pills">
+          <div class="pill">Plan a trip</div>
+          <div class="pill">View reservation</div>
+          <div class="pill">Manage Points</div>
+          <div class="pill">Pay HOA fee</div>
+          <div class="pill">Recommend a destination</div>
+        </div>
+        <div class="input-row">
+          <div class="fake-input">Type a message...</div>
+          <div class="send-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#128a99" stroke-width="2"><path d="M3 11l18-8-8 18-2-8-8-2Z"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
