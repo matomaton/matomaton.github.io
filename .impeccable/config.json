@@ -11,6 +11,15 @@
         ],
         "createdAt": "2026-09-07T00:14:10.338Z",
         "reason": "Agent: .hp-hero has clamp(3rem,8vh,5rem) vertical padding plus flex align-items:center before its border-bottom \\u2014 verified in D:/matomaton.github.io/.impeccable/audit/2026-09-06-index-BeyondClicks.md; detector appears to miss 2-value padding shorthand"
+      },
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          "plan-a-trip-before-after-generic.html"
+        ],
+        "createdAt": "2026-09-27T12:49:23.238Z",
+        "reason": "mockup faithfully mimics existing chatbot widget styling (10.5px timestamps/labels); intentional fixture, not designed UI"
       }
     ]
   }
