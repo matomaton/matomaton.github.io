@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Package Orders — Proposed table (Hybrid + comfort)</title>
+<style>
+  :root {
+    --navy: #202B46;
+    --teal: #018289;
+    --dark-grey: #53565A;
+    --unselected: #909292;
+    --border: #DEDFDF;
+    --surface-secondary: #F1F1F1;
+    --white: #FFFFFF;
+    --pagebg: #f4f6f9;
+    --muted: #5a6b85;
+    --font: "Gotham", "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: var(--font);
+    background: var(--pagebg);
+    color: var(--navy);
+  }
+
+  .page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+  }
+
+  .ask {
+    margin-bottom: 20px;
+    max-width: 720px;
+  }
+  .ask .eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--teal);
+    background: #e6f4f4;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin: 0 0 10px;
+  }
+  .ask h1 {
+    font-size: 22px;
+    margin: 0 0 8px;
+  }
+  .ask p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .frame-wrap {
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(20, 30, 50, 0.1);
+    overflow: hidden;
+  }
+  .table-scroll { overflow-x: auto; }
+
+  table.orders {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .orders thead th {
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--unselected);
+    font-weight: 600;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    background: #fafafa;
+    white-space: nowrap;
+  }
+  .orders tbody tr { border-bottom: 1px solid var(--border); }
+  .orders tbody tr:hover { background: var(--surface-secondary); }
+  .orders td {
+    padding: 10px 14px;
+    color: var(--dark-grey);
+    vertical-align: top;
+    max-width: 0;
+    overflow: hidden;
+  }
+
+  .col-lead { width: 12%; }
+  .col-customer { width: 18%; }
+  .col-property { width: 22%; }
+  .col-status { width: 16%; }
+  .col-assign { width: 16%; }
+  .col-date { width: 10%; }
+  .col-code { width: 8%; }
+
+  .cell-pad {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  .cell-inner {
+    display: block;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  /* Wrap columns: customer + property, max 2 lines */
+  .wrap-col .cell-inner {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow-wrap: anywhere;
+  }
+
+  .lead-col .cell-inner {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: var(--navy);
+  }
+
+  .name-link {
+    color: var(--teal);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  tr:hover .name-link { text-decoration: underline; }
+
+  .truncatable { cursor: default; }
+  .truncatable:focus {
+    outline: 2px solid var(--teal);
+    outline-offset: 1px;
+  }
+
+  .tip {
+    position: fixed;
+    z-index: 50;
+    pointer-events: none;
+    background: #0d1526;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 7px 10px;
+    border-radius: 6px;
+    max-width: 320px;
+    white-space: normal;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.1s;
+  }
+  .tip.show { opacity: 1; transform: translateY(0); }
+  .tip::after {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: 14px;
+    border: 5px solid transparent;
+    border-bottom-color: #0d1526;
+  }
+
+  .rules {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .rules strong { color: #3a4a66; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="ask">
+    <!-- <p class="eyebrow">Ask — adopt as Package Orders default</p>
+    <h1>Hybrid + comfort data table</h1> -->
+    <p>
+      Customer and property wrap up to 2 lines. Everything else stays single-line with tooltip when clipped.
+      Comfort spacing: 14px type, line-height 1.5, 10px vertical padding.
+    </p>
+  </header>
+
+  <div class="frame-wrap">
+    <div class="table-scroll">
+      <table class="orders">
+        <thead>
+          <tr>
+            <th class="col-lead">Lead #</th>
+            <th class="col-customer">Customer</th>
+            <th class="col-property">Property</th>
+            <th class="col-status">Status</th>
+            <th class="col-assign">Assigned to</th>
+            <th class="col-date">Travel date</th>
+            <th class="col-code">FDI</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <p class="rules">
+    <strong>Hover or focus</strong> a clipped cell to see the full value.
+  </p>
+</div>
+
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script>
+const ROWS = [
+  {
+    lead: "LD-48291037",
+    customer: "Alexandria Montgomery-Rivera",
+    property: "Hilton Vacation Club Bend Creek at The Golf Village",
+    status: "In Progress — Awaiting Traveler Documents",
+    assign: "Marcos Delgado",
+    date: "10/14/2026",
+    code: "9084",
+  },
+  {
+    lead: "LD-48291088",
+    customer: "Christopher J. Papadopoulos",
+    property: "Hilton Grand Vacations Club at SeaWorld Orlando",
+    status: "In Progress",
+    assign: "Marcos Ellison",
+    date: "11/02/2026",
+    code: "7721",
+  },
+  {
+    lead: "LD-48291102",
+    customer: "Mei-Ling Chen",
+    property: "The Residences at El San Juan Hotel & Casino",
+    status: "Ready for Fulfillment Review",
+    assign: "Marcos Watanabe",
+    date: "09/30/2026",
+    code: "4410",
+  },
+  {
+    lead: "LD-48291145",
+    customer: "Jordan Lee",
+    property: "Ocean Tower by Hilton Club",
+    status: "Not Started",
+    assign: "Priya Shah",
+    date: "12/01/2026",
+    code: "3302",
+  },
+  {
+    lead: "LD-48291190",
+    customer: "Sofia Gabriela Hernández-Castillo",
+    property: "Hilton Vacation Club The Point at Cape Canaveral",
+    status: "On Hold — Payment Authorization Pending",
+    assign: "Marcos Delgado",
+    date: "10/22/2026",
+    code: "1198",
+  },
+  {
+    lead: "LD-48291211",
+    customer: "Sam Okonkwo",
+    property: "Anderson Ocean Club",
+    status: "Completed",
+    assign: "Gloria Park",
+    date: "08/18/2026",
+    code: "5560",
+  },
+  {
+    lead: "LD-48291244",
+    customer: "Natalie Brooks",
+    property: "Hilton Club New York",
+    status: "In Progress",
+    assign: "Megan Ortiz",
+    date: "01/09/2027",
+    code: "2207",
+  },
+  {
+    lead: "LD-48291277",
+    customer: "David Kim",
+    property: "Gulfstream Manor — Hilton Vacation Club",
+    status: "In Progress — Component Exclusion Review",
+    assign: "Marcos Ellison",
+    date: "10/05/2026",
+    code: "8843",
+  },
+];
+
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function cellMarkup(full, classNames, opts) {
+  const cls = ["cell", classNames].filter(Boolean).join(" ");
+  const truncClass = opts.truncatable ? " truncatable" : "";
+  const aria = opts.truncatable ? ` aria-label="${escapeHtml(full)}"` : "";
+  const role = opts.truncatable ? ' role="button"' : "";
+  const innerClass = opts.link ? "cell-inner name-link" : "cell-inner";
+  const inner = `<span class="${innerClass}${truncClass}"${role}${aria} data-full="${escapeHtml(full)}">${escapeHtml(full)}</span>`;
+  return `<td class="${cls}"><div class="cell-pad">${inner}</div></td>`;
+}
+
+function isClamped(el) {
+  const style = getComputedStyle(el);
+  const clamp = style.webkitLineClamp || style.lineClamp;
+  if (clamp && clamp !== "none") {
+    return el.scrollHeight > el.clientHeight + 1;
+  }
+  return el.scrollWidth > el.clientWidth + 1;
+}
+
+function markTruncation() {
+  document.querySelectorAll(".cell-inner[data-full]").forEach((el) => {
+    const clipped = isClamped(el);
+    el.classList.toggle("is-clipped", clipped);
+    if (el.classList.contains("truncatable")) {
+      el.tabIndex = clipped ? 0 : -1;
+    }
+  });
+}
+
+function showTip(el) {
+  if (!el.classList.contains("is-clipped")) return;
+  const tip = document.getElementById("tip");
+  tip.textContent = el.dataset.full;
+  tip.classList.add("show");
+  const r = el.getBoundingClientRect();
+  let left = r.left;
+  const maxLeft = window.innerWidth - 340;
+  if (left > maxLeft) left = Math.max(8, maxLeft);
+  tip.style.left = left + "px";
+  tip.style.top = r.bottom + 8 + "px";
+}
+
+function hideTip() {
+  document.getElementById("tip").classList.remove("show");
+}
+
+document.getElementById("tbody").innerHTML = ROWS.map((r) => `<tr>
+  ${cellMarkup(r.lead, "col-lead lead-col", { truncatable: true })}
+  ${cellMarkup(r.customer, "col-customer wrap-col", { truncatable: true, link: true })}
+  ${cellMarkup(r.property, "col-property wrap-col", { truncatable: true })}
+  ${cellMarkup(r.status, "col-status", { truncatable: true })}
+  ${cellMarkup(r.assign, "col-assign", { truncatable: true })}
+  ${cellMarkup(r.date, "col-date", { truncatable: false })}
+  ${cellMarkup(r.code, "col-code", { truncatable: false })}
+</tr>`).join("");
+
+requestAnimationFrame(markTruncation);
+window.addEventListener("resize", () => requestAnimationFrame(markTruncation));
+
+document.addEventListener("mouseover", (e) => {
+  const el = e.target.closest(".cell-inner.is-clipped");
+  if (el) showTip(el);
+});
+document.addEventListener("mouseout", (e) => {
+  if (e.target.closest(".cell-inner")) hideTip();
+});
+document.addEventListener("focusin", (e) => {
+  const el = e.target.closest(".cell-inner.is-clipped");
+  if (el) showTip(el);
+});
+document.addEventListener("focusout", (e) => {
+  if (e.target.closest(".cell-inner")) hideTip();
+});
+</script>
+</body>
+</html>
