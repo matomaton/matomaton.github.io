@@ -20,6 +20,12 @@
         ],
         "createdAt": "2026-09-27T12:49:23.238Z",
         "reason": "mockup faithfully mimics existing chatbot widget styling (10.5px timestamps/labels); intentional fixture, not designed UI"
+      },
+      {
+        "rule": "overused-font",
+        "value": "lato",
+        "createdAt": "2026-09-29T11:57:14.330Z",
+        "reason": "Site brand font: root index.html and stylesgem.css already use Lato; PROTO index matches the existing site"
       }
     ]
   }
