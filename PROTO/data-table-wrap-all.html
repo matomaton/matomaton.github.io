@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Package Orders — Wrap all (no truncation)</title>
+<style>
+  :root {
+    --navy: #202B46;
+    --teal: #018289;
+    --dark-grey: #53565A;
+    --border: #DEDFDF;
+    --surface-secondary: #F1F1F1;
+    --white: #FFFFFF;
+    --pagebg: #f4f6f9;
+    --muted: #5a6b85;
+    --font: "Gotham", "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+    --table-size: 14px;
+    --table-lh: 24px;
+    --table-tracking: 0.02em;
+    --cell-pad-x: 8px;
+    --cell-pad-y: 8px;
+    --row-min: 56px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: var(--font);
+    background: var(--pagebg);
+    color: var(--navy);
+  }
+
+  .page {
+    max-width: 1260px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+  }
+
+  .ask {
+    margin-bottom: 20px;
+    max-width: 720px;
+  }
+  .ask .eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #9a6b00;
+    background: #fff6e0;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin: 0 0 10px;
+  }
+  .ask h1 {
+    font-size: 22px;
+    margin: 0 0 8px;
+  }
+  .ask p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .frame-wrap {
+    background: var(--white);
+    box-shadow: 0 6px 20px rgba(20, 30, 50, 0.1);
+    overflow: hidden;
+    width: 1227px;
+    max-width: 100%;
+  }
+  .table-scroll { overflow-x: auto; }
+
+  table.orders {
+    width: 1227px;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: var(--table-size);
+    line-height: var(--table-lh);
+    letter-spacing: var(--table-tracking);
+  }
+
+  .orders thead th {
+    text-align: left;
+    font-size: var(--table-size);
+    font-weight: 700;
+    line-height: var(--table-lh);
+    letter-spacing: var(--table-tracking);
+    color: var(--white);
+    background: var(--navy);
+    padding: 0 var(--cell-pad-x);
+    height: var(--row-min);
+    border: none;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  .orders tbody tr {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+  }
+  .orders tbody tr:hover {
+    background: var(--surface-secondary);
+  }
+  .orders tbody tr:hover .name-link {
+    text-decoration: underline;
+  }
+
+  .orders td {
+    padding: var(--cell-pad-y) var(--cell-pad-x);
+    color: var(--dark-grey);
+    font-weight: 400;
+    vertical-align: middle;
+    min-height: var(--row-min);
+    max-width: 0;
+    overflow: visible;
+    border: none;
+  }
+
+  .col-check { width: 56px; }
+  .col-order { width: 129px; }
+  .col-customer { width: 129px; }
+  .col-property { width: 129px; }
+  .col-status { width: 129px; }
+  .col-assign { width: 129px; }
+  .col-date { width: 129px; }
+  .col-fdi-status { width: 129px; }
+  .col-fdi { width: 137px; }
+  .col-lead { width: 129px; }
+
+  .cell-pad {
+    min-width: 0;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    min-height: calc(var(--row-min) - var(--cell-pad-y) * 2);
+  }
+
+  /* Wrap all — no ellipsis, no line clamp */
+  .cell-inner {
+    display: block;
+    min-width: 0;
+    max-width: 100%;
+    white-space: normal;
+    overflow: visible;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    font-size: var(--table-size);
+    line-height: var(--table-lh);
+    letter-spacing: var(--table-tracking);
+  }
+
+  .name-link {
+    color: var(--teal);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .lead-plain {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cb {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    cursor: pointer;
+  }
+  .cb input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    cursor: pointer;
+  }
+  .cb .halo {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--white);
+    opacity: 0;
+    transform: scale(0.6);
+    transition: all 0.15s ease;
+  }
+  .cb:hover .halo { opacity: 1; transform: scale(1); }
+  thead .cb .halo { background: rgba(255, 255, 255, 0.12); }
+  .cb .box {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 2px solid var(--navy);
+    background: transparent;
+  }
+  thead .cb .box { border-color: var(--white); }
+  .cb input:checked + .halo + .box {
+    background: #2DC17A;
+    border-color: #2DC17A;
+  }
+  .cb input:checked + .halo + .box::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 5px;
+    height: 10px;
+    border: solid var(--white);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  .cb input:focus-visible + .halo + .box {
+    outline: 2px solid var(--teal);
+    outline-offset: 3px;
+  }
+
+  .fdi-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--navy);
+    border-radius: 14px;
+    padding: 5px 14px;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1;
+    color: var(--navy);
+    background: var(--white);
+    letter-spacing: var(--table-tracking);
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .fdi-pill:hover {
+    /* #202B46 at 10% — solid on white ≈ #E9EAED */
+    background: rgba(32, 43, 70, 0.1);
+  }
+  .fdi-pill:focus-visible {
+    outline: 2px solid var(--teal);
+    outline-offset: 2px;
+  }
+
+  .rules {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+    max-width: 720px;
+  }
+  .rules strong { color: #3a4a66; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="ask">
+    <!-- <p class="eyebrow">Comparison — wrap all, no truncation</p> -->
+    <h1>Wrap-all data table</h1>
+    <!-- <p>
+      Same HSV look and stress data as the hybrid ask. Every text cell wraps fully — no ellipsis, no line clamp, no tooltip.
+      Row heights grow with the longest value in each row.
+    </p> -->
+  </header>
+
+  <div class="frame-wrap">
+    <div class="table-scroll">
+      <table class="orders">
+        <thead>
+          <tr>
+            <th class="col-check" scope="col">
+              <label class="cb">
+                <input type="checkbox" aria-label="Select all rows" />
+                <span class="halo"></span>
+                <span class="box"></span>
+              </label>
+            </th>
+            <th class="col-order" scope="col">Order #</th>
+            <th class="col-customer" scope="col">Customer</th>
+            <th class="col-property" scope="col">Property</th>
+            <th class="col-status" scope="col">Status</th>
+            <th class="col-assign" scope="col">Assigned to</th>
+            <th class="col-date" scope="col">Travel date</th>
+            <th class="col-fdi-status" scope="col">FDI Status</th>
+            <th class="col-fdi" scope="col">FDI</th>
+            <th class="col-lead" scope="col">Lead #</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <p class="rules">
+    <strong>Note:</strong> wrap cells → <code>font-size: 14px; line-height: 1.5; padding: 10px 14px;</code>
+    + 2-line clamp. Soft wrap only — no hard line breaks.</p>
+</div>
+
+<script>
+const ROWS = [
+  {
+    order: "SV-48291",
+    customer: "Alexandria Montgomery-Rivera",
+    property: "Hilton Vacation Club Bend Creek at The Golf Village",
+    status: "In Progress — Awaiting Traveler Documents",
+    assign: "Marcos Delgado",
+    date: "10/14/2026",
+    fdiStatus: "In Progress",
+    fdi: "9084",
+    lead: "LD-48291037",
+  },
+  {
+    order: "SV-48292",
+    customer: "Christopher J. Papadopoulos",
+    property: "Hilton Grand Vacations Club at SeaWorld Orlando",
+    status: "In Progress",
+    assign: "Marcos Ellison",
+    date: "11/02/2026",
+    fdiStatus: "In Progress",
+    fdi: "7721",
+    lead: "LD-48291088",
+  },
+  {
+    order: "SV-48293",
+    customer: "Mei-Ling Chen",
+    property: "The Residences at El San Juan Hotel & Casino",
+    status: "Ready for Fulfillment Review",
+    assign: "Marcos Watanabe",
+    date: "09/30/2026",
+    fdiStatus: "Ready",
+    fdi: "4410",
+    lead: "LD-48291102",
+  },
+  {
+    order: "SV-48294",
+    customer: "Jordan Lee",
+    property: "Ocean Tower by Hilton Club",
+    status: "Not Started",
+    assign: "Priya Shah",
+    date: "12/01/2026",
+    fdiStatus: "Not Started",
+    fdi: "3302",
+    lead: "LD-48291145",
+  },
+  {
+    order: "SV-48295",
+    customer: "Sofia Gabriela Hernández-Castillo",
+    property: "Hilton Vacation Club The Point at Cape Canaveral",
+    status: "On Hold — Payment Authorization Pending",
+    assign: "Marcos Delgado",
+    date: "10/22/2026",
+    fdiStatus: "On Hold",
+    fdi: "1198",
+    lead: "LD-48291190",
+  },
+];
+
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function cellMarkup(full, classNames, opts) {
+  const cls = ["cell", classNames].filter(Boolean).join(" ");
+  let innerClass = "cell-inner";
+  if (opts.link) innerClass += " name-link";
+  if (opts.plain) innerClass += " lead-plain";
+  return `<td class="${cls}"><div class="cell-pad"><span class="${innerClass}">${escapeHtml(full)}</span></div></td>`;
+}
+
+function checkboxCell(i) {
+  return `<td class="col-check">
+    <div class="cell-pad">
+      <label class="cb">
+        <input type="checkbox" aria-label="Select row ${i + 1}" />
+        <span class="halo"></span>
+        <span class="box"></span>
+      </label>
+    </div>
+  </td>`;
+}
+
+function fdiCell(code) {
+  return `<td class="col-fdi">
+    <div class="cell-pad">
+      <button type="button" class="fdi-pill" aria-label="FDI ${escapeHtml(code)}">${escapeHtml(code)}</button>
+    </div>
+  </td>`;
+}
+
+document.getElementById("tbody").innerHTML = ROWS.map((r, i) => `<tr>
+  ${checkboxCell(i)}
+  ${cellMarkup(r.order, "col-order", { link: true })}
+  ${cellMarkup(r.customer, "col-customer", {})}
+  ${cellMarkup(r.property, "col-property", {})}
+  ${cellMarkup(r.status, "col-status", {})}
+  ${cellMarkup(r.assign, "col-assign", {})}
+  ${cellMarkup(r.date, "col-date", {})}
+  ${cellMarkup(r.fdiStatus, "col-fdi-status", {})}
+  ${fdiCell(r.fdi)}
+  ${cellMarkup(r.lead, "col-lead", { plain: true })}
+</tr>`).join("");
+</script>
+</body>
+</html>
