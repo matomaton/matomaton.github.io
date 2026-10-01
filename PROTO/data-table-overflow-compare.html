@@ -340,6 +340,38 @@
     min-height: var(--row-min);
   }
 
+  /* ---- Single line + horizontal scroll (no truncation) ---- */
+  body[data-mode="scroll"] .table-scroll {
+    overflow-x: auto;
+  }
+  body[data-mode="scroll"] table.orders {
+    table-layout: auto;
+    width: max-content;
+    min-width: 100%;
+  }
+  body[data-mode="scroll"] .orders th,
+  body[data-mode="scroll"] .orders td {
+    max-width: none;
+    width: auto;
+    overflow: visible;
+    white-space: nowrap;
+  }
+  body[data-mode="scroll"] .col-check {
+    width: 56px;
+  }
+  body[data-mode="scroll"] .cell-pad {
+    max-width: none;
+    overflow: visible;
+  }
+  body[data-mode="scroll"] .cell-inner {
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: clip;
+    max-width: none;
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+  }
+
   .name-link {
     color: var(--teal);
     font-weight: 700;
@@ -518,8 +550,8 @@
     <p class="eyebrow">Hybrid recommended</p>
     <h1>Package Orders — text overflow compare</h1>
     <p>
-      Same HSV table chrome and stress data, three overflow strategies.
-      Wrap-all shows everything but breaks scan rhythm; truncate-all stays dense but hides identity; hybrid wraps only Customer and Property (2-line clamp).
+      Same HSV table chrome and stress data, four overflow strategies.
+      Wrap-all grows row height; truncate-all uses ellipsis + tooltip; single-line + scroll keeps full text without wrapping or clipping; hybrid wraps only Customer and Property (2-line clamp).
     </p>
   </header>
 
@@ -527,6 +559,7 @@
     <div class="mode-group" role="group" aria-label="Overflow mode">
       <button type="button" class="mode-btn" data-mode="wrap-all" aria-pressed="false">Wrap all</button>
       <button type="button" class="mode-btn" data-mode="truncate-all" aria-pressed="false">Truncate all + tooltip</button>
+      <button type="button" class="mode-btn" data-mode="scroll" aria-pressed="false">Single line + scroll</button>
       <button type="button" class="mode-btn recommended" data-mode="hybrid" aria-pressed="true">Hybrid <span class="pill">recommended</span></button>
     </div>
     <label>Table width
@@ -592,8 +625,9 @@
 
   <p class="note">
     Tooltip only when text is genuinely clipped. Soft wrap only — no hard line breaks for layout.
+    <strong>Single line + scroll</strong> keeps every value fully visible on one line; scroll the table horizontally when content is wider than the frame (try shrinking table width).
     HSV tokens: <code>14px / 24px</code> line-height, <code>8px</code> pad, <code>56px</code> min row.
-    FDI hover: <code>#202B46</code> at 10%. Legacy compare kept at <code>data-table-truncation-compare.html</code>.
+    FDI hover: <code>#202B46</code> at 10%.
   </p>
 </div>
 
@@ -666,7 +700,10 @@ const MODE_META = {
   "truncate-all": {
     title: "Truncate all + tooltip",
     desc: "Every text cell stays single-line with ellipsis. Dense and scannable, but long names and “which Marcos?” need hover or keyboard focus to resolve.",
-    recommended: false,
+  },
+  scroll: {
+    title: "Single line + scroll",
+    desc: "Every text cell stays on one line with no ellipsis — columns grow to fit content and the table scrolls horizontally. Full values, uniform row height, but agents may miss off-screen columns.",
   },
   hybrid: {
     title: "Hybrid",
@@ -685,6 +722,11 @@ const SCORES = {
     { task: "Scan rows", verdict: "Strong", why: "Uniform single-line rows; easy to compare across records.", cls: "good" },
     { task: "Read order #", verdict: "Mixed", why: "Short IDs usually fit; clipped ones need tooltip.", cls: "mixed" },
     { task: "Which Marcos?", verdict: "Weak", why: "Three Marcos rows look identical until tooltip.", cls: "poor" },
+  ],
+  scroll: [
+    { task: "Scan rows", verdict: "Mixed", why: "Uniform row height, but you must scroll sideways to see every column.", cls: "mixed" },
+    { task: "Read order #", verdict: "Strong", why: "Full order ID on one line — no truncation.", cls: "good" },
+    { task: "Which Marcos?", verdict: "Strong", why: "Full assignee names stay visible (scroll if that column is off-screen).", cls: "good" },
   ],
   hybrid: [
     { task: "Scan rows", verdict: "Strong", why: "Nearly uniform heights; only customer/property grow to 2 lines.", cls: "good" },
