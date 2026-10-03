@@ -24,7 +24,7 @@ A personal portfolio and resume site whose job is to get Matthew Martin consider
 
 ## Operating Context
 
-Visitors reach the site directly (personal domain) or via a resume/LinkedIn link, land on the homepage or resume.html, and from there branch into case-study pages (e.g. BeyondClicks, appMerg, artifactSelection, designGovernance, frictionGap, recommendationAlignment, schedulingConflicts, testingMethodology, tripPlaner) or the articles section. A downloadable resume PDF is also offered directly.
+Visitors reach the site directly (personal domain) or via a resume/LinkedIn link, land on the homepage or resume.html, and from there branch into case-study pages (e.g. BeyondClicks, appMerg, artifactSelection, designGovernance, frictionGap, recommendationAlignment, schedulingConflicts, testingMethodology, PROTO/tripPlaner) or the articles section. A downloadable resume PDF is also offered directly.
 
 ## Capabilities and Constraints
 
@@ -32,7 +32,7 @@ Static site (GitHub Pages-style hosting, no backend). No CMS — each page is ha
 
 ## Evidence on Hand
 
-- Case-study pages under the repo root (BeyondClicks.html, ThreeLevelsofAIOutput.html, appMerg.html, artifactSelection.html, designGovernance.html, frictionGap.html, project-contentLoader.html, recommendationAlignment.html, schedulingConflicts.html, testingMethodology.html, tripPlaner.html, plus projects.html and articles.html as index/listing pages).
+- Case-study pages under the repo root (BeyondClicks.html, ThreeLevelsofAIOutput.html, appMerg.html, artifactSelection.html, designGovernance.html, frictionGap.html, project-contentLoader.html, recommendationAlignment.html, schedulingConflicts.html, testingMethodology.html, PROTO/tripPlaner.html (login-protected), plus projects.html and articles.html as index/listing pages).
 - resume.html plus downloadable resume PDFs at the repo root.
 - No testimonials, press, or third-party proof currently on the site — do not fabricate any.
 

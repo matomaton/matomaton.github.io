@@ -83,7 +83,7 @@
         if (!res.ok) throw new Error(res.status);
         const items = await res.json();
         return items
-          .filter(i => i.type === 'file' && /\.html?$/i.test(i.name) && i.name.toLowerCase() !== 'index.html')
+          .filter(i => i.type === 'file' && /\.html?$/i.test(i.name) && !['index.html', 'tripplaner.html'].includes(i.name.toLowerCase()))
           .map(i => i.name);
       } catch {
         return FALLBACK;
