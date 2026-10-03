@@ -206,6 +206,9 @@
       transition: transform 500ms ease;
     }
 
+    /* Portrait art: show the whole image instead of cropping */
+    .hp-card__image--contain img { object-fit: contain; }
+
     .hp-card:hover .hp-card__image img { transform: scale(1.03); }
 
     .hp-card__body {
@@ -531,18 +534,18 @@
             </div>
           </a>
 
-          <a href="appMerg.html" class="hp-card">
-            <div class="hp-card__image">
-              <img src="Cataloger-AdminDraw.png" alt="Application Merge interface drawing" loading="eager">
+          <a href="PROTO/tripPlaner.html" class="hp-card">
+            <div class="hp-card__image hp-card__image--contain">
+              <img src="assets/itinerary-builder/card-hero.webp" alt="Itinerary Builder on mobile: a hand holding a phone showing a day-by-day New York City trip plan" loading="eager">
             </div>
             <div class="hp-card__body">
               <div class="hp-card__meta">
-                <span>UX Design</span>
+                <span>Product Design</span>
                 <span class="hp-card__meta-dot" aria-hidden="true">·</span>
-                <span>2025</span>
+                <span>2026</span>
               </div>
-              <div class="hp-card__title">Application Merge</div>
-              <p class="hp-card__excerpt">Consolidated two distinct SaaS products into a single, unified experience.</p>
+              <div class="hp-card__title">Itinerary Builder</div>
+              <p class="hp-card__excerpt">Led product vision, user experience, and strategic roadmap for the itinerary builder.</p>
               <div class="hp-card__cta">
                 View project <span class="hp-card__cta-arrow" aria-hidden="true">→</span>
               </div>
