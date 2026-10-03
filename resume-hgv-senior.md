@@ -2,7 +2,7 @@
 
 **Senior Product Designer**
 
-Ann Arbor, MI · 313-529-3775 · atomaton@gmail.com · matomaton.github.io · linkedin.com/in/atomaton
+Mason, MI · 313-529-3775 · matthew.martin.atomaton@gmail.com · matomaton.github.io · linkedin.com/in/atomaton
 
 ---
 
@@ -39,7 +39,6 @@ Lead product and UX design for owner, member, and agent experiences across web, 
 
 - Co-own, with Product, the unification of HGV's web, mobile, and agent (ATI) experiences into one coherent customer journey under One Vision, a strategic initiative consolidating fragmented customer platforms (Trust, Deed, Exchange, Resorts, Destinations) through a strangler pattern migration.
 - Lead information architecture and content strategy for One Vision: diagnosed terminology fragmentation across acquired business units, built a cross-vertical terminology matrix, and designed a touchpoint audit mapping every customer-facing surface ahead of unification decisions.
-- Defined a "Trips vs. Plans" object model separating exploratory saving from confirmed travel, backed by competitive analysis of travel platform navigation and saved-item patterns.
 
 **AI-powered products**
 
