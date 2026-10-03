@@ -1,1 +1,4 @@
 .claude/worktrees/
+
+# Readable sources for password-protected pages (never commit)
+_src/
