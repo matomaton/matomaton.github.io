@@ -52,7 +52,7 @@
   /* Type scale */
   --size-h1:    clamp(3rem, 8vw, 6rem);
   --size-h2:    clamp(1.75rem, 4vw, 2.75rem);
-  --size-label: clamp(0.65rem, 1.5vw, 0.75rem);
+  --size-label: clamp(0.6875rem, 1.5vw, 0.75rem); /* min raised 10.4px -> 11px for legibility */
   --size-body:  clamp(1rem, 1.2vw, 1.1rem);
 
   /* Line heights */
@@ -777,33 +777,74 @@ blockquote + .article-section {
   text-underline-offset: 3px;
 }
 
-/* --- Copy-link button --- */
+/* --- Copy-link button ---
+   Material 3 outlined button shape (40px pill, 18px icon, state layers)
+   using the site's color and type tokens. Copied state = filled charcoal. */
 .copy-link-btn {
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
-  gap: 0.5em;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 24px 0 16px;
   font: inherit;
   font-size: var(--size-label);
   font-weight: var(--weight-black);
   text-transform: uppercase;
   letter-spacing: var(--ls-label);
-  color: var(--color-gray);
+  line-height: 1;
+  color: var(--color-charcoal);
   background: transparent;
   border: 1px solid var(--color-gray-light);
-  padding: 0.5em 0.9em;
+  border-radius: 9999px;
   cursor: pointer;
-  transition: border-color var(--t-fast), color var(--t-fast);
 }
 
-.copy-link-btn:hover,
+/* State layer: hover 8%, pressed 10% */
+.copy-link-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.copy-link-btn:hover::before { opacity: 0.08; }
+.copy-link-btn:active::before { opacity: 0.1; }
+
+.copy-link-btn:focus-visible {
+  outline: 2px solid var(--color-charcoal);
+  outline-offset: 2px;
+}
+
+.copy-link-btn:disabled {
+  opacity: 0.38;
+  cursor: default;
+}
+
 .copy-link-btn[data-copied="true"] {
-  color: var(--color-charcoal);
+  color: var(--color-bg);
+  background: var(--color-charcoal);
   border-color: var(--color-charcoal);
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .copy-link-btn {
+    transition: background-color var(--t-fast), border-color var(--t-fast), color var(--t-fast);
+  }
+  .copy-link-btn::before {
+    transition: opacity var(--t-fast);
+  }
+}
+
 .copy-link-btn svg {
-  width: 1.4em;
-  height: 1.4em;
+  width: 18px;
+  height: 18px;
   flex-shrink: 0;
   fill: currentColor;
 }
@@ -895,6 +936,22 @@ blockquote + .article-section {
 .figure--full img {
   border-radius: 0;
   box-shadow: none;
+}
+
+/* --- Line art (black ink on white or transparent) ---
+   No card shadow; in dark mode the ink is inverted to light gray
+   (~--color-charcoal) and any white paper is blended into the page. */
+.img--lineart,
+.article-figure .img--lineart {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  .img--lineart {
+    filter: invert(1) brightness(0.7);
+    mix-blend-mode: lighten;
+  }
 }
 
 /* --- Image Grids --- */

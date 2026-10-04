@@ -26,6 +26,15 @@
         "value": "lato",
         "createdAt": "2026-09-29T11:57:14.330Z",
         "reason": "Site brand font: root index.html and stylesgem.css already use Lato; PROTO index matches the existing site"
+      },
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "BeyondClicks.html"
+        ],
+        "createdAt": "2026-10-04T20:21:02.842Z",
+        "reason": "Claude: only live empty src is the lightbox <img id=lightbox-img>, filled by JS on open; other placeholders are inside HTML comments"
       }
     ]
   }
