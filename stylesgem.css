@@ -336,15 +336,17 @@ pre code {
   position: absolute;
   bottom: -4px;
   left: 0;
-  width: 0;
+  width: 100%;
   height: 1px;
   background-color: var(--color-charcoal);
-  transition: width var(--t-medium);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--t-medium);
 }
 
 .nav-link:hover::after,
 .nav-link--active::after {
-  width: 100%;
+  transform: scaleX(1);
 }
 
 .nav-link:hover {
@@ -733,6 +735,12 @@ blockquote + .article-section {
   flex-wrap: wrap;
 }
 
+/* Tags hidden until they link somewhere — delete this rule to restore */
+.article-footer .article-tags,
+.article-footer .tags-list {
+  display: none;
+}
+
 .tags-list {
   display: flex;
   flex-wrap: wrap;
@@ -767,6 +775,46 @@ blockquote + .article-section {
   letter-spacing: var(--ls-label);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/* --- Copy-link button --- */
+.copy-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font: inherit;
+  font-size: var(--size-label);
+  font-weight: var(--weight-black);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  color: var(--color-gray);
+  background: transparent;
+  border: 1px solid var(--color-gray-light);
+  padding: 0.5em 0.9em;
+  cursor: pointer;
+  transition: border-color var(--t-fast), color var(--t-fast);
+}
+
+.copy-link-btn:hover,
+.copy-link-btn[data-copied="true"] {
+  color: var(--color-charcoal);
+  border-color: var(--color-charcoal);
+}
+
+.copy-link-btn svg {
+  width: 1.4em;
+  height: 1.4em;
+  flex-shrink: 0;
+  fill: currentColor;
+}
+
+.copy-link-btn .icon-check,
+.copy-link-btn[data-copied="true"] .icon-link {
+  display: none;
+}
+
+.copy-link-btn[data-copied="true"] .icon-check {
+  display: block;
 }
 
 /* --- Related articles --- */

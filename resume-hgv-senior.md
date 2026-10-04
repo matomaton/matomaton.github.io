@@ -4,13 +4,9 @@
 
 Mason, MI · 313-529-3775 · matthew.martin.atomaton@gmail.com · matomaton.github.io · linkedin.com/in/atomaton
 
----
-
 ## Summary
 
-Product designer with 20 years of experience taking complex products from discovery through launch and post-launch optimization. Currently leading end-to-end experience work at Hilton Grand Vacations across ownership, booking, trip planning, and agent servicing, including AI-powered products: a production chatbot, a recommendation system, an itinerary builder, and an analyst-facing AI inventory tool. Grounds design decisions in research and analytics, and communicates the "why" behind them to product, engineering, and executive partners. Experienced in information architecture, design systems, accessibility, workshop facilitation, and mentoring designers.
-
----
+Product designer with 20 years of experience taking complex products from discovery through launch and post-launch optimization. Currently leads end-to-end experience work at Hilton Grand Vacations across ownership, booking, trip planning, and agent servicing. Recent work includes AI-powered products: a production chatbot, a recommendation system, an itinerary builder, and an analyst-facing AI inventory tool. Grounds design decisions in research and analytics, and communicates the "why" behind them to product, engineering, and executive partners. Experienced in information architecture, design systems, accessibility, workshop facilitation, and mentoring designers.
 
 ## Core Competencies
 
@@ -26,7 +22,6 @@ Product designer with 20 years of experience taking complex products from discov
 
 Figma · Storybook · Angular component libraries · HTML / CSS · Amplitude · Google Analytics · Claude · Cursor · NotebookLM · Google Stitch · Miro · Mural · Axure · Jira · Azure DevOps · Git
 
----
 
 ## Professional Experience
 
@@ -42,7 +37,7 @@ Lead product and UX design for owner, member, and agent experiences across web, 
 
 **AI-powered products**
 
-- Took the HGV Explorer chatbot from beta to production, owning entry points, UI states, and branding. Drove a **20% increase in chatbot traffic** and a **15% reduction in live agent handoffs** through UX improvements and tighter AI/live agent integration.
+- Took the HGV Explorer chatbot from beta to production, owning entry points, UI states, and branding; contributed to **doubling conversation starts, lifting satisfaction from 70% to 91%, and halving live agent escalations.**
 - Led design of an AI travel itinerary builder from concept testing through MVP, including conversation design, mobile layout, map integration, and a cognitive walkthrough protocol to evaluate the blank-state entry point.
 - Clarified the value proposition, naming, and UI patterns of the HGV Explorer recommendation system so members understand personalized resort and activity recommendations.
 - Designed an AI-assisted inventory management application for analysts, including data visualizations that surface fragmentation patterns, transparency features that make model reasoning interpretable, and a training interface that lets subject matter experts refine the AI's recommendations.
@@ -55,7 +50,7 @@ Lead product and UX design for owner, member, and agent experiences across web, 
 
 **Agent tools & operational efficiency**
 
-- Led a customer intelligence and package sales initiative consolidating **5 legacy systems** into one experience, reducing the tools agents and owners use by **50%** and cutting task volume by **75%**.
+- Led a customer intelligence and package sales initiative consolidating **5 legacy systems** into one experience, projected to enable **4–5x more transactions**, **75% less time per task**, and an **80% lower error rate**.
 - Designed agent-facing tools for sales and fulfillment, including role-based views, a financial eligibility score visualizer, keyboard-first interactions, and edge-case handling for information-dense workflows.
 
 **Design system & quality**
@@ -68,7 +63,6 @@ Lead product and UX design for owner, member, and agent experiences across web, 
 - Partner with product managers, engineers, and fulfillment stakeholders through planning, backlog refinement, and delivery; facilitated journey mapping and service design workshops covering owner journeys, cancellation, and fulfillment.
 - Partnered with the design leader on team scaling: reviewed and shaped the job description for a new design leadership role and drafted a team operating model (1:1s, OKRs, rubric-based growth, and peer feedback from Product and Engineering partners).
 
----
 
 ### Lead Product Designer · Ubicquia
 **Feb 2024 – Dec 2024 · Fort Lauderdale, FL**
@@ -81,7 +75,7 @@ Cloud platform providing data and analytics to identify energy waste, equipment 
 - Reorganized content and navigation, **reducing navigation depth by 50%**.
 - Built a configurable dashboard and migrated the style guide from Adobe XD into a centralized Figma design system.
 
----
+
 
 ### Product Designer · ITHAKA (JSTOR)
 **Dec 2012 – Oct 2023 · Ann Arbor, MI**
@@ -98,7 +92,7 @@ Infrastructure services for libraries and cultural institutions, working in agil
 - Redesigned intranet taxonomy and IA through card sorting and interviews, **improving new hire ramp-up by 30%**.
 - Mentored designers and partners through one-on-one coaching and group critiques; participated in biweekly design critiques and weekly design system reviews.
 
----
+
 
 ### User Experience Director · Rosetta
 **Sep 2008 – Dec 2012 · Cleveland, OH**
@@ -109,7 +103,7 @@ UX strategy for B2B, financial services, and e-commerce clients (Lincoln Electri
 - Led creation of the Medco Pharmacy mobile app (1M+ downloads); iterative testing **cut checkout steps by 40%** and **raised mobile conversion by 15%**.
 - Hired and mentored UX designers.
 
----
+
 
 ## Education
 
