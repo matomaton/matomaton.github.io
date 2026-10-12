@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- ============================================================
+       PAGE META (v4: design-focused, layoff material removed)
+       Update title + description if the headline changes.
+       ============================================================ -->
+  <title>Software Is Getting Cheaper to Copy | Matthew Martin</title>
+  <meta name="description" content="AI can now attempt to clone major software. Copying screens is getting cheap. Discovering needs and earning trust are not. Here are the questions designers should be asking.">
+  <meta name="author" content="Matthew Martin">
+
+  <!-- Open Graph: controls the preview card on LinkedIn, Slack, Teams -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Software Is Getting Cheaper to Copy. Design Is Not.">
+  <meta property="og:description" content="The questions designers should ask when AI makes interfaces easy to replicate.">
+
+  <!-- Site stylesheet (shared across all pages) -->
+  <link rel="stylesheet" href="stylesgem.css">
+
+  <!-- ============================================================
+       PAGE-SPECIFIC STYLES
+       Scoped to .article-body. Move into stylesgem.css if reused.
+       ============================================================ -->
+  <style>
+    /* Global list reset strips markers; restore them inside the article */
+    .article-body ul { list-style: disc; padding-left: 1.5rem; }
+    .article-body ol { list-style: decimal; padding-left: 1.5rem; }
+    .article-body li { margin-bottom: 0.4rem; }
+
+    /* Summary box: the three-point version of the argument */
+    .article-body .summary {
+      margin: 2rem 0;
+      padding: 1.25rem 1.5rem;
+      border-left: 3px solid darkred;
+      background: rgba(0, 0, 0, 0.03);
+    }
+    .article-body .summary h2 { margin-top: 0; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* Tables: scroll sideways on phones instead of breaking layout */
+    .article-body .table-scroll { overflow-x: auto; margin: 2rem 0; }
+    .article-body table { width: 100%; min-width: 30rem; border-collapse: collapse; font-size: 0.95rem; }
+    .article-body caption { text-align: left; font-weight: 600; padding-bottom: 0.5rem; }
+    .article-body th,
+    .article-body td { text-align: left; vertical-align: top; padding: 0.6rem 0.75rem; border-bottom: 1px solid #ddd; }
+    .article-body thead th { border-bottom: 2px solid currentColor; }
+
+    /* Pull quote */
+    .article-body blockquote {
+      margin: 2rem 0;
+      padding-left: 1.25rem;
+      border-left: 3px solid darkred;
+      font-family: Georgia, serif;
+      font-size: 1.2rem;
+    }
+
+    /* Question groups: a little air between each set */
+    .article-body .question-group { margin-top: 2rem; }
+    .article-body .question-group p { font-style: italic; }
+
+    /* Source markers */
+    .article-body .ref { font-size: 0.8em; white-space: nowrap; }
+    .article-body .sources { font-size: 0.875rem; }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       SHARED CHROME
+       Paste your standard progress bar + site nav here.
+       ============================================================ -->
+  <!-- [progress bar] -->
+  <!-- [site nav] -->
+
+
+  <main id="main">
+    <article class="article-body content-narrow">
+
+      <!-- ==========================================================
+           ARTICLE HEADER
+           ========================================================== -->
+      <header>
+        <p class="article-kicker">Design strategy</p>
+        <h1>Software Is Getting Cheaper to Copy. Design Is Not.</h1>
+        <p class="article-deck">AI can now attempt to clone major software. Here is what that means for designers, and the questions we should be asking.</p>
+        <p class="article-meta">
+          By Matthew Martin ·
+          <time datetime="2026-10-12">October 12, 2026</time> ·
+          About 6 minutes
+        </p>
+      </header>
+
+
+      <!-- ==========================================================
+           SUMMARY
+           Three bullets. Keep it to three.
+           ========================================================== -->
+      <section class="summary" aria-labelledby="summary-heading">
+        <h2 id="summary-heading">In short</h2>
+        <ul>
+          <li><strong>What happened:</strong> A developer used AI to build open-source clones of seven Adobe applications. They are early and incomplete, but the attempt itself is the news.</li>
+          <li><strong>Why it matters:</strong> When anyone can rebuild familiar software, the interface stops being an advantage on its own.</li>
+          <li><strong>What it means for designers:</strong> Copying screens is getting cheap. Discovering needs, validating workflows, and earning trust are not. That is where design creates value now.</li>
+        </ul>
+      </section>
+
+
+      <!-- ==========================================================
+           SECTION: WHY THIS MATTERS FOR DESIGNERS
+           ========================================================== -->
+      <section aria-labelledby="why-it-matters">
+        <h2 id="why-it-matters">Why this matters for designers</h2>
+
+        <p>AI-built replicas deliberately reproduce familiar interfaces and workflows. Competitors are targeting not only functionality, but also the familiarity that makes switching easier. <span class="ref">[<a href="#source-2">2</a>]</span></p>
+
+        <p>That puts pressure on three things that are often bundled together:</p>
+
+        <!-- To edit: one <tr> per advantage, three cells each -->
+        <div class="table-scroll">
+          <table>
+            <caption>What AI can and cannot copy</caption>
+            <thead>
+              <tr>
+                <th scope="col">Advantage</th>
+                <th scope="col">What it is</th>
+                <th scope="col">Can AI copy it?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Implementation</th>
+                <td>The code that makes a capability work</td>
+                <td>Increasingly, yes</td>
+              </tr>
+              <tr>
+                <th scope="row">Product knowledge</th>
+                <td>Understanding which capabilities and interactions users need</td>
+                <td>Only what is already visible</td>
+              </tr>
+              <tr>
+                <th scope="row">Operational trust</th>
+                <td>Confidence that the tool works reliably in consequential workflows</td>
+                <td>Not by copying</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>An AI-built replica can borrow a visible specification from an existing product. That is different from discovering an unmet need, validating a new workflow, or maintaining a dependable product over time. <span class="ref">[<a href="#source-4">4</a>, <a href="#source-5">5</a>]</span></p>
+
+        <p>The strategic question shifts. It becomes less "Can someone copy these screens?" and more "What makes this workflow genuinely dependable and valuable beyond its visible interface?"</p>
+
+        <blockquote>
+          <p>When the screens are easy to copy, the value moves to what the screens cannot show.</p>
+        </blockquote>
+      </section>
+
+
+      <!-- ==========================================================
+           SECTION: PERSONAL BRIDGE
+           Self-contained. To try it as the opening instead, move this
+           whole <section> up to sit right after the summary box.
+           ========================================================== -->
+      <section aria-labelledby="seen-this-before">
+        <h2 id="seen-this-before">I have seen this before</h2>
+
+        <p>I started as a photographer, not a designer.</p>
+
+        <p>In the 1980s a high school mentor taught me the darkroom, and that led to a scholarship at the Center for Creative Studies. My craft was chemical. Film, enlargers, trays of developer, and long hours in the dark.</p>
+
+        <p>Later I became a biomedical photographer at the University of Maryland Baltimore research hospital. I photographed everything from microscopic specimens to centuries-old mummies. The lab was half darkroom and half digital workstation. I could see which half was growing.</p>
+
+        <p>Photoshop was at the center of that shift. I have used it since version 3. The chemical processes I trained for were turning into digital processes.</p>
+
+        <p>So I made a choice. I did not try to compete with the software. I went back to school to study how people use it. That led me to Human-Computer Interaction, and to my first wireframe in 1997.</p>
+
+        <!-- Same image as the Backstory page. figure--zoomable opens
+             it in the shared lightbox if the lightbox script is present. -->
+        <figure class="article-figure figure--zoomable">
+          <img src="https://matomaton.github.io/assets/FirstWireframe.webp" alt="Hand-drawn wireframe from 1997" loading="lazy">
+          <figcaption>My first wireframe, 1997</figcaption>
+        </figure>
+
+        <p>Now the software that changed my first career is being commoditized itself. A single developer with AI can attempt a free version of the suite that once replaced the darkroom.</p>
+
+        <p>What I learned the first time still holds. The technology absorbed the process. It did not absorb the judgment. Knowing what makes an image matter, and what a researcher needs to see, stayed with the people. The photographers who did well moved toward that judgment.</p>
+
+        <p>That is the move designers need to make now. The questions below are where to start.</p>
+
+        <p><a href="backstory.html">Read the full backstory</a></p>
+      </section>
+
+
+      <!-- ==========================================================
+           SECTION: QUESTIONS TO ASK
+           Grouped by the three advantages above, plus partners.
+           To add a question: add an <li> to the right group.
+           To add a group: copy a whole <div class="question-group">.
+           ========================================================== -->
+      <section aria-labelledby="questions">
+        <h2 id="questions">Questions designers should be asking</h2>
+
+        <p>If the screens are the easy part to copy, our work has to go deeper than the screens. These questions help move a conversation from "what should this look like" to "what makes this worth building."</p>
+
+        <div class="question-group">
+          <h3>About product knowledge</h3>
+          <p>Do we understand the need, or are we copying a solution?</p>
+          <ul>
+            <li>What did we learn about this workflow that is not visible in any competitor's interface?</li>
+            <li>Which assumptions have we validated with real users, and which did we inherit?</li>
+            <li>If someone cloned our product tomorrow, what would they still not know?</li>
+          </ul>
+        </div>
+
+        <div class="question-group">
+          <h3>About operational trust</h3>
+          <p>Does this work when it matters, not just in a demo?</p>
+          <ul>
+            <li>Where do mistakes in this workflow carry real consequences: money, legal standing, safety, reputation?</li>
+            <li>How do we know it works reliably over time, not just on the first try?</li>
+            <li>When it fails, does the person using it know, and can they recover?</li>
+          </ul>
+        </div>
+
+        <div class="question-group">
+          <h3>About implementation</h3>
+          <p>Are we spending our time where copying is cheap?</p>
+          <ul>
+            <li>Is this request asking for screens, or for a solved problem?</li>
+            <li>If a team could build only the part they need, what would they still need design for?</li>
+            <li>Which parts of our process could AI do, and what does that free us to do instead?</li>
+          </ul>
+        </div>
+
+        <div class="question-group">
+          <h3>To bring to product partners</h3>
+          <p>Is design invited in before the answer is decided?</p>
+          <ul>
+            <li>What problem are we solving, and how will we know it is solved?</li>
+            <li>Is discovery funded, or only delivery?</li>
+            <li>Who owns understanding the user over time, after launch?</li>
+          </ul>
+        </div>
+      </section>
+
+
+      <!-- ==========================================================
+           SECTION: WHAT HAPPENED (background)
+           ========================================================== -->
+      <section aria-labelledby="what-happened">
+        <h2 id="what-happened">What happened</h2>
+
+        <p>The project is ArtCraft. Its developer, Brandon Thomas, says he used AI to create open-source replacements for seven Adobe applications. Reporting describes them as "clean-room" reimplementations: attempts to reproduce functionality without copying Adobe's proprietary code or assets. <span class="ref">[<a href="#source-2">2</a>, <a href="#source-3">3</a>]</span></p>
+
+        <p><strong>A qualification.</strong> "Someone replicated the entire Creative Suite" is stronger than the evidence supports.</p>
+        <ul>
+          <li>The applications are early alpha builds.</li>
+          <li>Testers describe them as familiar and functional in places, but buggy and incomplete.</li>
+          <li>Full feature parity is the developer's goal, not a demonstrated result. <span class="ref">[<a href="#source-3">3</a>, <a href="#source-4">4</a>, <a href="#source-5">5</a>]</span></li>
+        </ul>
+
+        <p>The real development is that a small project can now attempt a much broader competing suite than previously seemed practical.</p>
+      </section>
+
+
+      <!-- ==========================================================
+           SECTION: WHY COPYING IS GETTING CHEAPER
+           Commoditization + the three pressures. Two-column table.
+           ========================================================== -->
+      <section aria-labelledby="why-cheaper">
+        <h2 id="why-cheaper">Why copying is getting cheaper</h2>
+
+        <p>The underlying concept is <strong>commoditization</strong>: capabilities that once required scarce expertise and investment become widely available and harder to charge a premium for. <span class="ref">[<a href="#source-1">1</a>]</span></p>
+
+        <p>AI-assisted building creates three pressures at once:</p>
+
+        <div class="table-scroll">
+          <table>
+            <caption>How cheaper building changes the market</caption>
+            <thead>
+              <tr>
+                <th scope="col">Pressure</th>
+                <th scope="col">What it means</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1. Smaller teams can build more</th>
+                <td>The same product takes fewer hours, or the same team ships more. <span class="ref">[<a href="#source-1">1</a>]</span></td>
+              </tr>
+              <tr>
+                <th scope="row">2. More competitors can enter</th>
+                <td>Credible alternatives come from people who previously lacked the resources to try. ArtCraft is an example. <span class="ref">[<a href="#source-1">1</a>]</span></td>
+              </tr>
+              <tr>
+                <th scope="row">3. Customers build only what they need</th>
+                <td>A team generates the reporting, approval, or data workflow it needs instead of buying a large application. This one is still a possibility, not yet a demonstrated trend.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>The third pressure is the one to watch in enterprise settings. The alternative to a paid product may be "we made only the part we need."</p>
+      </section>
+
+
+      <!-- ==========================================================
+           SECTION: CLOSING
+           ========================================================== -->
+      <section aria-labelledby="closing">
+        <h2 id="closing">The part that cannot be copied</h2>
+
+        <p>The ArtCraft clones are rough today. They will get better. The screens will keep getting easier to reproduce.</p>
+
+        <p>So the question for designers is not whether our interfaces can be copied. They can. The question is whether we are doing the part of the work that cannot be.</p>
+      </section>
+
+
+      <!-- ==========================================================
+           SOURCES
+           To add one: copy an <li>, give it the next id (source-6),
+           and reference it with <a href="#source-6">6</a>.
+           ========================================================== -->
+      <footer class="sources" aria-labelledby="sources-heading">
+        <h2 id="sources-heading">Sources</h2>
+        <ol>
+          <li id="source-1"><a href="https://laweconcenter.org/wp-content/uploads/2026/02/AI-Productivity-and-Labor.pdf">International Center for Law &amp; Economics: AI, Productivity, and Labor (PDF)</a></li>
+          <li id="source-2"><a href="https://arstechnica.com/ai/2026/10/software-is-over-bold-ai-developer-takes-aim-at-adobe-with-open-source-clones/">Ars Technica: AI developer takes aim at Adobe with open-source clones</a></li>
+          <li id="source-3"><a href="https://www.tweaktown.com/news/113989/developer-says-software-is-over-after-using-ai-to-recreate-adobes-entire-creative-cloud-suite-for-free/index.html">TweakTown: Developer uses AI to recreate Adobe's Creative Cloud suite for free</a></li>
+          <li id="source-4"><a href="https://ground.news/article/artcraft-crafting-apps-is-a-collection-of-free-adobe-alternative-apps-aiming-to-be-an-open-source-alternative-to-photoshop-illustrator-premi">Ground News: ArtCraft, a collection of free Adobe alternative apps</a></li>
+          <li id="source-5"><a href="https://www.vice.com/en/article/everything-we-know-about-the-free-adobe-clones-built-with-ai-do-they-actually-work/">Vice: Everything we know about the free Adobe clones built with AI</a></li>
+        </ol>
+
+        <h3>Further reading</h3>
+        <ul>
+          <li><a href="https://petapixel.com/2026/10/07/someone-rebuilt-free-open-source-versions-of-photoshop-premiere-and-lightroom-using-ai/">PetaPixel: Free open-source versions of Photoshop, Premiere, and Lightroom built with AI</a></li>
+          <li><a href="https://maccelerator.la/en/blog/startup-strategy/why-software-is-commoditizing-in-the-age-of-ai/">M Accelerator: Why software is commoditizing in the age of AI</a></li>
+          <li><a href="https://www.omnius.so/blog/ai-commodization-of-development">Omnius: AI commoditization of development</a></li>
+        </ul>
+      </footer>
+
+    </article>
+  </main>
+
+
+  <!-- ============================================================
+       SHARED CHROME
+       Paste your standard site footer + shared scripts here.
+       ============================================================ -->
+  <!-- [site footer] -->
+  <!-- [shared scripts] -->
+
+</body>
+</html>
