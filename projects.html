@@ -56,7 +56,8 @@
 
     /* First card spans full width — hero moment */
     .card-grid .project-card:first-child,
-    .card-grid .project-card:last-child {
+    .card-grid .project-card:last-child,
+    .card-grid .project-card--wide {
       grid-column: 1 / -1;
     }
 
@@ -84,7 +85,8 @@
 
     /* Hero and last cards get a taller image */
     .project-card:first-child .project-card__image,
-    .project-card:last-child .project-card__image {
+    .project-card:last-child .project-card__image,
+    .project-card--wide .project-card__image {
       aspect-ratio: 21 / 9;
     }
 
@@ -274,6 +276,25 @@
               <p class="project-card__excerpt">Led product vision, user experience, and strategic roadmap for the itinerary builder</p>
               <span class="project-card__cta">
                 View project <span class="project-card__cta-arrow" aria-hidden="true">→</span>
+              </span>
+            </div>
+          </div>
+          <!-- UX REVIEW SKILLS -->
+          <div class="project-card project-card--wide">
+            <a href="https://github.com/matomaton/ux-review-skills" class="card-link" aria-label="View on GitHub: UX Review Skills for Claude"></a>
+            <div class="project-card__image project-card__image--contain">
+              <img src="assets/ux-review-skills/card.svg" alt="A findings table scoring a screen through three lenses, Nielsen, Laws of UX, and Tog, each with a severity from 0 to 4" loading="lazy">
+            </div>
+            <div class="project-card__body">
+              <div class="project-card__meta">
+                <span class="label">Open Source</span>
+                <span class="divider" aria-hidden="true">·</span>
+                <time class="label" datetime="2026">2026</time>
+              </div>
+              <h2 class="project-card__title">UX Review Skills for Claude</h2>
+              <p class="project-card__excerpt">Three Claude skills that review interfaces against Nielsen's heuristics, the Laws of UX, and Tog's First Principles, with a shared severity scale and extra scrutiny for screens where people act on AI output</p>
+              <span class="project-card__cta">
+                View on GitHub <span class="project-card__cta-arrow" aria-hidden="true">→</span>
               </span>
             </div>
           </div>
