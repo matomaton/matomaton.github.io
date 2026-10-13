@@ -341,37 +341,39 @@
           <p>For screen design, density means how much visual weight sits in a given space. In a chat reply it means something almost identical: how much information does a reader have to wade through before they are confident to act.</p>
           <p>The fall-getaway reply is exactly this failure: six properties, named across three headings, none attached to a single clear next step.</p>
 
-          <table class="article-table">
-            <caption class="sr-only">Word count and structure, current reply versus proposed reply</caption>
-            <thead>
-              <tr>
-                <th scope="col">Before — roughly 400 words</th>
-                <th scope="col">After — under 100 words</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Full blurb for every option, in prose</td>
-                <td>One headline: count, dates, party size</td>
-              </tr>
-              <tr>
-                <td>A second list of "top picks," repeating names already shown</td>
-                <td>Top three only, one line of reasoning each, one action per item</td>
-              </tr>
-              <tr>
-                <td>A third list under a new heading, repeating them again</td>
-                <td>Remaining options named once, in a single line</td>
-              </tr>
-              <tr>
-                <td>An offer to check availability the reply already contained</td>
-                <td>One optional follow-up, only if not already answered</td>
-              </tr>
-              <tr>
-                <td>No consistent action attached to any single item</td>
-                <td>—</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-scroll">
+            <table class="article-table">
+              <caption class="sr-only">Word count and structure, current reply versus proposed reply</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Before — roughly 400 words</th>
+                  <th scope="col">After — under 100 words</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Full blurb for every option, in prose</td>
+                  <td>One headline: count, dates, party size</td>
+                </tr>
+                <tr>
+                  <td>A second list of "top picks," repeating names already shown</td>
+                  <td>Top three only, one line of reasoning each, one action per item</td>
+                </tr>
+                <tr>
+                  <td>A third list under a new heading, repeating them again</td>
+                  <td>Remaining options named once, in a single line</td>
+                </tr>
+                <tr>
+                  <td>An offer to check availability the reply already contained</td>
+                  <td>One optional follow-up, only if not already answered</td>
+                </tr>
+                <tr>
+                  <td>No consistent action attached to any single item</td>
+                  <td>—</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
           <p>Same underlying information. A quarter of the length. Three established laws explain why that mattered more than it might seem. <a href="https://lawsofux.com/hicks-law/" target="_blank" rel="noopener">Hick's Law</a> says more options take longer to decide between. <a href="https://lawsofux.com/choice-overload/" target="_blank" rel="noopener">Choice overload</a>, closely related, says a large set of options does not just slow the decision, it makes people feel worse about the choice they eventually make. Six properties restated three times is not six choices, it behaves like eighteen, and it costs both time and confidence. <a href="https://lawsofux.com/millers-law/" target="_blank" rel="noopener">Miller's Law</a> says people hold information more easily in small chunks than as one continuous stream. The fix applied all three: fewer things to choose from, grouped under a headline, a shortlist, and a single closing line.</p>
           <p>Similar to a visual designer cutting a dashboard from twelve visible metrics to four. The screen did not get smaller. The content that mattered got easier to find.</p>
@@ -382,33 +384,35 @@
           <p>Interaction design is about more than what a screen contains. It is about order: what happens first, and what a person has to do at each step before moving to the next. A chat reply has the same problem, one turn at a time instead of one screen at a time.</p>
           <p>The walkthrough found two separate interaction failures, both about sequence rather than content.</p>
 
-          <table class="article-table">
-            <caption class="sr-only">Turn sequencing, current reply versus proposed reply</caption>
-            <thead>
-              <tr>
-                <th scope="col">Before</th>
-                <th scope="col">After</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Party size asked again after the traveler already gave it</td>
-                <td>When, Where, Who persist for the whole conversation once known</td>
-              </tr>
-              <tr>
-                <td>Itinerary link buried mid-paragraph after several dense exchanges</td>
-                <td>Draft link surfaced early, as the primary thing in the reply</td>
-              </tr>
-              <tr>
-                <td>Bot offers to check availability it already checked</td>
-                <td>No offer to repeat a step already completed in this same reply</td>
-              </tr>
-              <tr>
-                <td>Only ever offers to add more to the plan</td>
-                <td>Reply ends with a clear Affirm, Change, or Remove</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-scroll">
+            <table class="article-table">
+              <caption class="sr-only">Turn sequencing, current reply versus proposed reply</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Before</th>
+                  <th scope="col">After</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Party size asked again after the traveler already gave it</td>
+                  <td>When, Where, Who persist for the whole conversation once known</td>
+                </tr>
+                <tr>
+                  <td>Itinerary link buried mid-paragraph after several dense exchanges</td>
+                  <td>Draft link surfaced early, as the primary thing in the reply</td>
+                </tr>
+                <tr>
+                  <td>Bot offers to check availability it already checked</td>
+                  <td>No offer to repeat a step already completed in this same reply</td>
+                </tr>
+                <tr>
+                  <td>Only ever offers to add more to the plan</td>
+                  <td>Reply ends with a clear Affirm, Change, or Remove</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
           <p>This is <a href="https://lawsofux.com/progressive-disclosure/" target="_blank" rel="noopener">progressive disclosure</a>, applied to a conversation instead of a screen. The principle is usually described as showing only what a person needs at the current step, and revealing more only once they ask for it. A reply that re-asks a known answer, or dumps the next three steps into one turn "just in case," is overload. One job per turn is the same restraint, paced across exchanges instead of across a form.</p>
           <p>The link to the actual plan the AI built is the clearest case of <a href="https://lawsofux.com/fittss-law/" target="_blank" rel="noopener">Fitts's Law</a> at work: how long it takes someone to reach a target depends on how far away it is and how big it is. A link sitting mid-paragraph, after several exchanges, is a small target buried at the end of a long reach. Moving it to the top of the reply and treating it as the primary artifact, not a line inside a sentence, is the same fix in different material.</p>

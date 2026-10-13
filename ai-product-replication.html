@@ -17,7 +17,10 @@
   <meta property="og:title" content="Software Is Getting Cheaper to Copy. Design Is Not.">
   <meta property="og:description" content="The questions designers should ask when AI makes interfaces easy to replicate.">
 
-  <!-- Site stylesheet (shared across all pages) -->
+  <!-- Fonts + site stylesheet (shared across all pages) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="stylesgem.css">
 
   <!-- ============================================================
@@ -25,36 +28,50 @@
        Scoped to .article-body. Move into stylesgem.css if reused.
        ============================================================ -->
   <style>
+    /* Header: same spacing as the template's .article-header__inner */
+    .article-body > header { display: flex; flex-direction: column; gap: var(--space-sm); }
+
     /* Global list reset strips markers; restore them inside the article */
     .article-body ul { list-style: disc; padding-left: 1.5rem; }
     .article-body ol { list-style: decimal; padding-left: 1.5rem; }
     .article-body li { margin-bottom: 0.4rem; }
 
+    /* Lists next to paragraphs: the global reset strips these gaps */
+    .article-body p + ul,
+    .article-body p + ol,
+    .article-body ul + p,
+    .article-body ol + p { margin-top: var(--space-sm); }
+
     /* Summary box: the three-point version of the argument */
     .article-body .summary {
-      margin: 2rem 0;
+      margin: var(--space-md) 0;
       padding: 1.25rem 1.5rem;
       border-left: 3px solid darkred;
-      background: rgba(0, 0, 0, 0.03);
+      background: rgba(45, 45, 45, 0.03);
     }
-    .article-body .summary h2 { margin-top: 0; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .article-body .summary h2 { margin: 0 0 var(--space-xs); font-size: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
 
-    /* Tables: scroll sideways on phones instead of breaking layout */
-    .article-body .table-scroll { overflow-x: auto; margin: 2rem 0; }
-    .article-body table { width: 100%; min-width: 30rem; border-collapse: collapse; font-size: 0.95rem; }
-    .article-body caption { text-align: left; font-weight: 600; padding-bottom: 0.5rem; }
-    .article-body th,
-    .article-body td { text-align: left; vertical-align: top; padding: 0.6rem 0.75rem; border-bottom: 1px solid #ddd; }
-    .article-body thead th { border-bottom: 2px solid currentColor; }
-
-    /* Pull quote */
-    .article-body blockquote {
-      margin: 2rem 0;
-      padding-left: 1.25rem;
-      border-left: 3px solid darkred;
-      font-family: Georgia, serif;
-      font-size: 1.2rem;
+    /* Tables use the shared .table-scroll + .article-table (stylesgem.css).
+       These tables also have a caption and row headers. */
+    .article-body .article-table caption { text-align: left; font-weight: 700; padding-bottom: var(--space-xs); }
+    .article-body .article-table tbody th {
+      font-size: inherit;
+      font-weight: 700;
+      text-transform: none;
+      letter-spacing: normal;
+      vertical-align: top;
+      background: none;
+      border-bottom: 1px solid var(--color-border);
     }
+
+    /* Pull quote: shared blockquote styles supply the rules and padding */
+    .article-body blockquote { padding-block: var(--space-md); }
+
+    /* A section that ends on a pull quote: let the quote's bottom rule be
+       the divider instead of stacking it on the next section's border */
+    .article-section:has(> blockquote:last-child) { padding-bottom: 0; }
+    .article-section > blockquote:last-child { margin-bottom: 0; }
+    .article-section:has(> blockquote:last-child) + .article-section { border-top: none; }
 
     /* Question groups: a little air between each set */
     .article-body .question-group { margin-top: 2rem; }
@@ -62,7 +79,13 @@
 
     /* Source markers */
     .article-body .ref { font-size: 0.8em; white-space: nowrap; }
-    .article-body .sources { font-size: 0.875rem; }
+    .article-body .sources {
+      font-size: 0.875rem;
+      padding-block: var(--space-lg);
+      border-top: 1px solid var(--color-border);
+    }
+    .article-body .sources h2 { margin-bottom: var(--space-sm); }
+    .article-body .sources h3 { margin-top: var(--space-md); margin-bottom: var(--space-xs); }
   </style>
 </head>
 <body>
@@ -86,9 +109,11 @@
         <h1>Software Is Getting Cheaper to Copy. Design Is Not.</h1>
         <p class="article-deck">AI can now attempt to clone major software. Here is what that means for designers, and the questions we should be asking.</p>
         <p class="article-meta">
-          By Matthew Martin ·
-          <time datetime="2026-10-12">October 12, 2026</time> ·
-          About 6 minutes
+          <span>By Matthew Martin</span>
+          <span class="article-meta__divider" aria-hidden="true">·</span>
+          <time datetime="2026-10-12">October 12, 2026</time>
+          <span class="article-meta__divider" aria-hidden="true">·</span>
+          <span>About 6 minutes</span>
         </p>
       </header>
 
@@ -110,7 +135,7 @@
       <!-- ==========================================================
            SECTION: WHY THIS MATTERS FOR DESIGNERS
            ========================================================== -->
-      <section aria-labelledby="why-it-matters">
+      <section class="article-section" aria-labelledby="why-it-matters">
         <h2 id="why-it-matters">Why this matters for designers</h2>
 
         <p>AI-built replicas deliberately reproduce familiar interfaces and workflows. Competitors are targeting not only functionality, but also the familiarity that makes switching easier. <span class="ref">[<a href="#source-2">2</a>]</span></p>
@@ -119,7 +144,7 @@
 
         <!-- To edit: one <tr> per advantage, three cells each -->
         <div class="table-scroll">
-          <table>
+          <table class="article-table">
             <caption>What AI can and cannot copy</caption>
             <thead>
               <tr>
@@ -163,7 +188,7 @@
            Self-contained. To try it as the opening instead, move this
            whole <section> up to sit right after the summary box.
            ========================================================== -->
-      <section aria-labelledby="seen-this-before">
+      <section class="article-section" aria-labelledby="seen-this-before">
         <h2 id="seen-this-before">I have seen this before</h2>
 
         <p>I started as a photographer, not a designer.</p>
@@ -199,7 +224,7 @@
            To add a question: add an <li> to the right group.
            To add a group: copy a whole <div class="question-group">.
            ========================================================== -->
-      <section aria-labelledby="questions">
+      <section class="article-section" aria-labelledby="questions">
         <h2 id="questions">Questions designers should be asking</h2>
 
         <p>If the screens are the easy part to copy, our work has to go deeper than the screens. These questions help move a conversation from "what should this look like" to "what makes this worth building."</p>
@@ -249,7 +274,7 @@
       <!-- ==========================================================
            SECTION: WHAT HAPPENED (background)
            ========================================================== -->
-      <section aria-labelledby="what-happened">
+      <section class="article-section" aria-labelledby="what-happened">
         <h2 id="what-happened">What happened</h2>
 
         <p>The project is ArtCraft. Its developer, Brandon Thomas, says he used AI to create open-source replacements for seven Adobe applications. Reporting describes them as "clean-room" reimplementations: attempts to reproduce functionality without copying Adobe's proprietary code or assets. <span class="ref">[<a href="#source-2">2</a>, <a href="#source-3">3</a>]</span></p>
@@ -269,7 +294,7 @@
            SECTION: WHY COPYING IS GETTING CHEAPER
            Commoditization + the three pressures. Two-column table.
            ========================================================== -->
-      <section aria-labelledby="why-cheaper">
+      <section class="article-section" aria-labelledby="why-cheaper">
         <h2 id="why-cheaper">Why copying is getting cheaper</h2>
 
         <p>The underlying concept is <strong>commoditization</strong>: capabilities that once required scarce expertise and investment become widely available and harder to charge a premium for. <span class="ref">[<a href="#source-1">1</a>]</span></p>
@@ -277,7 +302,7 @@
         <p>AI-assisted building creates three pressures at once:</p>
 
         <div class="table-scroll">
-          <table>
+          <table class="article-table">
             <caption>How cheaper building changes the market</caption>
             <thead>
               <tr>
@@ -309,7 +334,7 @@
       <!-- ==========================================================
            SECTION: CLOSING
            ========================================================== -->
-      <section aria-labelledby="closing">
+      <section class="article-section" aria-labelledby="closing">
         <h2 id="closing">The part that cannot be copied</h2>
 
         <p>The ArtCraft clones are rough today. They will get better. The screens will keep getting easier to reproduce.</p>

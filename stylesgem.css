@@ -580,8 +580,7 @@ body.nav-open {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  row-gap: var(--space-xs);
-  gap: var(--space-sm);
+  gap: var(--space-xs) var(--space-sm); /* row, column — the old row-gap was overridden by a later gap */
   color: var(--color-gray);
 }
 
@@ -713,6 +712,24 @@ blockquote + .article-section {
 
 .article-table td {
   vertical-align: top;
+}
+
+/* Scroll wrapper — wrap any .article-table in <div class="table-scroll">
+   so it scrolls sideways on phones instead of squeezing into narrow
+   columns. The wrapper takes over the breakout width and margins. */
+.table-scroll {
+  grid-column: breakout;
+  width: min(900px, 100vw - 3rem);
+  margin-inline: calc(50% - min(450px, 50vw - 1.5rem));
+  margin-block: var(--space-lg);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-scroll > .article-table {
+  width: 100%;
+  min-width: 36rem; /* below this, scroll instead of squeezing */
+  margin: 0;
 }
 
 /* --- Footer (tags + share) --- */

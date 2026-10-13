@@ -221,36 +221,38 @@
           <h2>The fix that caught something real</h2>
           <p>The fix we tried wasn't a process rollout. It was closer to a one-page form: for every recommendation model, write down what data it uses, how it ranks results, who sees it, what makes it different from every other model, and how you'd measure whether it worked. Nothing more elaborate than that.</p>
 
-          <table class="article-table">
-            <thead>
-              <tr>
-                <th scope="col">Field</th>
-                <th scope="col">What it has to answer</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Data</td>
-                <td>What inputs does this model actually use?</td>
-              </tr>
-              <tr>
-                <td>Logic</td>
-                <td>How does it rank or select results?</td>
-              </tr>
-              <tr>
-                <td>Audience</td>
-                <td>Who sees this, and in what context?</td>
-              </tr>
-              <tr>
-                <td>Differentiation</td>
-                <td>What makes it different from every other model in the program?</td>
-              </tr>
-              <tr>
-                <td>Goal / measurement</td>
-                <td>How would you know if it worked?</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-scroll">
+            <table class="article-table">
+              <thead>
+                <tr>
+                  <th scope="col">Field</th>
+                  <th scope="col">What it has to answer</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Data</td>
+                  <td>What inputs does this model actually use?</td>
+                </tr>
+                <tr>
+                  <td>Logic</td>
+                  <td>How does it rank or select results?</td>
+                </tr>
+                <tr>
+                  <td>Audience</td>
+                  <td>Who sees this, and in what context?</td>
+                </tr>
+                <tr>
+                  <td>Differentiation</td>
+                  <td>What makes it different from every other model in the program?</td>
+                </tr>
+                <tr>
+                  <td>Goal / measurement</td>
+                  <td>How would you know if it worked?</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
           <p>Writing it down is what caught the problem. The two overlapping models turned out to have almost identical inputs and no clear answer for how they differed. That overlap had been sitting there for a while. It just wasn't visible until someone had to write a plain sentence explaining why a traveler would see one shelf instead of the other, and couldn't.</p>
           <p>Personalization systems tend to accumulate this kind of debt quietly, especially once the people building a model, the people naming it, and the people measuring it all sit in different parts of the org chart. It's not unique to travel, or to one team.</p>

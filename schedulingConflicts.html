@@ -167,37 +167,39 @@
 
         <section class="article-section">
           <h2>The taxonomy at a glance</h2>
-          <table class="article-table">
-            <thead>
-              <tr>
-                <th scope="col">Conflict type</th>
-                <th scope="col">What happened</th>
-                <th scope="col">Options offered</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Partial overlap</td>
-                <td>Moved activity bleeds into a neighboring one</td>
-                <td>Nudge neighbor · trim moved activity · allow overlap (flagged) · cancel</td>
-              </tr>
-              <tr>
-                <td>Full overlap</td>
-                <td>Moved activity fully swallows a smaller one</td>
-                <td>Replace the smaller activity · keep both, accept overlap · cancel</td>
-              </tr>
-              <tr>
-                <td>Cascade</td>
-                <td>Fixing one collision creates a new one further down the day</td>
-                <td>Auto-cascade the whole chain · step through each collision one at a time</td>
-              </tr>
-              <tr>
-                <td>Fixed booking</td>
-                <td>Collides with something that can't move (paid, ticketed)</td>
-                <td>Adjust the moved activity · accept the overlap · cancel</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-scroll">
+            <table class="article-table">
+              <thead>
+                <tr>
+                  <th scope="col">Conflict type</th>
+                  <th scope="col">What happened</th>
+                  <th scope="col">Options offered</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Partial overlap</td>
+                  <td>Moved activity bleeds into a neighboring one</td>
+                  <td>Nudge neighbor · trim moved activity · allow overlap (flagged) · cancel</td>
+                </tr>
+                <tr>
+                  <td>Full overlap</td>
+                  <td>Moved activity fully swallows a smaller one</td>
+                  <td>Replace the smaller activity · keep both, accept overlap · cancel</td>
+                </tr>
+                <tr>
+                  <td>Cascade</td>
+                  <td>Fixing one collision creates a new one further down the day</td>
+                  <td>Auto-cascade the whole chain · step through each collision one at a time</td>
+                </tr>
+                <tr>
+                  <td>Fixed booking</td>
+                  <td>Collides with something that can't move (paid, ticketed)</td>
+                  <td>Adjust the moved activity · accept the overlap · cancel</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </section>
 
         <section class="article-section">
