@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1260 540" width="1260" height="540" role="img" aria-labelledby="t">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1260 709" width="1260" height="709" role="img" aria-labelledby="t">
   <title id="t">A UX review findings table: Nielsen, Laws of UX, and Tog lenses, each with a finding and a severity score from 0 to 4</title>
   <style>
     :root { --bg:#F2F2EF; --panel:#FCFCF9; --ink:#2D2D2D; --muted:#6D6D6D; --line:rgba(45,45,45,.14); --accent:#B03030; --chip:rgba(45,45,45,.08); --on-accent:#FCFCF9; }
@@ -21,7 +21,9 @@
     .sev { font-size: 22px; font-weight: 900; }
   </style>
 
-  <rect class="bg" width="1260" height="540"/>
+  <rect class="bg" width="1260" height="709"/>
+
+  <g transform="translate(-126 30.5) scale(1.2)">
 
   <!-- window -->
   <rect class="panel" x="150" y="60" width="960" height="420" rx="10"/>
@@ -59,4 +61,5 @@
   <rect class="bar" x="470" y="436" width="200" height="12" rx="6"/>
   <rect class="accent" x="990" y="406" width="44" height="40" rx="6"/>
   <text class="sans sev on-accent" x="1012" y="434" text-anchor="middle">4</text>
+  </g>
 </svg>

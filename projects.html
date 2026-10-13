@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <!-- Google tag (gtag.js) -->
@@ -54,10 +54,8 @@
       gap: var(--space-md);
     }
 
-    /* First card spans full width — hero moment */
-    .card-grid .project-card:first-child,
-    .card-grid .project-card:last-child,
-    .card-grid .project-card--wide {
+    /* First card spans full width — hero moment; the rest are 2 across */
+    .card-grid .project-card:first-child {
       grid-column: 1 / -1;
     }
 
@@ -83,10 +81,8 @@
       background: rgba(45, 45, 45, 0.08);
     }
 
-    /* Hero and last cards get a taller image */
-    .project-card:first-child .project-card__image,
-    .project-card:last-child .project-card__image,
-    .project-card--wide .project-card__image {
+    /* Hero card gets a wider image */
+    .project-card:first-child .project-card__image {
       aspect-ratio: 21 / 9;
     }
 
@@ -280,9 +276,9 @@
             </div>
           </div>
           <!-- UX REVIEW SKILLS -->
-          <div class="project-card project-card--wide">
+          <div class="project-card">
             <a href="https://github.com/matomaton/ux-review-skills" class="card-link" aria-label="View on GitHub: UX Review Skills for Claude"></a>
-            <div class="project-card__image project-card__image--contain">
+            <div class="project-card__image">
               <img src="assets/ux-review-skills/card.svg" alt="A findings table scoring a screen through three lenses, Nielsen, Laws of UX, and Tog, each with a severity from 0 to 4" loading="lazy">
             </div>
             <div class="project-card__body">
