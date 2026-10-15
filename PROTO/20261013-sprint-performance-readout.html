@@ -21,8 +21,12 @@
   h2{font-size:26px;margin:0 0 6px}
   .lead{color:var(--mute);margin:0 0 20px;max-width:720px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
-  /* chart */
-  .row{display:grid;grid-template-columns:150px 1fr 70px;align-items:center;gap:12px;margin:10px 0;cursor:pointer}
+  .scenario{display:flex;gap:8px;flex-wrap:wrap;margin:28px 0 0;padding-top:8px}
+  .scenario .tab{border-color:rgba(255,255,255,.35);background:transparent;color:#fff}
+  .scenario .tab.on{background:#fff;color:var(--ink);border-color:#fff}
+  .scenario .tab:not(.on):hover{background:rgba(255,255,255,.12)}
+  .row{display:grid;grid-template-columns:190px 1fr 70px;align-items:center;gap:12px 12px;margin:12px 0;cursor:pointer}
+  .row.trust-row{grid-template-columns:190px 1fr 70px;grid-template-rows:auto auto}
   .row:hover .lbl{color:var(--accent)}
   .lbl{font-size:14px;font-weight:600}
   .track{position:relative;height:28px;background:#eef1f5;border-radius:6px;overflow:hidden}
@@ -30,13 +34,22 @@
   .seg.wait{background:var(--bad)}
   .seg.build{background:#f0a99f}
   .seg.rest{background:#f7d3ce}
+  .seg.total{background:var(--bad)}
+  .seg.total.no-result{background:#8b1e18}
   .band{position:absolute;top:-2px;bottom:-2px;border-right:3px solid var(--ok);z-index:2}
   .val{font-size:14px;font-variant-numeric:tabular-nums;color:var(--mute);text-align:right}
-  .axis{display:grid;grid-template-columns:150px 1fr 70px;gap:12px;font-size:12px;color:var(--mute)}
+  .flags{grid-column:2 / -1;display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+  .flag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.02em;border-radius:999px;padding:2px 9px;line-height:1.4}
+  .flag.no-result{background:#fbe4e1;color:#8b1e18}
+  .flag.no-status{background:#fff3cd;color:#7a5a00;border:1px dashed #c9a227}
+  .flag.had-status{background:#eef3f7;color:var(--mute)}
+  .axis{display:grid;grid-template-columns:190px 1fr 70px;gap:12px;font-size:12px;color:var(--mute)}
   .legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--mute);margin-top:14px}
   .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+  .legend .pill{display:inline-block;font-size:11px;font-weight:700;border-radius:999px;padding:2px 8px;margin-right:4px;vertical-align:middle}
+  .legend .pill.no-result{background:#fbe4e1;color:#8b1e18}
+  .legend .pill.no-status{background:#fff3cd;color:#7a5a00;border:1px dashed #c9a227}
   .callout{margin-top:16px;padding:12px 16px;border-left:4px solid var(--bad);background:#fdf3f2;border-radius:0 8px 8px 0;font-size:15px}
-  /* replay */
   .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
   button{font:inherit;cursor:pointer}
   .tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;font-size:14px}
@@ -57,13 +70,11 @@
   .go{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:10px 14px;font-weight:600}
   .chk{font-size:14px;display:flex;gap:8px;align-items:flex-start}
   .mark{font-size:13px;color:var(--ok);font-weight:600;min-height:20px}
-  /* quotes */
   .quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
   .q{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;justify-content:space-between}
   .q blockquote{margin:0 0 12px;font-size:17px;line-height:1.4}
   .q .who{font-size:13px;color:var(--mute)}
   .q .tag{display:inline-block;margin-top:10px;font-size:12px;font-weight:600;background:#fdf3f2;color:var(--bad);border-radius:999px;padding:3px 10px;align-self:flex-start}
-  /* split */
   .split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
   .split h3{margin:0 0 8px;font-size:18px}
   .split ul{margin:0;padding-left:18px}
@@ -71,7 +82,7 @@
   .asks li b{color:var(--accent)}
   .foot{font-size:14px;color:var(--mute);padding:32px 0 56px}
   .foot a{color:var(--accent)}
-  @media(max-width:760px){.stats,.quotes,.split,.stage{grid-template-columns:1fr}.row,.axis{grid-template-columns:100px 1fr 56px}header h1{font-size:30px}}
+  @media(max-width:760px){.stats,.quotes,.split,.stage{grid-template-columns:1fr}.row,.axis{grid-template-columns:110px 1fr 56px}header h1{font-size:30px}}
 </style>
 </head>
 <body>
@@ -79,12 +90,12 @@
 <header>
   <div class="wrap">
     <div class="eyebrow">Design sprint input: booking flow</div>
-    <h1>Remove every obstacle, and owners still wait 10 seconds to book.</h1>
-    <p>The sprint will simplify the booking flow. This research shows the flow sits behind load times that owners already describe as broken. Performance is a shared constraint, so we need design and engineering to work on it together.</p>
-    <div class="stats">
-      <div class="stat"><b>~6 s</b><span>Reservation page waits for the server before any HTML arrives</span></div>
-      <div class="stat"><b>~12 s</b><span>Resort page to fully loaded, with 8.6 MB transferred</span></div>
-      <div class="stat"><b>2 to 3 s</b><span>What owners expect before they feel something is wrong</span></div>
+    <h1 id="hTitle">Remove every obstacle, and owners still wait 10 seconds to book.</h1>
+    <p id="hLead">The sprint will simplify the booking flow. This research shows the flow sits behind load times that owners already describe as broken. Performance is a shared constraint, so we need design and engineering to work on it together.</p>
+    <div class="stats" id="stats"></div>
+    <div class="scenario" id="scenario" role="tablist" aria-label="Performance scenario">
+      <button type="button" class="tab on" data-scenario="lab">Lab booking path (Oct 10)</button>
+      <button type="button" class="tab" data-scenario="trust">Trust walkthrough (Oct 15)</button>
     </div>
   </div>
 </header>
@@ -92,24 +103,19 @@
 <div class="wrap">
 
 <section>
-  <h2>The journey against the owner's clock</h2>
-  <p class="lead">Time to fully loaded for each step of the booking path, with the 3 second line shown in green. Click a step to replay it below.</p>
+  <h2 id="journeyTitle">The journey against the owner's clock</h2>
+  <p class="lead" id="journeyLead">Time to fully loaded for each step of the booking path, with the 3 second line shown in green. Click a step to replay it below.</p>
   <div class="card">
     <div id="chart"></div>
-    <div class="axis"><span></span><div style="display:flex;justify-content:space-between"><span>0 s</span><span>3 s</span><span>6 s</span><span>9 s</span><span>12 s+</span></div><span></span></div>
-    <div class="legend">
-      <span><i style="background:var(--bad)"></i>Waiting on the server (blank page)</span>
-      <span><i style="background:#f0a99f"></i>Page building</span>
-      <span><i style="background:#f7d3ce"></i>Still loading in</span>
-      <span><i style="background:var(--ok)"></i>3 s line: where owners start to doubt</span>
-    </div>
-    <div class="callout"><b>Pattern:</b> marketing and sign-in are merely slow. The authenticated steps (search, resort, reservation) are where the wait is longest and where owners are competing for scarce inventory.</div>
+    <div class="axis" id="axis"><span></span><div style="display:flex;justify-content:space-between"><span>0 s</span><span>3 s</span><span>6 s</span><span>9 s</span><span>12 s+</span></div><span></span></div>
+    <div class="legend" id="legend"></div>
+    <div class="callout" id="callout"></div>
   </div>
 </section>
 
 <section>
   <h2>Feel the wait</h2>
-  <p class="lead">A replay of each step at its measured speed. Then switch on the design mitigations and see how much of the same wait feels different.</p>
+  <p class="lead" id="replayLead">A replay of each step at its measured speed. Then switch on the design mitigations and see how much of the same wait feels different.</p>
   <div class="card">
     <div class="tabs" id="tabs"></div>
     <div class="stage">
@@ -152,6 +158,7 @@
         <li>Stable layout so availability does not shift while owners scan (search had the only clearly poor layout shift, CLS 0.31)</li>
         <li>Disabling primary actions until data is ready</li>
         <li>Fewer elements competing for first paint on search and reservation</li>
+        <li>Always show a loading status; never animate completion without a next screen; scroll new results into view (Trust walkthrough, Oct 15)</li>
       </ul>
     </div>
     <div class="card">
@@ -182,87 +189,286 @@
 </section>
 
 <div class="foot">
-  <b>How much to trust the numbers.</b> One lab session on Oct 10, 2026: directional, not lab clean. Stored browser data may have affected load times, and device and throttling settings were not recorded. A cold incognito re-run of search and reservation is the next step. Chart timings are HAR page timings (midpoint where two loads were captured). Full evidence and the engineering dig list are in <a href="FINDINGS-20261010.md">FINDINGS-20261010.md</a>. Owner quotes come from the trip planning research (section 5.4, Page Loading Time) and this year's session notes.
+  <b>How much to trust the numbers.</b> <span id="footLab">One lab session on Oct 10, 2026: directional, not lab clean. Stored browser data may have affected load times, and device and throttling settings were not recorded. A cold incognito re-run of search and reservation is the next step. Chart timings are HAR page timings (midpoint where two loads were captured). Full evidence and the engineering dig list are in <a href="FINDINGS-20261010.md">FINDINGS-20261010.md</a>.</span>
+  <span id="footTrust"> Trust walkthrough (Oct 15): expert stopwatch waits on Trust / HGV Max surfaces (<code>club</code> and <code>theclub</code>), not HAR phases. Bars are perceived wall-clock time. Blank pages, missing status, and “loading then nothing happens” are part of the finding. Source notes: <a href="../MEMBER-FLOW-WALKTHROUGH/20261015-TrustCognitiveWalkthroughEvaluationNotes.md">20261015-TrustCognitiveWalkthroughEvaluationNotes.md</a> and <a href="../MEMBER-FLOW-WALKTHROUGH/20261015-trust-cogwalk-evaluator-draft.md">20261015-trust-cogwalk-evaluator-draft.md</a>.</span>
+  Owner quotes come from the trip planning research (section 5.4, Page Loading Time) and this year's session notes.
 </div>
 
 </div>
 
 <script>
-// HAR page timings, seconds. ttfb = first byte, dcl = DOMContentLoaded, load = fully loaded.
-const steps=[
- {k:'Marketing home',url:'/',ttfb:.95,dcl:5.6,load:6.6,range:'5.7 to 7.4 s'},
- {k:'Sign-in',url:'/signin-oidc',ttfb:1.45,dcl:7.1,load:7.9,range:'7.8 to 8.0 s'},
- {k:'Dashboard',url:'/en/dashboard',ttfb:1.35,dcl:5.7,load:11.7,range:'11.5 to 11.9 s'},
- {k:'Resort search',url:'/en/resort/search',ttfb:1.7,dcl:8.4,load:9.1,range:'9.1 s'},
- {k:'Resort detail',url:'/en/resort/scotland',ttfb:4.8,dcl:11.0,load:12.5,range:'12.5 s'},
- {k:'Reservation',url:'/en/reservation',ttfb:6.0,dcl:9.8,load:10.2,range:'10.2 s'}
+const labSteps=[
+ {k:'Marketing home',url:'club.hiltongrandvacations.com/',ttfb:.95,dcl:5.6,load:6.6,range:'5.7 to 7.4 s'},
+ {k:'Sign-in',url:'club.hiltongrandvacations.com/signin-oidc',ttfb:1.45,dcl:7.1,load:7.9,range:'7.8 to 8.0 s'},
+ {k:'Dashboard',url:'club.hiltongrandvacations.com/en/dashboard',ttfb:1.35,dcl:5.7,load:11.7,range:'11.5 to 11.9 s'},
+ {k:'Resort search',url:'club.hiltongrandvacations.com/en/resort/search',ttfb:1.7,dcl:8.4,load:9.1,range:'9.1 s'},
+ {k:'Resort detail',url:'club.hiltongrandvacations.com/en/resort/scotland',ttfb:4.8,dcl:11.0,load:12.5,range:'12.5 s'},
+ {k:'Reservation',url:'club.hiltongrandvacations.com/en/reservation',ttfb:6.0,dcl:9.8,load:10.2,range:'10.2 s'}
 ];
-const MAX=13;
-const pct=v=>(v/MAX*100)+'%';
-let sel=3;
 
-// Chart
+// Trust: stopwatch wall-clock waits. feedback drives replay phase copy.
+// feedback: blank | status | animateFail | modal | ok | offViewport
+// noResult: waited and got nothing useful (blank / no navigation)
+// noStatus: wait with NO loading indication at all
+const trustSteps=[
+ {k:'View Choices',url:'club.hiltongrandvacations.com/en/trust-availability',load:2,range:'2 s',feedback:'ok',note:'Relatively short wait',noResult:false,noStatus:false},
+ {k:'Destination Book',url:'theclub.hiltongrandvacations.com/destinations',load:2,range:'2 s',feedback:'animateFail',note:'Loading animation, then no navigation',noResult:true,noStatus:false},
+ {k:'Silverleaf null',url:'club.hiltongrandvacations.com/en/trust-availability',load:3,range:'3 s',feedback:'ok',note:'Named miss plus recommendations',noResult:false,noStatus:false},
+ {k:'BOOK IT → points',url:'club.hiltongrandvacations.com/en/trust-availability',load:5,range:'5 s',feedback:'modal',note:'Insufficient-points modal after wait',noResult:false,noStatus:false},
+ {k:'Orlando Basic Search',url:'club.hiltongrandvacations.com/en/trust-availability',load:6,range:'6 s',feedback:'blank',note:'Blank results',noResult:true,noStatus:true},
+ {k:'Destination tab',url:'theclub.hiltongrandvacations.com/destinations',load:7,range:'7 s',feedback:'blank',note:'Blank page, no status',noResult:true,noStatus:true},
+ {k:'Basic Search results',url:'club.hiltongrandvacations.com/en/trust-availability',load:7,range:'7 s',feedback:'status',note:'Timed wait to results',noResult:false,noStatus:false},
+ {k:'Florida Destinations',url:'theclub.hiltongrandvacations.com/destinations',load:11,range:'11 s',feedback:'offViewport',note:'Status shown; list off-viewport',noResult:false,noStatus:false},
+ {k:'Resort detail',url:'theclub.hiltongrandvacations.com',load:16,range:'16 s',feedback:'blank',note:'Blank page, no status',noResult:true,noStatus:true},
+ {k:'Florida Basic Search',url:'club.hiltongrandvacations.com/en/trust-availability',load:18,range:'18 s',feedback:'blank',note:'Blank results (worst)',noResult:true,noStatus:true}
+];
+
+const scenarios={
+  lab:{
+    title:'Remove every obstacle, and owners still wait 10 seconds to book.',
+    lead:'The sprint will simplify the booking flow. This research shows the flow sits behind load times that owners already describe as broken. Performance is a shared constraint, so we need design and engineering to work on it together.',
+    stats:[
+      ['~6 s','Reservation page waits for the server before any HTML arrives'],
+      ['~12 s','Resort page to fully loaded, with 8.6 MB transferred'],
+      ['2 to 3 s','What owners expect before they feel something is wrong']
+    ],
+    journeyTitle:'The journey against the owner\'s clock',
+    journeyLead:'Time to fully loaded for each step of the booking path, with the 3 second line shown in green. Click a step to replay it below.',
+    replayLead:'A replay of each step at its measured speed. Then switch on the design mitigations and see how much of the same wait feels different.',
+    callout:'<b>Pattern:</b> marketing and sign-in are merely slow. The authenticated steps (search, resort, reservation) are where the wait is longest and where owners are competing for scarce inventory.',
+    max:13,
+    axis:['0 s','3 s','6 s','9 s','12 s+'],
+    mode:'har',
+    steps:labSteps,
+    defaultSel:3
+  },
+  trust:{
+    title:'On Trust, waits average 8.5 seconds, and the screen often never says what happened.',
+    lead:'Expert stopwatch timings from a Trust / HGV Max walkthrough on Oct 15 (Find a Vacation and Destinations on club and theclub). Different capture method than the Oct 10 HAR lab path. Blank pages and missing status are part of the finding.',
+    stats:[
+      ['~8.5 s','Average wait across timed Trust actions'],
+      ['18 s','Worst: Florida Basic Search to blank results'],
+      ['2 s','Best timed waits (View Choices; Destination Book animation)']
+    ],
+    journeyTitle:'Trust actions against the owner\'s clock',
+    journeyLead:'Perceived wall-clock wait for each Trust action, with the 3 second line in green. Tags mark waits that returned nothing, and waits with no loading indication at all. Click a step to replay it below.',
+    replayLead:'A replay at the stopwatch speed. Watch how blank pages, fake completion, and off-viewport results feel — then switch on design mitigations.',
+    callout:'<b>Pattern:</b> several Trust waits end with nothing (blank results or Book that does not navigate). The worst cases also show no loading status — so the owner cannot tell if the system is working. Average ~8.5 s; worst 18 s.',
+    max:20,
+    axis:['0 s','5 s','10 s','15 s','20 s'],
+    mode:'wall',
+    steps:trustSteps,
+    defaultSel:9
+  }
+};
+
 const chart=document.getElementById('chart');
-steps.forEach((s,i)=>{
-  const r=document.createElement('div');r.className='row';
-  r.innerHTML=`<span class="lbl">${s.k}</span>
-  <div class="track">
-    <div class="seg wait" style="left:0;width:${pct(s.ttfb)}"></div>
-    <div class="seg build" style="left:${pct(s.ttfb)};width:${(s.dcl-s.ttfb)/MAX*100}%"></div>
-    <div class="seg rest" style="left:${pct(s.dcl)};width:${(s.load-s.dcl)/MAX*100}%"></div>
-    <div class="band" style="left:0;width:${pct(3)}"></div>
-  </div><span class="val">${s.load.toFixed(1)} s</span>`;
-  r.onclick=()=>{select(i);document.getElementById('tabs').scrollIntoView({behavior:'smooth',block:'center'})};
-  chart.appendChild(r);
-});
-
-// Replay
 const tabs=document.getElementById('tabs'),page=document.getElementById('page');
 const tEl=document.getElementById('t'),phase=document.getElementById('phase'),mark=document.getElementById('mark');
 const mit=document.getElementById('mit'),go=document.getElementById('go'),url=document.getElementById('url');
-steps.forEach((s,i)=>{const b=document.createElement('button');b.className='tab';b.textContent=s.k;b.onclick=()=>select(i);tabs.appendChild(b)});
-// layout of blocks: [height, revealTimeFraction between ttfb and load]
 const layout=[[48,.0],[120,.35],[18,.2],[18,.5],[90,.65],[90,.8],[90,1]];
+
+let scenario='lab';
+let steps=labSteps;
+let MAX=13;
+let sel=3;
+let raf=null;
+
+function pct(v){return (v/MAX*100)+'%'}
+
+function stop(){if(raf)cancelAnimationFrame(raf);raf=null;go.textContent='Start replay'}
+
 function reset(){
   page.innerHTML='';
   layout.forEach(([h])=>{const d=document.createElement('div');d.className='blk';d.style.height=h+'px';page.appendChild(d)});
   tEl.textContent='0.0';mark.textContent='';
 }
-function select(i){
-  sel=i;[...tabs.children].forEach((b,j)=>b.classList.toggle('on',j===i));
-  url.textContent='club.hiltongrandvacations.com'+steps[i].url;
-  stop();reset();phase.textContent='Press start. Measured full load: '+steps[i].range+'.';
+
+function trustPhase(s,t,m){
+  if(m){
+    if(t<s.load) return 'Status visible: still loading. Layout reserved so results will not jump.';
+    if(s.feedback==='animateFail') return 'Done — and the next screen is shown, or a clear error replaces the spinner.';
+    if(s.feedback==='blank') return 'Done — empty or results shown with an honest status.';
+    if(s.feedback==='offViewport') return 'Done — results scrolled into view with a count.';
+    return 'Fully loaded. The owner knew the status throughout.';
+  }
+  if(t<s.load){
+    if(s.feedback==='blank') return 'Waiting. Blank page, no loading status.';
+    if(s.feedback==='status') return 'Waiting. A loading status is visible.';
+    if(s.feedback==='animateFail') return 'Loading animation playing…';
+    if(s.feedback==='modal') return 'Waiting after Book…';
+    if(s.feedback==='offViewport') return 'Waiting. Loading status visible.';
+    return 'Waiting…';
+  }
+  if(s.feedback==='blank') return 'Wait ended. Still blank or empty — unclear if anything happened.';
+  if(s.feedback==='animateFail') return 'Animation finished. Page did not change. No status.';
+  if(s.feedback==='modal') return 'Insufficient-points modal appears.';
+  if(s.feedback==='offViewport') return 'Load finished, but results are below the fold — easy to miss.';
+  if(s.feedback==='ok') return 'Finished. '+s.note+'.';
+  return 'Fully loaded.';
 }
-let raf=null;
-function stop(){if(raf)cancelAnimationFrame(raf);raf=null;go.textContent='Start replay'}
+
+function select(i){
+  sel=i;
+  [...tabs.children].forEach((b,j)=>b.classList.toggle('on',j===i));
+  const s=steps[i];
+  url.textContent=s.url;
+  stop();reset();
+  const sc=scenarios[scenario];
+  if(sc.mode==='har'){
+    phase.textContent='Press start. Measured full load: '+s.range+'.';
+  }else{
+    phase.textContent='Press start. Stopwatch wait: '+s.range+'. '+s.note+'.';
+  }
+}
+
+function trustFlags(s){
+  const bits=[];
+  if(s.noResult) bits.push('<span class="flag no-result">No result after wait</span>');
+  if(s.noStatus) bits.push('<span class="flag no-status">No loading indication</span>');
+  else if(s.noResult) bits.push('<span class="flag had-status">Had loading cue — still no progress</span>');
+  return bits.length?`<div class="flags">${bits.join('')}</div>`:'';
+}
+
+function buildChart(){
+  chart.innerHTML='';
+  const sc=scenarios[scenario];
+  steps.forEach((s,i)=>{
+    const r=document.createElement('div');
+    r.className='row'+(sc.mode==='wall'?' trust-row':'');
+    let segs='';
+    if(sc.mode==='har'){
+      segs=`<div class="seg wait" style="left:0;width:${pct(s.ttfb)}"></div>
+        <div class="seg build" style="left:${pct(s.ttfb)};width:${(s.dcl-s.ttfb)/MAX*100}%"></div>
+        <div class="seg rest" style="left:${pct(s.dcl)};width:${(s.load-s.dcl)/MAX*100}%"></div>`;
+    }else{
+      segs=`<div class="seg total${s.noResult?' no-result':''}" style="left:0;width:${pct(s.load)}"></div>`;
+    }
+    r.innerHTML=`<span class="lbl">${s.k}</span>
+      <div class="track">${segs}<div class="band" style="left:0;width:${pct(3)}"></div></div>
+      <span class="val">${s.load.toFixed(1)} s</span>
+      ${sc.mode==='wall'?trustFlags(s):''}`;
+    r.onclick=()=>{select(i);document.getElementById('tabs').scrollIntoView({behavior:'smooth',block:'center'})};
+    chart.appendChild(r);
+  });
+}
+
+function buildStepTabs(){
+  tabs.innerHTML='';
+  steps.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.type='button';
+    b.className='tab';
+    b.textContent=s.k;
+    b.onclick=()=>select(i);
+    tabs.appendChild(b);
+  });
+}
+
+function setScenario(name){
+  scenario=name;
+  const sc=scenarios[name];
+  steps=sc.steps;
+  MAX=sc.max;
+  sel=sc.defaultSel;
+
+  document.getElementById('hTitle').textContent=sc.title;
+  document.getElementById('hLead').textContent=sc.lead;
+  document.getElementById('journeyTitle').textContent=sc.journeyTitle;
+  document.getElementById('journeyLead').textContent=sc.journeyLead;
+  document.getElementById('replayLead').textContent=sc.replayLead;
+  document.getElementById('callout').innerHTML=sc.callout;
+
+  const stats=document.getElementById('stats');
+  stats.innerHTML=sc.stats.map(([b,span])=>`<div class="stat"><b>${b}</b><span>${span}</span></div>`).join('');
+
+  document.getElementById('axis').innerHTML=`<span></span><div style="display:flex;justify-content:space-between">${sc.axis.map(a=>`<span>${a}</span>`).join('')}</div><span></span>`;
+
+  const legend=document.getElementById('legend');
+  if(sc.mode==='har'){
+    legend.innerHTML=`
+      <span><i style="background:var(--bad)"></i>Waiting on the server (blank page)</span>
+      <span><i style="background:#f0a99f"></i>Page building</span>
+      <span><i style="background:#f7d3ce"></i>Still loading in</span>
+      <span><i style="background:var(--ok)"></i>3 s line: where owners start to doubt</span>`;
+  }else{
+    legend.innerHTML=`
+      <span><i style="background:var(--bad)"></i>Wait with a usable outcome</span>
+      <span><i style="background:#8b1e18"></i>Wait that returned nothing</span>
+      <span><i style="background:var(--ok)"></i>3 s line: where owners start to doubt</span>
+      <span><span class="pill no-result">No result after wait</span> blank results or Book that did not navigate</span>
+      <span><span class="pill no-status">No loading indication</span> blank wait with no spinner or status at all</span>
+      <span>Not HAR phases — expert Trust walkthrough on club / theclub</span>`;
+  }
+
+  [...document.querySelectorAll('#scenario .tab')].forEach(b=>{
+    b.classList.toggle('on',b.dataset.scenario===name);
+  });
+
+  stop();
+  buildChart();
+  buildStepTabs();
+  select(sel);
+}
+
+document.querySelectorAll('#scenario .tab').forEach(b=>{
+  b.onclick=()=>setScenario(b.dataset.scenario);
+});
+
 go.onclick=()=>{
   if(raf){stop();return}
   reset();go.textContent='Stop';
   const s=steps[sel],start=performance.now(),m=mit.checked;
+  const sc=scenarios[scenario];
   let marked=false;
   const blks=[...page.children];
+  const ttfb=sc.mode==='har'?s.ttfb:Math.min(0.4,s.load*0.15);
   const tick=now=>{
     const t=(now-start)/1000;tEl.textContent=t.toFixed(1);
-    if(t<s.ttfb){
+    if(scenario==='trust'){
+      phase.textContent=trustPhase(s,t,m);
+      if(t<s.load){
+        if(m) blks.forEach(b=>b.classList.add('sk'));
+        else if(s.feedback==='status'||s.feedback==='offViewport'||s.feedback==='animateFail'){
+          blks[0].classList.add('sk');
+        }
+      }else{
+        blks.forEach((b,i)=>{
+          if(s.feedback==='blank'&&!m){b.classList.remove('sk','in');return}
+          if(s.feedback==='animateFail'&&!m){b.classList.remove('in');if(i===0)b.classList.add('sk');return}
+          b.classList.add('in');b.classList.remove('sk');
+          if(!m&&i>=4&&s.feedback==='offViewport')b.classList.add('jump');
+        });
+      }
+    }else if(t<ttfb){
       phase.textContent=m?'Waiting for the server. Page shows a status: "Loading your reservation..."':'Waiting for the server. The owner sees a blank page.';
       if(m)blks.forEach(b=>b.classList.add('sk'));
     }else{
       phase.textContent=t<s.load?(m?'Content arriving into reserved space. Actions stay disabled until ready.':'Content arriving. Nothing says when it is done.'):'Fully loaded.';
       blks.forEach((b,i)=>{
-        const at=s.ttfb+(s.load-s.ttfb)*layout[i][1];
+        const at=ttfb+(s.load-ttfb)*layout[i][1];
         if(t>=at){b.classList.add('in');b.classList.remove('sk');
           if(!m&&i>=4)b.classList.add('jump')}
         else if(m){b.classList.add('sk')}
       });
     }
     if(t>=3&&!marked){marked=true;mark.style.color='var(--bad)';mark.textContent='Past 3 s: owners start to doubt'}
-    if(t>=s.load){mark.style.color='var(--mute)';mark.textContent='Done in '+s.load.toFixed(1)+' s'+(m?'. The owner knew the status throughout.':'.');stop();return}
+    if(t>=s.load){
+      mark.style.color='var(--mute)';
+      if(scenario==='trust'&&!m&&(s.feedback==='blank'||s.feedback==='animateFail'||s.feedback==='offViewport')){
+        mark.textContent='Wait ended in '+s.load.toFixed(1)+' s — outcome still unclear.';
+      }else{
+        mark.textContent='Done in '+s.load.toFixed(1)+' s'+(m?'. The owner knew the status throughout.':'.');
+      }
+      stop();return;
+    }
     raf=requestAnimationFrame(tick);
   };
   raf=requestAnimationFrame(tick);
 };
 mit.onchange=()=>{if(!raf){reset()}};
-select(3);
+
+setScenario('lab');
 </script>
 </body>
 </html>
