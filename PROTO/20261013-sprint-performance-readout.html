@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Performance is part of the booking flow</title>
+<style>
+  :root{--ink:#1c2430;--mute:#5b6675;--line:#e3e7ee;--bg:#f7f8fa;--card:#fff;--accent:#0b5cad;--bad:#c8372d;--warn:#e08a00;--ok:#2a8a4a}
+  *{box-sizing:border-box}
+  body{margin:0;font:16px/1.55 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+  .wrap{max-width:980px;margin:0 auto;padding:0 24px}
+  header{background:var(--ink);color:#fff;padding:56px 0 48px}
+  header .eyebrow{font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+  header h1{font-size:40px;line-height:1.15;margin:12px 0 16px;max-width:760px}
+  header p{font-size:19px;max-width:720px;opacity:.9;margin:0}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px}
+  .stat{background:rgba(255,255,255,.08);border-radius:12px;padding:16px 18px}
+  .stat b{display:block;font-size:34px;line-height:1.1}
+  .stat span{font-size:14px;opacity:.8}
+  section{padding:44px 0 8px}
+  h2{font-size:26px;margin:0 0 6px}
+  .lead{color:var(--mute);margin:0 0 20px;max-width:720px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+  /* chart */
+  .row{display:grid;grid-template-columns:150px 1fr 70px;align-items:center;gap:12px;margin:10px 0;cursor:pointer}
+  .row:hover .lbl{color:var(--accent)}
+  .lbl{font-size:14px;font-weight:600}
+  .track{position:relative;height:28px;background:#eef1f5;border-radius:6px;overflow:hidden}
+  .seg{position:absolute;top:0;bottom:0}
+  .seg.wait{background:var(--bad)}
+  .seg.build{background:#f0a99f}
+  .seg.rest{background:#f7d3ce}
+  .band{position:absolute;top:-2px;bottom:-2px;border-right:3px solid var(--ok);z-index:2}
+  .val{font-size:14px;font-variant-numeric:tabular-nums;color:var(--mute);text-align:right}
+  .axis{display:grid;grid-template-columns:150px 1fr 70px;gap:12px;font-size:12px;color:var(--mute)}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--mute);margin-top:14px}
+  .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+  .callout{margin-top:16px;padding:12px 16px;border-left:4px solid var(--bad);background:#fdf3f2;border-radius:0 8px 8px 0;font-size:15px}
+  /* replay */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  button{font:inherit;cursor:pointer}
+  .tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;font-size:14px}
+  .tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .stage{display:grid;grid-template-columns:1fr 240px;gap:20px}
+  .browser{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;min-height:330px}
+  .bar{height:34px;background:#eef1f5;display:flex;align-items:center;padding:0 12px;font-size:12px;color:var(--mute);border-bottom:1px solid var(--line)}
+  .page{padding:16px}
+  .blk{background:#dfe5ec;border-radius:6px;margin-bottom:12px;opacity:0;transition:opacity .4s}
+  .blk.sk{opacity:1;background:linear-gradient(90deg,#eceff3,#f6f8fa,#eceff3);background-size:200% 100%;animation:sh 1.2s infinite}
+  .blk.in{opacity:1;background:#b9d2ee;animation:none}
+  .blk.jump{transform:translateY(10px)}
+  @keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  .side{display:flex;flex-direction:column;gap:10px}
+  .timer{font-size:48px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+  .timer small{font-size:16px;font-weight:400;color:var(--mute)}
+  .phase{font-size:14px;color:var(--mute);min-height:42px}
+  .go{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:10px 14px;font-weight:600}
+  .chk{font-size:14px;display:flex;gap:8px;align-items:flex-start}
+  .mark{font-size:13px;color:var(--ok);font-weight:600;min-height:20px}
+  /* quotes */
+  .quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .q{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;justify-content:space-between}
+  .q blockquote{margin:0 0 12px;font-size:17px;line-height:1.4}
+  .q .who{font-size:13px;color:var(--mute)}
+  .q .tag{display:inline-block;margin-top:10px;font-size:12px;font-weight:600;background:#fdf3f2;color:var(--bad);border-radius:999px;padding:3px 10px;align-self:flex-start}
+  /* split */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .split h3{margin:0 0 8px;font-size:18px}
+  .split ul{margin:0;padding-left:18px}
+  .split li{margin:6px 0}
+  .asks li b{color:var(--accent)}
+  .foot{font-size:14px;color:var(--mute);padding:32px 0 56px}
+  .foot a{color:var(--accent)}
+  @media(max-width:760px){.stats,.quotes,.split,.stage{grid-template-columns:1fr}.row,.axis{grid-template-columns:100px 1fr 56px}header h1{font-size:30px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Design sprint input: booking flow</div>
+    <h1>Remove every obstacle, and owners still wait 10 seconds to book.</h1>
+    <p>The sprint will simplify the booking flow. This research shows the flow sits behind load times that owners already describe as broken. Performance is a shared constraint, so we need design and engineering to work on it together.</p>
+    <div class="stats">
+      <div class="stat"><b>~6 s</b><span>Reservation page waits for the server before any HTML arrives</span></div>
+      <div class="stat"><b>~12 s</b><span>Resort page to fully loaded, with 8.6 MB transferred</span></div>
+      <div class="stat"><b>2 to 3 s</b><span>What owners expect before they feel something is wrong</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<section>
+  <h2>The journey against the owner's clock</h2>
+  <p class="lead">Time to fully loaded for each step of the booking path, with the 3 second line shown in green. Click a step to replay it below.</p>
+  <div class="card">
+    <div id="chart"></div>
+    <div class="axis"><span></span><div style="display:flex;justify-content:space-between"><span>0 s</span><span>3 s</span><span>6 s</span><span>9 s</span><span>12 s+</span></div><span></span></div>
+    <div class="legend">
+      <span><i style="background:var(--bad)"></i>Waiting on the server (blank page)</span>
+      <span><i style="background:#f0a99f"></i>Page building</span>
+      <span><i style="background:#f7d3ce"></i>Still loading in</span>
+      <span><i style="background:var(--ok)"></i>3 s line: where owners start to doubt</span>
+    </div>
+    <div class="callout"><b>Pattern:</b> marketing and sign-in are merely slow. The authenticated steps (search, resort, reservation) are where the wait is longest and where owners are competing for scarce inventory.</div>
+  </div>
+</section>
+
+<section>
+  <h2>Feel the wait</h2>
+  <p class="lead">A replay of each step at its measured speed. Then switch on the design mitigations and see how much of the same wait feels different.</p>
+  <div class="card">
+    <div class="tabs" id="tabs"></div>
+    <div class="stage">
+      <div class="browser">
+        <div class="bar" id="url">club.hiltongrandvacations.com</div>
+        <div class="page" id="page"></div>
+      </div>
+      <div class="side">
+        <div class="timer"><span id="t">0.0</span><small> s</small></div>
+        <div class="phase" id="phase">Press start.</div>
+        <button class="go" id="go">Start replay</button>
+        <label class="chk"><input type="checkbox" id="mit"> <span>Design mitigation: skeleton on first byte, stable layout, honest "still loading" status</span></label>
+        <div class="mark" id="mark"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>What owners said</h2>
+  <p class="lead">The numbers match what owners told us in last year's browse and book demos and in this year's sessions.</p>
+  <div class="quotes">
+    <div class="q"><div><blockquote>"The little icon is spinning and it's spinning and it's spinning."</blockquote><div class="who">Linda, last year's demos</div></div><span class="tag">Resort search</span></div>
+    <div class="q"><div><blockquote>"Nothing should be slower than my brain. If I'm faster than the computer screen, then there's something wrong with the computer."</blockquote><div class="who">Julie, last year's demos</div></div><span class="tag">Sign-in and booking</span></div>
+    <div class="q"><div><blockquote>"I use two laptops and my phone set up when I'm trying to book... I have all three going at once."</blockquote><div class="who">Linda, last year's demos</div></div><span class="tag">Peak booking workaround</span></div>
+    <div class="q"><div><blockquote>"Is it still loading? Okay, got ya."</blockquote><div class="who">Derek, this year's sessions</div></div><span class="tag">No loading state</span></div>
+    <div class="q"><div><blockquote>"You'll see it's not particularly slick."</blockquote><div class="who">Derek, this year's sessions</div></div><span class="tag">Overall feel</span></div>
+    <div class="q"><div><blockquote>"I think it's still loading, it looks like."</blockquote><div class="who">Participant, this year's sessions</div></div><span class="tag">Unclear when done</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>Who can fix what</h2>
+  <p class="lead">Some of this is a design problem and some of it is not. The sprint can own the first column. The second needs an engineering commitment.</p>
+  <div class="split">
+    <div class="card">
+      <h3>The sprint can design for</h3>
+      <ul>
+        <li>Skeleton and progressive states so owners know whether the page is finished</li>
+        <li>Stable layout so availability does not shift while owners scan (search had the only clearly poor layout shift, CLS 0.31)</li>
+        <li>Disabling primary actions until data is ready</li>
+        <li>Fewer elements competing for first paint on search and reservation</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Only engineering can fix</h3>
+      <ul>
+        <li>Server response time before the HTML arrives (reservation ~4 to 6 s, resort ~2 to 5 s)</li>
+        <li>Heavy booking and toolkit bundles (booking.js ~2 MB, 5 to 6 s)</li>
+        <li>Oversized original PNGs from the CMS (up to 3.5 MB each)</li>
+        <li>Chatbot, A/B testing, and tag scripts loading before results are visible</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Questions for the engineering team</h2>
+  <p class="lead">Ordered by leverage. The first two are enough to start a deeper dig.</p>
+  <div class="card asks">
+    <ol style="margin:0;padding-left:20px">
+      <li><b>Why does the reservation page wait 4 to 6 seconds before any HTML returns?</b> The same question applies to the resort page (about 5 s). We need a document-only trace, not another full test.</li>
+      <li><b>Is booking.js required at first paint on search?</b> Search is the worst page overall (score 0.31) and carries about 1.5 MB of unminified script.</li>
+      <li>Can search return stable placeholders and progressive results instead of a blank or shifting grid?</li>
+      <li>Which templates request original-size images, and can we serve sized WebP or AVIF instead?</li>
+      <li>Can chat, surveys, and experiments wait until after results are visible?</li>
+      <li>Can we agree a shared target, for example "search results usable in under 3 s on a typical member session"?</li>
+    </ol>
+  </div>
+</section>
+
+<div class="foot">
+  <b>How much to trust the numbers.</b> One lab session on Oct 10, 2026: directional, not lab clean. Stored browser data may have affected load times, and device and throttling settings were not recorded. A cold incognito re-run of search and reservation is the next step. Chart timings are HAR page timings (midpoint where two loads were captured). Full evidence and the engineering dig list are in <a href="FINDINGS-20261010.md">FINDINGS-20261010.md</a>. Owner quotes come from the trip planning research (section 5.4, Page Loading Time) and this year's session notes.
+</div>
+
+</div>
+
+<script>
+// HAR page timings, seconds. ttfb = first byte, dcl = DOMContentLoaded, load = fully loaded.
+const steps=[
+ {k:'Marketing home',url:'/',ttfb:.95,dcl:5.6,load:6.6,range:'5.7 to 7.4 s'},
+ {k:'Sign-in',url:'/signin-oidc',ttfb:1.45,dcl:7.1,load:7.9,range:'7.8 to 8.0 s'},
+ {k:'Dashboard',url:'/en/dashboard',ttfb:1.35,dcl:5.7,load:11.7,range:'11.5 to 11.9 s'},
+ {k:'Resort search',url:'/en/resort/search',ttfb:1.7,dcl:8.4,load:9.1,range:'9.1 s'},
+ {k:'Resort detail',url:'/en/resort/scotland',ttfb:4.8,dcl:11.0,load:12.5,range:'12.5 s'},
+ {k:'Reservation',url:'/en/reservation',ttfb:6.0,dcl:9.8,load:10.2,range:'10.2 s'}
+];
+const MAX=13;
+const pct=v=>(v/MAX*100)+'%';
+let sel=3;
+
+// Chart
+const chart=document.getElementById('chart');
+steps.forEach((s,i)=>{
+  const r=document.createElement('div');r.className='row';
+  r.innerHTML=`<span class="lbl">${s.k}</span>
+  <div class="track">
+    <div class="seg wait" style="left:0;width:${pct(s.ttfb)}"></div>
+    <div class="seg build" style="left:${pct(s.ttfb)};width:${(s.dcl-s.ttfb)/MAX*100}%"></div>
+    <div class="seg rest" style="left:${pct(s.dcl)};width:${(s.load-s.dcl)/MAX*100}%"></div>
+    <div class="band" style="left:0;width:${pct(3)}"></div>
+  </div><span class="val">${s.load.toFixed(1)} s</span>`;
+  r.onclick=()=>{select(i);document.getElementById('tabs').scrollIntoView({behavior:'smooth',block:'center'})};
+  chart.appendChild(r);
+});
+
+// Replay
+const tabs=document.getElementById('tabs'),page=document.getElementById('page');
+const tEl=document.getElementById('t'),phase=document.getElementById('phase'),mark=document.getElementById('mark');
+const mit=document.getElementById('mit'),go=document.getElementById('go'),url=document.getElementById('url');
+steps.forEach((s,i)=>{const b=document.createElement('button');b.className='tab';b.textContent=s.k;b.onclick=()=>select(i);tabs.appendChild(b)});
+// layout of blocks: [height, revealTimeFraction between ttfb and load]
+const layout=[[48,.0],[120,.35],[18,.2],[18,.5],[90,.65],[90,.8],[90,1]];
+function reset(){
+  page.innerHTML='';
+  layout.forEach(([h])=>{const d=document.createElement('div');d.className='blk';d.style.height=h+'px';page.appendChild(d)});
+  tEl.textContent='0.0';mark.textContent='';
+}
+function select(i){
+  sel=i;[...tabs.children].forEach((b,j)=>b.classList.toggle('on',j===i));
+  url.textContent='club.hiltongrandvacations.com'+steps[i].url;
+  stop();reset();phase.textContent='Press start. Measured full load: '+steps[i].range+'.';
+}
+let raf=null;
+function stop(){if(raf)cancelAnimationFrame(raf);raf=null;go.textContent='Start replay'}
+go.onclick=()=>{
+  if(raf){stop();return}
+  reset();go.textContent='Stop';
+  const s=steps[sel],start=performance.now(),m=mit.checked;
+  let marked=false;
+  const blks=[...page.children];
+  const tick=now=>{
+    const t=(now-start)/1000;tEl.textContent=t.toFixed(1);
+    if(t<s.ttfb){
+      phase.textContent=m?'Waiting for the server. Page shows a status: "Loading your reservation..."':'Waiting for the server. The owner sees a blank page.';
+      if(m)blks.forEach(b=>b.classList.add('sk'));
+    }else{
+      phase.textContent=t<s.load?(m?'Content arriving into reserved space. Actions stay disabled until ready.':'Content arriving. Nothing says when it is done.'):'Fully loaded.';
+      blks.forEach((b,i)=>{
+        const at=s.ttfb+(s.load-s.ttfb)*layout[i][1];
+        if(t>=at){b.classList.add('in');b.classList.remove('sk');
+          if(!m&&i>=4)b.classList.add('jump')}
+        else if(m){b.classList.add('sk')}
+      });
+    }
+    if(t>=3&&!marked){marked=true;mark.style.color='var(--bad)';mark.textContent='Past 3 s: owners start to doubt'}
+    if(t>=s.load){mark.style.color='var(--mute)';mark.textContent='Done in '+s.load.toFixed(1)+' s'+(m?'. The owner knew the status throughout.':'.');stop();return}
+    raf=requestAnimationFrame(tick);
+  };
+  raf=requestAnimationFrame(tick);
+};
+mit.onchange=()=>{if(!raf){reset()}};
+select(3);
+</script>
+</body>
+</html>
