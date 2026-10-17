@@ -1,0 +1,600 @@
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hilton Grand Vacations — Blended navigation (Proposal A)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --hilton-blue:#202b46;
+    --dark-grey:#53565a;
+    --medium-grey:#cdcdcd;
+    --light-grey-1:#f9f9f9;
+    --light-grey-2:#f1f1f1;
+    --teal:#4ba5c7;
+    --alert-red:#db0000;
+    --font:"Gotham","Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --ease:cubic-bezier(.25,.8,.5,1);
+    --dur:500ms;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:var(--font);color:var(--hilton-blue);background:#fff;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+  :focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:2px}
+
+  /* ---------- Header ---------- */
+  .site-header{position:sticky;top:0;z-index:50}
+  .utility{background:#000;height:44px;padding:0 32px;display:flex;align-items:center;justify-content:flex-end}
+  .utility-inner{display:flex;align-items:center;gap:29px}
+  .utility .lang{display:flex;align-items:center;gap:8px;color:#fff;font-size:13px;letter-spacing:.26px;line-height:16px}
+  .flag{position:relative;width:19px;height:10px;flex:none}
+  .flag img{position:absolute;display:block;max-width:none}
+
+  .global{background:var(--hilton-blue);padding:24px 40px 24px 48px;display:flex;align-items:center;justify-content:space-between}
+  .brand-nav{display:flex;align-items:center;gap:40px}
+  .brand-nav .logo{display:block;width:94.999px;height:30.001px}
+  .primary-nav{display:flex;align-items:center;gap:40px}
+  .nav-trigger{
+    position:relative;display:inline-flex;align-items:center;gap:4px;
+    color:#fff;font-size:13px;font-weight:400;letter-spacing:.26px;line-height:16px;
+    padding:8px 0;white-space:nowrap;
+  }
+  .nav-trigger span{position:relative}
+  .nav-trigger span::after{
+    content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:#fff;
+    transform:scaleX(0);transform-origin:center;transition:transform var(--dur) var(--ease);
+  }
+  .nav-trigger:hover span::after{transform:scaleX(.4)}
+  .nav-trigger[aria-expanded="true"]{font-weight:700}
+  .nav-trigger[aria-expanded="true"] span::after{transform:scaleX(1)}
+  .nav-trigger .caret{
+    width:12px;height:12px;display:block;flex:none;
+    transition:transform var(--dur) var(--ease);
+  }
+  .nav-trigger[aria-expanded="true"] .caret{transform:rotate(180deg)}
+
+  .member-cluster{display:flex;align-items:center;gap:23px}
+  .bell{position:relative;width:28px;height:29.5px;display:block}
+  .bell img{position:absolute;left:0;top:5.5px;width:24px;height:24px}
+  .bell .badge{
+    position:absolute;left:12px;top:0;background:var(--alert-red);color:#fff;border-radius:100px;
+    padding:2px 4px;font-size:12px;font-weight:500;line-height:12px;letter-spacing:.24px;
+  }
+  .account-trigger{display:flex;align-items:center;gap:23px;color:#fff}
+  .points{display:flex;align-items:flex-end;gap:6px;white-space:nowrap}
+  .points b{font-size:14px;font-weight:700;letter-spacing:.28px}
+  .points span{font-size:12px;letter-spacing:.24px;line-height:12.344px}
+  .avatar-wrap{display:flex;align-items:center;gap:3px}
+  .avatar-wrap .avatar{width:40px;height:40px;border-radius:100px;object-fit:cover;display:block}
+  .avatar-wrap .chev{width:14px;height:14px;display:block;transition:transform var(--dur) var(--ease)}
+  .account-trigger[aria-expanded="true"] .chev{transform:rotate(180deg)}
+
+  /* ---------- Mega panels ---------- */
+  .panels{position:absolute;left:0;right:0;top:100%}
+  .panel{
+    display:grid;grid-template-rows:0fr;opacity:0;visibility:hidden;
+    transition:grid-template-rows var(--dur) var(--ease),opacity var(--dur) var(--ease),visibility 0s linear var(--dur);
+    position:absolute;left:0;right:0;top:0;
+  }
+  .panel.open{
+    grid-template-rows:1fr;opacity:1;visibility:visible;z-index:2;
+    transition:grid-template-rows var(--dur) var(--ease),opacity var(--dur) var(--ease),visibility 0s;
+  }
+  .panel > .clip{overflow:hidden;min-height:0}
+  .panel .sheet{background:var(--light-grey-2);box-shadow:0 12px 24px -12px rgba(32,43,70,.25)}
+
+  .link,.country{
+    display:flex;align-items:center;width:100%;min-height:32px;padding:8px 0;
+    color:var(--hilton-blue);font-size:12px;font-weight:700;letter-spacing:.24px;line-height:16px;white-space:nowrap;
+  }
+  .country{color:var(--hilton-blue);font-size:14px;line-height:16px;text-transform:uppercase;text-decoration:underline;letter-spacing:.24px}
+  .link:hover{color:var(--hilton-blue);text-decoration:underline}
+  .links li,.dest-links li{min-height:32px;line-height:16px;display:flex;align-items:center}
+  .link .count,.country .count{font-size:8px;line-height:16px}
+
+  .simple{padding:40px 48px 32px 154px}
+  .simple .links,.group .links{display:flex;flex-direction:column;gap:0;list-style:none;margin:0;padding:0}
+  .simple .links{min-width:280px}
+
+  .grouped{padding:40px 64px 40px 154px}
+  .panel-intro{
+    margin:0 0 28px;max-width:720px;
+    font-size:14px;font-weight:300;line-height:22px;letter-spacing:.28px;color:var(--dark-grey);
+  }
+  .groups{display:flex;align-items:stretch}
+  .group{
+    display:flex;flex-direction:column;gap:10px;
+    padding:0 40px;min-width:240px;
+  }
+  .group:first-child{padding-left:0}
+  .group + .group{border-left:1px solid var(--medium-grey)}
+  .group-title{
+    margin:0;font-size:14px;font-weight:700;letter-spacing:.56px;line-height:22px;
+    text-transform:uppercase;color:var(--dark-grey);
+  }
+  .link-label{font-weight:700}
+  .link-desc{
+    display:block;margin-top:2px;
+    font-size:12px;font-weight:400;line-height:16px;letter-spacing:.12px;
+    color:var(--hilton-blue);white-space:nowrap;
+  }
+  .grouped .link{white-space:normal}
+  .link:has(.link-desc){
+    align-items:flex-start;flex-direction:column;justify-content:center;
+    white-space:normal;padding-top:10px;padding-bottom:10px;
+  }
+  .link:has(.link-desc):hover{text-decoration:none}
+  .link:has(.link-desc):hover .link-label{text-decoration:underline}
+  .link:hover .link-desc{color:var(--hilton-blue)}
+
+  /* Go */
+  .go{height:447px;padding:48px 0 0 126.33px}
+  .go-row{display:flex;align-items:center;gap:60px}
+  .card{
+    position:relative;width:329.333px;height:247px;flex:none;overflow:hidden;
+    filter:drop-shadow(0 4.277px 10.693px rgba(32,43,70,.2));
+  }
+  .card .photo{position:absolute;inset:0;overflow:hidden}
+  .card .photo img{position:absolute;height:111.26%;left:-9.53%;top:-11.26%;width:125.15%;max-width:none;object-fit:cover}
+  .card .gradient{
+    position:absolute;top:23.81%;left:0;right:0;bottom:0;
+    background:linear-gradient(to bottom,rgba(32,43,70,0) 0%,rgba(32,43,70,.13) 11.106%,#202b46 86.603%);
+  }
+  .card .offer{position:absolute;left:0;bottom:0;display:flex;align-items:flex-end;gap:17.108px;padding:0 25.662px 25.662px}
+  .card .title{width:220.268px;display:flex;flex-direction:column;gap:8.554px;color:#fff}
+  .card .title .name{font-size:19.247px;font-weight:400;line-height:.9;letter-spacing:.7699px}
+  .card .title .sub{font-size:10.693px;font-weight:700;line-height:1.5;letter-spacing:.4277px;text-transform:uppercase}
+  .card .cta{width:40.632px;height:40.632px;display:block;flex:none}
+  .card .cta img{width:40.632px;height:40.632px;display:block}
+
+  .dest-menu{display:flex;align-items:flex-start;gap:42px}
+  .dest-group{display:flex;align-items:flex-start}
+  .dest-group.us-uk{gap:50px}
+  .dest-group.carib-other{gap:44px}
+  .dest-col{display:flex;align-items:flex-start;gap:16px}
+  .dest-col.others{gap:18px}
+  .divider{position:relative;width:0;height:269px;flex:none}
+  .divider img{position:absolute;left:-134.5px;top:134px;width:269px;height:1px;transform:rotate(90deg);display:block;max-width:none}
+  .dest-list{display:flex;flex-direction:column;gap:16px}
+  .dest-title{
+    height:13px;font-size:14px;font-weight:700;letter-spacing:.56px;line-height:22px;text-transform:uppercase;
+    color:var(--hilton-blue);white-space:nowrap;display:flex;align-items:center;
+  }
+  .dest-title + .dest-links, .dest-title + .dest-two{margin-top:0}
+  .dest-two{display:flex;gap:16px}
+  .dest-two .dest-links:first-child{width:141px}
+  .dest-links{display:flex;flex-direction:column;gap:0;list-style:none;margin:0;padding:0}
+  .dest-head{padding-bottom:0;margin-bottom:0}
+  .country .count{font-weight:400;text-decoration:none;display:inline-block;margin-left:2px}
+  .country:hover{color:var(--dark-grey)}
+
+  .explore{display:flex;align-items:flex-start;gap:32px;padding-left:406px;margin-top:45px;white-space:nowrap}
+  .explore .label{font-size:14px;font-weight:700;letter-spacing:.28px;line-height:24px;color:var(--hilton-blue)}
+  .explore a{font-size:12px;font-weight:700;letter-spacing:.24px;line-height:24px;color:var(--dark-grey);text-decoration:underline}
+  .explore a:hover{color:var(--hilton-blue)}
+
+  /* Account */
+  .account{height:362px;padding:51px 0 0 120px}
+  .account-row{display:flex;align-items:flex-start;gap:72px}
+  .profile{display:flex;align-items:flex-start;gap:33px}
+  .profile-id{position:relative;display:flex;flex-direction:column;align-items:center;gap:17px}
+  .profile-id .photo{width:82px;height:82px;border-radius:100px;object-fit:cover;display:block}
+  .profile-id .edit{position:absolute;left:74px;top:56px;width:30px;height:30px}
+  .profile-id .edit .ring{position:absolute;inset:0;width:30px;height:30px;display:block}
+  .profile-id .edit .pen{position:absolute;left:7.17px;top:7.17px;width:15.652px;height:15.652px;display:block}
+  .hgv-max{position:relative;width:119px;height:25.5px}
+  .hgv-max img{position:absolute;left:15.59%;right:15.73%;top:23.36%;bottom:23.11%;width:auto;height:auto;max-width:none}
+  .profile-info{display:flex;flex-direction:column;gap:44px}
+  .profile-text{display:flex;flex-direction:column;gap:21px;white-space:nowrap}
+  .user-info{display:flex;flex-direction:column;gap:13px}
+  .hello{margin:0;font-size:26px;font-weight:700;line-height:38px;letter-spacing:.52px;color:var(--hilton-blue)}
+  .tier{margin:0;font-size:16px;line-height:28px;letter-spacing:.32px}
+  .tier b{display:block;font-weight:700;color:var(--hilton-blue)}
+  .tier span{display:block;font-weight:500;color:var(--teal)}
+  .balance{display:flex;flex-direction:column;gap:3px;color:var(--hilton-blue)}
+  .balance b{font-size:26px;font-weight:700;line-height:38px;letter-spacing:.52px}
+  .balance span{font-size:14px;font-weight:400}
+  .pill-btn{
+    width:144px;height:40px;border:1px solid var(--hilton-blue);border-radius:30px;display:flex;align-items:center;justify-content:center;
+    font-size:12px;font-weight:700;letter-spacing:.24px;line-height:16px;color:var(--hilton-blue);text-transform:uppercase;
+    transition:background-color .2s,color .2s;
+  }
+  .pill-btn:hover{background:var(--hilton-blue);color:#fff}
+  .account-links-wrap{position:relative;display:flex;gap:72px}
+  .account-links-wrap .divider{height:270px}
+  .account-links-wrap .divider img{left:-135px;top:134.5px;width:270px}
+  .account-links-wrap .links{position:absolute;left:72px;top:0;padding-left:34px;display:flex;flex-direction:column;gap:0;list-style:none;margin:0;min-width:240px}
+
+  /* ---------- Page body ---------- */
+  .page{min-height:calc(100vh - 132px);background:#fff;display:flex;flex-direction:column;align-items:center;gap:48px;padding:96px 24px}
+  .caption,.research{width:100%;max-width:720px;color:var(--dark-grey);font-size:16px;line-height:1.6}
+  .caption{text-align:left;border-top:1px solid #d9dde3;padding-top:32px}
+  .caption h2{color:var(--hilton-blue);font-size:18px;line-height:1.3;margin:0 0 12px}
+  .caption ul{list-style:none;margin:0 0 16px;padding:0;display:flex;flex-direction:column;gap:8px}
+  .caption li strong{color:var(--hilton-blue)}
+  .caption a,.research a{color:var(--hilton-blue);text-decoration:underline}
+  .research{border-top:1px solid #d9dde3;padding-top:40px;text-align:left}
+  .research h2{color:var(--hilton-blue);font-size:22px;line-height:1.3;margin:0 0 12px}
+  .research h3{color:var(--hilton-blue);font-size:14px;letter-spacing:.8px;text-transform:uppercase;margin:32px 0 12px}
+  .research p{margin:0 0 12px}
+  .research ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px}
+  .research li{padding:16px 20px;border-left:4px solid var(--hilton-blue);background:#f4f6f9}
+  .research li strong{display:block;color:var(--hilton-blue);margin-bottom:4px}
+  .research li span{display:block;margin-bottom:6px}
+  .research li a{font-size:14px;word-break:break-all}
+
+  @media (prefers-reduced-motion: reduce){
+    .panel,.panel.open,.nav-trigger span::after,.nav-trigger .caret,.avatar-wrap .chev{transition:none !important}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="utility">
+    <div class="utility-inner">
+      <a href="#" aria-label="Search"><img src="blended-nav-assets/search.svg" width="16" height="16" alt=""></a>
+      <a href="#" class="lang">
+        <span class="flag" aria-hidden="true">
+          <img src="blended-nav-assets/flag-base.svg" style="inset:0;width:19px;height:10px" alt="">
+          <img src="blended-nav-assets/flag-stripes.svg" style="left:0;right:0;top:11.5%;bottom:11.5%;width:19px;height:7.7px" alt="">
+          <img src="blended-nav-assets/flag-canton.svg" style="left:0;top:0;width:7.6px;height:5.38px" alt="">
+          <img src="blended-nav-assets/flag-e.svg" style="left:1.79%;top:2.3%;width:3.11%;height:48.7%" alt="">
+          <img src="blended-nav-assets/flag-b.svg" style="left:5.16%;top:7.7%;width:3.1%;height:37.9%" alt="">
+          <img src="blended-nav-assets/flag-e1.svg" style="left:8.47%;top:2.3%;width:3.11%;height:48.7%" alt="">
+          <img src="blended-nav-assets/flag-b1.svg" style="left:11.79%;top:7.7%;width:3.11%;height:37.9%" alt="">
+          <img src="blended-nav-assets/flag-e2.svg" style="left:15.16%;top:2.3%;width:3.1%;height:48.7%" alt="">
+          <img src="blended-nav-assets/flag-b2.svg" style="left:18.47%;top:7.7%;width:3.11%;height:37.9%" alt="">
+          <img src="blended-nav-assets/flag-e3.svg" style="left:21.79%;top:2.3%;width:3.11%;height:48.7%" alt="">
+          <img src="blended-nav-assets/flag-b3.svg" style="left:25.16%;top:7.7%;width:3.1%;height:37.9%" alt="">
+          <img src="blended-nav-assets/flag-e3.svg" style="left:28.47%;top:2.3%;width:3.11%;height:48.7%" alt="">
+          <img src="blended-nav-assets/flag-b4.svg" style="left:31.79%;top:7.7%;width:3.11%;height:37.9%" alt="">
+          <img src="blended-nav-assets/flag-e3.svg" style="left:35.16%;top:2.3%;width:3.1%;height:48.7%" alt="">
+        </span>
+        English
+      </a>
+    </div>
+  </div>
+
+  <div class="global">
+    <div class="brand-nav">
+      <a href="#" aria-label="Hilton Grand Vacations home"><img class="logo" src="blended-nav-assets/logo.svg" width="94.999" height="30.001" alt=""></a>
+      <nav class="primary-nav" aria-label="Main">
+        <button class="nav-trigger" aria-expanded="false" aria-controls="menu-go"><span>Explore</span><img class="caret" src="blended-nav-assets/chevron.svg" width="12" height="12" alt="" aria-hidden="true"></button>
+        <button class="nav-trigger" aria-expanded="false" aria-controls="menu-trips"><span>My Trips</span><img class="caret" src="blended-nav-assets/chevron.svg" width="12" height="12" alt="" aria-hidden="true"></button>
+        <button class="nav-trigger" aria-expanded="false" aria-controls="menu-points"><span>Points &amp; Credits</span><img class="caret" src="blended-nav-assets/chevron.svg" width="12" height="12" alt="" aria-hidden="true"></button>
+        <button class="nav-trigger" aria-expanded="false" aria-controls="menu-own"><span>What I Own</span><img class="caret" src="blended-nav-assets/chevron.svg" width="12" height="12" alt="" aria-hidden="true"></button>
+        <button class="nav-trigger" aria-expanded="false" aria-controls="menu-membership"><span>Membership</span><img class="caret" src="blended-nav-assets/chevron.svg" width="12" height="12" alt="" aria-hidden="true"></button>
+        <button class="nav-trigger" aria-expanded="false" aria-controls="menu-help"><span>Help</span><img class="caret" src="blended-nav-assets/chevron.svg" width="12" height="12" alt="" aria-hidden="true"></button>
+      </nav>
+    </div>
+    <div class="member-cluster">
+      <a href="#" class="bell" aria-label="Notifications, 3 new">
+        <img src="blended-nav-assets/bell.svg" width="24" height="24" alt="">
+        <span class="badge" aria-hidden="true">3</span>
+      </a>
+      <button class="account-trigger" aria-expanded="false" aria-controls="menu-account" aria-label="Account menu, 16,070 points">
+        <span class="points"><b>16,070</b><span>Points</span></span>
+        <span class="avatar-wrap">
+          <img class="avatar" src="blended-nav-assets/avatar.jpg" width="40" height="40" alt="">
+          <img class="chev" src="blended-nav-assets/chevron.svg" width="14" height="14" alt="">
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <div class="panels">
+
+    <!-- Go -->
+    <div class="panel" id="menu-go" role="region" aria-label="Go menu"><div class="clip"><div class="sheet go">
+      <div class="go-row">
+        <a href="#" class="card" aria-label="Colorado, the Rocky Mountains">
+          <div class="photo"><img src="blended-nav-assets/colorado.jpg" alt=""></div>
+          <div class="gradient"></div>
+          <div class="offer">
+            <div class="title"><span class="name">Colorado</span><span class="sub">the rocky mountains</span></div>
+            <span class="cta"><img src="blended-nav-assets/cta-arrow.svg" width="40.632" height="40.632" alt=""></span>
+          </div>
+        </a>
+
+        <div class="dest-menu">
+          <div class="dest-group us-uk">
+            <div class="dest-col">
+              <div class="divider"><img src="blended-nav-assets/divider-a.svg" width="269" height="1" alt=""></div>
+              <div class="dest-list">
+                <div class="dest-title">United States</div>
+                <div class="dest-two">
+                  <ul class="dest-links">
+                    <li><a class="link" href="#">Arizona <span class="count">(18)</span></a></li>
+                    <li><a class="link" href="#">California <span class="count">(20)</span></a></li>
+                    <li><a class="link" href="#">Chicago <span class="count">(12)</span></a></li>
+                    <li><a class="link" href="#">Colorado <span class="count">(8)</span></a></li>
+                    <li><a class="link" href="#">Florida <span class="count">(6)</span></a></li>
+                    <li><a class="link" href="#">Hawaii <span class="count">(4)</span></a></li>
+                    <li><a class="link" href="#">Indiana <span class="count">(14)</span></a></li>
+                    <li><a class="link" href="#">Missouri <span class="count">(23)</span></a></li>
+                  </ul>
+                  <ul class="dest-links">
+                    <li><a class="link" href="#">Nevada <span class="count">(19)</span></a></li>
+                    <li><a class="link" href="#">New Mexico <span class="count">(9)</span></a></li>
+                    <li><a class="link" href="#">New York <span class="count">(23)</span></a></li>
+                    <li><a class="link" href="#">North Carolina <span class="count">(3)</span></a></li>
+                    <li><a class="link" href="#">South Carolina <span class="count">(3)</span></a></li>
+                    <li><a class="link" href="#">Tennessee <span class="count">(2)</span></a></li>
+                    <li><a class="link" href="#">Virginia <span class="count">(7)</span></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="dest-col">
+              <div class="divider"><img src="blended-nav-assets/divider-b.svg" width="269" height="1" alt=""></div>
+              <div class="dest-list">
+                <div class="dest-title">Europe &amp; UK</div>
+                <ul class="dest-links">
+                  <li><a class="link" href="#">Austria <span class="count">(13)</span></a></li>
+                  <li><a class="link" href="#">England <span class="count">(15)</span></a></li>
+                  <li><a class="link" href="#">France <span class="count">(4)</span></a></li>
+                  <li><a class="link" href="#">Italy <span class="count">(8)</span></a></li>
+                  <li><a class="link" href="#">Portugal <span class="count">(4)</span></a></li>
+                  <li><a class="link" href="#">Scotland <span class="count">(9)</span></a></li>
+                  <li><a class="link" href="#">Spain <span class="count">(3)</span></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="dest-group carib-other">
+            <div class="dest-col">
+              <div class="divider"><img src="blended-nav-assets/divider-b.svg" width="269" height="1" alt=""></div>
+              <div class="dest-list">
+                <div class="dest-title">Caribbean</div>
+                <ul class="dest-links">
+                  <li><a class="link" href="#">Barbados <span class="count">(11)</span></a></li>
+                  <li><a class="link" href="#">Sint Maarten <span class="count">(9)</span></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="dest-col others">
+              <div class="divider"><img src="blended-nav-assets/divider-a.svg" width="269" height="1" alt=""></div>
+              <ul class="dest-links">
+                <li><a class="country" href="#">Canada<span class="count">(4)</span></a></li>
+                <li><a class="country" href="#">Mexico<span class="count">(9)</span></a></li>
+                <li><a class="country" href="#">Japan<span class="count">(4)</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="explore">
+        <span class="label">EXPLORE BY:</span>
+        <a href="#">Destinations</a>
+        <a href="#">Experience</a>
+        <a href="#">Point Values</a>
+        <a href="#">Promotions</a>
+      </div>
+    </div></div></div>
+
+    <!-- My Trips -->
+    <div class="panel" id="menu-trips" role="region" aria-label="My Trips menu"><div class="clip"><div class="sheet simple">
+      <ul class="links">
+        <li><a class="link" href="#">Upcoming Trips</a></li>
+        <li><a class="link" href="#">Past Trips</a></li>
+        <li><a class="link" href="#"><span class="link-label">My Travel Plans</span><span class="link-desc">Your travel itineraries</span></a></li>
+        <li><a class="link" href="#"><span class="link-label">Add a Guest</span><span class="link-desc">Add someone to a single stay.</span></a></li>
+      </ul>
+    </div></div></div>
+
+    <!-- Points & Credits -->
+    <div class="panel" id="menu-points" role="region" aria-label="Points and Credits menu"><div class="clip"><div class="sheet grouped">
+      <p class="panel-intro">These balances are listed together. They do not add up to one number you can spend.</p>
+      <div class="groups">
+        <section class="group" aria-labelledby="points-balances">
+          <div class="group-title" id="points-balances">Your balances</div>
+          <ul class="links">
+            <li><a class="link" href="#">Points</a></li>
+            <li><a class="link" href="#">Points History</a></li>
+            <li><a class="link" href="#"><span class="link-label">HGV Max Rate</span><span class="link-desc">The discounted rate your HGV Max membership gives you.</span></a></li>
+          </ul>
+        </section>
+        <section class="group" aria-labelledby="points-use">
+          <div class="group-title" id="points-use">Use points</div>
+          <ul class="links">
+            <li><a class="link" href="#"><span class="link-label">Use or Save Points</span><span class="link-desc">Book with points now, or hold them for later.</span></a></li>
+            <li><a class="link" href="#"><span class="link-label">Roll points into next year</span><span class="link-desc">Carry unused points into the next year.</span></a></li>
+            <li><a class="link" href="#">Buy points to finish booking</a></li>
+            <li><a class="link" href="#"><span class="link-label">Turn points into Hilton Honors points</span><span class="link-desc">One-way. These are not Club points.</span></a></li>
+          </ul>
+        </section>
+        <section class="group" aria-labelledby="points-other">
+          <div class="group-title" id="points-other">Other ways to pay</div>
+          <ul class="links">
+            <li><a class="link" href="#"><span class="link-label">Resort Credits</span><span class="link-desc">A different wallet from points.</span></a></li>
+            <li><a class="link" href="#"><span class="link-label">Last-minute cash rates</span><span class="link-desc">Cash rates at select resorts, starting 30 days out.</span></a></li>
+          </ul>
+        </section>
+      </div>
+    </div></div></div>
+
+    <!-- What I Own -->
+    <div class="panel" id="menu-own" role="region" aria-label="What I Own menu"><div class="clip"><div class="sheet grouped">
+      <p class="panel-intro">Everything about your vacation ownership</p>
+      <div class="groups">
+        <section class="group" aria-labelledby="own-ownership">
+          <div class="group-title" id="own-ownership">Your ownership</div>
+          <ul class="links">
+            <li><a class="link" href="#">Ownership summary</a></li>
+            <li><a class="link" href="#"><span class="link-label">Home week</span><span class="link-desc">Book your home resort early.</span></a></li>
+            <li><a class="link" href="#"><span class="link-label">Exchange Into Other Resorts</span><span class="link-desc">Trade your week or points for a stay somewhere else.</span></a></li>
+          </ul>
+        </section>
+        <section class="group" aria-labelledby="own-money">
+          <div class="group-title" id="own-money">Money</div>
+          <ul class="links">
+            <li><a class="link" href="#"><span class="link-label">Fees</span><span class="link-desc">Annual maintenance fees and assessments.</span></a></li>
+            <li><a class="link" href="#">Loans</a></li>
+            <li><a class="link" href="#"><span class="link-label">Balances</span><span class="link-desc">What you owe on loans and fees. Not your points.</span></a></li>
+          </ul>
+        </section>
+        <section class="group" aria-labelledby="own-records">
+          <div class="group-title" id="own-records">Records</div>
+          <ul class="links">
+            <li><a class="link" href="#">Title Documents</a></li>
+            <li><a class="link" href="#"><span class="link-label">People On Your Account</span><span class="link-desc">Co-owners and authorized users.</span></a></li>
+          </ul>
+        </section>
+      </div>
+    </div></div></div>
+
+    <!-- Membership -->
+    <div class="panel" id="menu-membership" role="region" aria-label="Membership menu"><div class="clip"><div class="sheet grouped">
+      <div class="groups">
+        <section class="group" aria-labelledby="member-benefits">
+          <div class="group-title" id="member-benefits">Benefits</div>
+          <ul class="links">
+            <li><a class="link" href="#">Member Benefits</a></li>
+            <li><a class="link" href="#">Partner Stays</a></li>
+            <li><a class="link" href="#">Local Recommendations</a></li>
+          </ul>
+        </section>
+        <section class="group" aria-labelledby="member-life">
+          <div class="group-title" id="member-life">Club life</div>
+          <ul class="links">
+            <li><a class="link" href="#">Club News</a></li>
+            <li><a class="link" href="#"><span class="link-label">Club Traveler</span><span class="link-desc">Travel stories and trip ideas from the Club.</span></a></li>
+            <li><a class="link" href="#">Hosted Trips</a></li>
+            <li><a class="link" href="#">Webinars</a></li>
+          </ul>
+        </section>
+        <section class="group" aria-labelledby="member-rules">
+          <div class="group-title" id="member-rules">Rules</div>
+          <ul class="links">
+            <li><a class="link" href="#">Club Rules</a></li>
+            <li><a class="link" href="#">Club Forms</a></li>
+          </ul>
+        </section>
+      </div>
+    </div></div></div>
+
+    <!-- Help -->
+    <div class="panel" id="menu-help" role="region" aria-label="Help menu"><div class="clip"><div class="sheet simple">
+      <ul class="links">
+        <li><a class="link" href="#">Contact Us</a></li>
+        <li><a class="link" href="#"><span class="link-label">Support Center</span><span class="link-desc">Answers to common questions.</span></a></li>
+        <li><a class="link" href="#">Fraud Education</a></li>
+        <li><a class="link" href="#"><span class="link-label">Product Guides</span><span class="link-desc">Get the most out of your vacation ownership.</span></a></li>
+        <li><a class="link" href="#"><span class="link-label">Owner Resources</span><span class="link-desc">Forms, calendars, and owner tools.</span></a></li>
+      </ul>
+    </div></div></div>
+
+    <!-- Account -->
+    <div class="panel" id="menu-account" role="region" aria-label="Account menu"><div class="clip"><div class="sheet account">
+      <div class="account-row">
+        <div class="profile">
+          <div class="profile-id">
+            <img class="photo" src="blended-nav-assets/avatar.jpg" width="82" height="82" alt="David Hayashi">
+            <div class="hgv-max"><img src="blended-nav-assets/hgv-max-logo.svg" width="81.7245" height="13.651" alt="HGV Max"></div>
+            <a href="#" class="edit" aria-label="Edit profile photo">
+              <img class="ring" src="blended-nav-assets/edit-circle.svg" width="30" height="30" alt="">
+              <img class="pen" src="blended-nav-assets/edit-icon.svg" width="15.652" height="15.652" alt="">
+            </a>
+          </div>
+          <div class="profile-info">
+            <div class="profile-text">
+              <div class="user-info">
+                <p class="hello">Hello David!</p>
+                <p class="tier"><b>HGV Max</b><span>Member #2563-36</span></p>
+              </div>
+              <div class="balance"><b>16,070</b><span>Available Points</span></div>
+            </div>
+            <a href="#" class="pill-btn">Sign Out</a>
+          </div>
+        </div>
+        <div class="account-links-wrap">
+          <div class="divider"><img src="blended-nav-assets/divider-account.svg" width="270" height="1" alt=""></div>
+          <ul class="links">
+            <li><a class="link" href="#"><span class="link-label">Account information</span><span class="link-desc">Your name, contact details, and login.</span></a></li>
+            <li><a class="link" href="#"><span class="link-label">Communication Preferences</span><span class="link-desc">Choose which emails, texts, and calls you get.</span></a></li>
+            <li><a class="link" href="#"><span class="link-label">Travel Preferences</span><span class="link-desc">Your usual resorts, room needs, and travel party.</span></a></li>
+            <li><a class="link" href="#"><span class="link-label">Payment Methods</span><span class="link-desc">Cards and bank accounts saved for fees and bookings.</span></a></li>
+            <li><a class="link" href="#"><span class="link-label">Accessibility</span><span class="link-desc">Room and service needs we should plan for.</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </div></div></div>
+
+  </div>
+</header>
+
+<main class="page">
+ 
+  <section class="research" aria-labelledby="research-title">
+    <h2 id="research-title">Why the navigation is designed this way</h2>
+    <p>Clear labels, short descriptions, and grouped links help visitors understand what they will find before they click. Together these strengthen <strong>information scent</strong>: the cues visitors use to decide which path is most likely to meet their needs.</p>
+
+    <h3>Sources</h3>
+    <ul>
+      <li>
+        <strong>Information Scent: How Users Decide Where to Go Next</strong>
+        <span>Supports clear labels and descriptions that add useful detail about destinations.</span>
+        <a href="https://www.nngroup.com/articles/information-scent/">nngroup.com/articles/information-scent</a>
+      </li>
+      <li>
+        <strong>Mega Menus Work Well for Site Navigation</strong>
+        <span>Supports grouping related options under descriptive headings to help users understand their choices.</span>
+        <a href="https://www.nngroup.com/articles/mega-menus-work-well/">nngroup.com/articles/mega-menus-work-well</a>
+      </li>
+    </ul>
+  </section>
+   <section class="caption" aria-labelledby="disclaimer-title">
+    <h2 id="disclaimer-title">Discussion prototype, Blended Proposal A</h2>
+    <ul>
+      <li><strong>Purpose:</strong> One login for an owner who holds both products.</li>
+      <li><strong>How to use:</strong> Select any item in the navigation, or the points and avatar, to open its menu.</li>
+      <li><strong>Links:</strong> All links are placeholders.</li>
+    </ul>
+    <a href="20261016-Blended-Mega-Menu-Comparison.html">Compare with the Trust and Deed navigations today</a>
+  </section>
+</main>
+
+<script>
+(function(){
+  var header = document.getElementById('siteHeader');
+  var triggers = Array.prototype.slice.call(header.querySelectorAll('[aria-controls^="menu-"]'));
+
+  function setOpen(btn, open){
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.getElementById(btn.getAttribute('aria-controls')).classList.toggle('open', open);
+  }
+  function closeAll(except){
+    triggers.forEach(function(b){ if (b !== except) setOpen(b, false); });
+  }
+  function openTrigger(){
+    return triggers.find(function(b){ return b.getAttribute('aria-expanded') === 'true'; });
+  }
+
+  triggers.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var isOpen = btn.getAttribute('aria-expanded') === 'true';
+      closeAll(btn);
+      setOpen(btn, !isOpen);
+    });
+  });
+
+  document.addEventListener('keydown', function(e){
+    if (e.key !== 'Escape') return;
+    var btn = openTrigger();
+    if (btn){ closeAll(null); btn.focus(); }
+  });
+
+  document.addEventListener('click', function(e){
+    if (!header.contains(e.target)) closeAll(null);
+  });
+})();
+</script>
+
+</body>
+</html>
