@@ -4,7 +4,7 @@
 //   STATICRYPT_PASSWORD='...' node scripts/protect-page.mjs _src/tripPlaner.html "Itinerary Builder"
 //   STATICRYPT_PASSWORD='...' node scripts/protect-page.mjs _src/PROTO/foo.html "This prototype" prototype
 //
-// - Local images (src="images/...") are inlined as data URIs first, so
+// - Local images (src="images/..." or "assets/...") are inlined as data URIs first, so
 //   nothing readable is published alongside the encrypted page.
 // - Uses the same salt and lock-screen styling as PROTO/chatbot-recommendations.html,
 //   so "Remember me" on one protected page unlocks the others.
@@ -31,7 +31,7 @@ let html = readFileSync(src, 'utf8');
 
 // Inline local images
 let inlined = 0;
-html = html.replace(/src="(images\/[^"]+)"/g, (m, rel) => {
+html = html.replace(/src="((?:images|assets)\/[^"]+)"/g, (m, rel) => {
   const type = MIME[extname(rel).toLowerCase()];
   if (!type) return m;
   inlined++;
