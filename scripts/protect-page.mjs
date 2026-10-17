@@ -2,6 +2,7 @@
 //
 // Usage (Git Bash):
 //   STATICRYPT_PASSWORD='...' node scripts/protect-page.mjs _src/tripPlaner.html "Itinerary Builder"
+//   STATICRYPT_PASSWORD='...' node scripts/protect-page.mjs _src/PROTO/foo.html "This prototype" prototype
 //
 // - Local images (src="images/...") are inlined as data URIs first, so
 //   nothing readable is published alongside the encrypted page.
@@ -18,10 +19,10 @@ const SALT = '7e98a29110b72cbea1c72b6f7d60b1d5';
 const OUT_DIR = 'PROTO';
 const MIME = { '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.gif': 'image/gif', '.svg': 'image/svg+xml' };
 
-const [src, label = 'this page'] = process.argv.slice(2);
+const [src, label = 'this page', kind = 'case study'] = process.argv.slice(2);
 const password = process.env.STATICRYPT_PASSWORD;
 if (!src || !password) {
-  console.error('Usage: STATICRYPT_PASSWORD=... node scripts/protect-page.mjs <_src/file.html> ["Page name"]');
+  console.error('Usage: STATICRYPT_PASSWORD=... node scripts/protect-page.mjs <_src/file.html> ["Page name"] [kind]');
   process.exit(1);
 }
 
@@ -53,9 +54,9 @@ try {
     '-d', OUT_DIR,
     '--config', 'false',
     '--remember', '30',
-    '--template-title', 'Protected case study',
+    '--template-title', `Protected ${kind}`,
     '--template-instructions', `${label} is shared privately. Enter the password you were given.`,
-    '--template-button', 'View case study',
+    '--template-button', `View ${kind}`,
     '--template-color-primary', '#4A4A4A',
     '--template-color-secondary', '#FCFCF9',
   ].map(q), { stdio: 'inherit', shell: win });
@@ -65,7 +66,13 @@ try {
 
 // Match the chatbot prototype: noindex + Lato on the lock screen
 const out = join(OUT_DIR, basename(src));
-const enc = readFileSync(out, 'utf8').replace('<head>',
+let enc = readFileSync(out, 'utf8');
+// StatiCrypt exits 0 even when you decline its short-password prompt
+if (!enc.includes(SALT)) {
+  console.error(`Not encrypted: ${out} is unchanged. (Short password? Answer "y" at the prompt.)`);
+  process.exit(1);
+}
+enc = enc.replace('<head>',
   '<head>\n<meta name="robots" content="noindex, nofollow">\n' +
   '<style>body,input,button{font-family:"Lato",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif !important}</style>');
 writeFileSync(out, enc);
