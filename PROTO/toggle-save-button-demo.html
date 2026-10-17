@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toggle + Save Button Interaction Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    /* Figma tokens — HSV Agent UI */
+    --surface-default-primary: #FFFFFF;
+    --surface-default-secondary: #F1F1F1;
+    --surface-brand-primary: #202B46;
+    --surface-muted: #CDCDCD;
+    --foreground-subtle: #3C3C3C;
+    --text-deselected: #909292;
+    --border-row: #909292;
+    --grey-30: #DEDFDF;
+    --medium-grey: #9EA2AD;
+    --dark-grey: #53565A;
+    --teal: #018289;
+
+    --font-ui: 'Gotham', 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  body {
+    font-family: var(--font-ui);
+    background: #E4E6EA;
+    color: var(--surface-brand-primary);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .doc-header {
+    padding: 32px 40px 24px;
+    background: #FFFFFF;
+    border-bottom: 1px solid var(--grey-30);
+  }
+  .doc-header .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--dark-grey); margin-bottom: 8px;
+  }
+  .doc-header h1 { font-size: 22px; font-weight: 700; letter-spacing: 0.02em; }
+  .doc-header p { margin-top: 8px; font-size: 13px; line-height: 1.6; color: var(--dark-grey); max-width: 72ch; }
+  .doc-header code {
+    font-family: 'DM Mono', monospace; font-size: 12px;
+    background: var(--surface-default-secondary); padding: 1px 5px; border-radius: 3px;
+  }
+
+  .controls {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 16px;
+    padding: 14px 40px; background: #FFFFFF;
+    border-bottom: 1px solid var(--grey-30);
+    position: sticky; top: 0; z-index: 50;
+  }
+  .controls .hint { font-size: 12px; color: var(--dark-grey); flex: 1; min-width: 200px; }
+  .controls .replay {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: inherit; font-size: 13px; font-weight: 700;
+    letter-spacing: 0.02em; text-transform: uppercase;
+    padding: 8px 16px; border-radius: 30px;
+    border: 1px solid var(--grey-30); background: #FFFFFF;
+    color: var(--surface-brand-primary); cursor: pointer;
+  }
+  .controls .replay:hover { background: var(--surface-default-secondary); }
+  .controls .replay:focus-visible { outline: 2px solid var(--surface-brand-primary); outline-offset: 2px; }
+
+  .example { padding: 36px 40px 8px; }
+  .example > .caption { margin-bottom: 14px; }
+  .caption .tag {
+    display: inline-block; font-family: 'DM Mono', monospace; font-size: 11px;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--dark-grey);
+    border: 1px solid var(--grey-30); background: #FFFFFF;
+    padding: 3px 8px; border-radius: 3px; margin-bottom: 8px;
+  }
+  .caption h2 { font-size: 16px; font-weight: 700; }
+  .caption p { margin-top: 5px; font-size: 13px; color: var(--dark-grey); max-width: 78ch; line-height: 1.6; }
+  .caption .step-label {
+    margin-top: 10px; font-family: 'DM Mono', monospace; font-size: 12px;
+    letter-spacing: 0.04em; color: var(--surface-brand-primary);
+  }
+
+  .frame {
+    width: 100%; max-width: 1045px;
+    border: 1px solid var(--grey-30);
+    overflow: hidden;
+  }
+
+  .page-canvas {
+    background: var(--surface-default-secondary);
+  }
+
+  .accordion {
+    background: var(--surface-default-primary);
+  }
+
+  .row {
+    display: flex; align-items: center; gap: 16px;
+    padding: 32px 34px 32px 8px;
+    border-bottom: 0.5px solid var(--border-row);
+    width: 100%; text-align: left;
+    background: none; border-left: 0; border-right: 0; border-top: 0;
+    font: inherit; color: inherit; cursor: default;
+  }
+
+  .status {
+    width: 32px; height: 32px; border-radius: 16px; flex: 0 0 auto;
+    display: flex; align-items: center; justify-content: center;
+    background: #FFFFFF; border: 3px solid var(--surface-brand-primary);
+  }
+  .status svg { width: 14px; height: 14px; }
+
+  .title { font-size: 14px; font-weight: 700; letter-spacing: 0.02em; line-height: 24px; flex: 1; }
+
+  .kbd {
+    width: 24px; height: 24px; flex: 0 0 auto;
+    display: flex; align-items: center; justify-content: center;
+    background: #FFFFFF; border-radius: 4px;
+    border: 1px solid var(--medium-grey); border-top-width: 0.5px; border-bottom-width: 2px;
+    font-size: 14px; font-weight: 700;
+  }
+
+  .toggle-icon { width: 14px; height: 14px; flex: 0 0 auto; color: var(--surface-brand-primary); }
+
+  .acc-body { display: flex; flex-direction: column; gap: 24px; padding: 16px; }
+
+  .intro {
+    font-size: 14px; line-height: 28px; letter-spacing: 0.02em;
+    color: var(--dark-grey);
+  }
+
+  .tbl { display: flex; align-items: flex-start; width: 100%; }
+  .tbl .col { flex: 1 0 0; min-width: 0; display: flex; flex-direction: column; }
+  .tbl .col.actions { flex: 0 0 56px; }
+  .tbl .col.toggle-col { flex: 0 0 140px; }
+
+  .th {
+    background: var(--surface-default-secondary);
+    height: 56px; display: flex; align-items: center; padding: 0 8px;
+    font-size: 14px; font-weight: 700; letter-spacing: 0.02em;
+  }
+  .th.tight { padding: 16px; justify-content: center; }
+
+  .td { padding: 8px; }
+  .td.toggle-cell { padding: 16px 8px; }
+  .td.tight { padding: 16px; display: flex; justify-content: center; }
+
+  .field {
+    height: 40px; display: flex; align-items: center; padding: 8px 16px;
+    background: #FFFFFF; border: 1px solid var(--grey-30);
+    box-shadow: 0 1px 2px rgba(16,24,40,0.05);
+    font-size: 13px; line-height: 1.85; color: var(--dark-grey);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  /* Toggle — Figma: on teal #018289, off grey #909292, 40×23 */
+  .switch {
+    width: 40px; height: 23px; border-radius: 12px;
+    background: var(--text-deselected);
+    position: relative; border: none; padding: 0;
+    cursor: pointer; flex: 0 0 auto;
+    transition: background 160ms ease;
+  }
+  .switch::after {
+    content: '';
+    position: absolute; top: 2px; left: 2px;
+    width: 19px; height: 19px; border-radius: 50%;
+    background: #FFFFFF;
+    transition: transform 160ms ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.18);
+  }
+  .switch.is-on { background: var(--teal); }
+  .switch.is-on::after { transform: translateX(17px); }
+  .switch:focus-visible { outline: 2px solid var(--surface-brand-primary); outline-offset: 3px; }
+  .switch:disabled { opacity: 0.55; cursor: not-allowed; }
+
+  .acc-actions { display: flex; align-items: center; gap: 16px; }
+  .acc-actions .rule { width: 1px; height: 33px; background: var(--grey-30); }
+  .acc-actions .right { flex: 1; display: flex; justify-content: flex-end; align-items: center; gap: 16px; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    border-radius: 30px; padding: 10px 24px; min-height: 36px;
+    font-size: 14px; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase;
+    border: 1px solid var(--grey-30); background: transparent; color: var(--surface-brand-primary);
+    font-family: inherit; cursor: pointer;
+  }
+  .btn:focus-visible { outline: 2px solid var(--surface-brand-primary); outline-offset: 3px; }
+  .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+  /* SAVE CHANGES — primary navy */
+  .btn.save-primary {
+    background: var(--surface-brand-primary);
+    border-color: #E3E3E3;
+    color: #FFFFFF;
+    padding: 8px 24px;
+  }
+  .btn.save-primary:hover:not(:disabled) { filter: brightness(1.08); }
+
+  /* SAVED / SAVING — muted grey per Figma SAVE STATES */
+  .btn.save-muted {
+    background: var(--surface-muted);
+    border-color: var(--foreground-subtle);
+    color: var(--foreground-subtle);
+    padding: 8px 24px;
+    cursor: default;
+  }
+  .btn.save-muted .icon {
+    width: 16px; height: 16px; flex: 0 0 auto;
+    display: block;
+  }
+  .btn.save-muted .icon.spin {
+    animation: spin 0.9s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  footer.notes {
+    margin: 28px 40px 48px; padding: 20px 24px;
+    background: #FFFFFF; border: 1px solid var(--grey-30);
+  }
+  footer.notes h3 {
+    font-size: 13px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; margin-bottom: 10px;
+  }
+  footer.notes ol { margin-left: 18px; }
+  footer.notes li { font-size: 13px; line-height: 1.7; color: var(--dark-grey); }
+  footer.notes strong { color: var(--surface-brand-primary); }
+</style>
+</head>
+<body>
+
+<header class="doc-header">
+  <div class="eyebrow">HSV Agent UI · Package Fulfillment</div>
+  <h1>Toggle + Save button interaction</h1>
+  <p>
+    Interactive walkthrough of the Travelers accordion save states from Figma
+    <code>5634:2527</code>. Flip the Active Traveler toggle to dirty the form,
+    then save through <strong>Save changes → Saving → Saved</strong>.
+  </p>
+</header>
+
+<div class="controls">
+  <button type="button" class="replay" id="replayBtn">Replay</button>
+  <span class="hint">Turn the toggle off to reveal Save changes, then click it. Use Replay to return to the starting Saved (toggle on) state.</span>
+</div>
+
+<section class="example">
+  <div class="caption">
+    <span class="tag">Figma · Section 5634:2527 · TRAVEL ADD 4–7</span>
+    <h2>Travelers accordion — Active Traveler toggle drives save states</h2>
+    <p>Start with the toggle on and a muted Saved confirmation. Turning the toggle off enables Save changes; clicking it shows the Saving spinner, then Saved again.</p>
+    <p class="step-label" id="stepLabel">State: Saved (toggle on)</p>
+  </div>
+
+  <div class="frame">
+    <div class="page-canvas">
+      <div class="accordion is-open" id="travelersAcc">
+        <div class="row" aria-expanded="true">
+          <span class="status" aria-hidden="true">
+            <svg viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5"/></svg>
+          </span>
+          <span class="title">Travelers</span>
+          <span class="kbd">T</span>
+          <svg class="toggle-icon" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M1 7h12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <div class="acc-body">
+          <p class="intro">Enter names exactly as printed on the passport or government-issued ID.</p>
+
+          <div class="tbl">
+            <div class="col">
+              <div class="th">First Name</div>
+              <div class="td"><div class="field">Jordan</div></div>
+            </div>
+            <div class="col">
+              <div class="th">Middle Name</div>
+              <div class="td"><div class="field">A</div></div>
+            </div>
+            <div class="col">
+              <div class="th">Last Name</div>
+              <div class="td"><div class="field">Lee</div></div>
+            </div>
+            <div class="col toggle-col">
+              <div class="th">Active Traveler</div>
+              <div class="td toggle-cell">
+                <button
+                  type="button"
+                  class="switch is-on"
+                  id="activeToggle"
+                  role="switch"
+                  aria-checked="true"
+                  aria-label="Active Traveler"
+                ></button>
+              </div>
+            </div>
+            <div class="col actions">
+              <div class="th tight">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M8 3v10M3 8h10" stroke="#202B46" stroke-width="1.4" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="td tight">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <circle cx="8" cy="3.5" r="1.2" fill="#202B46"/>
+                  <circle cx="8" cy="8" r="1.2" fill="#202B46"/>
+                  <circle cx="8" cy="12.5" r="1.2" fill="#202B46"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="acc-actions">
+            <div class="rule"></div>
+            <div class="right">
+              <button type="button" class="btn" id="cancelBtn">Cancel</button>
+              <button type="button" class="btn save-muted" id="saveBtn" disabled aria-live="polite">
+                <span class="label">Saved</span>
+                <svg class="icon" id="saveIcon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <circle cx="8" cy="8" r="6.25" stroke="currentColor" stroke-width="1.4"/>
+                  <path d="M5 8.2l2.1 2.1L11.2 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="notes">
+  <h3>How to walk the sequence</h3>
+  <ol>
+    <li><strong>Saved (toggle on)</strong> — starting confirmation; Save is muted with a check.</li>
+    <li><strong>Save changes</strong> — turn the Active Traveler toggle off; the primary navy button appears.</li>
+    <li><strong>Saving</strong> — click Save changes; muted button + rotating icon for ~1.5s.</li>
+    <li><strong>Saved (toggle off)</strong> — confirmation returns; toggle stays off. Flip the toggle again to re-dirty and repeat.</li>
+  </ol>
+</footer>
+
+<script>
+(function () {
+  const ICON_CHECK = `
+    <circle cx="8" cy="8" r="6.25" stroke="currentColor" stroke-width="1.4"/>
+    <path d="M5 8.2l2.1 2.1L11.2 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+  `;
+  const ICON_REFRESH = `
+    <path d="M13.2 8a5.2 5.2 0 1 1-1.4-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+    <path d="M13.2 3.2v3.2h-3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  `;
+
+  const STEP_COPY = {
+    savedOn: 'State: Saved (toggle on) — TRAVEL ADD 4',
+    dirty: 'State: Save changes (dirty) — TRAVEL ADD 5',
+    saving: 'State: Saving — TRAVEL ADD 6',
+    savedOff: 'State: Saved (toggle off) — TRAVEL ADD 7'
+  };
+
+  const toggle = document.getElementById('activeToggle');
+  const saveBtn = document.getElementById('saveBtn');
+  const cancelBtn = document.getElementById('cancelBtn');
+  const saveIcon = document.getElementById('saveIcon');
+  const stepLabel = document.getElementById('stepLabel');
+  const replayBtn = document.getElementById('replayBtn');
+
+  let committedOn = true;
+  let uiOn = true;
+  let phase = 'saved'; // saved | dirty | saving
+  let saveTimer = null;
+
+  function setToggleVisual(on) {
+    toggle.classList.toggle('is-on', on);
+    toggle.setAttribute('aria-checked', String(on));
+  }
+
+  function setSaveButton(mode) {
+    const label = saveBtn.querySelector('.label');
+    saveBtn.classList.remove('save-primary', 'save-muted');
+    saveIcon.classList.remove('spin');
+
+    if (mode === 'primary') {
+      saveBtn.classList.add('save-primary');
+      label.textContent = 'Save changes';
+      saveIcon.innerHTML = '';
+      saveIcon.style.display = 'none';
+      saveBtn.disabled = false;
+      saveBtn.setAttribute('aria-disabled', 'false');
+    } else if (mode === 'saving') {
+      saveBtn.classList.add('save-muted');
+      label.textContent = 'Saving';
+      saveIcon.style.display = 'block';
+      saveIcon.innerHTML = ICON_REFRESH;
+      saveIcon.classList.add('spin');
+      saveBtn.disabled = true;
+      saveBtn.setAttribute('aria-disabled', 'true');
+    } else {
+      saveBtn.classList.add('save-muted');
+      label.textContent = 'Saved';
+      saveIcon.style.display = 'block';
+      saveIcon.innerHTML = ICON_CHECK;
+      saveBtn.disabled = true;
+      saveBtn.setAttribute('aria-disabled', 'true');
+    }
+  }
+
+  function setBusy(busy) {
+    toggle.disabled = busy;
+    cancelBtn.disabled = busy;
+  }
+
+  function updateStepLabel() {
+    if (phase === 'saving') {
+      stepLabel.textContent = STEP_COPY.saving;
+    } else if (phase === 'dirty') {
+      stepLabel.textContent = STEP_COPY.dirty;
+    } else if (committedOn) {
+      stepLabel.textContent = STEP_COPY.savedOn;
+    } else {
+      stepLabel.textContent = STEP_COPY.savedOff;
+    }
+  }
+
+  function render() {
+    setToggleVisual(uiOn);
+
+    if (phase === 'saving') {
+      setSaveButton('saving');
+      setBusy(true);
+    } else if (phase === 'dirty') {
+      setSaveButton('primary');
+      setBusy(false);
+    } else {
+      setSaveButton('saved');
+      setBusy(false);
+    }
+
+    updateStepLabel();
+  }
+
+  function clearSaveTimer() {
+    if (saveTimer) {
+      clearTimeout(saveTimer);
+      saveTimer = null;
+    }
+  }
+
+  function resetToStart() {
+    clearSaveTimer();
+    committedOn = true;
+    uiOn = true;
+    phase = 'saved';
+    render();
+  }
+
+  toggle.addEventListener('click', () => {
+    if (phase === 'saving') return;
+    uiOn = !uiOn;
+    phase = uiOn === committedOn ? 'saved' : 'dirty';
+    render();
+  });
+
+  saveBtn.addEventListener('click', () => {
+    if (phase !== 'dirty') return;
+    phase = 'saving';
+    render();
+
+    clearSaveTimer();
+    saveTimer = setTimeout(() => {
+      committedOn = uiOn;
+      phase = 'saved';
+      render();
+      saveTimer = null;
+    }, 1500);
+  });
+
+  cancelBtn.addEventListener('click', () => {
+    if (phase === 'saving') return;
+    uiOn = committedOn;
+    phase = 'saved';
+    render();
+  });
+
+  replayBtn.addEventListener('click', resetToStart);
+
+  resetToStart();
+})();
+</script>
+</body>
+</html>
