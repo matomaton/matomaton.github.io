@@ -1,4 +1,5 @@
-// Encrypts a readable page from _src/ into PROTO/ with StatiCrypt.
+// Encrypts a readable page from _src/<FOLDER>/ into <FOLDER>/ with StatiCrypt
+// (pages directly in _src/ go to PROTO/).
 //
 // Usage (Git Bash):
 //   STATICRYPT_PASSWORD='...' node scripts/protect-page.mjs _src/tripPlaner.html "Itinerary Builder"
@@ -15,18 +16,32 @@ import { dirname, join, basename, extname, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { execFileSync } from 'node:child_process';
 
-const SALT = '7e98a29110b72cbea1c72b6f7d60b1d5';
-const OUT_DIR = 'PROTO';
+// One salt (and password) per protected folder. Pages sharing a salt share "Remember me";
+// a different salt keeps that folder's unlock separate. Salts aren't secret.
+const FOLDERS = {
+  PROTO: { salt: '7e98a29110b72cbea1c72b6f7d60b1d5', kind: 'prototype' },
+  WORK:  { salt: 'de6c3178f45c2ad8850a345db40c38c5', kind: 'case study' },
+};
 const MIME = { '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.gif': 'image/gif', '.svg': 'image/svg+xml' };
 
-const [src, label = 'this page', kind = 'case study'] = process.argv.slice(2);
+const [src, labelArg, kindArg] = process.argv.slice(2);
 const password = process.env.STATICRYPT_PASSWORD;
 if (!src || !password) {
-  console.error('Usage: STATICRYPT_PASSWORD=... node scripts/protect-page.mjs <_src/file.html> ["Page name"] [kind]');
+  console.error('Usage: STATICRYPT_PASSWORD=... node scripts/protect-page.mjs <_src/[FOLDER/]file.html> ["Page name"] [kind]');
   process.exit(1);
 }
 
+// _src/<FOLDER>/x.html -> <FOLDER>/x.html; files directly in _src/ go to PROTO/
 const srcDir = dirname(resolve(src));
+const parent = basename(srcDir);
+const OUT_DIR = parent === '_src' ? 'PROTO' : parent;
+if (!FOLDERS[OUT_DIR]) {
+  console.error(`Unknown folder "${OUT_DIR}". Add it to FOLDERS in scripts/protect-page.mjs.`);
+  process.exit(1);
+}
+const SALT = FOLDERS[OUT_DIR].salt;
+const kind = kindArg ?? (parent === '_src' ? 'case study' : FOLDERS[OUT_DIR].kind);
+const label = labelArg ?? `This ${kind}`;
 let html = readFileSync(src, 'utf8');
 
 // Inline local images
