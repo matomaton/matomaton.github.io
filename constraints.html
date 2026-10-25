@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ===== PAGE META =====
+       Update title, description, and og tags if the headline changes. -->
+  <title>Embracing Constraints | Matthew Martin</title>
+  <meta name="description" content="Craft is how well you design within the constraints you are given. Judgment is how accurately you map them, and knowing which ones to challenge.">
+  <meta name="author" content="Matthew Martin">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Embracing Constraints">
+  <meta property="og:description" content="Craft is how well you design within the constraints you are given. Judgment is how accurately you map them, and knowing which ones to challenge.">
+  <meta property="og:image" content="images/eames-lcw-chair.jpg">
+
+  <link rel="stylesheet" href="stylesgem.css">
+</head>
+<body>
+
+  <!-- ===== SHARED: PROGRESS BAR =====
+       Paste the progress bar markup used on every article page. -->
+
+  <!-- ===== SHARED: SITE NAV =====
+       Paste the standard <header><nav> block here. -->
+
+  <main id="main">
+    <article class="container">
+
+      <!-- ===== ARTICLE HEADER ===== -->
+      <header class="article-header">
+        <p class="article-kicker">Design Practice</p>
+        <h1>Embracing Constraints</h1>
+        <p class="article-dek">
+          Craft is how well you design within the constraints you are given.
+          Judgment is how accurately you map them, and knowing which ones to challenge.
+        </p>
+        <p class="article-meta">
+          By Matthew Martin ·
+          <!-- Update datetime and display date on publish -->
+          <time datetime="2026-10-24">October 24, 2026</time>
+        </p>
+      </header>
+
+      <div class="article-body">
+
+        <!-- ===== EPIGRAPH ===== -->
+        <figure class="epigraph">
+          <blockquote>
+            <p>
+              Keys to the design problem — the ability of the designer to recognize as many of the
+              constraints as possible — his willingness and enthusiasm for working within these
+              constraints. Constraints of price, of size, of strength, of balance, of surface,
+              of time and so forth.
+            </p>
+          </blockquote>
+          <figcaption>Charles Eames</figcaption>
+        </figure>
+
+        <!-- ===== SECTION: INTRO ===== -->
+        <section id="intro">
+          <p>
+            Teams treat constraints as the thing standing between them and product release.
+            The budget is too small. The engineer is only half allocated. The legacy system will not bend.
+          </p>
+          <p>
+            Charles Eames saw it the other way around. Constraints are not in front of the design problem.
+            They are the design problem. Find as many constraints as you can. Then work within them, gladly.
+            He named price, size, strength, balance, surface, and time.
+          </p>
+          <p>
+            Then he wrote "and so forth." That open ending is where product design lives.
+          </p>
+        </section>
+
+      </div><!-- /.article-body (paused for the image) -->
+
+      <!-- ===== IMAGE: EAMES CHAIR =====
+           Sits OUTSIDE .article-body per site convention for wide images.
+           Add your lightbox attribute/class to the <img> if the site uses one.
+           Width and height prevent layout shift while the image loads. -->
+      <figure class="article-figure">
+        <img src="images/eames-lcw-chair.jpg"
+             width="686" height="800"
+             alt="Eames molded plywood lounge chair in warm blond wood, with a curved seat and back on four tapered legs."
+             loading="lazy">
+        <figcaption>
+          Eames LCW, molded plywood. Every curve answers a constraint you can see.
+          <!-- Add photo credit here, e.g. "Photo: Museum name" -->
+        </figcaption>
+      </figure>
+
+      <div class="article-body">
+
+        <!-- ===== SECTION: HIDDEN CONSTRAINTS ===== -->
+        <section id="hidden">
+          <h2>A chair shows you its constraints</h2>
+          <p>
+            A chair is tangible. You can weigh it, measure it, and sit on it.
+            If it is too heavy or too wobbly, everyone in the room can tell.
+          </p>
+          <p>
+            Digital products hide most of their constraints. They do not live in the object.
+          </p>
+          <p>
+            They live in <strong>people</strong>, <strong>systems</strong>, and <strong>decisions</strong>
+            spread across the organization.
+          </p>
+          <ul>
+            <li><strong>Undocumented.</strong> Someone knows, but it is not written down.</li>
+            <li><strong>Change.</strong> A staffing shift or a new contract moves them overnight.</li>
+            <li><strong>Layered.</strong> A screen can be fine on its own and still break a downstream system.</li>
+            <li><strong>Social.</strong> Ownership, trust, and past promises shape what is possible.</li>
+          </ul>
+          <p>
+            You will not find these by looking at the screen. You find them by asking.
+          </p>
+        </section>
+
+        <!-- ===== SECTION: PRODUCT CONSTRAINTS =====
+             Definition list: term = constraint type, description = examples. -->
+        <section id="product-constraints">
+          <h2>Eames's framework applied to digital product design</h2>
+          <dl class="constraint-list">
+            <dt>Surface</dt>
+            <dd>
+              The interface itself, across every touchpoint: app, web, internal tools, and email.
+              Each surface carries its own limits.
+            </dd>
+
+            <dt>Tech</dt>
+            <dd>Legacy systems, APIs, and what the design system already supports.</dd>
+
+            <dt>Capacity</dt>
+            <dd>Who is actually staffed, at what allocation, and for how long.</dd>
+
+            <dt>Business</dt>
+            <dd>Revenue model, compliance, and stakeholder commitments already made.</dd>
+
+            <dt>Human</dt>
+            <dd>Users' mental models, habits, and trust thresholds.</dd>
+
+            <dt>Time</dt>
+            <dd>
+              <p>Two kinds.</p>
+              <p>Delivery time: release cadence, dependencies, and sequencing.</p>
+              <p>User time: attention, task length, and patience. A chair only had the first kind.</p>
+            </dd>
+          </dl>
+        </section>
+
+        <!-- ===== SECTION: RECOGNIZE ===== -->
+        <section id="recognize">
+          <h2>Recognize as many as possible</h2>
+          <p>
+            That line is discovery. And discovery is not only user research.
+          </p>
+          <p>
+            My team calls it being detectives. Multiple product verticals with unclear ownership is a constraint.
+            A team without a technical lead is a constraint. A design that ignores them
+            <strong>looks great in Figma</strong>. Then it becomes throwaway work.
+          </p>
+          <p>
+            When a new direction ignores the constraints the current one was built around,
+            the people who built it feel that first. That frustration is a signal, not resistance.
+          </p>
+        </section>
+
+        <!-- ===== SECTION: ENTHUSIASM ===== -->
+        <section id="enthusiasm">
+          <h2>Willingness is not enthusiasm</h2>
+          <p>
+            Eames asked for both. How do they differ?
+          </p>
+          <p>
+            Willingness is accepting the constraint. Enthusiasm is using it as material.
+          </p>
+          <p>
+            Do not treat constraints as compromises to the "real" design, treat them as material.
+          </p>
+          <p>
+            A 40% allocation or a single engineer does not water down the right solution.
+            It shapes what the right solution actually is.
+          </p>
+        </section>
+
+        <!-- ===== SECTION: CONSTRAINT EVOLUTION =====
+             Ordered list: the numbers come from <ol>, so no "Step 1" text is needed.
+             Add a class like .step-list if you want "Step" labels styled in CSS. -->
+        <section id="evolution">
+          <h2>Constraint evolution</h2>
+          <ol class="step-list">
+            <li>Recognize the constraints.</li>
+            <li>Test which ones can move, and which are real limits versus habits.</li>
+            <li>Make the case to change the ones that do the most damage.</li>
+          </ol>
+        </section>
+
+        <!-- ===== SECTION: WHICH TO CHALLENGE ===== -->
+        <section id="which">
+          <h2>Which constraints to challenge</h2>
+          <dl class="constraint-list">
+            <dt>Fixed</dt>
+            <dd>Laws, physics, contracts, and the core business model. Design within these.</dd>
+
+            <dt>Structural</dt>
+            <dd>Budget, staffing, team boundaries, and tech stack. Challengeable, but expensive and slow.</dd>
+
+            <dt>Inherited</dt>
+            <dd>
+              "We have always done it this way." Old decisions nobody remembers making.
+              Assumptions about what users will not accept.
+              Usually the cheapest to move, and often the most damaging.
+            </dd>
+          </dl>
+          <p>
+            Look for where high cost meets low certainty. Find the constraint that blocks the most value
+            and that nobody can explain the reason for.
+          </p>
+        </section>
+
+        <!-- ===== SECTION: WHEN TO CHALLENGE ===== -->
+        <section id="when">
+          <h2>When to challenge</h2>
+          <ul>
+            <li>
+              <strong>Early.</strong> Before a roadmap or estimate locks in.
+              After commitments are made, a challenge reads as disruption instead of insight.
+            </li>
+            <li>
+              <strong>At natural openings.</strong> Planning cycles, budget seasons, reorgs, and leadership changes.
+              Org constraints go soft during transitions.
+            </li>
+            <li>
+              <strong>Not mid-delivery.</strong> Unless the constraint will cause the work to fail.
+              Otherwise, log it and raise it at the next opening.
+            </li>
+          </ul>
+        </section>
+
+        <!-- ===== SECTION: HOW TO MAKE IT LAND ===== -->
+        <section id="how">
+          <h2>How to make it land</h2>
+          <ul>
+            <li>
+              <strong>Show the cost.</strong> What living with the constraint is costing,
+              in their terms: revenue, time, rework, and trust.
+            </li>
+            <li>
+              <strong>Bring an alternative.</strong> A challenge without one just sounds like a complaint.
+            </li>
+            <li>
+              <strong>Start with a cheap test.</strong> A prototype, a pilot, or one small team trying it first.
+              It works because nobody has to bet everything.
+            </li>
+          </ul>
+        </section>
+
+        <!-- ===== SECTION: CHOOSING NOT TO ===== -->
+        <section id="accepting">
+          <h2>The flip side</h2>
+          <p>
+            Choosing not to challenge something matters too. Say it out loud.
+            "We are accepting this for now, and here is why."
+          </p>
+          <p>
+            That builds the credibility you will need for the fights that count.
+          </p>
+        </section>
+
+        <!-- ===== ADD NEW SECTIONS HERE =====
+             Copy this block, update the id and heading:
+
+        <section id="new-section-id">
+          <h2>Heading</h2>
+          <p>Paragraph.</p>
+        </section>
+        -->
+
+        <!-- ===== SECTION: TAKEAWAY ===== -->
+        <section id="takeaway">
+          <h2>The short version</h2>
+          <blockquote class="pull-quote">
+            <p>
+              Craft is how well you design within the constraints you are given.
+              Judgment is how accurately you map them, and knowing which ones to challenge.
+            </p>
+          </blockquote>
+        </section>
+
+        <!-- ===== GLOSSARY =====
+             Add a <tr> per new term. -->
+        <section id="glossary">
+          <h2>Glossary</h2>
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Term</th>
+                <th scope="col">Meaning</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Fixed constraint</td>
+                <td>A limit that cannot move, such as a law or contract.</td>
+              </tr>
+              <tr>
+                <td>Structural constraint</td>
+                <td>A limit set by how the organization is built. It can move, at a cost.</td>
+              </tr>
+              <tr>
+                <td>Inherited constraint</td>
+                <td>A limit that exists because of a past decision or assumption, not a current need.</td>
+              </tr>
+              <tr>
+                <td>Allocation</td>
+                <td>The share of a person's time assigned to a project.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+      </div><!-- /.article-body -->
+
+      <!-- ===== ARTICLE FOOTER: SOURCES ===== -->
+      <footer class="article-footer">
+        <h2>Sources</h2>
+        <ul>
+          <li>Charles Eames, <cite>Design Q&amp;A</cite>, interview with Madame L'Amic, 1972.</li>
+        </ul>
+      </footer>
+
+    </article>
+  </main>
+
+  <!-- ===== SHARED: SITE FOOTER =====
+       Paste the standard <footer> block here. -->
+
+  <!-- ===== SHARED: SCRIPTS =====
+       Paste lightbox and progress bar <script> tags here. -->
+
+</body>
+</html>
