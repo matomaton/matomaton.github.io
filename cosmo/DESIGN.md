@@ -16,8 +16,6 @@ colors:
   amber-deep: "#C26F06"
   amber2: "#FF9940"
   amber2-deep: "#B85A0A"
-  night: "#262E63"
-  night-deep: "#0B0F30"
   shutter-slate: "#6F8CBB"
   shutter-slate-deep: "#4A6694"
   dusk-indigo: "#2A2F6B"
@@ -27,7 +25,6 @@ colors:
   cream: "#FFF4E6"
   mullion: "#E6E9F4"
   mullion-hi: "#FFFFFF"
-  moonlight: "#FFE7B8"
 typography:
   display:
     fontFamily: "Gluten, M PLUS Rounded 1c, ui-rounded, system-ui, sans-serif"
@@ -140,19 +137,16 @@ Fully saturated clay: each wall is a bright mid-tone paired with a deep tone of 
 - **Dusk Indigo** (dusk-indigo): the one solid ink-coloured clay object colour: the "Follow him" cue, the active rail dot, the hero title body and the favicon paw.
 - **Honey** (honey): Dusk Indigo's dark-mode counterpart in the same three roles; also the dark-mode hero title.
 
-### Tertiary
-- **Night Clay** (night / night-deep): the closing wall only. It flips ink to cream locally and sits behind a painted night pane with Moonlight (moonlight) as its moon.
-
 ### Neutral
 - **Indigo Ink** (ink): all text on light walls and sill cards; also the focus outline.
-- **Soft Ink** (ink-soft): ledes, slot hints, signoff and paw trail.
-- **Cream** (cream): text on Dusk Indigo, the pin tag, stars, and the ink colour on Night Clay and in dark mode.
-- **Mullion White** (mullion / mullion-hi): window frames, ledges, sash bars and the rail. Always a 145deg gradient from mullion-hi to mullion, never flat.
+- **Soft Ink** (ink-soft): the hero lede.
+- **Cream** (cream): text on Dusk Indigo, the pin tag, and the ink colour in dark mode.
+- **Mullion White** (mullion / mullion-hi): window frames, ledges and the rail. Always a 145deg gradient from mullion-hi to mullion, never flat.
 
 ### Named Rules
 **The Paired Deep Rule.** Every wall colour ships with its deep partner, and every shadow on that wall is mixed from the deep tone (`color-mix(in oklab, var(--wall-deep) N%, transparent)`), never from black. Dark mode is the one exception and switches to black-alpha shadows.
 
-**The One Wall, One Hue Rule.** A wall changes colour only through its `data-wall` value. Components never hard-code a wall hue; sill cards derive theirs (`color-mix(in oklab, var(--wall) 34%, white)` light, 88% in dark, 84% on Night Clay).
+**The One Wall, One Hue Rule.** A wall changes colour only through its `data-wall` value. Components never hard-code a wall hue; sill cards derive theirs (`color-mix(in oklab, var(--wall) 34%, white)` light, 88% in dark).
 
 **The Dark Walls Rule.** In dark mode every wall keeps its hue but drops to a deep, low-light value of it (sky becomes #123E66, lawn #1D4D28, amber #5C3A0A), and ink becomes cream. Add a dark value for any new wall.
 
@@ -168,7 +162,7 @@ Fully saturated clay: each wall is a bright mid-tone paired with a deep tone of 
 - **Headline** (Gluten 800, clamp(2.1rem, 1.5rem + 2.6vw, 3.4rem), 1.02): chapter titles on sill cards, balanced wrapping.
 - **Title** (M PLUS Rounded 700, clamp(1.1rem, 1rem + 0.6vw, 1.35rem)): the hero lede in Soft Ink.
 - **Body** (M PLUS Rounded 400, clamp(1rem, 0.96rem + 0.25vw, 1.125rem), 1.65): story text on sills, pretty wrapping.
-- **Label** (M PLUS Rounded 800, 0.01em): pill buttons and the bold first line of a story slot.
+- **Label** (M PLUS Rounded 800, 0.01em): pill buttons.
 - **Tag** (Gluten 800, clamp(0.95rem, 0.8rem + 0.6vw, 1.25rem)): the location pin inside a photo.
 
 ### Named Rules
@@ -206,16 +200,16 @@ Depth is entirely clay: every raised object carries the same three-layer recipe 
 
 ## Shapes
 
-Everything is inflated and rounded; there are no sharp corners anywhere in the world. Radii are fluid: slabs (36-64px), frames (30-52px), sills (28-44px), with 16-20px for small parts (ledges, shutters, slots, the corners of shaped panes) and full pills for buttons, rail, sash bars and tags. The pane radius is always derived from the frame (`frame radius - frame pad x 0.6`) so the mullion looks equally thick all round.
+Everything is inflated and rounded; there are no sharp corners anywhere in the world. Radii are fluid: slabs (36-64px), frames (30-52px), sills (28-44px), with 16-20px for small parts (ledges, shutters, the corners of shaped panes) and full pills for buttons, rail and tags. The pane radius is always derived from the frame (`frame radius - frame pad x 0.6`) so the mullion looks equally thick all round.
 
-Window frames come in a small family of house shapes that share one grammar: the standard rounded rectangle, an **arch** (elliptical top), a **car windshield** (one large swept top-right corner), and a **sash** (a horizontal clay bar across the pane). Chapter windows rest on a mullion **ledge** wider than the frame (about 6% each side), and some carry a pair of slatted Shutter Slate **shutters** tucked behind the frame.
+Window frames come in a small family of house shapes that share one grammar: the standard rounded rectangle, an **arch** (elliptical top), and a **car windshield** (one large swept top-right corner). Chapter windows rest on a mullion **ledge** wider than the frame (about 6% each side), and some carry a pair of slatted Shutter Slate **shutters** tucked behind the frame.
 
 ## Components
 
 ### Window (signature)
 The page's only image container: a mullion-gradient clay frame around a recessed glass pane holding a cover-fit photo.
 - **Shape:** frame radius (frame), pane 4:3 (square in the hero).
-- **Variants:** arch, car, sash, shutters; any variant can rest on a ledge.
+- **Variants:** arch, car, shutters; any variant can rest on a ledge.
 - **Pane fill:** the wall-deep tone mixed toward #0b1030, visible before the image loads.
 - **Press:** on `:active` the frame squashes to scale(.975, .95) in 0.12s and springs back.
 - **Arrival:** when scrolled into view the frame squashes in (1.05s), and the photo rises from 30% below with blur and desaturation (1.25s, out-expo).
@@ -223,7 +217,7 @@ The page's only image container: a mullion-gradient clay frame around a recessed
 ### Sill Card
 The text surface, a clay slab tinted from its wall that overlaps its window.
 - **Corner Style:** sill radius.
-- **Background:** wall mixed with white (34% light, 88% dark, 84% on Night Clay).
+- **Background:** wall mixed with white (34% light, 88% dark).
 - **Shadow Strategy:** clay raise.
 - **Internal Padding:** sill-pad.
 - **Contents:** headline, body paragraphs spaced 1em apart.
@@ -240,8 +234,8 @@ The text surface, a clay slab tinted from its wall that overlaps its window.
 ### Location Pin
 A cream clay speech tag in Gluten with a rotated tail, placed inside a photo to point at a small Cosmo. It drops in 0.85s after its window lands.
 
-### Clay Clouds and Night Pane
-Puffy white clay clouds (pill plus two circles) drift slowly behind the hero window. The closing window is painted: a radial indigo night with a Moonlight clay moon and soft cream stars.
+### Clay Clouds
+Puffy white clay clouds (pill plus two circles) drift slowly behind the hero window.
 
 ## Do's and Don'ts
 

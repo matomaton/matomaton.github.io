@@ -43,7 +43,6 @@
 [data-wall="sky2"]   { --wall: #4FAEF2; --wall-deep: #135FA6; }
 [data-wall="lawn2"]  { --wall: #4FC27A; --wall-deep: #1B7A42; }
 [data-wall="amber2"] { --wall: #FF9940; --wall-deep: #B85A0A; }
-[data-wall="night"] { --wall: #262E63; --wall-deep: #0B0F30; --ink: #FFF4E6; --ink-soft: #DAD6F7; }
 
 @media (prefers-color-scheme: dark) {
   :root { --ink: #FFF4E6; --ink-soft: #E2DDF6; --frame: #C9CDE0; --frame-hi: #EEF0F8; }
@@ -54,13 +53,12 @@
   [data-wall="sky2"]   { --wall: #0F4A7A; --wall-deep: #031A30; }
   [data-wall="lawn2"]  { --wall: #134A33; --wall-deep: #031A10; }
   [data-wall="amber2"] { --wall: #5E2F0C; --wall-deep: #261003; }
-  [data-wall="night"] { --wall: #12163A; --wall-deep: #04061A; }
 }
 
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { background: #262E63; scrollbar-color: #41608F #E6E9F4; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-@media (prefers-color-scheme: dark) { html { background: #12163A; scrollbar-color: #8DA6CC #12163A; } }
+html { background: #FF9940; scrollbar-color: #41608F #E6E9F4; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+@media (prefers-color-scheme: dark) { html { background: #5E2F0C; scrollbar-color: #8DA6CC #12163A; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 body {
   margin: 0;
@@ -110,7 +108,6 @@ a { color: inherit; }
     0 -22px 44px -18px color-mix(in oklab, var(--wall-deep) 80%, transparent);
 }
 @media (prefers-color-scheme: dark) {
-  .window--sash .window__pane::before { box-shadow: inset 0 3px 4px rgba(255,255,255,.6), inset 0 -4px 6px rgba(0,0,0,.3), 0 8px 12px rgba(0,0,0,.45); }
   .wall + .wall { box-shadow: inset 0 10px 16px -6px rgba(255,255,255,.1), 0 -22px 44px -18px rgba(0,0,0,.6); }
 }
 
@@ -191,11 +188,6 @@ a { color: inherit; }
 .window--arch .window__pane { border-radius: 50% 50% 18px 18px / clamp(96px, 16vw, 200px) clamp(96px, 16vw, 200px) 18px 18px; }
 .window--car .window__frame { border-radius: var(--r) clamp(70px, 14vw, 170px) var(--r) var(--r); }
 .window--car .window__pane { border-radius: 18px clamp(56px, 12vw, 150px) 18px 18px; }
-.window--sash .window__pane::before {
-  content: ""; position: absolute; left: -4%; right: -4%; top: 47%; height: clamp(10px, 1.6vw, 18px);
-  background: var(--frame); z-index: 3; border-radius: 999px;
-  box-shadow: inset 0 3px 4px rgba(255,255,255,.8), inset 0 -4px 6px color-mix(in oklab, var(--wall-deep) 35%, transparent), 0 8px 12px rgba(10,14,50,.35);
-}
 
 /* ---------- Hero ---------- */
 .hero {
@@ -283,7 +275,6 @@ a { color: inherit; }
   margin-top: clamp(4rem, 10vw, 8rem);
 }
 @media (prefers-color-scheme: dark) { .sill { background: color-mix(in oklab, var(--wall) 88%, white); } }
-[data-wall="night"] .sill { background: color-mix(in oklab, var(--wall) 84%, white); }
 .chapter--flip .window { grid-column: 5 / span 8; }
 .chapter--flip .sill { grid-column: 1 / span 5; margin-top: calc(clamp(4rem, 10vw, 8rem) * -1); }
 .chapter--wide .window { grid-column: 1 / -1; }
@@ -292,17 +283,6 @@ a { color: inherit; }
 .chapter--stack .sill { grid-column: 4 / span 6; grid-row: 2; margin-top: .4rem; }
 .sill h2 { font-size: clamp(2.1rem, 1.5rem + 2.6vw, 3.4rem); margin-bottom: .55em; }
 .sill p + p { margin-top: 1em; }
-
-/* story slot: visible until the real story replaces it */
-.slot {
-  display: grid; grid-template-columns: auto 1fr; gap: .7rem;
-  padding: 1rem 1.1rem;
-  border: 2px dashed color-mix(in oklab, var(--ink) 38%, transparent);
-  border-radius: 20px;
-  color: var(--ink-soft);
-}
-.slot svg { width: 1.25rem; height: 1.25rem; margin-top: .2rem; }
-.slot strong { display: block; color: var(--ink); font-weight: 800; }
 
 /* lawn: where is he? */
 .pin {
@@ -322,24 +302,6 @@ a { color: inherit; }
   width: 18px; height: 18px; background: inherit; rotate: 45deg; border-radius: 0 0 6px 0; z-index: -1;
   box-shadow: 4px 4px 6px -2px rgba(10,14,50,.4);
 }
-
-/* ---------- Close ---------- */
-.close .window__pane {
-  background:
-    radial-gradient(120% 90% at 70% 10%, #3D4FA8 0%, #1D2560 55%, #0E1236 100%);
-}
-.moon {
-  position: absolute; z-index: 1; width: 22%; aspect-ratio: 1; right: 14%; top: 14%;
-  border-radius: 50%; background: #FFE7B8;
-  box-shadow: inset 6px 8px 12px #FFF8E8, inset -10px -14px 20px rgba(190,120,40,.45), 0 0 60px rgba(255,220,150,.35);
-}
-.star { position: absolute; z-index: 1; width: 8px; height: 8px; border-radius: 50%; background: #FFF4E6; box-shadow: 0 0 10px rgba(255,244,230,.8); }
-.paws { display: flex; gap: .9rem; margin-top: 1.6rem; color: var(--ink-soft); }
-.paws svg { width: 1.6rem; height: 1.6rem; }
-.paws svg:nth-child(1) { rotate: -18deg; opacity: .9; }
-.paws svg:nth-child(2) { rotate: 8deg; translate: 0 -8px; opacity: .65; }
-.paws svg:nth-child(3) { rotate: -12deg; opacity: .4; }
-.signoff { margin-top: 1.6rem; font-size: .9rem; color: var(--ink-soft); }
 
 /* ---------- Rail (desktop wayfinding) ---------- */
 .rail {
@@ -410,14 +372,11 @@ a { color: inherit; }
     <li><a href="#oscar" aria-label="Oscar keeps watch"></a></li>
     <li><a href="#screen" aria-label="Nose to nose"></a></li>
     <li><a href="#drives" aria-label="Cosmo drives"></a></li>
-    <li><a href="#dinner" aria-label="He brought dinner"></a></li>
-    <li><a href="#glass" aria-label="See you at the glass"></a></li>
-  </ol>
+    <li><a href="#dinner" aria-label="He brought dinner"></a></li>  </ol>
 </nav>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="paw" viewBox="0 0 32 32"><g fill="currentColor"><ellipse cx="16" cy="21.5" rx="7.2" ry="6.2"/><ellipse cx="7.2" cy="13.5" rx="3" ry="3.5"/><ellipse cx="12.6" cy="7.6" rx="3" ry="3.6"/><ellipse cx="19.4" cy="7.6" rx="3" ry="3.6"/><ellipse cx="24.8" cy="13.5" rx="3" ry="3.5"/></g></symbol>
-  <symbol id="pencil" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M4 20l1.2-4.6L15.8 4.8a2.1 2.1 0 0 1 3 0l.4.4a2.1 2.1 0 0 1 0 3L8.6 18.8 4 20zM14 6.6l3.4 3.4"/></symbol>
 </svg>
 
 <main>
@@ -579,31 +538,6 @@ a { color: inherit; }
     </div>
   </section>
 
-  <!-- Close -->
-  <section class="wall chapter chapter--flip close" data-wall="night" id="glass" aria-labelledby="h-glass">
-    <div class="chapter__inner">
-      <figure class="window window--sash" style="--tilt:-.8deg" aria-hidden="true">
-        <div class="window__frame clay">
-          <div class="window__pane">
-            <span class="moon"></span>
-            <span class="star" style="left:18%;top:22%"></span>
-            <span class="star" style="left:34%;top:12%;scale:.6"></span>
-            <span class="star" style="left:52%;top:30%;scale:.8"></span>
-            <span class="star" style="left:12%;top:62%;scale:.5"></span>
-            <span class="star" style="left:44%;top:74%;scale:.7"></span>
-            <span class="star" style="left:80%;top:66%;scale:.55"></span>
-          </div>
-        </div>
-      </figure>
-      <div class="sill clay">
-        <h2 id="h-glass">See you at the glass</h2>
-        <!-- STORY: replace the .slot paragraph below with your text -->
-        <p class="slot"><svg aria-hidden="true"><use href="#pencil"/></svg><span><strong>Your closing note goes here.</strong>Where is he tonight? What would you tell him?</span></p>
-        <div class="paws" aria-hidden="true"><svg><use href="#paw"/></svg><svg><use href="#paw"/></svg><svg><use href="#paw"/></svg></div>
-        <p class="signoff">A visiting cat, photographed through the glass.</p>
-      </div>
-    </div>
-  </section>
 </main>
 
 <script>
