@@ -2,3 +2,6 @@
 
 # Readable sources for password-protected pages (never commit)
 _src/
+
+# Impeccable design-tool working files (never publish)
+.impeccable/

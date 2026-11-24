@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cosmo at the Window</title>
+<meta name="description" content="Cosmo doesn't live here. He just visits, and he always turns up at the glass.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#6CC2FF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#123E66" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="Cosmo at the Window">
+<meta property="og:description" content="He doesn't live here. He just visits.">
+<meta property="og:image" content="https://matomaton.github.io/cosmo/images/peek-620.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cg fill='%232A2F6B'%3E%3Cellipse cx='16' cy='21' rx='7' ry='6'/%3E%3Ccircle cx='7.5' cy='13' r='3'/%3E%3Ccircle cx='12.5' cy='7.5' r='3'/%3E%3Ccircle cx='19.5' cy='7.5' r='3'/%3E%3Ccircle cx='24.5' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preload" href="fonts/gluten-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/mplus-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="images/peek-620.webp" type="image/webp">
+<style>
+@font-face { font-family: "Gluten"; src: url(fonts/gluten-latin.woff2) format("woff2"); font-weight: 500 900; font-display: swap; }
+@font-face { font-family: "M PLUS Rounded 1c"; src: url(fonts/mplus-400.woff2) format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "M PLUS Rounded 1c"; src: url(fonts/mplus-700.woff2) format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "M PLUS Rounded 1c"; src: url(fonts/mplus-800.woff2) format("woff2"); font-weight: 800; font-display: swap; }
+
+/* ---------- World ---------- */
+:root {
+  color-scheme: light dark;
+  --ink: #1C2046;
+  --ink-soft: #383D6C;
+  --frame: #E6E9F4;
+  --frame-hi: #FFFFFF;
+  --display: "Gluten", "M PLUS Rounded 1c", ui-rounded, system-ui, sans-serif;
+  --body: "M PLUS Rounded 1c", ui-rounded, system-ui, sans-serif;
+  --spring: cubic-bezier(.34, 1.7, .5, 1);
+  --out-expo: cubic-bezier(.16, 1, .3, 1);
+  --slab-r: clamp(36px, 6vw, 64px);
+  --gutter: clamp(16px, 4vw, 48px);
+}
+
+[data-wall="sky"]    { --wall: #6CC2FF; --wall-deep: #1F78C4; }
+[data-wall="slate"]  { --wall: #8DA6CC; --wall-deep: #41608F; }
+[data-wall="lawn"]   { --wall: #72D35F; --wall-deep: #2D8C36; }
+[data-wall="amber"]  { --wall: #FFB341; --wall-deep: #C26F06; }
+[data-wall="sky2"]   { --wall: #4FAEF2; --wall-deep: #135FA6; }
+[data-wall="lawn2"]  { --wall: #4FC27A; --wall-deep: #1B7A42; }
+[data-wall="amber2"] { --wall: #FF9940; --wall-deep: #B85A0A; }
+[data-wall="night"] { --wall: #262E63; --wall-deep: #0B0F30; --ink: #FFF4E6; --ink-soft: #DAD6F7; }
+
+@media (prefers-color-scheme: dark) {
+  :root { --ink: #FFF4E6; --ink-soft: #E2DDF6; --frame: #C9CDE0; --frame-hi: #EEF0F8; }
+  [data-wall="sky"]    { --wall: #123E66; --wall-deep: #04182C; }
+  [data-wall="slate"]  { --wall: #2B3A55; --wall-deep: #0C1424; }
+  [data-wall="lawn"]   { --wall: #1D4D28; --wall-deep: #071C0D; }
+  [data-wall="amber"]  { --wall: #5C3A0A; --wall-deep: #241503; }
+  [data-wall="sky2"]   { --wall: #0F4A7A; --wall-deep: #031A30; }
+  [data-wall="lawn2"]  { --wall: #134A33; --wall-deep: #031A10; }
+  [data-wall="amber2"] { --wall: #5E2F0C; --wall-deep: #261003; }
+  [data-wall="night"] { --wall: #12163A; --wall-deep: #04061A; }
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { background: #262E63; scrollbar-color: #41608F #E6E9F4; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+@media (prefers-color-scheme: dark) { html { background: #12163A; scrollbar-color: #8DA6CC #12163A; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  font-family: var(--body);
+  font-size: clamp(1rem, .96rem + .25vw, 1.125rem);
+  line-height: 1.65;
+  color: var(--ink);
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: #FFC673; color: #1C2046; }
+img { display: block; max-width: 100%; }
+h1, h2 { font-family: var(--display); font-weight: 800; line-height: 1.02; letter-spacing: -0.01em; text-wrap: balance; margin: 0; }
+p { margin: 0; text-wrap: pretty; }
+a { color: inherit; }
+:focus-visible { outline: 4px solid var(--ink); outline-offset: 4px; border-radius: 999px; }
+.vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- Clay recipe ---------- */
+.clay {
+  box-shadow:
+    inset 6px 8px 12px rgba(255,255,255,.72),
+    inset -8px -12px 22px color-mix(in oklab, var(--wall-deep) 34%, transparent),
+    16px 26px 46px -12px color-mix(in oklab, var(--wall-deep) 72%, transparent);
+}
+@media (prefers-color-scheme: dark) {
+  .clay {
+    box-shadow:
+      inset 5px 7px 10px rgba(255,255,255,.28),
+      inset -8px -12px 22px rgba(0,0,0,.32),
+      16px 26px 46px -12px rgba(0,0,0,.55);
+  }
+}
+
+/* ---------- Walls (each section is a slab of clay stacked on the last) ---------- */
+.wall {
+  position: relative;
+  background: var(--wall);
+  color: var(--ink);
+  padding-block: clamp(5.5rem, 12vw, 9.5rem);
+}
+.wall + .wall {
+  margin-top: calc(var(--slab-r) * -1);
+  border-radius: var(--slab-r) var(--slab-r) 0 0;
+  box-shadow:
+    inset 0 10px 16px -6px rgba(255,255,255,.4),
+    0 -22px 44px -18px color-mix(in oklab, var(--wall-deep) 80%, transparent);
+}
+@media (prefers-color-scheme: dark) {
+  .window--sash .window__pane::before { box-shadow: inset 0 3px 4px rgba(255,255,255,.6), inset 0 -4px 6px rgba(0,0,0,.3), 0 8px 12px rgba(0,0,0,.45); }
+  .wall + .wall { box-shadow: inset 0 10px 16px -6px rgba(255,255,255,.1), 0 -22px 44px -18px rgba(0,0,0,.6); }
+}
+
+/* ---------- Window ---------- */
+.window { margin: 0; position: relative; rotate: var(--tilt, 0deg); }
+.window__frame {
+  --r: clamp(30px, 4.5vw, 52px);
+  --pad: clamp(12px, 2.2vw, 26px);
+  position: relative;
+  background: linear-gradient(145deg, var(--frame-hi) 0%, var(--frame) 70%);
+  border-radius: var(--r);
+  padding: var(--pad);
+  transition: transform .6s var(--spring);
+  transform-origin: 50% 100%;
+}
+.window__pane {
+  position: relative;
+  overflow: hidden;
+  border-radius: calc(var(--r) - var(--pad) * .6);
+  aspect-ratio: 4 / 3;
+  background: color-mix(in oklab, var(--wall-deep) 50%, #0b1030);
+  isolation: isolate;
+}
+.window__pane img { width: 100%; height: 100%; object-fit: cover; }
+/* the recess + a breath of glass */
+.window__pane::after {
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(118deg, rgba(255,255,255,.09) 0 9%, transparent 9% 15%, rgba(255,255,255,.06) 15% 17%, transparent 17%);
+  box-shadow:
+    inset 0 10px 18px rgba(10, 14, 50, .38),
+    inset 0 -3px 0 rgba(255,255,255,.35),
+    inset 6px 0 12px rgba(10,14,50,.18);
+  z-index: 2;
+}
+/* the ledge every chapter window rests on */
+.chapter .window__frame::after {
+  content: ""; position: absolute; z-index: -1;
+  left: -6%; right: -6%; bottom: calc(clamp(14px, 1.8vw, 22px) * -1);
+  height: clamp(26px, 3.4vw, 40px);
+  border-radius: 16px;
+  background: linear-gradient(180deg, var(--frame-hi), var(--frame));
+  box-shadow: inset 0 -6px 10px color-mix(in oklab, var(--wall-deep) 30%, transparent), 0 16px 24px -10px color-mix(in oklab, var(--wall-deep) 75%, transparent);
+}
+@media (prefers-color-scheme: dark) { .chapter .window__frame::after { box-shadow: inset 0 -6px 10px rgba(0,0,0,.3), 0 16px 24px -10px rgba(0,0,0,.6); } }
+
+/* clay shutters in shutter slate */
+.window--shutters::before, .window--shutters::after {
+  content: ""; position: absolute; z-index: -1; top: 4%; bottom: 4%;
+  width: 13%;
+  border-radius: 18px;
+  background:
+    repeating-linear-gradient(180deg, transparent 0 13px, rgba(10,20,45,.18) 13px 15px, rgba(255,255,255,.22) 15px 16px),
+    linear-gradient(145deg, #6F8CBB, #4A6694);
+  box-shadow: inset 4px 5px 8px rgba(255,255,255,.35), inset -5px -7px 12px rgba(10,20,45,.3), 10px 16px 28px -10px color-mix(in oklab, var(--wall-deep) 80%, transparent);
+}
+.window--shutters::before { left: -9%; }
+.window--shutters::after  { right: -9%; }
+@media (max-width: 859px) {
+  .chapter .window { width: 84%; justify-self: center; }
+  .window--shutters::before, .window--shutters::after { width: 7%; }
+  .window--shutters::before { left: -7.5%; }
+  .window--shutters::after { right: -7.5%; }
+}
+@media (prefers-color-scheme: dark) {
+  .window--shutters::before, .window--shutters::after {
+    background: repeating-linear-gradient(180deg, transparent 0 13px, rgba(0,0,0,.25) 13px 15px, rgba(255,255,255,.08) 15px 16px), linear-gradient(145deg, #3D5480, #26385A);
+    box-shadow: inset 4px 5px 8px rgba(255,255,255,.12), inset -5px -7px 12px rgba(0,0,0,.35), 10px 16px 28px -10px rgba(0,0,0,.6);
+  }
+}
+
+.window:active .window__frame { transform: scale(.975, .95); transition-duration: .12s; }
+
+/* frame shapes: one grammar, different houses */
+.window--arch .window__frame { --r: clamp(30px, 4.5vw, 52px); border-radius: 50% 50% var(--r) var(--r) / clamp(110px, 18vw, 220px) clamp(110px, 18vw, 220px) var(--r) var(--r); padding-top: clamp(22px, 3.4vw, 40px); }
+.window--arch .window__pane { border-radius: 50% 50% 18px 18px / clamp(96px, 16vw, 200px) clamp(96px, 16vw, 200px) 18px 18px; }
+.window--car .window__frame { border-radius: var(--r) clamp(70px, 14vw, 170px) var(--r) var(--r); }
+.window--car .window__pane { border-radius: 18px clamp(56px, 12vw, 150px) 18px 18px; }
+.window--sash .window__pane::before {
+  content: ""; position: absolute; left: -4%; right: -4%; top: 47%; height: clamp(10px, 1.6vw, 18px);
+  background: var(--frame); z-index: 3; border-radius: 999px;
+  box-shadow: inset 0 3px 4px rgba(255,255,255,.8), inset 0 -4px 6px color-mix(in oklab, var(--wall-deep) 35%, transparent), 0 8px 12px rgba(10,14,50,.35);
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding-block: clamp(3rem, 8vh, 5rem) clamp(5rem, 12vh, 7rem);
+  overflow: clip;
+}
+.hero__stack { position: relative; z-index: 2; display: grid; justify-items: center; width: min(100% - 2 * var(--gutter), 760px); }
+.hero .window { width: min(86vw, 54svh, 500px); --tilt: -1.5deg; }
+.hero .window__pane { aspect-ratio: 1; }
+.hero .window__pane img { object-position: 50% 50%; }
+.hero__sill {
+  position: relative;
+  z-index: 3;
+  margin-top: clamp(-34px, -4vw, -22px);
+  width: min(100%, 680px);
+  background: color-mix(in oklab, var(--wall) 34%, white);
+  border-radius: clamp(28px, 4vw, 44px);
+  padding: clamp(1.4rem, 3.4vw, 2.2rem) clamp(1.4rem, 4vw, 3rem) clamp(1.5rem, 3.4vw, 2.2rem);
+  text-align: center;
+}
+@media (prefers-color-scheme: dark) { .hero__sill { background: color-mix(in oklab, var(--wall) 88%, white); } }
+.hero h1 {
+  font-size: clamp(3.75rem, 13vw, 6rem);
+  font-weight: 900;
+  line-height: .95;
+  color: #2A2F6B;
+  text-shadow:
+    0 2px 0 #23285F, 0 4px 0 #1E2255, 0 6px 0 #191C4A,
+    0 14px 22px rgba(20, 24, 80, .35);
+}
+@media (prefers-color-scheme: dark) {
+  .hero h1 { color: #FFD08A; text-shadow: 0 2px 0 #E0A653, 0 4px 0 #C98A36, 0 6px 0 #A86E22, 0 14px 22px rgba(0,0,0,.5); }
+}
+.hero__lede { margin-top: .9rem; font-size: clamp(1.1rem, 1rem + .6vw, 1.35rem); font-weight: 700; color: var(--ink-soft); }
+.cue {
+  margin-top: 1.3rem;
+  display: inline-flex; align-items: center; gap: .55rem;
+  padding: .75rem 1.35rem .75rem 1.1rem;
+  border-radius: 999px;
+  background: #2A2F6B; color: #FFF4E6;
+  font-weight: 800; text-decoration: none; letter-spacing: .01em;
+  box-shadow: inset 3px 4px 6px rgba(255,255,255,.28), inset -4px -6px 10px rgba(0,0,0,.35), 8px 14px 24px -8px rgba(20,24,80,.6);
+  transition: transform .5s var(--spring);
+}
+.cue svg { width: 1.3rem; height: 1.3rem; }
+.cue:hover { transform: translateY(-2px) scale(1.04); }
+.cue:active { transform: scale(.94, .9); transition-duration: .1s; }
+@media (prefers-color-scheme: dark) { .cue { background: #FFD08A; color: #1C2046; box-shadow: inset 3px 4px 6px rgba(255,255,255,.6), inset -4px -6px 10px rgba(120,70,0,.4), 8px 14px 24px -8px rgba(0,0,0,.7); } }
+
+/* clay clouds */
+.cloud {
+  position: absolute; z-index: 1;
+  width: 190px; height: 62px; border-radius: 999px;
+  background: #FFFFFF;
+  opacity: .92;
+}
+.cloud::before, .cloud::after { content: ""; position: absolute; background: inherit; border-radius: 50%; box-shadow: inherit; }
+.cloud::before { width: 92px; height: 92px; left: 28px; top: -46px; }
+.cloud::after  { width: 64px; height: 64px; left: 100px; top: -30px; }
+.cloud--a { top: 13%; left: -46px; }
+.cloud--b { top: 30%; right: -20px; scale: .8; }
+.cloud--c { bottom: 16%; left: 6%; scale: .6; }
+@media (max-width: 700px) { .cloud { scale: .55; } .cloud--b { right: -60px; } .cloud--c { display: none; } }
+@media (prefers-color-scheme: dark) { .cloud { background: #2A5F8F; opacity: .85; } }
+
+/* ---------- Chapters ---------- */
+.chapter__inner {
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: center;
+}
+.chapter .window { grid-column: 1 / span 8; grid-row: 1; }
+.sill {
+  grid-column: 8 / span 5; grid-row: 1;
+  position: relative; z-index: 2;
+  background: color-mix(in oklab, var(--wall) 34%, white);
+  border-radius: clamp(28px, 3.6vw, 44px);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  margin-top: clamp(4rem, 10vw, 8rem);
+}
+@media (prefers-color-scheme: dark) { .sill { background: color-mix(in oklab, var(--wall) 88%, white); } }
+[data-wall="night"] .sill { background: color-mix(in oklab, var(--wall) 84%, white); }
+.chapter--flip .window { grid-column: 5 / span 8; }
+.chapter--flip .sill { grid-column: 1 / span 5; margin-top: calc(clamp(4rem, 10vw, 8rem) * -1); }
+.chapter--wide .window { grid-column: 1 / -1; }
+.chapter--wide .sill { grid-column: 3 / span 8; grid-row: 2; margin-top: clamp(-6rem, -8vw, -3rem); }
+.chapter--stack .window { grid-column: 3 / span 8; }
+.chapter--stack .sill { grid-column: 4 / span 6; grid-row: 2; margin-top: .4rem; }
+.sill h2 { font-size: clamp(2.1rem, 1.5rem + 2.6vw, 3.4rem); margin-bottom: .55em; }
+.sill p + p { margin-top: 1em; }
+
+/* story slot: visible until the real story replaces it */
+.slot {
+  display: grid; grid-template-columns: auto 1fr; gap: .7rem;
+  padding: 1rem 1.1rem;
+  border: 2px dashed color-mix(in oklab, var(--ink) 38%, transparent);
+  border-radius: 20px;
+  color: var(--ink-soft);
+}
+.slot svg { width: 1.25rem; height: 1.25rem; margin-top: .2rem; }
+.slot strong { display: block; color: var(--ink); font-weight: 800; }
+
+/* lawn: where is he? */
+.pin {
+  position: absolute; z-index: 3;
+  left: 49.5%; top: 34%;
+  translate: -50% -100%;
+  padding: .35rem .85rem .4rem;
+  border-radius: 999px;
+  background: #FFF4E6; color: #1C2046;
+  font-family: var(--display); font-weight: 800; font-size: clamp(.95rem, .8rem + .6vw, 1.25rem);
+  box-shadow: inset 2px 3px 4px #fff, inset -3px -4px 6px rgba(150,90,20,.3), 0 10px 18px -6px rgba(10,14,50,.55);
+  white-space: nowrap;
+  margin-top: -14px;
+}
+.pin::after {
+  content: ""; position: absolute; left: 50%; bottom: -9px; translate: -50% 0;
+  width: 18px; height: 18px; background: inherit; rotate: 45deg; border-radius: 0 0 6px 0; z-index: -1;
+  box-shadow: 4px 4px 6px -2px rgba(10,14,50,.4);
+}
+
+/* ---------- Close ---------- */
+.close .window__pane {
+  background:
+    radial-gradient(120% 90% at 70% 10%, #3D4FA8 0%, #1D2560 55%, #0E1236 100%);
+}
+.moon {
+  position: absolute; z-index: 1; width: 22%; aspect-ratio: 1; right: 14%; top: 14%;
+  border-radius: 50%; background: #FFE7B8;
+  box-shadow: inset 6px 8px 12px #FFF8E8, inset -10px -14px 20px rgba(190,120,40,.45), 0 0 60px rgba(255,220,150,.35);
+}
+.star { position: absolute; z-index: 1; width: 8px; height: 8px; border-radius: 50%; background: #FFF4E6; box-shadow: 0 0 10px rgba(255,244,230,.8); }
+.paws { display: flex; gap: .9rem; margin-top: 1.6rem; color: var(--ink-soft); }
+.paws svg { width: 1.6rem; height: 1.6rem; }
+.paws svg:nth-child(1) { rotate: -18deg; opacity: .9; }
+.paws svg:nth-child(2) { rotate: 8deg; translate: 0 -8px; opacity: .65; }
+.paws svg:nth-child(3) { rotate: -12deg; opacity: .4; }
+.signoff { margin-top: 1.6rem; font-size: .9rem; color: var(--ink-soft); }
+
+/* ---------- Rail (desktop wayfinding) ---------- */
+.rail {
+  position: fixed; z-index: 50; right: 18px; top: 50%; translate: 0 -50%;
+  padding: 12px 9px; border-radius: 999px;
+  background: linear-gradient(145deg, #FFFFFF, #E6E9F4);
+  box-shadow: inset 2px 3px 5px rgba(255,255,255,.8), inset -3px -4px 8px rgba(20,24,80,.15), 6px 10px 22px -8px rgba(20,24,80,.45);
+}
+.rail ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.rail a { display: block; width: 14px; height: 14px; border-radius: 50%; background: #FFFFFF; box-shadow: inset 2px 2px 3px #fff, inset -2px -3px 4px rgba(20,24,80,.25), 1px 2px 4px rgba(20,24,80,.3); transition: transform .45s var(--spring), background-color .3s; }
+.rail a:hover { transform: scale(1.25); }
+.rail a[aria-current="true"] { background: #2A2F6B; transform: scale(1.3); }
+@media (prefers-color-scheme: dark) {
+  .rail { background: linear-gradient(145deg, #2E3566, #1C2046); box-shadow: inset 2px 3px 5px rgba(255,255,255,.12), 6px 10px 22px -8px rgba(0,0,0,.6); }
+  .rail a { background: #8A86B8; }
+  .rail a[aria-current="true"] { background: #FFD08A; }
+}
+@media (max-width: 899px) { .rail { display: none; } }
+
+/* ---------- Small screens ---------- */
+@media (max-width: 859px) {
+  .chapter__inner { grid-template-columns: minmax(0, 1fr); }
+  .chapter .window, .chapter--flip .window, .chapter--wide .window, .chapter--stack .window { grid-column: 1; grid-row: 1; }
+  .sill, .chapter--flip .sill, .chapter--wide .sill, .chapter--stack .sill { grid-column: 1; grid-row: 2; margin: -.2rem 3% 0; }
+}
+
+/* ---------- Motion: arrival at the glass ---------- */
+@keyframes squish {
+  0%   { transform: translateY(18px) scale(1.07, .88); }
+  32%  { transform: translateY(-8px) scale(.96, 1.05); }
+  56%  { transform: translateY(2px) scale(1.025, .975); }
+  76%  { transform: translateY(-1px) scale(.992, 1.01); }
+  100% { transform: none; }
+}
+@keyframes rise {
+  from { transform: translateY(30%) scale(1.14); filter: blur(6px) saturate(.6); }
+  to   { transform: none; filter: none; }
+}
+@keyframes pin-drop {
+  0%   { transform: translateY(-40px) scale(.6); opacity: 0; }
+  60%  { transform: translateY(4px) scale(1.06, .92); opacity: 1; }
+  100% { transform: none; }
+}
+@keyframes drift { to { transform: translateX(34px); } }
+@keyframes nudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+
+.motion .window:not(.is-in) .window__frame { transform: translateY(18px) scale(1.07, .88); }
+.motion .window:not(.is-in) .window__pane img { transform: translateY(30%) scale(1.14); filter: blur(6px) saturate(.6); }
+.motion .window:not(.is-in) .pin { opacity: 0; }
+.motion .window.is-in .window__frame { animation: squish 1.05s ease-out backwards; }
+.motion .window.is-in .window__pane img { animation: rise 1.25s var(--out-expo) backwards; }
+.motion .window.is-in .pin { animation: pin-drop .7s var(--spring) .85s backwards; }
+.motion .cloud { animation: drift 16s ease-in-out infinite alternate; }
+.motion .cloud--b { animation-duration: 21s; animation-direction: alternate-reverse; }
+.motion .cue svg { animation: nudge 1.8s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .window__frame, .cue, .rail a { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<nav class="rail" aria-label="Chapters">
+  <ol>
+    <li><a href="#top" aria-label="Top: Cosmo"></a></li>
+    <li><a href="#urgent" aria-label="Urgent message"></a></li>
+    <li><a href="#lawn" aria-label="Lawn, occupied"></a></li>
+    <li><a href="#oscar" aria-label="Oscar keeps watch"></a></li>
+    <li><a href="#screen" aria-label="Nose to nose"></a></li>
+    <li><a href="#drives" aria-label="Cosmo drives"></a></li>
+    <li><a href="#dinner" aria-label="He brought dinner"></a></li>
+    <li><a href="#glass" aria-label="See you at the glass"></a></li>
+  </ol>
+</nav>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="paw" viewBox="0 0 32 32"><g fill="currentColor"><ellipse cx="16" cy="21.5" rx="7.2" ry="6.2"/><ellipse cx="7.2" cy="13.5" rx="3" ry="3.5"/><ellipse cx="12.6" cy="7.6" rx="3" ry="3.6"/><ellipse cx="19.4" cy="7.6" rx="3" ry="3.6"/><ellipse cx="24.8" cy="13.5" rx="3" ry="3.5"/></g></symbol>
+  <symbol id="pencil" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M4 20l1.2-4.6L15.8 4.8a2.1 2.1 0 0 1 3 0l.4.4a2.1 2.1 0 0 1 0 3L8.6 18.8 4 20zM14 6.6l3.4 3.4"/></symbol>
+</svg>
+
+<main>
+  <!-- Opening -->
+  <header class="wall hero" data-wall="sky" id="top">
+    <span class="cloud cloud--a clay" aria-hidden="true"></span>
+    <span class="cloud cloud--b clay" aria-hidden="true"></span>
+    <span class="cloud cloud--c clay" aria-hidden="true"></span>
+    <div class="hero__stack">
+      <figure class="window window--hero">
+        <div class="window__frame clay">
+          <div class="window__pane">
+            <picture>
+              <source type="image/webp" srcset="images/peek-620.webp">
+              <img src="images/peek-620.jpg" width="620" height="620" fetchpriority="high"
+                   alt="Cosmo, a brown tabby-and-white cat, staring in through a window screen, a yellow-green tree behind him.">
+            </picture>
+          </div>
+        </div>
+      </figure>
+      <div class="hero__sill clay">
+        <h1>Cosmo</h1>
+        <p class="hero__lede">He doesn't live here. He just visits.</p>
+        <a class="cue" href="#urgent"><svg aria-hidden="true"><use href="#paw"/></svg>Follow him</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 1 -->
+  <section class="wall chapter" data-wall="slate" id="urgent" aria-labelledby="h-urgent">
+    <div class="chapter__inner">
+      <figure class="window window--shutters" style="--tilt:1deg">
+        <div class="window__frame clay">
+          <div class="window__pane">
+            <picture>
+              <source type="image/webp" srcset="images/urgent-800.webp 800w, images/urgent-1600.webp 1600w" sizes="(max-width: 859px) 92vw, 760px">
+              <img src="images/urgent-1600.jpg" width="1600" height="1195" loading="lazy" decoding="async"
+                   alt="A bedroom with gray walls, white curtains and a snare drum on the floor. In the window, small and insistent, Cosmo looks in.">
+            </picture>
+          </div>
+        </div>
+      </figure>
+      <div class="sill clay">
+        <h2 id="h-urgent">Urgent message</h2>
+        <p>When Cosmo has something important to tell me, he doesn't wait for morning. He comes up to my window on the second floor and stays there until I wake up.</p>
+        <p>Whatever is going on out there, he makes sure I hear about it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="wall chapter chapter--wide" data-wall="lawn" id="lawn" aria-labelledby="h-lawn">
+    <div class="chapter__inner">
+      <figure class="window" style="--tilt:-.6deg">
+        <div class="window__frame clay">
+          <div class="window__pane">
+            <picture>
+              <source type="image/webp" srcset="images/lawn-800.webp 800w, images/lawn-1600.webp 1600w" sizes="(max-width: 1180px) 92vw, 1100px">
+              <img src="images/lawn-1600.jpg" width="1600" height="1200" loading="lazy" decoding="async"
+                   alt="A wide green front lawn on a quiet street. Far off in the middle of it, Cosmo lies flat in the grass.">
+            </picture>
+            <span class="pin" aria-hidden="true">Cosmo</span>
+          </div>
+        </div>
+      </figure>
+      <div class="sill clay">
+        <h2 id="h-lawn">Lawn, occupied</h2>
+        <p>As busy as he is as a man about town, Cosmo does take time to relax.</p>
+        <p>Some days that means finding the middle of the lawn, stretching out, and letting the neighborhood carry on without him for a while.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="wall chapter chapter--flip" data-wall="amber" id="oscar" aria-labelledby="h-oscar">
+    <div class="chapter__inner">
+      <figure class="window window--arch" style="--tilt:-1.2deg">
+        <div class="window__frame clay">
+          <div class="window__pane">
+            <picture>
+              <source type="image/webp" srcset="images/oscar-800.webp 800w, images/oscar-1600.webp 1600w" sizes="(max-width: 859px) 92vw, 760px">
+              <img src="images/oscar-1600.jpg" width="1600" height="1200" loading="lazy" decoding="async"
+                   alt="Oscar, a tabby indoor cat, sits in a cat-tree bed by the window, watching Cosmo on a wicker chair on the porch outside.">
+            </picture>
+          </div>
+        </div>
+      </figure>
+      <div class="sill clay">
+        <h2 id="h-oscar">Oscar keeps watch</h2>
+        <p>These two could be related. Oscar spends most of his time in his perch by the window, keeping watch.</p>
+        <p>Cosmo spends a good part of his day on our porch. He even has his own chair.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="wall chapter chapter--stack" data-wall="sky2" id="screen" aria-labelledby="h-screen">
+    <div class="chapter__inner">
+      <figure class="window window--shutters" style="--tilt:1.4deg">
+        <div class="window__frame clay">
+          <div class="window__pane">
+            <picture>
+              <source type="image/webp" srcset="images/roof-800.webp 800w, images/roof-1600.webp 1600w" sizes="(max-width: 859px) 92vw, 760px">
+              <img src="images/roof-1600.jpg" width="1600" height="1200" loading="lazy" decoding="async"
+                   alt="From inside: the back of an indoor cat's head, and through the window screen, Cosmo standing face to face with it, tail up.">
+            </picture>
+          </div>
+        </div>
+      </figure>
+      <div class="sill clay">
+        <h2 id="h-screen">Nose to nose</h2>
+        <p>That's Cosmo up on the roof again. I wasn't available for the urgent message this time, so he took it up with Oscar instead.</p>
+        <p>Nose to nose through the screen, the two of them talked it over.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="wall chapter chapter--flip" data-wall="lawn2" id="drives" aria-labelledby="h-drives">
+    <div class="chapter__inner">
+      <figure class="window window--car" style="--tilt:-1deg">
+        <div class="window__frame clay">
+          <div class="window__pane">
+            <picture>
+              <source type="image/webp" srcset="images/drives-800.webp 800w, images/drives-1600.webp 1600w" sizes="(max-width: 859px) 92vw, 760px">
+              <img src="images/drives-1600.jpg" width="1600" height="1200" loading="lazy" decoding="async"
+                   alt="Through a car windshield: Cosmo stands against the car, one white paw on the window, looking straight at the driver.">
+            </picture>
+          </div>
+        </div>
+      </figure>
+      <div class="sill clay">
+        <h2 id="h-drives">Cosmo drives</h2>
+        <p>We have a Tesla with an assisted driving mode, and Cosmo has decided that means he can drive it.</p>
+        <p>Here he is, checking in with the driver before he takes the wheel.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="wall chapter chapter--stack" data-wall="amber2" id="dinner" aria-labelledby="h-dinner">
+    <div class="chapter__inner">
+      <figure class="window window--shutters" style="--tilt:.8deg">
+        <div class="window__frame clay">
+          <div class="window__pane">
+            <picture>
+              <source type="image/webp" srcset="images/dinner-800.webp 800w, images/dinner-1600.webp 1600w" sizes="(max-width: 859px) 92vw, 760px">
+              <img src="images/dinner-1600.jpg" width="1600" height="1200" loading="lazy" decoding="async"
+                   alt="Cosmo rolls on his back on a stone patio step, a small dead animal lying on the pavers beside him.">
+            </picture>
+          </div>
+        </div>
+      </figure>
+      <div class="sill clay">
+        <h2 id="h-dinner">He brought dinner</h2>
+        <p>Cosmo is a proud hunter, and he wants everyone to know it.</p>
+        <p>Here he is on the patio next to his latest catch, rolling around and very pleased with himself.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Close -->
+  <section class="wall chapter chapter--flip close" data-wall="night" id="glass" aria-labelledby="h-glass">
+    <div class="chapter__inner">
+      <figure class="window window--sash" style="--tilt:-.8deg" aria-hidden="true">
+        <div class="window__frame clay">
+          <div class="window__pane">
+            <span class="moon"></span>
+            <span class="star" style="left:18%;top:22%"></span>
+            <span class="star" style="left:34%;top:12%;scale:.6"></span>
+            <span class="star" style="left:52%;top:30%;scale:.8"></span>
+            <span class="star" style="left:12%;top:62%;scale:.5"></span>
+            <span class="star" style="left:44%;top:74%;scale:.7"></span>
+            <span class="star" style="left:80%;top:66%;scale:.55"></span>
+          </div>
+        </div>
+      </figure>
+      <div class="sill clay">
+        <h2 id="h-glass">See you at the glass</h2>
+        <!-- STORY: replace the .slot paragraph below with your text -->
+        <p class="slot"><svg aria-hidden="true"><use href="#pencil"/></svg><span><strong>Your closing note goes here.</strong>Where is he tonight? What would you tell him?</span></p>
+        <div class="paws" aria-hidden="true"><svg><use href="#paw"/></svg><svg><use href="#paw"/></svg><svg><use href="#paw"/></svg></div>
+        <p class="signoff">A visiting cat, photographed through the glass.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+(() => {
+  const root = document.documentElement;
+  document.addEventListener('touchstart', () => {}, { passive: true }); // lets the :active squish fire on iOS
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!reduce && 'IntersectionObserver' in window) {
+    root.classList.add('motion');
+    const arrive = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) { e.target.classList.add('is-in'); arrive.unobserve(e.target); }
+      }
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.window').forEach((w) => arrive.observe(w));
+  }
+
+  const links = new Map([...document.querySelectorAll('.rail a')].map((a) => [a.getAttribute('href').slice(1), a]));
+  if ('IntersectionObserver' in window) {
+    const spy = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        links.forEach((a) => a.removeAttribute('aria-current'));
+        links.get(e.target.id)?.setAttribute('aria-current', 'true');
+      }
+    }, { rootMargin: '-50% 0px -50% 0px' });
+    document.querySelectorAll('.wall[id]').forEach((s) => spy.observe(s));
+  }
+})();
+</script>
+</body>
+</html>
