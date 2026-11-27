@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Annotated Thanksgiving Post</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: a fact-checker's desk — calm, exact, every mark sourced.
+   IDEA: a marked-up proof — the original post as a galley, with numbered marginal notes.
+   PICTURE: the post itself, recreated in its dark card, highlighted by technique.
+   COLOUR and TYPE: white page, dark post card; red fallacy, amber bias, slate tactic, magenta fact check. Source Serif 4 + Inter.
+   LAYOUT: headline and legend, then post left / notes right; stacks to post then notes on phones. */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#10191e);--ink:light-dark(#121212,#e9edef);--mut:light-dark(#5b6670,#9aa7b0);--rule:light-dark(#e3e6e8,#26343c);--panel:light-dark(#f2f5f6,#16232a);
+--fal:#e3412f;--bia:#d99a00;--tac:#3d86ad;--fac:#d23a87;--ok:#2f9e6a}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;overflow-x:clip}
+.band{padding:clamp(28px,4vw,56px) max(5vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+.tab{display:inline-block;background:var(--fal);color:#fff;font-weight:600;font-size:13px;padding:4px 10px;margin-bottom:14px}
+h1{font:700 clamp(30px,4.4vw,48px)/1.05 "Source Serif 4",Georgia,serif;margin:0 0 14px;text-wrap:balance;max-width:30ch}
+h2{font:600 26px/1.15 "Source Serif 4",Georgia,serif;margin:0 0 14px}
+.lede{font-size:17px;max-width:68ch;margin:0 0 22px;color:var(--ink)}
+.stats{display:flex;flex-wrap:wrap;gap:0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.stat{flex:1 1 120px;padding:14px 16px 12px 0;border-right:1px solid var(--rule);margin-right:16px}
+.stat:last-child{border-right:0}
+.stat b{display:block;font:700 30px/1 "Source Serif 4",serif}
+.stat span{font-size:13px;color:var(--mut)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 0}
+.filters button{font:500 15px Inter,sans-serif;min-height:44px;padding:0 16px;border:1px solid var(--rule);background:var(--bg);color:var(--ink);border-radius:22px;cursor:pointer;display:flex;align-items:center;gap:8px}
+.filters button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.filters button:focus-visible,.note:focus-visible,mark:focus-visible{outline:3px solid var(--tac);outline-offset:2px}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(20px,3vw,44px);align-items:start}
+.post{background:#0d0f1e;color:#eef0f6;border-radius:14px;padding:clamp(20px,3vw,34px);font-size:17.5px;line-height:1.75;box-shadow:0 18px 40px -24px rgba(0,0,0,.6)}
+.post .who{display:flex;align-items:center;gap:12px;margin-bottom:16px;font-size:15px}
+.post .av{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#3b4a8a,#1c2350);display:grid;place-items:center;font-weight:700;font-size:14px}
+.post .who small{display:block;color:#8d93ad;font-size:13px}
+.post p{margin:0 0 14px}
+.post .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;border-top:1px solid #262a44;padding-top:14px;margin-top:8px;font-size:14px;color:#8d93ad}
+.post .foot b{color:#eef0f6}
+.cut{display:block;font-size:12px;color:#6f7594;letter-spacing:0;margin:6px 0 10px;border-top:1px dashed #2c3150;padding-top:4px}
+mark{color:inherit;background:transparent;border-bottom:2px solid;cursor:pointer;padding:1px 0;border-radius:2px;transition:background .2s,opacity .2s}
+mark sup{font:700 11px Inter,sans-serif;padding:1px 5px;border-radius:8px;margin-left:3px;color:#0d0f1e;vertical-align:2px}
+mark.fallacy{border-color:var(--fal);background:rgba(227,65,47,.16)}mark.fallacy sup{background:var(--fal);color:#fff}
+mark.bias{border-color:var(--bia);background:rgba(217,154,0,.16)}mark.bias sup{background:var(--bia)}
+mark.tactic{border-color:var(--tac);background:rgba(61,134,173,.2)}mark.tactic sup{background:var(--tac);color:#fff}
+mark.fact{border-color:var(--fac);background:rgba(210,58,135,.18)}mark.fact sup{background:var(--fac);color:#fff}
+mark.on{background:rgba(255,255,255,.28)}
+.dim{opacity:.28}
+.notes{display:grid;gap:12px}
+.note{border:1px solid var(--rule);border-left:5px solid var(--c);border-radius:10px;padding:14px 16px;background:var(--bg);cursor:pointer;scroll-margin-top:20px;transition:box-shadow .2s,opacity .2s}
+.note.on{box-shadow:0 0 0 3px var(--c)}
+.note .n{font:700 13px Inter;background:var(--c);color:#fff;border-radius:9px;padding:1px 7px;margin-right:8px}
+.note q{font-style:italic;quotes:"“" "”";color:var(--mut);font-size:14px;display:block;margin:6px 0 8px}
+.note p{margin:0;font-size:15px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.tag{font-size:12.5px;font-weight:600;padding:2px 8px;border-radius:6px;background:var(--panel)}
+.verdict{margin-top:10px;font-size:14px;padding:8px 10px;border-radius:8px;background:var(--panel)}
+.verdict b{color:var(--vc)}
+.verdict a{color:inherit}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{text-align:left;padding:10px 12px 10px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:13px;color:var(--mut);font-weight:600}
+td b{white-space:nowrap}
+.alt{background:var(--panel)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,3vw,44px)}
+.src li{margin-bottom:6px}.src a{color:var(--tac)}
+.small{font-size:13px;color:var(--mut)}
+@media(max-width:860px){.grid,.two{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--rule)}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:6.5em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:6em;margin-inline-start:-6.5em;white-space:normal;color:var(--mut);font-size:12px}.stack td:empty{display:none}.post{font-size:16.5px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+html{scroll-behavior:smooth}
+</style>
+<script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</head>
+<body>
+
+<header class="band"><div class="wrap">
+  <span class="tab">Critical Thought · Round 12</span>
+  <h1>One holiday greeting, 23 red flags</h1>
+  <p class="lede">President Trump's Thanksgiving 2026 Truth Social post, rebuilt in its original order and marked up line by line. Each highlight names a flaw in the argument, a bias it plays on, or a construction tactic. Checkable claims get a verdict and a source. Tap any highlight or note to link the two.</p>
+  <div class="stats" id="stats"></div>
+  <div class="filters" id="filters" role="group" aria-label="Filter annotations"></div>
+</div></header>
+
+<main class="band" style="padding-top:0"><div class="wrap grid">
+  <article class="post" id="post" aria-label="Recreated post">
+    <div class="who"><div class="av">DJT</div><div>Donald J. Trump<small>Truth Social · posted Nov 26, 2026</small></div></div>
+    <p><mark data-n="1">HAPPY THANKSGIVING TO ALL AMERICAN PATRIOTS WHO HAVE WORKED SO HARD TO MAKE OUR COUNTRY GREAT! Additionally, I would like to wish a Happy Thanksgiving to even those</mark> who issued <mark data-n="2">fake Economic Numbers, just prior to the Election</mark>, and <mark data-n="3">corrected them yesterday, three weeks late</mark>, showing that <mark data-n="4">the GDP was actually 4.3%, versus 3.4%</mark>, <mark data-n="5">A RECORD SETTING ERROR</mark>, and one so grave that it <mark data-n="6">should be immediately investigated</mark>. Also, I would like to wish a very Happy Thanksgiving to all of those people that have worked so hard to <mark data-n="7">bring our Country to the Radical Far Left</mark>, those that are <mark data-n="8">looking to change our Court System to that of Sharia</mark>, those who
+    <span class="cut">screenshot 2 of 4 begins</span>
+    <mark data-n="9">want to redistribute Property, so that all of the hardworking people that have built up, over a lifetime, a certain Wealth, will now be forced to distribute it throughout the Country, even to those who refuse to work</mark>. I want to thank <mark data-n="10">the 2% of our Somalian population that have a job</mark>, and are actually willing to work, without receiving Government Assistance. These are wonderful American <mark data-n="11">“citizens,”</mark> and should be allowed to stay in our Country, and celebrate Thanksgiving with us. <mark data-n="12">The others should be thrown out, immediately</mark>, <mark data-n="13">thereby saving the Great State of Minnesota, which has no chance if they are allowed to stay</mark>. I want to commiserate with those <mark data-n="14">Reporters and Citizens who don’t understand filth, dirt, lack of maintenance, and corruption, and are upset with me</mark>
+    <span class="cut">screenshot 3 of 4 begins</span>
+    because <mark data-n="15">I took time out of my very busy schedule</mark> to fix <mark data-n="16">the 17 broken windows, numerous chipped and decaying columns</mark>, broken, dilapidated, and missing moldings, and lack of a proper plaster and paint job on the White House. It hasn’t been properly painted, or taken care of, for years. I felt strongly that, <mark data-n="17">after being built in 1792</mark>, it was time to fix up the White House which is, after all, a primary symbol of our Country. Today, it has never looked better, and will soon have <mark data-n="18">the Ballroom that Presidents have sought for over 150 years</mark>. Most importantly, thank you to the <mark data-n="19">murderers, drug dealers, and criminals of all shapes, sizes, and colors</mark>, who illegally entered our Country <mark data-n="20">from other countries’ jails, prisons, mental institutions, and places unknown</mark>, <mark data-n="21">to rape, plunder, and kill American Citizens
+    <span class="cut">screenshot 4 of 4 begins</span>
+    in record numbers</mark>. <mark data-n="22">They are mostly gone now</mark>, brought back to their point of origin and, <mark data-n="23">hopefully, living a beautiful and idyllic life, and promising, ideally, never to kill innocent people again</mark>, but we won’t have to worry about that, because they are GONE but, Happy Thanksgiving to them anyway, even though from Faraway Lands. We miss you dearly, but you will never be back, and America will never allow what you have done to us to happen again! President DONALD J. TRUMP</p>
+    <div class="foot"><span><b>7.13k</b> ReTruths &nbsp; <b>26.1k</b> Likes</span><span>11/26/26, 4:45 PM</span></div>
+  </article>
+  <section class="notes" id="notes" aria-label="Annotations"></section>
+</div></main>
+
+<section class="band alt"><div class="wrap two">
+  <div>
+    <h2>Fact check at a glance</h2>
+    <table class="stack"><thead><tr><th>Claim</th><th>Verdict</th><th>What the record shows</th></tr></thead><tbody id="facts"></tbody></table>
+  </div>
+  <div>
+    <h2>About the screenshots</h2>
+    <p>The four images were shared in reverse order. Read last-to-first, they join cleanly into the complete post, so nothing appears to be missing or edited.</p>
+    <p>The screenshot reads 4:45 PM, while Newsweek reports the post went up at 10:45 a.m. Eastern. A six-hour gap fits a screenshot taken in a Central European time zone. That's an inference, not a sign of tampering.</p>
+    <h2 style="margin-top:28px">Steelman</h2>
+    <p>Real debates sit underneath: GDP revisions can be large and trust in data matters; Somali Minnesotans do have high poverty and household benefit-use rates; the White House needs upkeep; removing violent offenders is a legitimate goal. The post doesn't argue any of these. It swaps them for caricature and numbers with no source.</p>
+    <h2 style="margin-top:28px">Takeaway</h2>
+    <p>When a post lists many enemies at once, check each claim on its own. Bundling lets the weakest claims (Sharia, “2%”) borrow credibility from the one that's true (the GDP revision happened).</p>
+  </div>
+</div></section>
+
+<footer class="band"><div class="wrap">
+  <h2>Sources</h2>
+  <ul class="src">
+    <li><a href="https://www.newsweek.com/trump-calls-gdp-fake-his-white-house-called-it-a-surge-in-october-12772108">Newsweek — Trump calls GDP “fake”; his White House called it a surge</a></li>
+    <li><a href="https://bea.gov/news/gdp-release-additional-information">BEA — average size of GDP revisions</a></li>
+    <li><a href="https://thehill.com/homenews/administration/6244831-trump-thanksgiving-message-critics-gdp-somali-community/">The Hill — Trump unloads on critics in Thanksgiving rant</a></li>
+    <li><a href="https://api.politifact.com/factchecks/2026/feb/02/donald-trump/Bongino-minnesota-somali-employment-poverty-benefi">PolitiFact — Somali employment in Minnesota</a></li>
+    <li><a href="https://www.ibtimes.co.uk/trump-thanksgiving-claims-somali-minnesotans-data-1835066">IBTimes — Thanksgiving claims vs. data (benefits, deportations)</a></li>
+    <li><a href="https://www.startribune.com/trump-administration-immigration-policy-ice-raids/601542918">Star Tribune — Somali Minnesotans' labor participation</a></li>
+    <li><a href="https://kutv.com/news/nation-world/trump-calls-for-migration-pause-after-dc-shooting-targets-mn-governor-with-slur-tim-walz-truth-social-afghanistan-national-guard-shooting-white-house-crime-crackdown-biden-administration-joseph-eldow">KUTV — Trump's Thanksgiving 2025 post (same “prisons, mental institutions” line)</a></li>
+    <li><a href="https://www.rollingstone.com/politics/politics-news/donald-trump-thanksgiving-post-rant-radical-far-left-1235664889/">Rolling Stone — coverage of the 2026 post</a></li>
+  </ul>
+  <p class="small">Compiled Nov 27, 2026 for the Critical Thought project. Confidence: Clear = plainly present · Likely = strong reading · Stretch = arguable.</p>
+</div></footer>
+
+<script>
+{
+const T={fallacy:['Fallacy','var(--fal)'],bias:['Bias','var(--bia)'],tactic:['Tactic','var(--tac)'],fact:['Fact check','var(--fac)']};
+const V={'False':'var(--fal)','Misleading':'var(--bia)','Unverified':'var(--mut)','No evidence':'var(--fac)','Holds up':'var(--ok)'};
+const N=[
+{t:'tactic',tags:[['tactic','Sarcasm / humor shield','Clear']],x:'Every attack below is wrapped in “Happy Thanksgiving to…”. The greeting makes insults read as jokes, so objecting looks humorless.'},
+{t:'fallacy',tags:[['fallacy','False cause / assumed motive','Clear'],['tactic','Loaded language','Clear']],x:'Timing near the election is treated as proof the first estimate was rigged. A sequence of events isn’t evidence of intent.',v:['No evidence','On Oct 29 the White House itself called the 3.4% figure “the strongest pace in a year.” Revisions came from routine source-data updates.',2]},
+{t:'fact',tags:[['fact','Factual claim','']],x:'Implies the agency sat on the correction.',v:['False','The second estimate came out Nov 25, the date already on BEA’s published schedule, 27 days after the first.',0]},
+{t:'fact',tags:[['fact','Factual claim','']],x:'The one checkable number in this section is accurate.',v:['Holds up','BEA revised Q3 growth from 3.4% to 4.3% on Nov 25.',2]},
+{t:'fact',tags:[['fact','Factual claim','']],tags2:1,x:'All caps does the persuading; no comparison is given.',v:['False','0.9 pts is above the ~0.5-pt average, but Q4 2008 moved 2.4 pts (−3.8% to −6.2%).',0]},
+{t:'bias',tags:[['bias','Confirmation bias','Likely']],x:'Readers who already distrust government statistics get a cue to treat any revision as scandal.'},
+{t:'tactic',tags:[['tactic','Loaded label / us vs. them','Clear']],x:'“Radical Far Left” turns policy opponents into a single extreme bloc, set against “patriots” in the opening line.'},
+{t:'fallacy',tags:[['fallacy','Strawman','Clear'],['bias','Negativity bias','Clear']],x:'Assigns opponents a position no mainstream group holds, chosen to trigger threat and religious fear.',v:['False','No real policy push exists to replace U.S. courts with Sharia.',-1]},
+{t:'fallacy',tags:[['fallacy','Strawman','Clear']],x:'Tax and welfare debates are recast as forced confiscation of lifetime savings for “those who refuse to work.”'},
+{t:'fact',tags:[['fact','Unsourced statistic','Clear'],['fallacy','Hasty generalization','Clear']],x:'A precise-sounding number with no source, used to judge an entire ethnic group.',v:['False','Census 2024: about 72% of Somali Minnesotans 16+ are in the labor force, above the state’s 68%. High household benefit use (CIS: 81%) doesn’t mean members don’t work.',3]},
+{t:'tactic',tags:[['tactic','Scare quotes','Clear'],['bias','Out-group bias','Clear']],x:'Quote marks suggest Somali Americans aren’t real citizens, though many are.'},
+{t:'fallacy',tags:[['fallacy','Collective guilt','Clear']],x:'Everyone outside the invented 2% is to be expelled: punishment by group membership, not individual conduct.'},
+{t:'fallacy',tags:[['fallacy','False dilemma / appeal to fear','Likely']],x:'Only two outcomes offered: expulsion, or a state with “no chance.”'},
+{t:'fallacy',tags:[['fallacy','Strawman','Clear']],x:'Critics objected mainly to the scale, cost and demolition behind the ballroom. Here they’re recast as people who defend “filth.”'},
+{t:'tactic',tags:[['tactic','Self-flattery / sacrifice framing','Likely']],x:'Positions the renovation as a personal favor to the country rather than a contested decision.'},
+{t:'fact',tags:[['fact','Factual claim','']],x:'Specific numbers make the claim feel documented.',v:['Unverified','No independent inspection or count has been published.',-1]},
+{t:'fact',tags:[['fact','Factual claim','']],x:'Used to make the building sound neglected for over two centuries.',v:['Misleading','Construction began in 1792; the house was completed and first occupied in 1800, and has been renovated many times since.',-1]},
+{t:'fallacy',tags:[['fallacy','Appeal to tradition','Stretch']],x:'Past presidents’ supposed wishes stand in for an argument about this project.',v:['Unverified','No source given for “over 150 years.”',-1]},
+{t:'fallacy',tags:[['fallacy','Hasty generalization','Clear']],x:'Deportees as a group are defined by the worst crimes.'},
+{t:'bias',tags:[['bias','Illusory truth effect','Likely']],x:'Close to a line from his Thanksgiving 2025 post (“from prisons, mental institutions…”). Repetition makes a claim feel established.',v:['Unverified','No data offered on where migrants came from.',6]},
+{t:'fallacy',tags:[['fallacy','Appeal to fear','Clear'],['bias','Availability heuristic','Clear']],x:'Vivid violent crimes make the threat feel typical. “Record numbers” is asserted without a figure.'},
+{t:'fact',tags:[['fact','Factual claim','']],x:'Implies most removals were violent criminals.',v:['Misleading','Migration Policy Institute: about 190k of ~980k deportations in 18 months involved any conviction; most common were immigration-entry (23%) and traffic (21%) offenses.',4]},
+{t:'tactic',tags:[['tactic','Mock sympathy','Clear']],x:'Fake warmth (“idyllic life,” “we miss you dearly”) signals contempt while keeping deniability.'}
+];
+const L=['https://www.newsweek.com/trump-calls-gdp-fake-his-white-house-called-it-a-surge-in-october-12772108','https://bea.gov/news/gdp-release-additional-information','https://thehill.com/homenews/administration/6244831-trump-thanksgiving-message-critics-gdp-somali-community/','https://api.politifact.com/factchecks/2026/feb/02/donald-trump/Bongino-minnesota-somali-employment-poverty-benefi','https://www.ibtimes.co.uk/trump-thanksgiving-claims-somali-minnesotans-data-1835066','','https://kutv.com/news/nation-world/trump-calls-for-migration-pause-after-dc-shooting-targets-mn-governor-with-slur-tim-walz-truth-social-afghanistan-national-guard-shooting-white-house-crime-crackdown-biden-administration-joseph-eldow'];
+N[4].v[2]=1;
+const marks=[...document.querySelectorAll('#post mark')];
+const Q=marks.map(m=>m.textContent.replace(/screenshot \d of 4 begins/,'').replace(/\s+/g,' ').trim());
+marks.forEach(m=>{const i=+m.dataset.n-1;m.classList.add(N[i].t);m.tabIndex=0;m.insertAdjacentHTML('beforeend','<sup>'+(i+1)+'</sup>')});
+const notes=document.getElementById('notes');
+notes.innerHTML=N.map((o,i)=>{const q=Q[i];const qs=q.length>110?q.slice(0,107)+'…':q;
+return `<div class="note" id="n${i+1}" tabindex="0" data-i="${i}" style="--c:${T[o.t][1]}"><div><span class="n">${i+1}</span><span class="tags">${o.tags.map(g=>`<span class="tag" style="color:${T[g[0]][1]}">${T[g[0]][0]} · ${g[1]}${g[2]?' · '+g[2]:''}</span>`).join('')}</span></div><q>${qs}</q><p>${o.x}</p>${o.v?`<div class="verdict" style="--vc:${V[o.v[0]]}"><b>${o.v[0]}.</b> ${o.v[1]}${o.v[2]>=0&&L[o.v[2]]?` <a href="${L[o.v[2]]}">Source</a>`:''}</div>`:''}</div>`}).join('');
+const noteEls=[...notes.children];
+const types=i=>new Set([N[i].t,...N[i].tags.map(g=>g[0]),...(N[i].v?['fact']:[])]);
+const cnt={};N.forEach(o=>{if(o.v)cnt[o.v[0]]=(cnt[o.v[0]]||0)+1});
+const tc=k=>N.filter((o,i)=>types(i).has(k)).length;
+document.getElementById('stats').innerHTML=[[N.length,'annotations'],[tc('fallacy'),'argument flaws'],[tc('bias'),'biases exploited'],[(cnt['False']||0),'false claims'],[(cnt['Misleading']||0)+(cnt['Unverified']||0)+(cnt['No evidence']||0),'misleading or unsupported']].map(s=>`<div class="stat"><b>${s[0]}</b><span>${s[1]}</span></div>`).join('');
+document.getElementById('facts').innerHTML=N.map((o,i)=>o.v?`<tr><td>${Q[i]}</td><td><b style="color:${V[o.v[0]]}">${o.v[0]}</b></td><td>${o.v[1]}</td></tr>`:'').join('');
+const F=document.getElementById('filters');
+F.innerHTML=[['all','All',''],...Object.entries(T).map(([k,v])=>[k,v[0],v[1]])].map(f=>`<button data-f="${f[0]}" aria-pressed="${f[0]==='all'}">${f[2]?`<span class="dot" style="background:${f[2]}"></span>`:''}${f[1]}</button>`).join('');
+F.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const f=b.dataset.f;
+[...F.children].forEach(x=>x.setAttribute('aria-pressed',x===b));
+N.forEach((o,i)=>{const show=f==='all'||types(i).has(f);marks[i].classList.toggle('dim',!show);noteEls[i].classList.toggle('dim',!show)})});
+const sel=(i,scrollTo)=>{marks.forEach(m=>m.classList.remove('on'));noteEls.forEach(n=>n.classList.remove('on'));marks[i].classList.add('on');noteEls[i].classList.add('on');scrollTo.scrollIntoView({block:'center'})};
+marks.forEach((m,i)=>{m.addEventListener('click',()=>sel(i,noteEls[i]));m.addEventListener('keydown',e=>{if(e.key==='Enter')sel(i,noteEls[i])})});
+noteEls.forEach((n,i)=>{n.addEventListener('click',e=>{if(e.target.tagName==='A')return;sel(i,marks[i])});n.addEventListener('keydown',e=>{if(e.key==='Enter')sel(i,marks[i])})});
+}
+</script>
+</body>
+</html>
